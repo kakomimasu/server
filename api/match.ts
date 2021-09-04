@@ -24,8 +24,8 @@ import {
 import { auth } from "./middleware.ts";
 
 const env = config({
-  path: resolve("./.env"),
-  defaults: resolve("./.env.default"),
+  path: resolve("../.env"),
+  defaults: resolve("../.env.default"),
 });
 const boardname = env.boardname; // || "E-1"; // "F-1" "A-1"
 import { BoardFileOp } from "./parts/file_opration.ts";
@@ -89,7 +89,8 @@ export const matchRouter = () => {
         }
         //accounts.addGame(user.userId, game.uuid);
       } else if (reqData.useAi) {
-        const aiFolderPath = resolve("../client_deno/");
+        const aiFolderPath =
+          "https://raw.githubusercontent.com/kakomimasu/client-deno/main/";
         const ai = aiList.find((e) => e.name === reqData.aiOption?.aiName);
         if (!ai) throw new ServerError(errors.NOT_AI);
         const bname = reqData.aiOption?.boardName || boardname ||
@@ -104,6 +105,18 @@ export const matchRouter = () => {
           game.changeFuncs.push(sendGame(game));
           game.attachPlayer(player);
           //accounts.addGame(user.userId, game.uuid);
+          console.log([
+            "deno",
+            "run",
+            "-A",
+            aiFolderPath + ai.filePath,
+            "--aiOnly",
+            "--nolog",
+            "--host",
+            `http://localhost:${env.port}`,
+            "--gameId",
+            game.uuid,
+          ]);
           Deno.run(
             {
               cmd: [
