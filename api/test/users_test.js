@@ -1,5 +1,5 @@
-import { assert, assertEquals, v4, ApiClient } from "../../deps.ts";
-import { randomUUID, pathResolver } from "../util.ts";
+import { ApiClient, assert, assertEquals, v4 } from "../../deps.ts";
+import { pathResolver, randomUUID } from "../util.ts";
 
 const ac = new ApiClient();
 const resolve = pathResolver(import.meta);
