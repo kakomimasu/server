@@ -6,7 +6,7 @@ import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 
-import { Tournament } from "../apiserver/types.ts";
+import { Tournament } from "../api/types.ts";
 
 const useStyles = makeStyles({
   tournament: (theme: Theme) => ({
