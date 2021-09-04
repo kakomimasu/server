@@ -6,7 +6,7 @@ import Content from "../../components/content.tsx";
 import GameList from "../../components/gamelist.tsx";
 import Clock from "../../components/clock.tsx";
 
-import { Game, WsGameReq, WsGameRes } from "../../apiserver/types.ts";
+import { Game, WsGameReq, WsGameRes } from "../../api/types.ts";
 
 export default function () {
   const [games, setGames] = useState<Game[]>([]);

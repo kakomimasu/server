@@ -14,15 +14,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-// @deno-types="../../client_js/api_client.d.ts"
-import ApiClient from "../../client_js/api_client.js";
+// @deno-types="@client_js/api_client.d.ts"
+import ApiClient from "@client_js/api_client.js";
 const apiClient = new ApiClient("");
 
-import {
-  Game,
-  TournamentRes as Tournament,
-  User,
-} from "../../apiserver/types.ts";
+import { Game, TournamentRes as Tournament, User } from "../../api/types.ts";
 
 import Content from "../../components/content.tsx";
 import Section, { SubSection } from "../../components/section.tsx";

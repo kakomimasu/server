@@ -14,8 +14,8 @@ import {
   YAxis,
 } from "recharts";
 
-// @deno-types=../../client_js/api_client.d.ts
-import ApiClient from "../../client_js/api_client.js";
+// @deno-types=@client_js/api_client.d.ts
+import ApiClient from "@client_js/api_client.js";
 const apiClient = new ApiClient("");
 
 import datas from "../../components/player_datas.ts";
@@ -24,7 +24,7 @@ import Content from "../../components/content.tsx";
 import GameList from "../../components/gamelist.tsx";
 import GameBoard from "../../components/gameBoard.tsx";
 
-import { Game, User, WsGameReq, WsGameRes } from "../../apiserver/types.ts";
+import { Game, User, WsGameReq, WsGameRes } from "../../api/types.ts";
 
 function PointsGraph(props: { game: Game }) {
   const game = props.game;

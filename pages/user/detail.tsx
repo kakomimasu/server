@@ -9,11 +9,11 @@ import Content from "../../components/content.tsx";
 import GameList from "../../components/gamelist.tsx";
 import firebase from "../../components/firebase.ts";
 
-// @deno-types="../../client_js/api_client.d.ts"
-import ApiClient from "../../client_js/api_client.js";
+// @deno-types="@client_js/api_client.d.ts"
+import ApiClient from "@client_js/api_client.js";
 const apiClient = new ApiClient("");
 
-import { Game, User } from "../../apiserver/types.ts";
+import { Game, User } from "../../api/types.ts";
 
 const useStyles = makeStyles({
   content: {

@@ -5,5 +5,6 @@
   "editor.defaultFormatter": "denoland.vscode-deno",
   "deno.suggest.imports.hosts": {
     "https://raw.githubusercontent.com": false
-  }
+  },
+  "deno.importMap": "./pages/import-map.json"
 }

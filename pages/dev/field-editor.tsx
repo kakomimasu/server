@@ -8,11 +8,11 @@ import MenuItem from "@mui/material/MenuItem";
 import Content from "../../components/content.tsx";
 import GameBoard from "../../components/gameBoard.tsx";
 
-// @deno-types=../../client_js/api_client.d.ts
-import ApiClient from "../../client_js/api_client.js";
+// @deno-types=@client_js/api_client.d.ts
+import ApiClient from "@client_js/api_client.js";
 const apiClient = new ApiClient("");
 
-import { Board, Game } from "../../apiserver/types.ts";
+import { Board, Game } from "../../api/types.ts";
 
 const useStyles = makeStyles({
   content: {

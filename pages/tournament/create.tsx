@@ -8,8 +8,8 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Autocomplete from "@mui/material/Autocomplete";
 
-// @deno-types=../../client_js/api_client.d.ts
-import ApiClient from "../../client_js/api_client.js";
+// @deno-types=@client_js/api_client.d.ts
+import ApiClient from "@client_js/api_client.js";
 const apiClient = new ApiClient("");
 
 import {
@@ -17,7 +17,7 @@ import {
   TournamentCreateReq,
   TournamentType,
   User,
-} from "../../apiserver/types.ts";
+} from "../../api/types.ts";
 
 import Content from "../../components/content.tsx";
 import TournamentCard from "../../components/tournament_card.tsx";
