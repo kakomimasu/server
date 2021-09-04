@@ -1,0 +1,4 @@
+api/log/
+api/data/
+public/app.bundle.js
+.env
