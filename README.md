@@ -2,8 +2,7 @@
 
 ## 概要
 
-囲みマスをオンラインで対戦するためのサーバです。<br>
-[Kakomimasu Core](https://github.com/codeforkosen/Kakomimasu)を使用しています。
+[Kakomimasu Core](https://github.com/codeforkosen/Kakomimasu)を使用した、囲みマスをオンラインで対戦するためのサーバです。実行には[Deno](https://deno.land/)がインストールされている必要があります。
 
 ## サーバ起動方法
 
