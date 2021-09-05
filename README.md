@@ -37,3 +37,16 @@ deno run -A apiserver.ts
 ```sh
 port=8881 # 任意のポート番号を指定
 ```
+
+## テスト
+
+サーバを起動した状態で
+```
+Deno test -A
+```
+を実行。
+
+### [act](https://github.com/nektos/act)を用いたGithub Actionsテスト
+```
+act
+```
