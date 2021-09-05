@@ -30,6 +30,10 @@ deno run -A apiserver.ts
 
 詳細については[こちら](https://hackmd.io/@kakomimasu/official/%2FByIqvZx6_)をご覧ください。
 
+## 使用フィールド
+
+[#procon30の公開フィールド](http://www.procon.gr.jp/?p=76585)他、独自フィールドが搭載されています。
+
 ## ポート番号の変更方法
 
 デフォルトでは`8880`番でサーバが起動します。変更するには`server.ts`と同じ場所に`.env`ファイルを作成し、以下のように内容を記述してください。
@@ -40,13 +44,11 @@ port=8881 # 任意のポート番号を指定
 
 ## テスト
 
-サーバを起動した状態で
+サーバを起動した状態で下記を実行
 
 ```
 deno test -A
 ```
-
-を実行。
 
 ### [act](https://github.com/nektos/act)を用いたGithub Actionsテスト
 
