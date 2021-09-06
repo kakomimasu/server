@@ -1,0 +1,28 @@
+{
+  "$schema": "https://deno.land/x/denon@2.4.7/schema.json",
+  "watch": false,
+  "scripts": {
+    "start": {
+      "cmd": "deno run server.ts",
+      "desc": "run server.ts file",
+      "allow": {
+        "read": "./",
+        "run": true,
+        "write": "./api/data,./api/log,./api/board,./public/app.bundle.js",
+        "net": "0.0.0.0,www.googleapis.com"
+      }
+    },
+    "viewer-cache": {
+      "cmd": "deno cache ./pages/route.tsx",
+      "desc": "cache route.tsx file",
+      "importmap": "./pages/import-map.json",
+      "tsconfig": "./pages/tsconfig.json"
+    },
+    "viewer-cache-r": {
+      "cmd": "deno cache -r ./pages/route.tsx",
+      "desc": "cache route.tsx file with reload module",
+      "importmap": "./pages/import-map.json",
+      "tsconfig": "./pages/tsconfig.json"
+    }
+  }
+}
