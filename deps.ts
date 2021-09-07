@@ -17,5 +17,4 @@ export { denoPlugin } from "https://deno.land/x/esbuild_deno_loader@0.2.0/mod.ts
 export { default as util } from "https://raw.githubusercontent.com/codeforkosen/Kakomimasu/v1.0.0-beta/util.js";
 export * as kkmm from "https://raw.githubusercontent.com/codeforkosen/Kakomimasu/v1.0.0-beta/Kakomimasu.js";
 
-// @deno-types=https://raw.githubusercontent.com/codeforkosen/Kakomimasu/master/client_js/api_client.d.ts
-export { default as ApiClient } from "https://raw.githubusercontent.com/codeforkosen/Kakomimasu/master/client_js/api_client.js";
+export { default as ApiClient } from "https://raw.githubusercontent.com/kakomimasu/client-js/main/mod.js";
