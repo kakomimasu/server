@@ -6,10 +6,11 @@
       "cmd": "deno run server.ts",
       "desc": "run server.ts file",
       "allow": {
-        "read": "./",
+        "read": true,
         "run": true,
-        "write": "./api/data,./api/log,./api/board,./public/app.bundle.js",
-        "net": "0.0.0.0,www.googleapis.com"
+        "write": true,
+        "net": "0.0.0.0,www.googleapis.com,registry.npmjs.org",
+        "env": true
       }
     },
     "viewer-cache": {

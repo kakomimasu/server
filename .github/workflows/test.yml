@@ -8,6 +8,9 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
+      - name: Install denon
+        run: |
+          deno install -qAf --unstable https://deno.land/x/denon@2.4.7/denon.ts
       - name: Run fmt
         run: |
           deno fmt --check
@@ -19,10 +22,10 @@ jobs:
           deno cache ./server.ts
       - name: Run cache & check(viewer)
         run: |
-          deno cache --import-map ./pages/import-map.json --config ./pages/tsconfig.json ./pages/route.tsx
+          denon viewer-cache
       - name: Run test
         run: |
-          deno run -A ./server.ts > /dev/null &
+          denon start > /dev/null &
           deno test -A
   test_windows-latest:
     runs-on: windows-latest
@@ -31,12 +34,15 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
+      - name: Install denon
+        run: |
+          deno install -qAf --unstable https://deno.land/x/denon@2.4.7/denon.ts
       - name: Run cache
         run: |
           deno cache ./server.ts
       - name: Run test
         run: |
-          deno run -A ./server.ts > $null &
+          denon start > $null &
           deno test -A
   test_macos-latest:
     runs-on: macos-latest
@@ -45,10 +51,13 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
+      - name: Install denon
+        run: |
+          deno install -qAf --unstable https://deno.land/x/denon@2.4.7/denon.ts
       - name: Run cache
         run: |
           deno cache ./server.ts
       - name: Run test
         run: |
-          deno run -A ./server.ts > /dev/null &
+          denon start > /dev/null &
           deno test -A
