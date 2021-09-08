@@ -6,8 +6,14 @@
 
 ## サーバ起動方法
 
+```console
+deno run -A server.ts
 ```
-deno run -A apiserver.ts
+
+または、[`denon`](https://github.com/denosaurs/denon)がインストールされている場合、
+
+```console
+denon start
 ```
 
 ## 機能
@@ -28,7 +34,7 @@ deno run -A apiserver.ts
 `http://localhost:{port}/`<br>
 ※`{port}`にはポート番号を入れてください。デフォルトは`8880`です。ポートの変更方法については[ポート番号の変更方法](#ポート番号の変更方法)をご覧ください。
 
-詳細については[こちら](https://hackmd.io/@kakomimasu/official/%2FByIqvZx6_)をご覧ください。
+詳細については[こちら](https://hackmd.io/@kakomimasu/official/%2FByIqvZx6_)をご覧ください。ビューアが表示されない時には[トラブルシューティング](#トラブルシューティング)をご覧ください。
 
 ## 使用フィールド
 
@@ -40,6 +46,23 @@ deno run -A apiserver.ts
 
 ```sh
 port=8881 # 任意のポート番号を指定
+```
+
+## トラブルシューティング
+
+### ビューアが表示されない場合
+
+ローカルのキャッシュが残っている場合、ビューアが正常に動作しない可能性があります。以下のコマンドを一度実行すると治る場合があります。
+
+```console
+$ cd ./pages
+$ deno cache --import-map ./import-map.json --config ./tsconfig.json -r ./route.tsx
+```
+
+または、[`denon`](https://github.com/denosaurs/denon)がインストールされている場合、
+
+```console
+denon viewer-cache-r
 ```
 
 ## テスト
