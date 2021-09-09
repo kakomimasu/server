@@ -1,0 +1,21 @@
+name: Deploy(Release version)
+
+on: release
+
+jobs:
+  deploy-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup secret_key
+        run: |
+          echo -e "${{ secrets.SSH_PRIVATE_KEY }}" > secret_key
+          chmod 600 secret_key
+      - name: Deploy
+        run: |
+          echo ${GITHUB_REF}
+          echo ${GITHUB_REF##*/}
+          ssh -oStrictHostKeyChecking=no root@kakomimasu.website -i secret_key <<EOC
+          cd ~/server-release
+          git fetch
+          git checkout -b ${GITHUB_REF##*/} ${GITHUB_REF} 
+          EOC
