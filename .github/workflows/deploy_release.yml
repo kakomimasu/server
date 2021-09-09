@@ -1,6 +1,8 @@
 name: Deploy(Release version)
 
-on: release
+on:
+  release:
+    types: [published]
 
 jobs:
   deploy-release:
@@ -17,5 +19,7 @@ jobs:
           ssh -oStrictHostKeyChecking=no root@kakomimasu.website -i secret_key <<EOC
           cd ~/server-release
           git fetch
-          git checkout -b ${GITHUB_REF##*/} ${GITHUB_REF} 
+          git checkout -B ${GITHUB_REF##*/} ${GITHUB_REF}
+          denon viewer-cache-r
+          systemctl restart kakomimasu-release
           EOC
