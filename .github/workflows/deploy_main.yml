@@ -1,0 +1,23 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup secret_key
+        run: |
+          echo -e "${{ secrets.SSH_PRIVATE_KEY }}" > secret_key
+          chmod 600 secret_key
+      - name: Deploy
+        run: |
+          ssh -oStrictHostKeyChecking=no root@kakomimasu.website -i secret_key <<EOC
+          cd ~/server
+          git pull
+          denon viewer-cache-r
+          systemctl restart kakomimasu
+          EOC
