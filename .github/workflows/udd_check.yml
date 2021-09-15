@@ -27,7 +27,7 @@ jobs:
         id: diff
         run: |
           git add deps.ts
-          if git diff --exit-code; then
+          if git diff --exit-code deps.ts ; then
             echo "::set-output name=changes_exist::true"
           else
             echo "::set-output name=changes_exist::false"
@@ -39,7 +39,7 @@ jobs:
       - name: Git commit & push
         if: steps.diff.outputs.changes_exist == "true"
         run: |
-          git commit -m "Update dependency" -a
+          git commit -m "Update dependency"
           git push --set-upstream origin actions/udd
       - name: Create Pull Request
         if: steps.diff.outputs.changes_exist == "true"
