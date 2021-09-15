@@ -1,0 +1,48 @@
+name: udd check
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  udd-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Git config
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      - name: Install udd
+        run: |
+          deno install -A -f -n udd https://deno.land/x/udd/main.ts
+      - name: Check Update
+        run: |
+          udd deps.ts
+      - name: Git diff
+        id: diff
+        run: |
+          git add deps.ts
+          if git diff --exit-code; then
+            echo "::set-output name=changes_exist::true"
+          else
+            echo "::set-output name=changes_exist::false"
+          fi
+      - name: Git checkout
+        if: steps.diff.outputs.changes_exist == "true"
+        run: | 
+          git checkout -b actions/udd
+      - name: Git commit & push
+        if: steps.diff.outputs.changes_exist == "true"
+        run: |
+          git commit -m "Update dependency" -a
+          git push --set-upstream origin actions/udd
+      - name: Create Pull Request
+        if: steps.diff.outputs.changes_exist == "true"
+        run: |
+          hub pull-request -m "Update Deno Dependency"
+      
