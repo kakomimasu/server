@@ -43,6 +43,6 @@ jobs:
           git push --set-upstream origin actions/udd
       - name: Create Pull Request
         if: steps.diff.outputs.changes_exist == 'true'
-        run: |
-          hub pull-request -m "Update Deno Dependency"
-      
+        run: gh pr create --draft --title "Update Deno Dependency" --body ""
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
