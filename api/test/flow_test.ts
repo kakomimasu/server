@@ -13,9 +13,9 @@ const testName = randomUUID();
 const testPassword = "nit-taro-pw";
 const testSpec = "test";
 
-var bearerToken = "";
-var userId = "";
-var gameId = "";
+let bearerToken = "";
+let userId = "";
+let gameId = "";
 
 Deno.test("regist user", async () => {
   const sampleFilePath = resolve("./sample/userRegist_sample.json");

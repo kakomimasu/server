@@ -54,7 +54,7 @@ async function createBundleJsFile() {
   });
   console.log("viewer started.");
 }
-createBundleJsFile();
+//createBundleJsFile();
 
 export const viewerRoutes = () => {
   const router = createRouter();
