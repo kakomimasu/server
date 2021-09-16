@@ -2,13 +2,13 @@
   "fmt": {
     "files": {
       "include": ["*"],
-      "exclude": ["pages/app.bundle.js", "api/data/"]
+      "exclude": ["public/app.bundle.js", "api/data/"]
     }
   },
   "lint": {
     "files": {
       "include": ["*"],
-      "exclude": ["pages/app.bundle.js"]
+      "exclude": ["public/app.bundle.js"]
     }
   }
 }
