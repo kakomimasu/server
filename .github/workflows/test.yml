@@ -1,63 +1,43 @@
+name: Deno Test
+
 on: [push]
 
 jobs:
-  test_ubuntu-latest:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
-      - name: Install denon
-        run: |
-          deno install -qAf --unstable https://deno.land/x/denon@2.4.7/denon.ts
       - name: Run fmt
         run: |
-          deno fmt --check
+          deno fmt -c ./deno.json --check .
       - name: Run lint
         run: |
-          deno lint
-      - name: Run cache & check(apiserver)
-        run: |
-          deno cache ./server.ts
-      - name: Run cache & check(viewer)
-        run: |
-          denon viewer-cache
-      - name: Run test
-        run: |
-          denon start > /dev/null &
-          deno test -A
-  test_windows-latest:
-    runs-on: windows-latest
+          deno lint -c ./deno.json .
+
+  test:
+    needs: check
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest,macos-latest,windows-latest]
     steps:
       - uses: actions/checkout@v2
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
-      - name: Install denon
-        run: |
-          deno install -qAf --unstable https://deno.land/x/denon@2.4.7/denon.ts
-      - name: Run cache
+      - name: Run cache & check
         run: |
           deno cache ./server.ts
       - name: Run test
+        if: ${{ runner.os == 'Windows' }}
         run: |
-          denon start > $null &
+          deno run -A server.ts > $null &
           deno test -A
-  test_macos-latest:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: denoland/setup-deno@v1
-        with:
-          deno-version: v1.x
-      - name: Install denon
-        run: |
-          deno install -qAf --unstable https://deno.land/x/denon@2.4.7/denon.ts
-      - name: Run cache
-        run: |
-          deno cache ./server.ts
       - name: Run test
+        if: ${{ runner.os != 'Windows' }}
         run: |
-          denon start > /dev/null &
+          deno run -A server.ts > /dev/null &
           deno test -A

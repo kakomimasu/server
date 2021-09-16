@@ -1,0 +1,14 @@
+{
+  "fmt": {
+    "files": {
+      "include": ["*"],
+      "exclude": ["public/app.bundle.js", "api/data/"]
+    }
+  },
+  "lint": {
+    "files": {
+      "include": ["*"],
+      "exclude": ["public/app.bundle.js"]
+    }
+  }
+}
