@@ -33,16 +33,16 @@ jobs:
             echo "::set-output name=changes_exist::false"
           fi
       - name: Git checkout
-        if: steps.diff.outputs.changes_exist == "true"
+        if: steps.diff.outputs.changes_exist == 'true'
         run: | 
           git checkout -b actions/udd
       - name: Git commit & push
-        if: steps.diff.outputs.changes_exist == "true"
+        if: steps.diff.outputs.changes_exist == 'true'
         run: |
           git commit -m "Update dependency"
           git push --set-upstream origin actions/udd
       - name: Create Pull Request
-        if: steps.diff.outputs.changes_exist == "true"
+        if: steps.diff.outputs.changes_exist == 'true'
         run: |
           hub pull-request -m "Update Deno Dependency"
       
