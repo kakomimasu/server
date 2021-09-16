@@ -32,5 +32,6 @@
   "editor.formatOnSave": true,
   "files.exclude": {
     "public/app.bundle.js": true
-  }
+  },
+  "files.eol": "\n"
 }
