@@ -18,6 +18,5 @@ jobs:
           ssh -oStrictHostKeyChecking=no root@kakomimasu.website -i secret_key <<EOC
           cd ~/server
           git pull
-          denon viewer-cache-r
           systemctl restart kakomimasu
           EOC

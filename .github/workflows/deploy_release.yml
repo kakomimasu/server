@@ -21,6 +21,5 @@ jobs:
           git fetch
           systemctl stop kakomimasu-release
           git checkout -B ${GITHUB_REF##*/} ${GITHUB_REF}
-          denon viewer-cache-r
           systemctl start kakomimasu-release
           EOC
