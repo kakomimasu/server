@@ -1,4 +1,4 @@
-import { config, createRouter, util } from "../deps.ts";
+import { config, createRouter } from "../deps.ts";
 
 import {
   contentTypeFilter,
@@ -38,7 +38,7 @@ const getRandomBoardName = async () => {
       list.push(b.name.substring(0, b.name.length - 5));
     }
   }
-  return list[util.rnd(list.length)];
+  return list[Math.floor(Math.random() * list.length)];
 };
 
 class ActionPost implements IActionPost {

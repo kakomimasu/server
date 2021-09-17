@@ -41,3 +41,7 @@ export const jsonParse = (): ServeHandler =>
   };
 
 export const randomUUID = () => crypto.randomUUID();
+
+export const nowUnixTime = () => {
+  return Math.floor(new Date().getTime() / 1000);
+};
