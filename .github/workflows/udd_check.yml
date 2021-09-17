@@ -50,6 +50,6 @@ jobs:
           private_key: ${{ secrets.PRIVATE_KEY }}
       - name: Create Pull Request
         if: steps.diff.outputs.changes_exist == 'true'
-        run: gh pr create --title "Update Deno Dependency" --body "" --head
+        run: gh pr create --title "Update Deno Dependency" --body "" --head default
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
