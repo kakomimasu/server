@@ -1,5 +1,5 @@
-import { kkmm, util } from "../../deps.ts";
-import { randomUUID } from "../util.ts";
+import { kkmm } from "../../deps.ts";
+import { nowUnixTime, randomUUID } from "../util.ts";
 
 import { LogFileOp } from "./file_opration.ts";
 
@@ -90,7 +90,7 @@ class ExpGame extends kkmm.Game {
         //console.log("turn", this.turn);
       } // ゲーム開始前
       else if (this.isReady()) {
-        this.startedAtUnixTime = util.nowUnixTime() + 5;
+        this.startedAtUnixTime = nowUnixTime() + 5;
         const diff = (this.startedAtUnixTime * 1000) - new Date().getTime();
         setTimeout(() => {
           this.start();
