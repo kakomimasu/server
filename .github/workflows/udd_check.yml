@@ -41,8 +41,14 @@ jobs:
         run: |
           git commit -m "Update dependency"
           git push --set-upstream origin actions/udd
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.PRIVATE_KEY }}
       - name: Create Pull Request
         if: steps.diff.outputs.changes_exist == 'true'
         run: gh pr create --draft --title "Update Deno Dependency" --body ""
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
