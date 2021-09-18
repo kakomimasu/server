@@ -17,9 +17,12 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.PRIVATE_KEY }}
       - name: Git config
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          git remote set-url --push origin https://deno-depandabot[bot]:$GH_TOKEN@github.com/kakomimasu/server.git
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
