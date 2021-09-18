@@ -20,9 +20,8 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git remote set-url --push origin https://deno-depandabot[bot]:$GH_TOKEN@github.com/kakomimasu/server.git
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
