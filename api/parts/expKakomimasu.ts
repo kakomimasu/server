@@ -1,4 +1,4 @@
-import { kkmm } from "../../deps.ts";
+import { Core } from "../../deps.ts";
 import { nowUnixTime, randomUUID } from "../util.ts";
 
 import { LogFileOp } from "./file_opration.ts";
@@ -7,7 +7,7 @@ import { accounts } from "../user.ts";
 
 import { Game as GameType } from "../types.ts";
 
-class Player extends kkmm.Player<ExpGame> {
+class Player extends Core.Player<ExpGame> {
   getJSON() {
     return {
       ...super.getJSON(),
@@ -16,7 +16,7 @@ class Player extends kkmm.Player<ExpGame> {
   }
 }
 
-class ExpGame extends kkmm.Game {
+class ExpGame extends Core.Game {
   public uuid: string;
   public name?: string;
   public startedAtUnixTime: number | null;
@@ -24,7 +24,7 @@ class ExpGame extends kkmm.Game {
   public reservedUsers: string[];
   public type: "normal" | "self";
 
-  constructor(board: kkmm.Board, name?: string) {
+  constructor(board: Core.Board, name?: string) {
     super(board);
     this.uuid = randomUUID();
     this.name = name;
@@ -35,7 +35,7 @@ class ExpGame extends kkmm.Game {
   }
 
   static restore(data: ExpGame) {
-    const board = kkmm.Board.restore(data.board);
+    const board = Core.Board.restore(data.board);
     const game = new ExpGame(board, data.name);
     game.uuid = data.uuid;
     game.players = data.players.map((p) => Player.restore(p));
@@ -45,7 +45,7 @@ class ExpGame extends kkmm.Game {
     game.log = data.log;
     game.turn = data.turn;
     game.agents = data.agents.map((agents) =>
-      agents.map((agent) => kkmm.Agent.restore(agent, game.board, game.field))
+      agents.map((agent) => Core.Agent.restore(agent, game.board, game.field))
     );
     game.startedAtUnixTime = data.startedAtUnixTime;
     game.reservedUsers = data.reservedUsers;
@@ -136,7 +136,7 @@ class ExpGame extends kkmm.Game {
   }
 }
 
-class ExpKakomimasu extends kkmm.Kakomimasu<ExpGame, Player> {
+class ExpKakomimasu extends Core.Kakomimasu<ExpGame, Player> {
   createGame(...param: ConstructorParameters<typeof ExpGame>) {
     const game = new ExpGame(...param);
     this.games.push(game);
@@ -148,14 +148,11 @@ class ExpKakomimasu extends kkmm.Kakomimasu<ExpGame, Player> {
     return games.filter((game) => game.type === "normal");
   }
 
-  createPlayer(...param: ConstructorParameters<typeof kkmm.Player>) {
+  createPlayer(...param: ConstructorParameters<typeof Core.Player>) {
     const [playername, spec] = param;
     if (spec == null) return new Player(playername);
     else return new Player(playername, spec);
   }
 }
 
-export class Action extends kkmm.Action {}
-export class Agent extends kkmm.Agent {}
-export class Board extends kkmm.Board {}
 export { ExpGame, ExpKakomimasu, Player };
