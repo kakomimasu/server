@@ -1,19 +1,19 @@
 // Standard Library
-export { fromFileUrl } from "https://deno.land/std@0.101.0/path/mod.ts";
+export { fromFileUrl } from "https://deno.land/std@0.107.0/path/mod.ts";
 export {
   assert,
   assertEquals,
-} from "https://deno.land/std@0.101.0/testing/asserts.ts";
-export { v4 } from "https://deno.land/std@0.101.0/uuid/mod.ts";
-export * from "https://deno.land/std@0.101.0/ws/mod.ts";
+} from "https://deno.land/std@0.107.0/testing/asserts.ts";
+export { v4 } from "https://deno.land/std@0.107.0/uuid/mod.ts";
+export * from "https://deno.land/std@0.107.0/ws/mod.ts";
 
 // Third Party Modules
-export * from "https://deno.land/x/dotenv@v2.0.0/mod.ts";
-export * from "https://deno.land/x/servest@v1.3.2/mod.ts";
+export * from "https://deno.land/x/dotenv@v3.0.0/mod.ts";
+export * from "https://deno.land/x/servest@v1.3.4/mod.ts";
 export * from "https://deno.land/x/djwt@v2.3/mod.ts";
-export * as esbuild from "https://deno.land/x/esbuild@v0.12.19/mod.js";
-export { denoPlugin } from "https://deno.land/x/esbuild_deno_loader@0.2.0/mod.ts";
+export * as esbuild from "https://deno.land/x/esbuild@v0.12.28/mod.js";
+export { denoPlugin } from "https://deno.land/x/esbuild_deno_loader@0.3.0/mod.ts";
 
-export * as kkmm from "https://raw.githubusercontent.com/codeforkosen/Kakomimasu/v1.0.0-beta/Kakomimasu.js";
+export * as Core from "https://raw.githubusercontent.com/codeforkosen/Kakomimasu/v1.0.0/Kakomimasu.js";
 
 export { default as ApiClient } from "https://raw.githubusercontent.com/kakomimasu/client-js/main/mod.js";

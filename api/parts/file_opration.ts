@@ -1,4 +1,4 @@
-import { Board } from "./expKakomimasu.ts";
+import { Core } from "../../deps.ts";
 
 import { pathResolver } from "../util.ts";
 
@@ -89,7 +89,7 @@ export class LogFileOp {
 
 export class BoardFileOp {
   private static dir = resolve("../board");
-  private static boards: Board[] = [];
+  private static boards: Core.Board[] = [];
   private static mtime: Date | null = null;
 
   static staticConstructor = (() => {
@@ -105,7 +105,7 @@ export class BoardFileOp {
         for (const dirEntry of Deno.readDirSync(this.dir)) {
           const json = readJsonFileSync(`${this.dir}/${dirEntry.name}`);
           json.points = json.points.flat();
-          this.boards.push(new Board(json));
+          this.boards.push(new Core.Board(json));
         }
         this.mtime = stat.mtime;
       }

@@ -1,4 +1,4 @@
-import { config, createRouter } from "../deps.ts";
+import { config, Core, createRouter } from "../deps.ts";
 
 import {
   contentTypeFilter,
@@ -14,7 +14,6 @@ import { sendGame } from "./ws.ts";
 import { errors, ServerError } from "./error.ts";
 import { kkmm } from "../server.ts";
 import { aiList } from "./parts/ai-list.ts";
-import { Action } from "./parts/expKakomimasu.ts";
 import {
   ActionPost as IActionPost,
   ActionReq,
@@ -195,18 +194,18 @@ export const matchRouter = () => {
       }
 
       const getType = (type: string) => {
-        if (type === "PUT") return Action.PUT;
-        else if (type === "NONE") return Action.NONE;
-        else if (type === "MOVE") return Action.MOVE;
-        else if (type === "REMOVE") return Action.REMOVE;
-        return Action.NONE;
+        if (type === "PUT") return Core.Action.PUT;
+        else if (type === "NONE") return Core.Action.NONE;
+        else if (type === "MOVE") return Core.Action.MOVE;
+        else if (type === "REMOVE") return Core.Action.REMOVE;
+        return Core.Action.NONE;
       };
 
       const actionsAry: [number, ReturnType<typeof getType>, number, number][] =
         actionData.actions.map((a) => [a.agentId, getType(a.type), a.x, a.y]);
       let nowTurn;
       if (!actionData.option?.dryRun) {
-        nowTurn = player.setActions(Action.fromJSON(actionsAry));
+        nowTurn = player.setActions(Core.Action.fromJSON(actionsAry));
       } else {
         nowTurn = game.turn;
       }

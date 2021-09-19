@@ -1,9 +1,9 @@
-import { config, createApp, createRouter } from "./deps.ts";
+import { config, Core, createApp, createRouter } from "./deps.ts";
 
 import * as util from "./api/util.ts";
 const resolve = util.pathResolver(import.meta);
 
-import { Board, ExpKakomimasu } from "./api/parts/expKakomimasu.ts";
+import { ExpKakomimasu } from "./api/parts/expKakomimasu.ts";
 import { errorCodeResponse } from "./api/error.ts";
 
 const env = config({
@@ -64,7 +64,7 @@ export const readBoard = (fileName: string) => {
       boardJson.nagent,
     );*/
 
-    return new Board(boardJson);
+    return new Core.Board(boardJson);
   } else {
     throw Error("Can not find Board");
   }
