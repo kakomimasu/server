@@ -31,7 +31,7 @@ const apiRoutes = () => {
   const router = createRouter();
   router.use(cors({
     origin: "*",
-    methods: ["GET", "POST", "DELETE", "PUT"],
+    methods: ["GET", "POST"],
     allowedHeaders: ["authorization"],
   }));
 
