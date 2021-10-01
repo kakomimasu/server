@@ -32,7 +32,7 @@ const apiRoutes = () => {
   router.use(cors({
     origin: "*",
     methods: ["GET", "POST"],
-    allowedHeaders: ["authorization"],
+    allowedHeaders: ["authorization", "content-type"],
   }));
 
   router.route("ws", wsRoutes());

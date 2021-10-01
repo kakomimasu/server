@@ -1,8 +1,7 @@
-import { ApiOption } from "./parts/interface.ts";
-
-export interface Error {
-  message: string;
-  errorCode: number;
+export interface ApiOption {
+  option?: {
+    dryRun?: boolean;
+  };
 }
 
 interface UserBase {
