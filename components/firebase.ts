@@ -4,13 +4,12 @@ import "firebase/analytics";
 
 const init = () => {
   const firebaseConfig = {
-    apiKey: "AIzaSyDz0FDikVy97fFfGtnNf3UME7Zi393CXMM",
-    authDomain: "kakomimasu-6a8bb.firebaseapp.com",
-    projectId: "kakomimasu-6a8bb",
-    storageBucket: "kakomimasu-6a8bb.appspot.com",
-    messagingSenderId: "399214483363",
-    appId: "1:399214483363:web:966f0b596472476725ac16",
-    measurementId: "G-9E8LR1LC9W",
+    apiKey: "AIzaSyBOas3O1fmIrl51n7I_hC09YCG0EEe7tlc",
+    authDomain: "kakomimasu.firebaseapp.com",
+    projectId: "kakomimasu",
+    storageBucket: "kakomimasu.appspot.com",
+    messagingSenderId: "883142143351",
+    appId: "1:883142143351:web:dc6ddc1158aa54ada74572",
   };
 
   firebase.initializeApp(firebaseConfig);
