@@ -1,4 +1,4 @@
-import { config, Core, createApp, createRouter } from "./deps.ts";
+import { config, Core, cors, createApp, createRouter } from "./deps.ts";
 
 import * as util from "./api/util.ts";
 const resolve = util.pathResolver(import.meta);
@@ -29,6 +29,11 @@ tournaments.dataCheck(kkmm.getGames());
 
 const apiRoutes = () => {
   const router = createRouter();
+  router.use(cors({
+    origin: "*",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["authorization", "content-type"],
+  }));
 
   router.route("ws", wsRoutes());
   router.route("match", matchRouter());
