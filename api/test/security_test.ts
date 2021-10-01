@@ -74,3 +74,21 @@ Deno.test(`cors header check(header:authorization)`, async () => {
     "authorization",
   );
 });
+
+Deno.test(`cors header check(header:content-type)`, async () => {
+  const path = "/api/tournament/get";
+  const res = await fetch(host + path, {
+    method: "OPTIONS",
+    headers: {
+      "Origin": host,
+      "Access-Control-Request-Method": "POST",
+      "Access-Control-Request-Headers": "content-type",
+    },
+  });
+  assertEquals(res.headers.get("Access-Control-Allow-Origin"), "*");
+  assertEquals(res.headers.get("Access-Control-Allow-Methods"), "POST");
+  assertEquals(
+    res.headers.get("Access-Control-Allow-Headers"),
+    "content-type",
+  );
+});
