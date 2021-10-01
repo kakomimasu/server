@@ -17,4 +17,4 @@ export { denoPlugin } from "https://deno.land/x/esbuild_deno_loader@0.3.0/mod.ts
 
 export * as Core from "https://raw.githubusercontent.com/codeforkosen/Kakomimasu/v1.0.0/Kakomimasu.js";
 
-export { default as ApiClient } from "https://raw.githubusercontent.com/kakomimasu/client-js/main/mod.js";
+export { default as ApiClient } from "https://raw.githubusercontent.com/kakomimasu/client-js/main/mod.ts";
