@@ -28,3 +28,67 @@ Deno.test("fetch illegal failed", async () => {
 
   assertEquals(body, html);
 });
+
+const methods = {
+  "GET": true,
+  "HEAD": false,
+  "POST": true,
+  "PUT": false,
+  "DELETE": false,
+  "CONNECT": false,
+  "OPTIONS": false,
+  "TRACE": false,
+  "PATCH": false,
+};
+
+for (const [key, value] of Object.entries(methods)) {
+  Deno.test(`cors header check(method:${key})`, async () => {
+    const path = "/api/tournament/get";
+    const res = await fetch(host + path, {
+      method: "OPTIONS",
+      headers: { "Origin": host, "Access-Control-Request-Method": key },
+    });
+    assertEquals(res.headers.get("Access-Control-Allow-Origin"), "*");
+    assertEquals(
+      res.headers.get("Access-Control-Allow-Methods"),
+      value ? key : "",
+    );
+    assertEquals(res.headers.get("Access-Control-Allow-Headers"), null);
+  });
+}
+
+Deno.test(`cors header check(header:authorization)`, async () => {
+  const path = "/api/tournament/get";
+  const res = await fetch(host + path, {
+    method: "OPTIONS",
+    headers: {
+      "Origin": host,
+      "Access-Control-Request-Method": "GET",
+      "Access-Control-Request-Headers": "authorization",
+    },
+  });
+  assertEquals(res.headers.get("Access-Control-Allow-Origin"), "*");
+  assertEquals(res.headers.get("Access-Control-Allow-Methods"), "GET");
+  assertEquals(
+    res.headers.get("Access-Control-Allow-Headers"),
+    "authorization",
+  );
+});
+
+Deno.test(`cors header check(header:content-type)`, async () => {
+  const path = "/api/tournament/get";
+  const res = await fetch(host + path, {
+    method: "OPTIONS",
+    headers: {
+      "Origin": host,
+      "Access-Control-Request-Method": "POST",
+      "Access-Control-Request-Headers": "content-type",
+    },
+  });
+  assertEquals(res.headers.get("Access-Control-Allow-Origin"), "*");
+  assertEquals(res.headers.get("Access-Control-Allow-Methods"), "POST");
+  assertEquals(
+    res.headers.get("Access-Control-Allow-Headers"),
+    "content-type",
+  );
+});
