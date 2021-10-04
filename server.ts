@@ -18,7 +18,6 @@ import { tournamentRouter, tournaments } from "./api/tournament.ts";
 import { accounts, userRouter } from "./api/user.ts";
 import { gameRouter } from "./api/game.ts";
 import { matchRouter } from "./api/match.ts";
-import { viewerRoutes } from "./api/viewer.ts";
 import { wsRoutes } from "./api/ws.ts";
 
 export const kkmm = new ExpKakomimasu();
@@ -49,7 +48,6 @@ const apiRoutes = () => {
 // Port Listen
 const app = createApp();
 app.route("/api/", apiRoutes());
-app.route("/", viewerRoutes());
 
 app.listen({ port });
 
