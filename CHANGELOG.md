@@ -8,6 +8,14 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- CORSヘッダを追加(#46)
+
+### Remove
+
+- ビューア機能の提供を終了（[kakomimasu/viewer - Github](https://github.com/kakomimasu/viewer)に移行）
+
 ## ~release
 
 #### 2020.3.3

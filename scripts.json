@@ -13,17 +13,17 @@
         "env": true
       }
     },
-    "viewer-cache": {
-      "cmd": "deno cache ./pages/route.tsx",
-      "desc": "cache route.tsx file",
-      "importmap": "./pages/import-map.json",
-      "tsconfig": "./pages/tsconfig.json"
+    "fmt-check": {
+      "cmd": "deno fmt -c deno.json --check .",
+      "desc": "format code (only check)"
     },
-    "viewer-cache-r": {
-      "cmd": "deno cache -r ./pages/route.tsx",
-      "desc": "cache route.tsx file with reload module",
-      "importmap": "./pages/import-map.json",
-      "tsconfig": "./pages/tsconfig.json"
+    "fmt": {
+      "cmd": "deno fmt -c deno.json .",
+      "desc": "format code"
+    },
+    "lint": {
+      "cmd": "deno lint -c deno.json .",
+      "desc": "lint code"
     }
   }
 }

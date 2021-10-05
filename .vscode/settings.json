@@ -2,7 +2,6 @@
   "deno.enable": true,
   "deno.lint": true,
   "deno.unstable": false,
-  "deno.importMap": "./pages/import-map.json",
   "deno.config": "./deno.json",
   "[json]": {
     "editor.defaultFormatter": "denoland.vscode-deno"
@@ -15,9 +14,6 @@
     "url": "https://cdn.deno.land/deno/versions/v1.14.0/raw/cli/schemas/config-file.v1.json"
   }],
   "[typescript]": {
-    "editor.defaultFormatter": "denoland.vscode-deno"
-  },
-  "[typescriptreact]": {
     "editor.defaultFormatter": "denoland.vscode-deno"
   },
   "[javascript]": {
