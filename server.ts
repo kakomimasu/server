@@ -1,10 +1,10 @@
 import { config, Core, cors, createApp, createRouter } from "./deps.ts";
 
-import * as util from "./api/util.ts";
+import * as util from "./v1/util.ts";
 const resolve = util.pathResolver(import.meta);
 
-import { ExpKakomimasu } from "./api/parts/expKakomimasu.ts";
-import { errorCodeResponse } from "./api/error.ts";
+import { ExpKakomimasu } from "./v1/parts/expKakomimasu.ts";
+import { errorCodeResponse } from "./v1/error.ts";
 
 const env = config({
   path: resolve("./.env"),
@@ -12,13 +12,13 @@ const env = config({
 });
 const port = parseInt(env.port);
 
-import { LogFileOp } from "./api/parts/file_opration.ts";
+import { LogFileOp } from "./v1/parts/file_opration.ts";
 
-import { tournamentRouter, tournaments } from "./api/tournament.ts";
-import { accounts, userRouter } from "./api/user.ts";
-import { gameRouter } from "./api/game.ts";
-import { matchRouter } from "./api/match.ts";
-import { wsRoutes } from "./api/ws.ts";
+import { tournamentRouter, tournaments } from "./v1/tournament.ts";
+import { accounts, userRouter } from "./v1/user.ts";
+import { gameRouter } from "./v1/game.ts";
+import { matchRouter } from "./v1/match.ts";
+import { wsRoutes } from "./v1/ws.ts";
 
 export const kkmm = new ExpKakomimasu();
 kkmm.games.push(...LogFileOp.read());
