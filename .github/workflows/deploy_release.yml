@@ -16,7 +16,7 @@ jobs:
         run: |
           echo ${GITHUB_REF}
           echo ${GITHUB_REF##*/}
-          ssh -oStrictHostKeyChecking=no root@kakomimasu.website -i secret_key <<EOC
+          ssh -oStrictHostKeyChecking=no root@kakomimasu.com -i secret_key <<EOC
           cd ~/server-release
           git fetch
           systemctl stop kakomimasu-release
