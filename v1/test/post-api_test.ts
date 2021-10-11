@@ -18,7 +18,7 @@ const urls = [
 // fetch all urls by no Content-Type header
 urls.forEach((url) => {
   Deno.test(`${url} without Content-Type header`, async () => {
-    const res = await fetch("http://localhost:8880/api/" + url, {
+    const res = await fetch("http://localhost:8880/v1/" + url, {
       method: "POST",
       body: "a",
     });
@@ -35,7 +35,7 @@ for await (const url of urls) {
     const userRes = await ac.usersRegist(data);
     if (!userRes.success) throw Error("Could not create user");
 
-    const res = await fetch("http://localhost:8880/api/" + url, {
+    const res = await fetch("http://localhost:8880/v1/" + url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
