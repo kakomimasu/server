@@ -36,10 +36,10 @@ const data = {
   type: "round-robin",
 };
 
-// /api/tournament/create Test
+// /v1/tournament/create Test
 // テスト項目
 // 正常(round-robin・knockout)・大会名無し・大会種別無し
-Deno.test("api/tournament/create:normal", async () => {
+Deno.test("v1/tournament/create:normal", async () => {
   let res = await ac.tournamentsCreate({
     ...data,
     option: { dryRun: true },
@@ -53,7 +53,7 @@ Deno.test("api/tournament/create:normal", async () => {
   });
   assertTournament(res.data, { ...data, type: "knockout" });
 });
-Deno.test("api/tournament/create:invalid tournament name", async () => {
+Deno.test("v1/tournament/create:invalid tournament name", async () => {
   {
     const res = await ac.tournamentsCreate({
       ...data,
@@ -79,7 +79,7 @@ Deno.test("api/tournament/create:invalid tournament name", async () => {
     assertEquals(res.data, errors.INVALID_TOURNAMENT_NAME);
   }
 });
-Deno.test("api/tournament/create:invalid tournament type", async () => {
+Deno.test("v1/tournament/create:invalid tournament type", async () => {
   {
     const res = await ac.tournamentsCreate({
       ...data,
@@ -113,34 +113,34 @@ Deno.test("api/tournament/create:invalid tournament type", async () => {
     assertEquals(res.data, errors.INVALID_TYPE);
   }
 });
-Deno.test("api/tournament/create:normal by no dryRun", async () => {
+Deno.test("v1/tournament/create:normal by no dryRun", async () => {
   const res = await ac.tournamentsCreate(data);
   assertTournament(res.data, data);
 
   data.id = res.data.id;
 });
 
-// /api/tournament/get Test
+// /v1/tournament/get Test
 // テスト項目
 // 正常（1大会・全大会）・ID無し
-Deno.test("api/tournament/get:normal by single", async () => {
+Deno.test("v1/tournament/get:normal by single", async () => {
   const res = await ac.tournamentsGet(data.id);
   assertTournament(res.data, data);
 });
-Deno.test("api/tournament/get:normal by all", async () => {
+Deno.test("v1/tournament/get:normal by all", async () => {
   const res = await ac.tournamentsGet(); // as Array<any>;
   if (res.success === false) assert(false);
   res.data.forEach((e) => assertTournament(e));
 });
-Deno.test("api/tournament/get:nothing tournament id", async () => {
+Deno.test("v1/tournament/get:nothing tournament id", async () => {
   const res = await ac.tournamentsGet(randomUUID());
   assertEquals(res.data, errors.NOTHING_TOURNAMENT_ID);
 });
 
-// /api/tournament/add Test
+// /v1/tournament/add Test
 // テスト項目
 // 正常、ID無し、user無し、存在しない大会ID、存在しないユーザ、登録済みのユーザ
-Deno.test("api/tournament/add:normal", async () => {
+Deno.test("v1/tournament/add:normal", async () => {
   const uuid = randomUUID();
   const userData = { screenName: uuid, name: uuid, password: uuid };
   const userRes = await ac.usersRegist(userData);
@@ -153,7 +153,7 @@ Deno.test("api/tournament/add:normal", async () => {
   await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
   assertTournament(res.data, { ...data, users: [userRes.data.id] });
 });
-Deno.test("api/tournament/add:tournament that do not exist", async () => {
+Deno.test("v1/tournament/add:tournament that do not exist", async () => {
   {
     const res = await ac.tournamentsAddUser(randomUUID(), {
       option: { dryRun: true },
@@ -161,7 +161,7 @@ Deno.test("api/tournament/add:tournament that do not exist", async () => {
     assertEquals(res.data, errors.INVALID_TOURNAMENT_ID);
   }
 });
-Deno.test("api/tournament/add:invalid tournament id", async () => {
+Deno.test("v1/tournament/add:invalid tournament id", async () => {
   {
     const res = await ac.tournamentsAddUser("", {
       option: { dryRun: true },
@@ -181,7 +181,7 @@ Deno.test("api/tournament/add:invalid tournament id", async () => {
     assertEquals(res.data, errors.INVALID_TOURNAMENT_ID);
   }
 });
-Deno.test("api/tournament/add:nothing user", async () => {
+Deno.test("v1/tournament/add:nothing user", async () => {
   {
     const res = await ac.tournamentsAddUser(data.id, {
       user: "",
@@ -204,7 +204,7 @@ Deno.test("api/tournament/add:nothing user", async () => {
     assertEquals(res.data, errors.INVALID_USER_IDENTIFIER);
   }
 });
-Deno.test("api/tournament/add:user that do not exist", async () => {
+Deno.test("v1/tournament/add:user that do not exist", async () => {
   {
     const res = await ac.tournamentsAddUser(data.id, {
       user: randomUUID(),
@@ -213,7 +213,7 @@ Deno.test("api/tournament/add:user that do not exist", async () => {
     assertEquals(res.data, errors.NOT_USER);
   }
 });
-Deno.test("api/tournament/add:already registed user", async () => {
+Deno.test("v1/tournament/add:already registed user", async () => {
   const uuid = randomUUID();
   const userData = { screenName: uuid, name: uuid, password: uuid };
   const userRes = await ac.usersRegist(userData);
@@ -225,17 +225,17 @@ Deno.test("api/tournament/add:already registed user", async () => {
   assertEquals(res.data, errors.ALREADY_REGISTERED_USER);
 });
 
-// /api/tournament/delete Test
+// /v1/tournament/delete Test
 // テスト項目
 // 正常・ID無し
-Deno.test("api/tournament/delete:normal", async () => {
+Deno.test("v1/tournament/delete:normal", async () => {
   const res = await ac.tournamentsDelete({
     id: data.id,
     option: { dryRun: true },
   });
   assertTournament(res.data, data);
 });
-Deno.test("api/tournament/delete:invalid tournament id", async () => {
+Deno.test("v1/tournament/delete:invalid tournament id", async () => {
   {
     const res = await ac.tournamentsDelete({
       id: "",
@@ -258,14 +258,14 @@ Deno.test("api/tournament/delete:invalid tournament id", async () => {
     assertEquals(res.data, errors.INVALID_TOURNAMENT_ID);
   }
 });
-Deno.test("api/tournament/delete:nothing tournament id", async () => {
+Deno.test("v1/tournament/delete:nothing tournament id", async () => {
   const res = await ac.tournamentsDelete({
     id: randomUUID(),
     option: { dryRun: true },
   });
   assertEquals(res.data, errors.NOTHING_TOURNAMENT_ID);
 });
-Deno.test("api/tournament/delete:normal by no dryRun", async () => {
+Deno.test("v1/tournament/delete:normal by no dryRun", async () => {
   const res = await ac.tournamentsDelete({ id: data.id });
   assertTournament(res.data, data);
 });

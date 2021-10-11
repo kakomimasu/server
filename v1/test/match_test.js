@@ -54,17 +54,17 @@ const assertAction = (actionRes) => {
   assertEquals(typeof actionRes.turn, "number");
 };
 
-// /api/match Test
+// /v1/match Test
 // テスト項目
 // ユーザ識別子無効、パスワード無効、ユーザ無し
 // gameID有：ゲーム無し
 // useAi：AI無し
-Deno.test("api/match:invalid bearerToken", async () => {
+Deno.test("v1/match:invalid bearerToken", async () => {
   const res = await ac.match({ option: { dryRun: true } });
   assertEquals(res.res.status, 401);
   assertEquals(res.data, errors.UNAUTHORIZED);
 });
-Deno.test("api/match:can not find game", async () => {
+Deno.test("v1/match:can not find game", async () => {
   const uuid = randomUUID();
   const userData = { screenName: uuid, name: uuid, password: uuid };
   const userRes = await ac.usersRegist(userData);
@@ -77,7 +77,7 @@ Deno.test("api/match:can not find game", async () => {
   await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
   assertEquals(res.data, errors.NOT_GAME);
 });
-Deno.test("api/match:can not find ai", async () => {
+Deno.test("v1/match:can not find ai", async () => {
   const uuid = randomUUID();
   const userData = { screenName: uuid, name: uuid, password: uuid };
   const userRes = await ac.usersRegist(userData);
@@ -94,7 +94,7 @@ Deno.test("api/match:can not find ai", async () => {
   await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
   assertEquals(res.data, errors.NOT_AI);
 });
-Deno.test("api/match:normal", async () => {
+Deno.test("v1/match:normal", async () => {
   const uuid = randomUUID();
   const userData = { screenName: uuid, name: uuid, password: uuid };
   const userRes = await ac.usersRegist(userData);
@@ -105,7 +105,7 @@ Deno.test("api/match:normal", async () => {
 
   assertMatch(res.data, { userId: userData.id });
 });
-Deno.test("api/match:normal by selfGame", async () => {
+Deno.test("v1/match:normal by selfGame", async () => {
   const uuid = randomUUID();
   const userData = { screenName: uuid, name: uuid, password: uuid };
   const userRes = await ac.usersRegist(userData);
@@ -122,7 +122,7 @@ Deno.test("api/match:normal by selfGame", async () => {
 
   assertMatch(res.data, { userId: userData.id, gameId: gameRes.data.gameId });
 });
-Deno.test("api/match:normal by useAi", async () => {
+Deno.test("v1/match:normal by useAi", async () => {
   const uuid = randomUUID();
   const userData = { screenName: uuid, name: uuid, password: uuid };
   const userRes = await ac.usersRegist(userData);
@@ -139,10 +139,10 @@ Deno.test("api/match:normal by useAi", async () => {
   assertMatch(res.data, { userId: userData.id });
 });
 
-// /api/match/(gameId) Test
+// /v1/match/(gameId) Test
 // テスト項目
 // 正常、ゲーム無し
-Deno.test("api/match/(gameId):normal", async () => {
+Deno.test("v1/match/(gameId):normal", async () => {
   const gameData = { name: "テスト", boardName: "A-1" };
   const gameRes = await ac.gameCreate(gameData);
 
@@ -150,16 +150,16 @@ Deno.test("api/match/(gameId):normal", async () => {
 
   assertGame(res.data, { gameId: gameRes.data.gameId, name: gameData.name });
 });
-Deno.test("api/match/(gameId):not find game", async () => {
+Deno.test("v1/match/(gameId):not find game", async () => {
   const res = await ac.getMatch(randomUUID());
 
   assertEquals(res.data, errors.NOT_GAME);
 });
 
-// /api/match/(gameId)/action Test
+// /v1/match/(gameId)/action Test
 // テスト項目
 // 正常、アクセストークン無効
-Deno.test("api/match/(gameId)/action:normal", async () => {
+Deno.test("v1/match/(gameId)/action:normal", async () => {
   const uuid = randomUUID();
   const userData = { screenName: uuid, name: uuid, password: uuid };
   const userRes = await ac.usersRegist(userData);
@@ -187,13 +187,13 @@ Deno.test("api/match/(gameId)/action:normal", async () => {
 
   assertAction(res.data);
 });
-Deno.test("api/match/(gameId)/action:invalid bearerToken", async () => {
+Deno.test("v1/match/(gameId)/action:invalid bearerToken", async () => {
   const res = await ac.setAction(randomUUID(), {});
   assertEquals(res.res.status, 401);
   assertEquals(res.data, errors.UNAUTHORIZED);
 });
 
-Deno.test("api/match/(gameId)/action:invalid user", async () => {
+Deno.test("v1/match/(gameId)/action:invalid user", async () => {
   const uuid = randomUUID();
   const userData = { screenName: uuid, name: uuid, password: uuid };
   const userRes = await ac.usersRegist(userData);
