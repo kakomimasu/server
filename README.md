@@ -29,12 +29,7 @@ denon start
 
 ### ビューア
 
-サーバで行われている試合などをリアルタイムに閲覧できるビューアを提供しています。
-
-`http://localhost:{port}/`<br>
-※`{port}`にはポート番号を入れてください。デフォルトは`8880`です。ポートの変更方法については[ポート番号の変更方法](#ポート番号の変更方法)をご覧ください。
-
-詳細については[こちら](https://hackmd.io/@kakomimasu/official/%2FByIqvZx6_)をご覧ください。ビューアが表示されない時には[トラブルシューティング](#トラブルシューティング)をご覧ください。
+ビューア機能の提供はv1.0.0-beta.1にて終了し、[kakomimasu/viewer - Github](https://github.com/kakomimasu/viewer)に移行しました。
 
 ## 使用フィールド
 
@@ -46,23 +41,6 @@ denon start
 
 ```sh
 port=8881 # 任意のポート番号を指定
-```
-
-## トラブルシューティング
-
-### ビューアが表示されない場合
-
-ローカルのキャッシュが残っている場合、ビューアが正常に動作しない可能性があります。以下のコマンドを一度実行すると治る場合があります。
-
-```console
-$ cd ./pages
-$ deno cache --import-map ./import-map.json --config ./tsconfig.json -r ./route.tsx
-```
-
-または、[`denon`](https://github.com/denosaurs/denon)がインストールされている場合、
-
-```console
-denon viewer-cache-r
 ```
 
 ## テスト
