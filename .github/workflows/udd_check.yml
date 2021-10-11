@@ -6,49 +6,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  udd-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Generate token
-        id: generate_token
-        uses: tibdex/github-app-token@v1
-        with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.PRIVATE_KEY }}
-      - name: Git config
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-      - uses: denoland/setup-deno@v1
-        with:
-          deno-version: v1.x
-      - name: Install udd
-        run: |
-          deno install -A -f -n udd https://deno.land/x/udd/main.ts
-      - name: Check Update
-        run: |
-          udd deps.ts
-      - name: Git diff
-        id: diff
-        run: |
-          git add deps.ts
-          if git diff --exit-code deps.ts ; then
-            echo "::set-output name=changes_exist::true"
-          else
-            echo "::set-output name=changes_exist::false"
-          fi
-      - name: Git checkout
-        if: steps.diff.outputs.changes_exist == 'true'
-        run: | 
-          git checkout -b actions/udd
-      - name: Git commit
-        if: steps.diff.outputs.changes_exist == 'true'
-        run: |
-          git commit -m "Update dependency"
-          git push --set-upstream origin actions/udd
-      - name: Create Pull Request
-        if: steps.diff.outputs.changes_exist == 'true'
-        run: gh pr create --title "Update Deno Dependency" --body ""
-        env:
-          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+  call-workflow:
+    uses: kakomimasu/kakomimasu.github.io/.github/workflows/udd-check.yml@main
+    with:
+      deps_file: deps.ts
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
