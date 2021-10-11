@@ -6,15 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/ja/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [v1.0.0-beta.1]
 
 ### Changed
 
 - CORSヘッダを追加(#46)
+- bump: std@0.108.0 -> std@110.0(#48)
+- `/api/`パスを`/v1/`に変更(#57)
 
 ### Remove
 
-- ビューア機能の提供を終了（[kakomimasu/viewer - Github](https://github.com/kakomimasu/viewer)に移行）
+- ビューア機能の提供を終了（[kakomimasu/viewer - Github](https://github.com/kakomimasu/viewer)に移行）(#47)
 
 ## ~release
 
