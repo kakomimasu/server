@@ -19,13 +19,12 @@ denon start
 ## 機能
 
 - [APIサーバ](#apiサーバ)
-- [ビューア](#ビューア)
 
 ### APIサーバ
 
 ユーザ・試合などに関するAPIを提供しています。 仕様についてはAPIドキュメントをご覧ください
 
-[API Document](./api/docs/index.md)
+[API Document](./v1/docs/index.md)
 
 ### ビューア
 

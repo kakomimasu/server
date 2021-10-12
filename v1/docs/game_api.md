@@ -7,7 +7,7 @@
 ### URL
 
 ```
-POST /api/game/create
+POST /v1/game/create
 ```
 
 ### パラメータJSON
@@ -50,7 +50,7 @@ POST /api/game/create
 ### URL
 
 ```
-GET /api/game/boards
+GET /v1/game/boards
 ```
 
 ### レスポンス

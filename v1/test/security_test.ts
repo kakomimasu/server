@@ -26,7 +26,7 @@ const methods = {
 
 for (const [key, value] of Object.entries(methods)) {
   Deno.test(`cors header check(method:${key})`, async () => {
-    const path = "/api/tournament/get";
+    const path = "/v1/tournament/get";
     const res = await fetch(host + path, {
       method: "OPTIONS",
       headers: { "Origin": host, "Access-Control-Request-Method": key },
@@ -41,7 +41,7 @@ for (const [key, value] of Object.entries(methods)) {
 }
 
 Deno.test(`cors header check(header:authorization)`, async () => {
-  const path = "/api/tournament/get";
+  const path = "/v1/tournament/get";
   const res = await fetch(host + path, {
     method: "OPTIONS",
     headers: {
@@ -59,7 +59,7 @@ Deno.test(`cors header check(header:authorization)`, async () => {
 });
 
 Deno.test(`cors header check(header:content-type)`, async () => {
-  const path = "/api/tournament/get";
+  const path = "/v1/tournament/get";
   const res = await fetch(host + path, {
     method: "OPTIONS",
     headers: {

@@ -7,7 +7,7 @@
 ### URL
 
 ```
-POST /api/tournament/create
+POST /v1/tournament/create
 ```
 
 ### パラメータJSON
@@ -53,9 +53,9 @@ POST /api/tournament/create
 ### URL
 
 ```
-GET /api/tournament/get
+GET /v1/tournament/get
 or
-GET /api/tournament/get?id=(大会ID)
+GET /v1/tournament/get?id=(大会ID)
 ```
 
 ### レスポンス
@@ -77,7 +77,7 @@ GET /api/tournament/get?id=(大会ID)
 ### URL
 
 ```
-POST /api/tournament/delete
+POST /v1/tournament/delete
 ```
 
 ### パラメータJSON
@@ -115,7 +115,7 @@ POST /api/tournament/delete
 ### URL
 
 ```
-POST /api/tournament/add?id=(大会ID)
+POST /v1/tournament/add?id=(大会ID)
 ```
 
 ### パラメータJSON

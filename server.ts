@@ -47,7 +47,7 @@ const apiRoutes = () => {
 
 // Port Listen
 const app = createApp();
-app.route("/api/", apiRoutes());
+app.route("/v1/", apiRoutes());
 
 app.listen({ port });
 

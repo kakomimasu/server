@@ -39,15 +39,15 @@ const data = {
   boardName: "A-1",
 };
 
-// /api/game/create Test
+// /v1/game/create Test
 // テスト項目
 // 正常、ボード名無し、ユーザ無し、既に登録済みのユーザ、playerIdentifiers無効
 // 存在しないトーナメントID
-Deno.test("api/game/create:normal", async () => {
+Deno.test("v1/game/create:normal", async () => {
   const res = await ac.gameCreate({ ...data, option: { dryRun: true } });
   assertGame(res.data, data);
 });
-Deno.test("api/game/create:normal with playerIdentifiers", async () => {
+Deno.test("v1/game/create:normal with playerIdentifiers", async () => {
   const uuid = randomUUID();
   const userData = { screenName: uuid, name: uuid, password: uuid };
   const userRes = await ac.usersRegist(userData);
@@ -62,7 +62,7 @@ Deno.test("api/game/create:normal with playerIdentifiers", async () => {
   assertGame(res.data, { ...data, reservedUsers: [userData.id] });
   await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
 });
-Deno.test("api/game/create:invalid boardName", async () => {
+Deno.test("v1/game/create:invalid boardName", async () => {
   {
     const res = await ac.gameCreate({
       ...data,
@@ -88,7 +88,7 @@ Deno.test("api/game/create:invalid boardName", async () => {
     assertEquals(res.data, errors.INVALID_BOARD_NAME);
   }
 });
-Deno.test("api/game/create:not user", async () => {
+Deno.test("v1/game/create:not user", async () => {
   const res = await ac.gameCreate({
     ...data,
     playerIdentifiers: [randomUUID()],
@@ -96,7 +96,7 @@ Deno.test("api/game/create:not user", async () => {
   });
   assertEquals(res.data, errors.NOT_USER);
 });
-Deno.test("api/game/create:already registed user", async () => {
+Deno.test("v1/game/create:already registed user", async () => {
   const uuid = randomUUID();
   const userData = { screenName: uuid, name: uuid, password: uuid };
   const userRes = await ac.usersRegist(userData);
@@ -110,7 +110,7 @@ Deno.test("api/game/create:already registed user", async () => {
   assertEquals(res.data, errors.ALREADY_REGISTERED_USER);
   await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
 });
-Deno.test("api/game/create:invalid tournament id", async () => {
+Deno.test("v1/game/create:invalid tournament id", async () => {
   const res = await ac.gameCreate({
     ...data,
     tournamentId: randomUUID(),
@@ -119,10 +119,10 @@ Deno.test("api/game/create:invalid tournament id", async () => {
   assertEquals(res.data, errors.INVALID_TOURNAMENT_ID);
 });
 
-// /api/game/boards Test
+// /v1/game/boards Test
 // テスト項目
 // 正常
-Deno.test("api/game/boards:normal", async () => {
+Deno.test("v1/game/boards:normal", async () => {
   const res = await ac.getBoards();
   res.data.forEach((e) => assertBoard(e));
 });

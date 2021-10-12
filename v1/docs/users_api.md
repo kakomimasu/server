@@ -7,7 +7,7 @@
 ### URL
 
 ```
-POST /api/users/regist
+POST /v1/users/regist
 ```
 
 ### パラメータJSON
@@ -49,7 +49,7 @@ POST /api/users/regist
 ### URL
 
 ```
-GET /api/users/show/(ユーザのname又はID)
+GET /v1/users/show/(ユーザのname又はID)
 ```
 
 ### レスポンス
@@ -71,7 +71,7 @@ GET /api/users/show/(ユーザのname又はID)
 ### URL
 
 ```
-POST /api/users/delete
+POST /v1/users/delete
 ```
 
 ### Authorizationヘッダ
@@ -116,7 +116,7 @@ HTTPリクエストのヘッダにBearer認証を含める必要があります�
 ### URL
 
 ```
-GET /api/users/search
+GET /v1/users/search
 ```
 
 ### クエリパラメータ
@@ -128,7 +128,7 @@ GET /api/users/search
 #### URLの例
 
 ```
-/api/users/search?q=a1
+/v1/users/search?q=a1
 ```
 
 ### レスポンス
