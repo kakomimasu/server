@@ -2,7 +2,7 @@
   "fmt": {
     "files": {
       "include": ["*"],
-      "exclude": ["api/data/"]
+      "exclude": ["v1/data/"]
     }
   },
   "lint": {

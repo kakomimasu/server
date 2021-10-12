@@ -78,13 +78,13 @@ HTTPリクエストのヘッダにBearer認証を含める必要があります�
 ### URL
 
 ```
-GET /api/match/(gameId)
+GET /v1/match/(gameId)
 ```
 
 #### URLの例
 
 ```
-http://localhost:8880/api/match/833b167a-d40b-49e5-b0e2-9d3de3e8d532
+http://localhost:8880/v1/match/833b167a-d40b-49e5-b0e2-9d3de3e8d532
 ```
 
 ### レスポンス
@@ -106,7 +106,7 @@ http://localhost:8880/api/match/833b167a-d40b-49e5-b0e2-9d3de3e8d532
 ### URL
 
 ```
-POST /api/match/(gameId)/action
+POST /v1/match/(gameId)/action
 ```
 
 ### Authorizationヘッダ
