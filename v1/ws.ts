@@ -69,7 +69,7 @@ export const wsRoutes = () => {
   const router = createRouter();
   router.ws(
     "/game",
-    (async (sock) => {
+    async (sock) => {
       //console.log("ws connected.");
       const client: MapValue = { searchOption: [], gameIds: [] };
       clients.set(sock, client);
@@ -127,7 +127,7 @@ export const wsRoutes = () => {
           console.log(e);
         }
       }
-    }),
+    },
   );
 
   return router;
