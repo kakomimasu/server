@@ -55,3 +55,12 @@ deno test -A
 ```
 act
 ```
+
+# メモ
+
+ここからは開発者用のメモです。
+
+## リリース時
+
+- CHANGELOG.mdの変更
+- CHANGELOG.mdに追記した文をReleaseにも追加
