@@ -6,13 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/ja/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.0-beta.2]
+
+### Fixed
+
+- (#52)にて変更した`/api/`パスの変更が正しく反映されていなかったバグを修正(#57)
+
 ## [v1.0.0-beta.1]
 
 ### Changed
 
 - CORSヘッダを追加(#46)
 - bump: std@0.108.0 -> std@110.0(#48)
-- `/api/`パスを`/v1/`に変更(#57)
+- `/api/`パスを`/v1/`に変更(#52)
 
 ### Remove
 
