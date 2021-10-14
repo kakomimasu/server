@@ -6,7 +6,7 @@ import { sendGame } from "./ws.ts";
 import { errors, ServerError } from "./error.ts";
 import { kkmm } from "../server.ts";
 import { tournaments } from "./tournament.ts";
-import { BoardFileOp } from "./parts/file_opration.ts";
+import { getAllBoards, getBoard } from "./parts/firestore_opration.ts";
 import { GameCreateReq } from "./types.ts";
 
 import { ExpGame } from "./parts/expKakomimasu.ts";
@@ -23,7 +23,7 @@ export const gameRouter = () => {
       if (!reqJson.boardName) {
         throw new ServerError(errors.INVALID_BOARD_NAME);
       }
-      const board = BoardFileOp.get(reqJson.boardName);
+      const board = await getBoard(reqJson.boardName);
       if (!board) throw new ServerError(errors.INVALID_BOARD_NAME);
       board.nplayer = reqJson.nPlayer || 2;
 
@@ -67,7 +67,7 @@ export const gameRouter = () => {
     },
   );
   router.get("/boards", async (req) => {
-    const boards = BoardFileOp.getAll();
+    const boards = await getAllBoards();
     //console.log(boards);
     await req.respond(jsonResponse(boards));
   });

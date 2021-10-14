@@ -27,7 +27,7 @@ const env = config({
   defaults: resolve("../.env.default"),
 });
 const boardname = env.boardname; // || "E-1"; // "F-1" "A-1"
-import { BoardFileOp } from "./parts/file_opration.ts";
+import { getBoard } from "./parts/firestore_opration.ts";
 
 const getRandomBoardName = async () => {
   const bd = Deno.readDir(resolve("./board"));
@@ -94,7 +94,7 @@ export const matchRouter = () => {
         if (!ai) throw new ServerError(errors.NOT_AI);
         const bname = reqData.aiOption?.boardName || boardname ||
           await getRandomBoardName();
-        const brd = BoardFileOp.get(bname); //readBoard(bname);
+        const brd = await getBoard(bname); //readBoard(bname);
         if (!brd) throw new ServerError(errors.INVALID_BOARD_NAME);
         if (!reqData.option?.dryRun) {
           const game = kkmm.createGame(brd);
@@ -138,7 +138,7 @@ export const matchRouter = () => {
         if (!reqData.option?.dryRun) {
           if (freeGame.length === 0) {
             const bname = boardname || await getRandomBoardName();
-            const brd = BoardFileOp.get(bname); //readBoard(bname);
+            const brd = await getBoard(bname); //readBoard(bname);
             if (!brd) throw new ServerError(errors.INVALID_BOARD_NAME);
             const game = kkmm.createGame(brd);
             game.changeFuncs.push(sendGame(game));
