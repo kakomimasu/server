@@ -34,10 +34,10 @@ jobs:
       - name: Run test
         if: ${{ runner.os == 'Windows' }}
         run: |
-          deno run -A server.ts > $null &
+          deno run -A --location http://localhost server.ts > $null &
           deno test -A
       - name: Run test
         if: ${{ runner.os != 'Windows' }}
         run: |
-          deno run -A server.ts > /dev/null &
+          deno run -A --location http://localhost server.ts > /dev/null &
           deno test -A
