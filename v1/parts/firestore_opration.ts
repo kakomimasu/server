@@ -36,10 +36,20 @@ const login = async () => {
     path: resolve("../../.env"),
     defaults: resolve("../../.env.default"),
   });
+
+  let firebaseUsername: string | undefined = env.FIREBASE_USERNAME;
+  if (firebaseUsername === undefined) {
+    firebaseUsername = Deno.env.get("FIREBASE_USERNAME");
+  }
+  let firebasePassword: string | undefined = env.FIREBASE_PASSWORD;
+  if (firebasePassword === undefined) {
+    firebasePassword = Deno.env.get("FIREBASE_PASSWORD");
+  }
+
   await signInWithEmailAndPassword(
     auth,
-    env.FIREBASE_USERNAME,
-    env.FIREBASE_PASSWORD,
+    firebaseUsername,
+    firebasePassword,
   );
 };
 
