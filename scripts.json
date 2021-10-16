@@ -3,7 +3,7 @@
   "watch": false,
   "scripts": {
     "start": {
-      "cmd": "deno run server.ts",
+      "cmd": "deno run --location http://localhost server.ts",
       "desc": "run server.ts file",
       "allow": {
         "read": true,
