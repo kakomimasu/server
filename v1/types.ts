@@ -21,7 +21,7 @@ export interface User extends UserBase {
 }
 
 export interface UserRegistReq extends ApiOption, UserBase {
-  password: string;
+  password?: string;
 }
 
 export type UserDeleteReq = ApiOption;
