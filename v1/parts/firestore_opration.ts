@@ -8,6 +8,7 @@ import {
   getDocs,
   getFirestore,
   initializeApp,
+  setDoc,
   signInWithEmailAndPassword,
 } from "../../deps.ts";
 
@@ -27,7 +28,7 @@ const auth = getAuth();
 const db = getFirestore();
 
 /** 管理ユーザでログイン */
-const login = async () => {
+async function login() {
   if (auth.currentUser) {
     return;
   }
@@ -51,19 +52,19 @@ const login = async () => {
     firebaseUsername,
     firebasePassword,
   );
-};
+}
 
 /** ボードを1つ取得 */
-export const getBoard = async (id: string): Promise<Core.Board> => {
+export async function getBoard(id: string): Promise<Core.Board> {
   await login();
   const ref = doc(db, "boards/", id);
   const snap = await getDoc(ref);
   const data = snap.data();
   return new Core.Board(data);
-};
+}
 
 /** ボードをすべて取得 */
-export const getAllBoards = async (): Promise<Core.Board[]> => {
+export async function getAllBoards(): Promise<Core.Board[]> {
   await login();
   const ref = collection(db, "boards");
   const snap = await getDocs(ref);
@@ -74,4 +75,10 @@ export const getAllBoards = async (): Promise<Core.Board[]> => {
     boards.push(board);
   }, null);
   return boards;
-};
+}
+
+/** ボード保存(JSONから) */
+export async function setBoard(board: any): Promise<void> {
+  const ref = doc(db, "boards", board.name);
+  await setDoc(ref, board);
+}
