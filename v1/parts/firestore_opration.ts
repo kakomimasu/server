@@ -55,12 +55,14 @@ async function login() {
 }
 
 /** ボードを1つ取得 */
-export async function getBoard(id: string): Promise<Core.Board> {
+export async function getBoard(id: string): Promise<Core.Board | undefined> {
   await login();
   const ref = doc(db, "boards/", id);
   const snap = await getDoc(ref);
   const data = snap.data();
-  return new Core.Board(data);
+  if (data) {
+    return new Core.Board(data);
+  }
 }
 
 /** ボードをすべて取得 */
