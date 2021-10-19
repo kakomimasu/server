@@ -1,11 +1,11 @@
 // Standard Library
-export { fromFileUrl } from "https://deno.land/std@0.111.0/path/mod.ts";
+export { fromFileUrl } from "https://deno.land/std@0.112.0/path/mod.ts";
 export {
   assert,
   assertEquals,
-} from "https://deno.land/std@0.111.0/testing/asserts.ts";
-export { v4 } from "https://deno.land/std@0.111.0/uuid/mod.ts";
-export * from "https://deno.land/std@0.111.0/ws/mod.ts";
+} from "https://deno.land/std@0.112.0/testing/asserts.ts";
+export { v4 } from "https://deno.land/std@0.112.0/uuid/mod.ts";
+export * from "https://deno.land/std@0.112.0/ws/mod.ts";
 
 // Third Party Modules
 export * from "https://deno.land/x/dotenv@v3.0.0/mod.ts";
