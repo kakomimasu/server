@@ -9,7 +9,7 @@
         "read": true,
         "run": true,
         "write": true,
-        "net": "0.0.0.0,www.googleapis.com,registry.npmjs.org",
+        "net": true,
         "env": true
       }
     },
