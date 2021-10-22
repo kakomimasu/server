@@ -3,13 +3,13 @@
   "watch": false,
   "scripts": {
     "start": {
-      "cmd": "deno run server.ts",
+      "cmd": "deno run --location http://localhost server.ts",
       "desc": "run server.ts file",
       "allow": {
         "read": true,
         "run": true,
         "write": true,
-        "net": "0.0.0.0,www.googleapis.com,registry.npmjs.org",
+        "net": true,
         "env": true
       }
     },
