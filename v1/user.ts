@@ -6,7 +6,7 @@ import {
   jsonResponse,
   randomUUID,
 } from "./util.ts";
-import { UserFileOp } from "./parts/file_opration.ts";
+import { getAllUsers, setAllUsers } from "./parts/firestore_opration.ts";
 import { errors, ServerError } from "./error.ts";
 import { ExpGame } from "./parts/expKakomimasu.ts";
 import { getPayload } from "./parts/jwt.ts";
@@ -59,15 +59,17 @@ class User implements IUser {
 class Users {
   private users: Array<User> = [];
 
-  constructor() {
-    this.read();
-  }
+  static init = async () => {
+    const u = new Users();
+    await u.read();
+    return u;
+  };
 
-  read = () => {
-    const usersData = UserFileOp.read();
+  read = async () => {
+    const usersData = await getAllUsers();
     this.users = usersData.map((e) => new User(e));
   };
-  save = () => UserFileOp.save(this.users.map((e) => e.noSafe()));
+  save = () => setAllUsers(this.users.map((e) => e.noSafe()));
 
   dataCheck(games: ExpGame[]) {
     this.users.forEach((user) => user.dataCheck(games));
