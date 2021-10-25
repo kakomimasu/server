@@ -13,6 +13,6 @@ export * from "https://deno.land/x/servest@v1.3.4/mod.ts";
 export * from "https://deno.land/x/servest@v1.3.4/middleware/cors.ts";
 export * from "https://deno.land/x/djwt@v2.3/mod.ts";
 
-export * as Core from "https://raw.githubusercontent.com/codeforkosen/Kakomimasu/v1.0.0/Kakomimasu.js";
+export * as Core from "https://raw.githubusercontent.com/codeforkosen/Kakomimasu/master/mod.ts";
 
 export { default as ApiClient } from "https://raw.githubusercontent.com/kakomimasu/client-js/main/mod.ts";

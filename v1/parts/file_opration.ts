@@ -103,9 +103,28 @@ export class BoardFileOp {
       if (this.mtime?.getTime() !== stat.mtime?.getTime()) {
         this.boards.length = 0;
         for (const dirEntry of Deno.readDirSync(this.dir)) {
-          const json = readJsonFileSync(`${this.dir}/${dirEntry.name}`);
-          json.points = json.points.flat();
-          this.boards.push(new Core.Board(json));
+          const {
+            width: w,
+            height: h,
+            points: points_,
+            nagent,
+            nturn,
+            nsec,
+            nplayer,
+            name,
+          } = readJsonFileSync(`${this.dir}/${dirEntry.name}`);
+          const points = points_.flat();
+          const boardData = {
+            w,
+            h,
+            points,
+            nagent,
+            nturn,
+            nsec,
+            nplayer,
+            name,
+          };
+          this.boards.push(new Core.Board(boardData));
         }
         this.mtime = stat.mtime;
       }

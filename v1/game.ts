@@ -29,7 +29,9 @@ export const gameRouter = () => {
 
       let game: ExpGame;
       if (!reqJson.option?.dryRun) {
-        game = kkmm.createGame(board, reqJson.name);
+        game = new ExpGame(board, reqJson.name);
+        kkmm.addGame(game);
+        //game = kkmm.createGame(board, reqJson.name);
         game.type = "self";
 
         const changeFunc = sendGame(game);
