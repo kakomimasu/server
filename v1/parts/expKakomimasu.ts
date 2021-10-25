@@ -44,9 +44,6 @@ class ExpGame extends Core.Game {
     game.field.field = data.field.field;
     game.log = data.log;
     game.turn = data.turn;
-    game.agents = data.agents.map((agents) =>
-      agents.map((agent) => Core.Agent.restore(agent, game.board, game.field))
-    );
     game.startedAtUnixTime = data.startedAtUnixTime;
     game.reservedUsers = data.reservedUsers;
     game.type = data.type || "normal";
@@ -136,22 +133,10 @@ class ExpGame extends Core.Game {
   }
 }
 
-class ExpKakomimasu extends Core.Kakomimasu<ExpGame, Player> {
-  createGame(...param: ConstructorParameters<typeof ExpGame>) {
-    const game = new ExpGame(...param);
-    this.games.push(game);
-    return game;
-  }
-
+class ExpKakomimasu extends Core.Kakomimasu<ExpGame> {
   getFreeGames() {
     const games = super.getFreeGames();
     return games.filter((game) => game.type === "normal");
-  }
-
-  createPlayer(...param: ConstructorParameters<typeof Core.Player>) {
-    const [playername, spec] = param;
-    if (spec == null) return new Player(playername);
-    else return new Player(playername, spec);
   }
 }
 

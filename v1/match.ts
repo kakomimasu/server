@@ -21,22 +21,17 @@ import {
   MatchReq,
 } from "./types.ts";
 import { auth } from "./middleware.ts";
+import { ExpGame, Player } from "./parts/expKakomimasu.ts";
 
 const env = config({
   path: resolve("../.env"),
   defaults: resolve("../.env.default"),
 });
-const boardname = env.boardname; // || "E-1"; // "F-1" "A-1"
-import { getBoard } from "./parts/firestore_opration.ts";
+const boardname = env.boardname as string | undefined; // || "E-1"; // "F-1" "A-1"
+import { getAllBoards, getBoard } from "./parts/firestore_opration.ts";
 
-const getRandomBoardName = async () => {
-  const bd = Deno.readDir(resolve("./board"));
-  const list = [];
-  for await (const b of bd) {
-    if (b.name.endsWith(".json")) {
-      list.push(b.name.substring(0, b.name.length - 5));
-    }
-  }
+const getRandomBoard = async () => {
+  const list = await getAllBoards(); //Deno.readDir(resolve("./board"));
   return list[Math.floor(Math.random() * list.length)];
 };
 
@@ -74,7 +69,8 @@ export const matchRouter = () => {
       const user = accounts.getUsers().find((user) => user.id === authedUserId);
       if (!user) throw new ServerError(errors.NOT_USER);
 
-      const player = kkmm.createPlayer(user.id, reqData.spec);
+      const player = new Player(user.id, reqData.spec);
+      //const player = kkmm.createPlayer(user.id, reqData.spec);
       if (reqData.gameId) {
         const game = kkmm.getGames().find((
           game,
@@ -92,12 +88,12 @@ export const matchRouter = () => {
           "https://raw.githubusercontent.com/kakomimasu/client-deno/main/";
         const ai = aiList.find((e) => e.name === reqData.aiOption?.aiName);
         if (!ai) throw new ServerError(errors.NOT_AI);
-        const bname = reqData.aiOption?.boardName || boardname ||
-          await getRandomBoardName();
-        const brd = await getBoard(bname); //readBoard(bname);
+        const bname = reqData.aiOption?.boardName || boardname;
+        const brd = bname ? await getBoard(bname) : await getRandomBoard(); //readBoard(bname);
         if (!brd) throw new ServerError(errors.INVALID_BOARD_NAME);
         if (!reqData.option?.dryRun) {
-          const game = kkmm.createGame(brd);
+          const game = new ExpGame(brd);
+          kkmm.addGame(game);
           game.name =
             `対AI戦：${user.screenName}(@${user.name}) vs AI(${ai.name})`;
 
@@ -137,10 +133,11 @@ export const matchRouter = () => {
         const freeGame = kkmm.getFreeGames();
         if (!reqData.option?.dryRun) {
           if (freeGame.length === 0) {
-            const bname = boardname || await getRandomBoardName();
-            const brd = await getBoard(bname); //readBoard(bname);
+            const bname = boardname;
+            const brd = bname ? await getBoard(bname) : await getRandomBoard(); //readBoard(bname);
             if (!brd) throw new ServerError(errors.INVALID_BOARD_NAME);
-            const game = kkmm.createGame(brd);
+            const game = new ExpGame(brd);
+            //const game = kkmm.createGame(brd);
             game.changeFuncs.push(sendGame(game));
             freeGame.push(game);
           }
