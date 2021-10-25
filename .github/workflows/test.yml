@@ -33,11 +33,17 @@ jobs:
           deno cache ./server.ts
       - name: Run test
         if: ${{ runner.os == 'Windows' }}
+        env:
+          FIREBASE_USERNAME: ${{secrets.FIREBASE_USERNAME}}
+          FIREBASE_PASSWORD: ${{secrets.FIREBASE_PASSWORD}}
         run: |
-          deno run -A server.ts > $null &
+          deno run -A --location http://localhost server.ts > $null &
           deno test -A
       - name: Run test
         if: ${{ runner.os != 'Windows' }}
+        env:
+          FIREBASE_USERNAME: ${{secrets.FIREBASE_USERNAME}}
+          FIREBASE_PASSWORD: ${{secrets.FIREBASE_PASSWORD}}
         run: |
-          deno run -A server.ts > /dev/null &
+          deno run -A --location http://localhost server.ts > /dev/null &
           deno test -A
