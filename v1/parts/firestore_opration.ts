@@ -4,10 +4,9 @@ import {
   collection,
   doc,
   getAuth,
-  getDoc,
-  getDocs,
   getFirestore,
   initializeApp,
+  onSnapshot,
   setDoc,
   signInWithEmailAndPassword,
 } from "../../deps.ts";
@@ -22,6 +21,8 @@ const conf = {
   appId: "1:883142143351:web:dc6ddc1158aa54ada74572",
   measurementId: "G-L43FT511YW",
 };
+
+const boards: Map<string, Core.Board> = new Map();
 
 initializeApp(conf);
 const auth = getAuth();
@@ -54,70 +55,58 @@ async function login() {
   );
 }
 
+const unsub = onSnapshot(collection(db, "boards"), (snapshot: any) => {
+  snapshot.docChanges().forEach((change: any) => {
+    const type = change.type;
+    const data = change.doc.data();
+    const board = createBoard(data);
+    if (type === "added" || type === "modified") {
+      boards.set(board.name, board);
+      //console.log("New city: ", change.doc.data());
+    } else if (change.type === "removed") {
+      boards.delete(board.name);
+      //  console.log("Removed city: ", change.doc.data());
+    }
+  });
+  //console.log(querySnapshot);
+});
+
 /** ボードを1つ取得 */
 export async function getBoard(id: string): Promise<Core.Board | undefined> {
-  await login();
-  const ref = doc(db, "boards/", id);
-  const snap = await getDoc(ref);
-  const data = snap.data();
-  if (data) {
-    const {
-      width: w,
-      height: h,
-      points: points,
-      nagent,
-      nturn,
-      nsec,
-      nplayer,
-      name,
-    } = data;
-    return new Core.Board({
-      w,
-      h,
-      points,
-      nagent,
-      nturn,
-      nsec,
-      nplayer,
-      name,
-    });
-  }
+  return boards.get(id);
 }
 
 /** ボードをすべて取得 */
 export async function getAllBoards(): Promise<Core.Board[]> {
-  await login();
-  const ref = collection(db, "boards");
-  const snap = await getDocs(ref);
-  const boards: Core.Board[] = [];
-  snap.forEach((doc: any) => {
-    const {
-      width: w,
-      height: h,
-      points: points,
-      nagent,
-      nturn,
-      nsec,
-      nplayer,
-      name,
-    } = doc.data();
-    const board = new Core.Board({
-      w,
-      h,
-      points,
-      nagent,
-      nturn,
-      nsec,
-      nplayer,
-      name,
-    });
-    boards.push(board);
-  }, null);
-  return boards;
+  return Array.from(boards.values());
 }
 
 /** ボード保存(JSONから) */
 export async function setBoard(board: any): Promise<void> {
   const ref = doc(db, "boards", board.name);
   await setDoc(ref, board);
+}
+
+function createBoard(firestoreData: any) {
+  const {
+    width: w,
+    height: h,
+    points: points,
+    nagent,
+    nturn,
+    nsec,
+    nplayer,
+    name,
+  } = firestoreData;
+  const board = new Core.Board({
+    w,
+    h,
+    points,
+    nagent,
+    nturn,
+    nsec,
+    nplayer,
+    name,
+  });
+  return board;
 }
