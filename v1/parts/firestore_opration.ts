@@ -26,6 +26,7 @@ const boards: Map<string, Core.Board> = new Map();
 
 initializeApp(conf);
 const auth = getAuth();
+await login();
 const db = getFirestore();
 
 /** 管理ユーザでログイン */
