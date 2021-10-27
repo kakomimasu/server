@@ -24,36 +24,37 @@ const conf = {
 
 const boards: Map<string, Core.Board> = new Map();
 
-const app = initializeApp(conf);
-const auth = getAuth(app);
+initializeApp(conf);
+const auth = getAuth();
 //await login();
-const db = getFirestore(app);
+const db = getFirestore();
 
 /** 管理ユーザでログイン */
-const resolve = pathResolver(import.meta);
-const env = config({
-  path: resolve("../../.env"),
-  defaults: resolve("../../.env.default"),
-});
+async function login() {
+  if (auth.currentUser) {
+    return;
+  }
+  const resolve = pathResolver(import.meta);
+  const env = config({
+    path: resolve("../../.env"),
+    defaults: resolve("../../.env.default"),
+  });
 
-let firebaseUsername: string | undefined = env.FIREBASE_USERNAME;
-if (firebaseUsername === undefined) {
-  firebaseUsername = Deno.env.get("FIREBASE_USERNAME");
-}
-let firebasePassword: string | undefined = env.FIREBASE_PASSWORD;
-if (firebasePassword === undefined) {
-  firebasePassword = Deno.env.get("FIREBASE_PASSWORD");
-}
-if (firebaseUsername === undefined || firebasePassword === undefined) {
-  throw Error("env invalid from Firebase");
-}
+  let firebaseUsername: string | undefined = env.FIREBASE_USERNAME;
+  if (firebaseUsername === undefined) {
+    firebaseUsername = Deno.env.get("FIREBASE_USERNAME");
+  }
+  let firebasePassword: string | undefined = env.FIREBASE_PASSWORD;
+  if (firebasePassword === undefined) {
+    firebasePassword = Deno.env.get("FIREBASE_PASSWORD");
+  }
 
-await signInWithEmailAndPassword(
-  auth,
-  firebaseUsername,
-  firebasePassword,
-);
-console.log("login success");
+  await signInWithEmailAndPassword(
+    auth,
+    firebaseUsername,
+    firebasePassword,
+  );
+}
 
 const unsub = onSnapshot(collection(db, "boards"), (snapshot: any) => {
   snapshot.docChanges().forEach((change: any) => {
@@ -62,10 +63,10 @@ const unsub = onSnapshot(collection(db, "boards"), (snapshot: any) => {
     const board = createBoard(data);
     if (type === "added" || type === "modified") {
       boards.set(board.name, board);
-      //console.log("New city: ", change.doc.data());
+      //console.log("New board: ", change.doc.data());
     } else if (change.type === "removed") {
       boards.delete(board.name);
-      //  console.log("Removed city: ", change.doc.data());
+      //  console.log("Removed board: ", change.doc.data());
     }
   });
   //console.log(querySnapshot);
