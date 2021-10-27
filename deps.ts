@@ -34,6 +34,7 @@ export {
   getDoc,
   getDocs,
   getFirestore,
+  onSnapshot,
   setDoc,
   writeBatch,
 } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
