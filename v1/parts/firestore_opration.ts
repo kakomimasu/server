@@ -26,7 +26,6 @@ const boards: Map<string, Core.Board> = new Map();
 
 initializeApp(conf);
 const auth = getAuth();
-//await login();
 const db = getFirestore();
 
 /** 管理ユーザでログイン */
@@ -56,6 +55,7 @@ async function login() {
   );
 }
 
+await login();
 const unsub = onSnapshot(collection(db, "boards"), (snapshot: any) => {
   snapshot.docChanges().forEach((change: any) => {
     const type = change.type;
@@ -71,6 +71,11 @@ const unsub = onSnapshot(collection(db, "boards"), (snapshot: any) => {
   });
   //console.log(querySnapshot);
 });
+
+window.onunload = () => {
+  console.log("unload");
+  unsub();
+};
 
 /** ボードを1つ取得 */
 export function getBoard(id: string) {
