@@ -24,37 +24,36 @@ const conf = {
 
 const boards: Map<string, Core.Board> = new Map();
 
-initializeApp(conf);
-const auth = getAuth();
-await login();
-const db = getFirestore();
+const app = initializeApp(conf);
+const auth = getAuth(app);
+//await login();
+const db = getFirestore(app);
 
 /** 管理ユーザでログイン */
-async function login() {
-  if (auth.currentUser) {
-    return;
-  }
-  const resolve = pathResolver(import.meta);
-  const env = config({
-    path: resolve("../../.env"),
-    defaults: resolve("../../.env.default"),
-  });
+const resolve = pathResolver(import.meta);
+const env = config({
+  path: resolve("../../.env"),
+  defaults: resolve("../../.env.default"),
+});
 
-  let firebaseUsername: string | undefined = env.FIREBASE_USERNAME;
-  if (firebaseUsername === undefined) {
-    firebaseUsername = Deno.env.get("FIREBASE_USERNAME");
-  }
-  let firebasePassword: string | undefined = env.FIREBASE_PASSWORD;
-  if (firebasePassword === undefined) {
-    firebasePassword = Deno.env.get("FIREBASE_PASSWORD");
-  }
-
-  await signInWithEmailAndPassword(
-    auth,
-    firebaseUsername,
-    firebasePassword,
-  );
+let firebaseUsername: string | undefined = env.FIREBASE_USERNAME;
+if (firebaseUsername === undefined) {
+  firebaseUsername = Deno.env.get("FIREBASE_USERNAME");
 }
+let firebasePassword: string | undefined = env.FIREBASE_PASSWORD;
+if (firebasePassword === undefined) {
+  firebasePassword = Deno.env.get("FIREBASE_PASSWORD");
+}
+if (firebaseUsername === undefined || firebasePassword === undefined) {
+  throw Error("env invalid from Firebase");
+}
+
+await signInWithEmailAndPassword(
+  auth,
+  firebaseUsername,
+  firebasePassword,
+);
+console.log("login success");
 
 const unsub = onSnapshot(collection(db, "boards"), (snapshot: any) => {
   snapshot.docChanges().forEach((change: any) => {
