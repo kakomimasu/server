@@ -72,12 +72,12 @@ const unsub = onSnapshot(collection(db, "boards"), (snapshot: any) => {
 });
 
 /** ボードを1つ取得 */
-export async function getBoard(id: string): Promise<Core.Board | undefined> {
+export function getBoard(id: string) {
   return boards.get(id);
 }
 
 /** ボードをすべて取得 */
-export async function getAllBoards(): Promise<Core.Board[]> {
+export function getAllBoards() {
   return Array.from(boards.values());
 }
 
