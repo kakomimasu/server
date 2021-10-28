@@ -71,6 +71,8 @@ const unsub = onSnapshot(collection(db, "boards"), (snapshot: any) => {
       boards.delete(board.name);
       //  console.log("Removed board: ", change.doc.data());
     }
+  }, (error: any) => {
+    console.error(error);
   });
   //console.log(querySnapshot);
 });
