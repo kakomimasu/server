@@ -20,6 +20,7 @@ const conf = {
   messagingSenderId: "883142143351",
   appId: "1:883142143351:web:dc6ddc1158aa54ada74572",
   measurementId: "G-L43FT511YW",
+  databaseURL: "https://kakomimasu.firebaseio.com",
 };
 
 const boards: Map<string, Core.Board> = new Map();
@@ -73,11 +74,6 @@ const unsub = onSnapshot(collection(db, "boards"), (snapshot: any) => {
   });
   //console.log(querySnapshot);
 });
-
-window.onunload = () => {
-  console.log("unload");
-  unsub();
-};
 
 /** ボードを1つ取得 */
 export function getBoard(id: string) {
