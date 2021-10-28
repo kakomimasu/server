@@ -30,6 +30,7 @@ const db = getFirestore();
 
 /** 管理ユーザでログイン */
 async function login() {
+  console.error("login start");
   if (auth.currentUser) {
     return;
   }
@@ -53,6 +54,7 @@ async function login() {
     firebaseUsername,
     firebasePassword,
   );
+  console.error("logined");
 }
 
 await login();
