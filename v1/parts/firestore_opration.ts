@@ -66,7 +66,7 @@ const unsub = onSnapshot(collection(db, "boards"), (snapshot: any) => {
     const board = createBoard(data);
     if (type === "added" || type === "modified") {
       boards.set(board.name, board);
-      //console.log("New board: ", change.doc.data());
+      console.error("New board: ", change.doc.data());
     } else if (change.type === "removed") {
       boards.delete(board.name);
       //  console.log("Removed board: ", change.doc.data());
