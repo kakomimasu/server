@@ -1,13 +1,12 @@
 import { config, Core } from "../../deps.ts";
 import { pathResolver } from "../util.ts";
 import {
-  collection,
-  doc,
+  get,
   getAuth,
-  getDocs,
-  getFirestore,
+  getDatabase,
   initializeApp,
-  setDoc,
+  ref,
+  set,
   signInWithEmailAndPassword,
 } from "../../deps.ts";
 
@@ -24,9 +23,9 @@ const conf = {
 
 const boards: Map<string, Core.Board> = new Map();
 
-initializeApp(conf);
+const app = initializeApp(conf);
 const auth = getAuth();
-const db = getFirestore();
+const db = getDatabase(app, "https://kakomimasu-default-rtdb.firebaseio.com/");
 await getAllBoardsFromFirestore();
 
 /** 管理ユーザでログイン */
@@ -86,8 +85,8 @@ export function getAllBoards() {
 
 /** ボード保存(JSONから) */
 export async function setBoard(board: any): Promise<void> {
-  const ref = doc(db, "boards", board.name);
-  await setDoc(ref, board);
+  const ref2 = ref(db, "boards/" + board.name);
+  await set(ref2, board);
 }
 
 function createBoard(firestoreData: any) {
@@ -116,10 +115,10 @@ function createBoard(firestoreData: any) {
 
 async function getAllBoardsFromFirestore() {
   await login();
-  const ref = collection(db, "boards");
-  const snap = await getDocs(ref);
+  const ref2 = ref(db, "boards");
+  const snap = await get(ref2);
   snap.forEach((doc: any) => {
-    const board = createBoard(doc.data());
+    const board = createBoard(doc.val());
     boards.set(board.name, board);
     //boards.push(board);
   }, null);

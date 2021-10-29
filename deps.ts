@@ -27,14 +27,8 @@ export {
 } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
 
 export {
-  addDoc,
-  collection,
-  connectFirestoreEmulator,
-  doc,
-  getDoc,
-  getDocs,
-  getFirestore,
-  onSnapshot,
-  setDoc,
-  writeBatch,
-} from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
+  get,
+  getDatabase,
+  ref,
+  set,
+} from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";
