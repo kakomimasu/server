@@ -24,9 +24,9 @@ const conf = {
 
 const boards: Map<string, Core.Board> = new Map();
 
-initializeApp(conf);
-const auth = getAuth();
-const db = getFirestore();
+const app = initializeApp(conf);
+const auth = getAuth(app);
+const db = getFirestore(app);
 await getAllBoardsFromFirestore();
 
 /** 管理ユーザでログイン */
