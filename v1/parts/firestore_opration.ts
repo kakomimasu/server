@@ -4,9 +4,9 @@ import {
   collection,
   doc,
   getAuth,
+  getDocs,
   getFirestore,
   initializeApp,
-  onSnapshot,
   setDoc,
   signInWithEmailAndPassword,
 } from "../../deps.ts";
@@ -20,7 +20,6 @@ const conf = {
   messagingSenderId: "883142143351",
   appId: "1:883142143351:web:dc6ddc1158aa54ada74572",
   measurementId: "G-L43FT511YW",
-  databaseURL: "https://kakomimasu.firebaseio.com",
 };
 
 const boards: Map<string, Core.Board> = new Map();
@@ -28,10 +27,10 @@ const boards: Map<string, Core.Board> = new Map();
 initializeApp(conf);
 const auth = getAuth();
 const db = getFirestore();
+await getAllBoardsFromFirestore();
 
 /** 管理ユーザでログイン */
 async function login() {
-  console.error("login start");
   if (auth.currentUser) {
     return;
   }
@@ -55,18 +54,16 @@ async function login() {
     firebaseUsername,
     firebasePassword,
   );
-  console.error("logined");
 }
 
-await login();
-const unsub = onSnapshot(collection(db, "boards"), (snapshot: any) => {
+/*const unsub = onSnapshot(collection(db, "boards"), (snapshot: any) => {
   snapshot.docChanges().forEach((change: any) => {
     const type = change.type;
     const data = change.doc.data();
     const board = createBoard(data);
     if (type === "added" || type === "modified") {
       boards.set(board.name, board);
-      console.error("New board: ", change.doc.data());
+      //console.error("New board: ", change.doc.data());
     } else if (change.type === "removed") {
       boards.delete(board.name);
       //  console.log("Removed board: ", change.doc.data());
@@ -75,7 +72,7 @@ const unsub = onSnapshot(collection(db, "boards"), (snapshot: any) => {
     console.error(error);
   });
   //console.log(querySnapshot);
-});
+});*/
 
 /** ボードを1つ取得 */
 export function getBoard(id: string) {
@@ -115,4 +112,15 @@ function createBoard(firestoreData: any) {
     name,
   });
   return board;
+}
+
+async function getAllBoardsFromFirestore() {
+  await login();
+  const ref = collection(db, "boards");
+  const snap = await getDocs(ref);
+  snap.forEach((doc: any) => {
+    const board = createBoard(doc.data());
+    boards.set(board.name, board);
+    //boards.push(board);
+  }, null);
 }
