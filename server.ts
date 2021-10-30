@@ -12,7 +12,7 @@ const env = config({
 });
 const port = parseInt(env.port);
 
-import { LogFileOp } from "./v1/parts/file_opration.ts";
+import { getAllGames } from "./v1/parts/firestore_opration.ts";
 
 import { tournamentRouter, tournaments } from "./v1/tournament.ts";
 import { accounts, userRouter } from "./v1/user.ts";
@@ -21,7 +21,7 @@ import { matchRouter } from "./v1/match.ts";
 import { wsRoutes } from "./v1/ws.ts";
 
 export const kkmm = new ExpKakomimasu();
-kkmm.games.push(...LogFileOp.read());
+kkmm.games.push(...await getAllGames());
 
 accounts.dataCheck(kkmm.getGames());
 tournaments.dataCheck(kkmm.getGames());
