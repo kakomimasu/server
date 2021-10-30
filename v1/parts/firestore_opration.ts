@@ -57,7 +57,15 @@ async function login() {
 /** 全ユーザ保存 */
 export async function setAllUsers(users: IUser[]): Promise<void> {
   const usersRef = ref(db, "users");
-  await set(usersRef, users);
+  const users2 = users.map((a) => ({
+    screenName: a.screenName,
+    name: a.name,
+    id: a.id,
+    password: a.password,
+    gamesId: a.gamesId,
+    bearerToken: a.bearerToken,
+  }));
+  await set(usersRef, users2);
 }
 
 /** 全ユーザ取得 */
