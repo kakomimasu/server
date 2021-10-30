@@ -153,7 +153,26 @@ export async function getBoard(id: string): Promise<Core.Board | undefined> {
   const snap = await getDoc(ref);
   const data = snap.data();
   if (data) {
-    return new Core.Board(data);
+    const {
+      width: w,
+      height: h,
+      points: points,
+      nagent,
+      nturn,
+      nsec,
+      nplayer,
+      name,
+    } = data;
+    return new Core.Board({
+      w,
+      h,
+      points,
+      nagent,
+      nturn,
+      nsec,
+      nplayer,
+      name,
+    });
   }
 }
 
@@ -164,8 +183,26 @@ export async function getAllBoards(): Promise<Core.Board[]> {
   const snap = await getDocs(ref);
   const boards: Core.Board[] = [];
   snap.forEach((doc: any) => {
-    const data = doc.data();
-    const board = new Core.Board(data);
+    const {
+      width: w,
+      height: h,
+      points: points,
+      nagent,
+      nturn,
+      nsec,
+      nplayer,
+      name,
+    } = doc.data();
+    const board = new Core.Board({
+      w,
+      h,
+      points,
+      nagent,
+      nturn,
+      nsec,
+      nplayer,
+      name,
+    });
     boards.push(board);
   }, null);
   return boards;

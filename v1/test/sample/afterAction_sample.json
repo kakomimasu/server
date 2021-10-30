@@ -1,5 +1,4 @@
 {
-  "gameId": "0e135484-f3ba-47a0-8655-d74bd7abb2bf",
   "gaming": true,
   "ending": false,
   "board": {
@@ -116,410 +115,410 @@
   "turn": 2,
   "totalTurn": 30,
   "tiled": [
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      1,
-      0
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ],
-    [
-      0,
-      -1
-    ]
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 1,
+      "player": 0
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    },
+    {
+      "type": 0,
+      "player": null
+    }
   ],
   "players": [
     {
-      "id": "983177e0-beb9-4d19-8a75-3ac23cf5b5d7",
+      "id": "ea8dac53-7311-48cb-b008-210a2f69ad5a",
       "agents": [
         {
           "x": 1,
@@ -560,7 +559,7 @@
       }
     },
     {
-      "id": "983177e0-beb9-4d19-8a75-3ac23cf5b5d7",
+      "id": "ea8dac53-7311-48cb-b008-210a2f69ad5a",
       "agents": [
         {
           "x": -1,
@@ -602,34 +601,37 @@
     }
   ],
   "log": [
-    [
-      {
-        "point": {
-          "basepoint": 0,
-          "wallpoint": 5
+    {
+      "players": [
+        {
+          "point": {
+            "basepoint": 0,
+            "wallpoint": 5
+          },
+          "actions": [
+            {
+              "agentId": 0,
+              "type": 1,
+              "x": 1,
+              "y": 1,
+              "res": 0
+            }
+          ]
         },
-        "actions": [
-          {
-            "agentId": 0,
-            "type": 1,
-            "x": 1,
-            "y": 1,
-            "res": 0
-          }
-        ]
-      },
-      {
-        "point": {
-          "basepoint": 0,
-          "wallpoint": 0
-        },
-        "actions": []
-      }
-    ]
+        {
+          "point": {
+            "basepoint": 0,
+            "wallpoint": 0
+          },
+          "actions": []
+        }
+      ]
+    }
   ],
+  "gameId": "12c1bc2b-96be-435f-ac2a-d9ed46c24af6",
   "gameName": "test",
-  "startedAtUnixTime": 1623071465,
-  "nextTurnUnixTime": 1623071467,
+  "startedAtUnixTime": 1634863288,
+  "nextTurnUnixTime": 1634863290,
   "reservedUsers": [],
   "type": "self"
 }
