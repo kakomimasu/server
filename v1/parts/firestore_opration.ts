@@ -1,7 +1,6 @@
 import { config, Core } from "../../deps.ts";
 import type { IUser } from "../user.ts";
 import { Tournament as ITournament } from "../types.ts";
-import { ExpGame } from "../parts/expKakomimasu.ts";
 import { pathResolver } from "../util.ts";
 import {
   get,
@@ -11,7 +10,6 @@ import {
   ref,
   set,
   signInWithEmailAndPassword,
-  writeBatch,
 } from "../../deps.ts";
 
 // 初期化
@@ -24,8 +22,6 @@ const conf = {
   appId: "1:883142143351:web:dc6ddc1158aa54ada74572",
   measurementId: "G-L43FT511YW",
 };
-
-const boards: Map<string, Core.Board> = new Map();
 
 const app = initializeApp(conf);
 const auth = getAuth();
@@ -60,41 +56,18 @@ async function login() {
 
 /** 全ユーザ保存 */
 export async function setAllUsers(users: IUser[]): Promise<void> {
-  const batch = writeBatch(db);
-  for (const u of users) {
-    const data: any = {
-      screenName: u.screenName,
-      name: u.name,
-      id: u.id,
-      gamesId: u.gamesId,
-      bearerToken: u.bearerToken,
-    };
-    if (u.password != null) {
-      data.password = u.password;
-    }
-    const ref = doc(db, "users", u.id);
-    batch.set(ref, data);
-  }
-  await batch.commit();
+  const usersRef = ref(db, "users");
+  await set(usersRef, users);
 }
 
 /** 全ユーザ取得 */
 export async function getAllUsers(): Promise<IUser[]> {
   const users: IUser[] = [];
-  const ref = collection(db, "users");
-  const snap = await getDocs(ref);
+  const usersRef = ref(db, "users");
+  const snap = await get(usersRef);
   snap.forEach((doc: any) => {
-    const data = doc.data();
-    const user = {
-      screenName: data.screenName,
-      name: data.name,
-      id: data.id,
-      password: data.password,
-      gamesId: data.gamesId,
-      bearerToken: data.bearerToken,
-    };
-    users.push(user);
-  }, null);
+    users.push(doc.val());
+  });
   return users;
 }
 
@@ -102,47 +75,18 @@ export async function getAllUsers(): Promise<IUser[]> {
 export async function setAllTournaments(
   tournaments: ITournament[],
 ): Promise<void> {
-  const batch = writeBatch(db);
-  for (const t of tournaments) {
-    const data = {
-      name: t.name,
-      organizer: t.organizer,
-      type: t.type,
-      remarks: t.remarks,
-    } as any;
-    if (t.id != null) {
-      data.id = t.id;
-    }
-    if (t.users != null) {
-      data.users = t.users;
-    }
-    if (t.gameIds != null) {
-      data.gameIds = t.gameIds;
-    }
-    const ref = doc(db, "tournaments", t.id);
-    batch.set(ref, data);
-  }
-  await batch.commit();
+  const tournamentsRef = ref(db, "tournaments");
+  await set(tournamentsRef, tournaments);
 }
 
 /** 全大会取得 */
 export async function getAllTournaments(): Promise<ITournament[]> {
   const tournaments: ITournament[] = [];
-  const ref = collection(db, "tournaments");
-  const snap = await getDocs(ref);
+  const usersRef = ref(db, "tournaments");
+  const snap = await get(usersRef);
   snap.forEach((doc: any) => {
-    const data = doc.data();
-    const tournament = {
-      id: data.id,
-      name: data.name,
-      organizer: data.organizer,
-      type: data.type,
-      remarks: data.remarks,
-      users: data.users,
-      gameIds: data.gameIds,
-    };
-    tournaments.push(tournament);
-  }, null);
+    tournaments.push(doc.val());
+  });
   return tournaments;
 }
 
