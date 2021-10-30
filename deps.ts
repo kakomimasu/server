@@ -17,23 +17,18 @@ export * as Core from "https://raw.githubusercontent.com/codeforkosen/Kakomimasu
 
 export { default as ApiClient } from "https://raw.githubusercontent.com/kakomimasu/client-js/main/mod.ts";
 
-export { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js";
+export { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
 
 export {
   connectAuthEmulator,
   getAuth,
   signInWithEmailAndPassword,
   signOut,
-} from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
 
 export {
-  addDoc,
-  collection,
-  connectFirestoreEmulator,
-  doc,
-  getDoc,
-  getDocs,
-  getFirestore,
-  setDoc,
-  writeBatch,
-} from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
+  get,
+  getDatabase,
+  ref,
+  set,
+} from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";

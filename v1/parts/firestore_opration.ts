@@ -1,14 +1,12 @@
 import { config, Core } from "../../deps.ts";
 import { pathResolver } from "../util.ts";
 import {
-  collection,
-  doc,
+  get,
   getAuth,
-  getDoc,
-  getDocs,
-  getFirestore,
+  getDatabase,
   initializeApp,
-  setDoc,
+  ref,
+  set,
   signInWithEmailAndPassword,
 } from "../../deps.ts";
 
@@ -23,9 +21,11 @@ const conf = {
   measurementId: "G-L43FT511YW",
 };
 
-initializeApp(conf);
+const boards: Map<string, Core.Board> = new Map();
+
+const app = initializeApp(conf);
 const auth = getAuth();
-const db = getFirestore();
+const db = getDatabase(app, "https://kakomimasu-default-rtdb.firebaseio.com/");
 
 /** 管理ユーザでログイン */
 async function login() {
@@ -55,69 +55,51 @@ async function login() {
 }
 
 /** ボードを1つ取得 */
-export async function getBoard(id: string): Promise<Core.Board | undefined> {
-  await login();
-  const ref = doc(db, "boards/", id);
-  const snap = await getDoc(ref);
-  const data = snap.data();
-  if (data) {
-    const {
-      width: w,
-      height: h,
-      points: points,
-      nagent,
-      nturn,
-      nsec,
-      nplayer,
-      name,
-    } = data;
-    return new Core.Board({
-      w,
-      h,
-      points,
-      nagent,
-      nturn,
-      nsec,
-      nplayer,
-      name,
-    });
-  }
+export async function getBoard(id: string): Promise<Core.Board> {
+  const boardsRef = ref(db, "boards/" + id);
+  const snap = await get(boardsRef);
+  const board = createBoard(snap.val());
+  return board;
 }
 
 /** ボードをすべて取得 */
 export async function getAllBoards(): Promise<Core.Board[]> {
   await login();
-  const ref = collection(db, "boards");
-  const snap = await getDocs(ref);
+  const boardsRef = ref(db, "boards");
+  const snap = await get(boardsRef);
   const boards: Core.Board[] = [];
   snap.forEach((doc: any) => {
-    const {
-      width: w,
-      height: h,
-      points: points,
-      nagent,
-      nturn,
-      nsec,
-      nplayer,
-      name,
-    } = doc.data();
-    const board = new Core.Board({
-      w,
-      h,
-      points,
-      nagent,
-      nturn,
-      nsec,
-      nplayer,
-      name,
-    });
-    boards.push(board);
-  }, null);
+    boards.push(createBoard(doc.val()));
+  });
   return boards;
 }
 
 /** ボード保存(JSONから) */
 export async function setBoard(board: any): Promise<void> {
-  const ref = doc(db, "boards", board.name);
-  await setDoc(ref, board);
+  const boardsRef = ref(db, "boards/" + board.name);
+  await set(boardsRef, board);
+}
+
+function createBoard(data: any) {
+  const {
+    width: w,
+    height: h,
+    points: points,
+    nagent,
+    nturn,
+    nsec,
+    nplayer,
+    name,
+  } = data;
+  const board = new Core.Board({
+    w,
+    h,
+    points,
+    nagent,
+    nturn,
+    nsec,
+    nplayer,
+    name,
+  });
+  return board;
 }
