@@ -57,15 +57,23 @@ async function login() {
 
 /** 全ユーザ保存 */
 export async function setAllUsers(users: IUser[]): Promise<void> {
+  if (users.length == 0) {
+    return;
+  }
   const usersRef = ref(db, "users");
-  const users2 = users.map((a) => ({
-    screenName: a.screenName,
-    name: a.name,
-    id: a.id,
-    password: a.password,
-    gamesId: a.gamesId,
-    bearerToken: a.bearerToken,
-  }));
+  const users2 = users.map((a) => {
+    const b: any = {
+      screenName: a.screenName,
+      name: a.name,
+      id: a.id,
+      gamesId: a.gamesId,
+      bearerToken: a.bearerToken,
+    };
+    if (a.password != undefined) {
+      b.password = a.password;
+    }
+    return b;
+  });
   await set(usersRef, users2);
 }
 
