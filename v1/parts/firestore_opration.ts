@@ -1,6 +1,7 @@
 import { config, Core } from "../../deps.ts";
 import type { IUser } from "../user.ts";
 import { Tournament as ITournament } from "../types.ts";
+import { ExpGame } from "./expKakomimasu.ts";
 import { pathResolver } from "../util.ts";
 import {
   get,
@@ -96,6 +97,27 @@ export async function getAllTournaments(): Promise<ITournament[]> {
     tournaments.push(doc.val());
   });
   return tournaments;
+}
+
+/** 全ゲーム保存 */
+export async function setGame(
+  game: ExpGame,
+): Promise<void> {
+  const gameRef = ref(db, "games/" + game.uuid);
+  const gameJson = game.toLogJSON();
+  await set(gameRef, gameJson);
+}
+
+/** 全ゲーム取得 */
+export async function getAllGames(): Promise<ExpGame[]> {
+  const games: ExpGame[] = [];
+  const gamesRef = ref(db, "games");
+  const snap = await get(gamesRef);
+  snap.forEach((doc: any) => {
+    const game = ExpGame.restore(doc.val());
+    games.push(game);
+  });
+  return games;
 }
 
 /** ボードを1つ取得 */
