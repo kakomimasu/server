@@ -24,10 +24,10 @@ const filterGame = (game: ExpGame, searchOptions: SearchOptions) => {
   let isMatched = true;
   searchOptions.forEach((so) => {
     if (so.op === "is") {
-      if (so.value === "self" && game.type !== "self") {
+      if (so.value === "self" && game.getType() !== "self") {
         isMatched = false;
       }
-      if (so.value === "normal" && game.type !== "normal") {
+      if (so.value === "normal" && game.getType() !== "normal") {
         isMatched = false;
       }
     }

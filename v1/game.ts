@@ -32,7 +32,7 @@ export const gameRouter = () => {
         game = new ExpGame(board, reqJson.name);
         kkmm.addGame(game);
         //game = kkmm.createGame(board, reqJson.name);
-        game.type = "self";
+        game.setType("self");
 
         const changeFunc = sendGame(game);
         game.changeFuncs.push(changeFunc);

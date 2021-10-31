@@ -22,7 +22,8 @@ class ExpGame extends Core.Game {
   public startedAtUnixTime: number | null;
   public changeFuncs: (((id: string) => void) | (() => void))[];
   public reservedUsers: string[];
-  public type: "normal" | "self";
+  private type: "normal" | "self"; // | "personal";
+  //public personalUserId: string | null;
 
   constructor(board: Core.Board, name?: string) {
     super(board);
@@ -48,6 +49,13 @@ class ExpGame extends Core.Game {
     game.reservedUsers = data.reservedUsers;
     game.type = data.type || "normal";
     return game;
+  }
+
+  setType(type: typeof ExpGame.prototype.type) {
+    this.type = type;
+  }
+  getType() {
+    return this.type;
   }
 
   attachPlayer(player: Player) {
@@ -136,7 +144,7 @@ class ExpGame extends Core.Game {
 class ExpKakomimasu extends Core.Kakomimasu<ExpGame> {
   getFreeGames() {
     const games = super.getFreeGames();
-    return games.filter((game) => game.type === "normal");
+    return games.filter((game) => game.getType() === "normal");
   }
 }
 
