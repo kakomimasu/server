@@ -6,7 +6,10 @@ import {
   jsonResponse,
   randomUUID,
 } from "./util.ts";
-import { TournamentFileOp } from "./parts/file_opration.ts";
+import {
+  getAllTournaments,
+  setAllTournaments,
+} from "./parts/firestore_opration.ts";
 import { accounts } from "./user.ts";
 import { errors, ServerError } from "./error.ts";
 import { ExpGame } from "./parts/expKakomimasu.ts";
@@ -63,17 +66,20 @@ export class Tournament implements ITournament {
 export class Tournaments {
   private tournaments: Tournament[] = [];
 
-  constructor() {
-    this.read();
-  }
-  read = () => {
+  static init = async () => {
+    const t = new Tournaments();
+    await t.read();
+    return t;
+  };
+
+  read = async () => {
     this.tournaments.length = 0;
-    const data = TournamentFileOp.read();
+    const data = await getAllTournaments();
     data.forEach((e) => {
       this.tournaments.push(new Tournament(e));
     });
   };
-  save = () => TournamentFileOp.save(this.tournaments);
+  save = () => setAllTournaments(this.tournaments);
 
   dataCheck(games: ExpGame[]) {
     this.tournaments.forEach((tournament) => {
@@ -119,7 +125,7 @@ export class Tournaments {
   }
 }
 
-export const tournaments = new Tournaments();
+export const tournaments = await Tournaments.init();
 
 export const tournamentRouter = () => {
   const router = createRouter();

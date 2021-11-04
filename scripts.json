@@ -13,6 +13,17 @@
         "env": true
       }
     },
+    "test": {
+      "cmd": "deno test --location http://localhost",
+      "desc": "test server.ts file",
+      "allow": {
+        "read": true,
+        "run": true,
+        "write": true,
+        "net": true,
+        "env": true
+      }
+    },
     "fmt-check": {
       "cmd": "deno fmt -c deno.json --check .",
       "desc": "format code (only check)"
