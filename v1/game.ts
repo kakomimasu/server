@@ -8,6 +8,7 @@ import { kkmm } from "../server.ts";
 import { tournaments } from "./tournament.ts";
 import { getAllBoards, getBoard } from "./parts/firestore_opration.ts";
 import { GameCreateReq } from "./types.ts";
+import { auth } from "./middleware.ts";
 
 import { ExpGame } from "./parts/expKakomimasu.ts";
 
@@ -17,6 +18,7 @@ export const gameRouter = () => {
   router.post(
     "/create",
     contentTypeFilter("application/json"),
+    auth({ bearer: true, required: false }),
     jsonParse(),
     async (req) => {
       const reqJson = req.get("data") as GameCreateReq;
@@ -32,12 +34,19 @@ export const gameRouter = () => {
         game = new ExpGame(board, reqJson.name);
         kkmm.addGame(game);
         //game = kkmm.createGame(board, reqJson.name);
-        game.type = "self";
-
         const changeFunc = sendGame(game);
         game.changeFuncs.push(changeFunc);
         changeFunc();
       } else game = new ExpGame(board, reqJson.name);
+
+      if (reqJson.isMySelf) {
+        const authedUserId = req.getString("authed_userId");
+        console.log(authedUserId);
+        if (authedUserId) game.setType("personal", authedUserId);
+        else {
+          throw new ServerError(errors.UNAUTHORIZED);
+        }
+      } else game.setType("self");
 
       if (reqJson.playerIdentifiers) {
         if (reqJson.playerIdentifiers.map) {

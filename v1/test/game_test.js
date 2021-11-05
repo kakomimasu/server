@@ -43,6 +43,7 @@ const data = {
 // テスト項目
 // 正常、ボード名無し、ユーザ無し、既に登録済みのユーザ、playerIdentifiers無効
 // 存在しないトーナメントID
+// personal game通常、personal game auth invalid
 Deno.test("v1/game/create:normal", async () => {
   const res = await ac.gameCreate({ ...data, option: { dryRun: true } });
   assertGame(res.data, data);
@@ -117,6 +118,29 @@ Deno.test("v1/game/create:invalid tournament id", async () => {
     option: { dryRun: true },
   });
   assertEquals(res.data, errors.INVALID_TOURNAMENT_ID);
+});
+Deno.test("v1/game/create with personal game:normal", async () => {
+  const uuid = randomUUID();
+  const userData = { screenName: uuid, name: uuid, password: uuid };
+  const userRes = await ac.usersRegist(userData);
+  userData.id = userRes.data.id;
+
+  const res = await ac.gameCreate({
+    ...data,
+    isMySelf: true,
+    option: { dryRun: true },
+  }, `Bearer ${userRes.data.bearerToken}`);
+  assertGame(res.data, data);
+
+  await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
+});
+Deno.test("v1/game/create with personal game:invalid auth", async () => {
+  const res = await ac.gameCreate({
+    ...data,
+    isMySelf: true,
+    option: { dryRun: true },
+  });
+  assertEquals(res.data, errors.UNAUTHORIZED);
 });
 
 // /v1/game/boards Test

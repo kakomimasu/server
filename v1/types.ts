@@ -46,6 +46,7 @@ export interface GameCreateReq extends ApiOption {
   nPlayer?: number;
   playerIdentifiers?: string[];
   tournamentId?: string;
+  isMySelf?: boolean;
 }
 
 export interface MatchReq extends ApiOption {
