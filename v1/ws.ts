@@ -3,9 +3,14 @@ import type { WsGameRes } from "./types.ts";
 import { ExpGame } from "./parts/expKakomimasu.ts";
 
 import { kkmm } from "../server.ts";
+import { accounts } from "./user.ts";
 
 type SearchOptions = { op: string; value: string }[];
-type MapValue = { searchOption: SearchOptions; gameIds: string[] };
+type MapValue = {
+  searchOption: SearchOptions;
+  gameIds: string[];
+  authedUserId?: string;
+};
 const clients = new Map<WebSocket, MapValue>();
 
 const analyzeStringSearchOption = (q: string) => {
@@ -20,14 +25,21 @@ const analyzeStringSearchOption = (q: string) => {
   return qs;
 };
 
-const filterGame = (game: ExpGame, searchOptions: SearchOptions) => {
+const filterGame = (
+  game: ExpGame,
+  { searchOption, authedUserId }: MapValue,
+) => {
   let isMatched = true;
-  searchOptions.forEach((so) => {
+  searchOption.forEach((so) => {
     if (so.op === "is") {
       if (so.value === "self" && game.getType() !== "self") {
         isMatched = false;
       }
       if (so.value === "normal" && game.getType() !== "normal") {
+        isMatched = false;
+      }
+      //console.log("filterGame", so.value, game.personalUserId, authedUserId);
+      if (so.value === "personal" && game.personalUserId !== authedUserId) {
         isMatched = false;
       }
     }
@@ -55,7 +67,7 @@ export function sendGame(game: ExpGame) {
         } else return;
       }
 
-      if (!filterGame(game, value.searchOption)) return;
+      if (!filterGame(game, value)) return;
       const data: WsGameRes = {
         type: "update",
         game: game.toJSON(),
@@ -69,10 +81,21 @@ export const wsRoutes = () => {
   const router = createRouter();
   router.ws(
     "/game",
-    async (sock) => {
+    async (sock, res) => {
       //console.log("ws connected.");
-      const client: MapValue = { searchOption: [], gameIds: [] };
+      const bearerToken = res.headers.get("sec-websocket-protocol");
+      const user = accounts.getUsers().find((user) =>
+        user.bearerToken === bearerToken
+      );
+      //console.log("ws", user);
+
+      const client: MapValue = {
+        searchOption: [],
+        gameIds: [],
+        authedUserId: user?.id,
+      };
       clients.set(sock, client);
+      //console.log("ws client", clients);
 
       try {
         for await (const ev of sock) {
@@ -103,7 +126,7 @@ export const wsRoutes = () => {
                 (b.startedAtUnixTime ?? 10000000000);
             }
             return 0;
-          }).filter((game) => filterGame(game, searchOptions));
+          }).filter((game) => filterGame(game, client));
 
           const gamesNum = games.length;
           const slicedGames = games.slice(sIdx, eIdx);
