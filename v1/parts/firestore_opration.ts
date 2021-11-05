@@ -113,7 +113,8 @@ export async function setGame(
 ): Promise<void> {
   const gameRef = ref(db, "games/" + game.uuid);
   const gameJson = game.toLogJSON();
-  await set(gameRef, gameJson);
+  const gameJson2 = JSON.parse(JSON.stringify(gameJson));
+  await set(gameRef, gameJson2);
 }
 
 /** 全ゲーム取得 */

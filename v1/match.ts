@@ -140,6 +140,7 @@ export const matchRouter = () => {
             //const game = kkmm.createGame(brd);
             game.changeFuncs.push(sendGame(game));
             freeGame.push(game);
+            kkmm.addGame(game);
           }
           freeGame[0].attachPlayer(player);
           //console.log(player);
