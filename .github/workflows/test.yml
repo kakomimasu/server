@@ -38,7 +38,7 @@ jobs:
           FIREBASE_PASSWORD: ${{secrets.FIREBASE_PASSWORD}}
         run: |
           deno run -A --location http://localhost server.ts > $null &
-          deno test -A
+          deno test -A --location http://localhost
       - name: Run test
         if: ${{ runner.os != 'Windows' }}
         env:
@@ -46,4 +46,4 @@ jobs:
           FIREBASE_PASSWORD: ${{secrets.FIREBASE_PASSWORD}}
         run: |
           deno run -A --location http://localhost server.ts > /dev/null &
-          deno test -A
+          deno test -A --location http://localhost

@@ -1,7 +1,7 @@
 import { Core } from "../../deps.ts";
 import { nowUnixTime, randomUUID } from "../util.ts";
 
-import { LogFileOp } from "./file_opration.ts";
+import { setGame } from "./firestore_opration.ts";
 
 import { accounts } from "../user.ts";
 
@@ -95,7 +95,7 @@ class ExpGame extends Core.Game {
           this.updateStatus();
         }, diff);
       } else if (this.ending) { // ゲーム終了後
-        LogFileOp.save(this);
+        setGame(this);
 
         //console.log("turn", this.turn);
       } // ゲーム開始前
