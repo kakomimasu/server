@@ -13,45 +13,21 @@ import {
   signInWithEmailAndPassword,
 } from "../../deps.ts";
 
-// 初期化
-const conf = {
-  apiKey: "AIzaSyBOas3O1fmIrl51n7I_hC09YCG0EEe7tlc",
-  authDomain: "kakomimasu.firebaseapp.com",
-  projectId: "kakomimasu",
-  storageBucket: "kakomimasu.appspot.com",
-  messagingSenderId: "883142143351",
-  appId: "1:883142143351:web:dc6ddc1158aa54ada74572",
-  measurementId: "G-L43FT511YW",
-};
-
-const app = initializeApp(conf);
+const setting = getSetting();
+const app = initializeApp(setting.conf);
 const auth = getAuth();
-const db = getDatabase(app, "https://kakomimasu-default-rtdb.firebaseio.com/");
+const db = getDatabase(app, setting.dbURL);
 
 /** 管理ユーザでログイン */
 async function login() {
   if (auth.currentUser) {
     return;
   }
-  const resolve = pathResolver(import.meta);
-  const env = config({
-    path: resolve("../../.env"),
-    defaults: resolve("../../.env.default"),
-  });
-
-  let firebaseUsername: string | undefined = env.FIREBASE_USERNAME;
-  if (firebaseUsername === undefined) {
-    firebaseUsername = Deno.env.get("FIREBASE_USERNAME");
-  }
-  let firebasePassword: string | undefined = env.FIREBASE_PASSWORD;
-  if (firebasePassword === undefined) {
-    firebasePassword = Deno.env.get("FIREBASE_PASSWORD");
-  }
 
   await signInWithEmailAndPassword(
     auth,
-    firebaseUsername,
-    firebasePassword,
+    setting.username,
+    setting.password,
   );
 }
 
@@ -177,4 +153,53 @@ function createBoard(data: any) {
     name,
   });
   return board;
+}
+
+function getSetting() {
+  const resolve = pathResolver(import.meta);
+  const env = config({
+    path: resolve("../../.env"),
+    defaults: resolve("../../.env.default"),
+  });
+
+  // 初期化
+  let firebaseTest: string | undefined = env.FIREBASE_TEST;
+  if (firebaseTest === undefined) {
+    firebaseTest = Deno.env.get("FIREBASE_TEST");
+  }
+  let username: string | undefined = env.FIREBASE_USERNAME;
+  if (username === undefined) {
+    username = Deno.env.get("FIREBASE_USERNAME");
+  }
+  let password: string | undefined = env.FIREBASE_PASSWORD;
+  if (password === undefined) {
+    password = Deno.env.get("FIREBASE_PASSWORD");
+  }
+
+  let conf;
+  let dbURL;
+  if (firebaseTest === "true") {
+    conf = {
+      apiKey: "AIzaSyCIzvSrMgYAV2SVIPbRMSaHWjsdLDk781A",
+      authDomain: "kakomimasu-test.firebaseapp.com",
+      projectId: "kakomimasu-test",
+      storageBucket: "kakomimasu-test.appspot.com",
+      messagingSenderId: "35306968138",
+      appId: "1:35306968138:web:513405a81673c8415e42b3",
+    };
+    dbURL = "https://kakomimasu-test-default-rtdb.firebaseio.com/";
+  } else {
+    conf = {
+      apiKey: "AIzaSyBOas3O1fmIrl51n7I_hC09YCG0EEe7tlc",
+      authDomain: "kakomimasu.firebaseapp.com",
+      projectId: "kakomimasu",
+      storageBucket: "kakomimasu.appspot.com",
+      messagingSenderId: "883142143351",
+      appId: "1:883142143351:web:dc6ddc1158aa54ada74572",
+      measurementId: "G-L43FT511YW",
+    };
+    dbURL = "https://kakomimasu-default-rtdb.firebaseio.com/";
+  }
+
+  return { conf, dbURL, username, password };
 }
