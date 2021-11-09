@@ -36,6 +36,7 @@ jobs:
         env:
           FIREBASE_USERNAME: ${{secrets.FIREBASE_USERNAME}}
           FIREBASE_PASSWORD: ${{secrets.FIREBASE_PASSWORD}}
+          FIREBASE_TEST: true
         run: |
           deno run -A --location http://localhost server.ts > $null &
           deno test -A --location http://localhost
@@ -44,6 +45,7 @@ jobs:
         env:
           FIREBASE_USERNAME: ${{secrets.FIREBASE_USERNAME}}
           FIREBASE_PASSWORD: ${{secrets.FIREBASE_PASSWORD}}
+          FIREBASE_TEST: true
         run: |
           deno run -A --location http://localhost server.ts > /dev/null &
           deno test -A --location http://localhost
