@@ -38,6 +38,7 @@ export async function setAllUsers(users: IUser[]): Promise<void> {
   }
   const usersRef = ref(db, "users");
   const users2 = users.map((a) => {
+    // deno-lint-ignore no-explicit-any
     const b: any = {
       screenName: a.screenName,
       name: a.name,
@@ -58,6 +59,7 @@ export async function getAllUsers(): Promise<IUser[]> {
   const users: IUser[] = [];
   const usersRef = ref(db, "users");
   const snap = await get(usersRef);
+  // deno-lint-ignore no-explicit-any
   snap.forEach((doc: any) => {
     users.push(doc.val());
   });
@@ -77,6 +79,7 @@ export async function getAllTournaments(): Promise<ITournament[]> {
   const tournaments: ITournament[] = [];
   const usersRef = ref(db, "tournaments");
   const snap = await get(usersRef);
+  // deno-lint-ignore no-explicit-any
   snap.forEach((doc: any) => {
     tournaments.push(doc.val());
   });
@@ -98,6 +101,7 @@ export async function getAllGames(): Promise<ExpGame[]> {
   const games: ExpGame[] = [];
   const gamesRef = ref(db, "games");
   const snap = await get(gamesRef);
+  // deno-lint-ignore no-explicit-any
   snap.forEach((doc: any) => {
     const game = ExpGame.restore(doc.val());
     games.push(game);
@@ -119,6 +123,7 @@ export async function getAllBoards(): Promise<Core.Board[]> {
   const boardsRef = ref(db, "boards");
   const snap = await get(boardsRef);
   const boards: Core.Board[] = [];
+  // deno-lint-ignore no-explicit-any
   snap.forEach((doc: any) => {
     boards.push(createBoard(doc.val()));
   });
@@ -126,11 +131,13 @@ export async function getAllBoards(): Promise<Core.Board[]> {
 }
 
 /** ボード保存(JSONから) */
+// deno-lint-ignore no-explicit-any
 export async function setBoard(board: any): Promise<void> {
   const boardsRef = ref(db, "boards/" + board.name);
   await set(boardsRef, board);
 }
 
+// deno-lint-ignore no-explicit-any
 function createBoard(data: any) {
   const {
     width: w,

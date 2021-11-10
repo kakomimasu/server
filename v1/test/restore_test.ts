@@ -1,4 +1,4 @@
-import { assert, assertEquals, Core } from "../../deps.ts";
+import { assertEquals, Core } from "../../deps.ts";
 import { ExpGame } from "../parts/expKakomimasu.ts";
 
 Deno.test("restore ExpGame class", () => {
