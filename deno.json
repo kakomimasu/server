@@ -1,13 +1,11 @@
 {
   "fmt": {
     "files": {
-      "include": ["*"],
       "exclude": ["v1/data/"]
     }
   },
   "lint": {
     "files": {
-      "include": ["*"]
     }
   }
 }
