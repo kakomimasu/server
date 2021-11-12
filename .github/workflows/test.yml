@@ -4,18 +4,9 @@ on: [push,pull_request]
 
 jobs:
   check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: denoland/setup-deno@v1
-        with:
-          deno-version: v1.x
-      - name: Run fmt
-        run: |
-          deno fmt -c ./deno.json --check .
-      - name: Run lint
-        run: |
-          deno lint -c ./deno.json .
+    uses: kakomimasu/kakomimasu.github.io/.github/workflows/dfl-check.yml@main
+    with:
+      config_file: deno.json
 
   test:
     needs: check
