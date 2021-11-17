@@ -8,6 +8,16 @@ jobs:
     with:
       config_file: deno.json
 
+  start-emulator:
+    needs: check
+    runs-on: ubuntu-latest
+    services:
+      firebase-emulator:
+        image: ghcr.io/kakomimasu/firebase-emulator:latest
+        ports:
+          - 8080:8080
+          - 9000:9000
+          - 9099:9099
   test:
     needs: check
     runs-on: ${{ matrix.os }}
@@ -25,8 +35,8 @@ jobs:
       - name: Run test
         if: ${{ runner.os == 'Windows' }}
         env:
-          FIREBASE_USERNAME: ${{secrets.FIREBASE_USERNAME}}
-          FIREBASE_PASSWORD: ${{secrets.FIREBASE_PASSWORD}}
+          FIREBASE_USERNAME: test@example.com
+          FIREBASE_PASSWORD: server-admin
           FIREBASE_TEST: true
         run: |
           deno run -A --location http://localhost server.ts > $null &

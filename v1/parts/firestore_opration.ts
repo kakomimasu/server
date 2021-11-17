@@ -4,6 +4,8 @@ import { Tournament as ITournament } from "../types.ts";
 import { ExpGame } from "./expKakomimasu.ts";
 import { pathResolver } from "../util.ts";
 import {
+  connectAuthEmulator,
+  connectDatabaseEmulator,
   get,
   getAuth,
   getDatabase,
@@ -13,10 +15,14 @@ import {
   signInWithEmailAndPassword,
 } from "../../deps.ts";
 
+const isTest = Deno.env.get("FIREBASE_TEST") === "true";
+
 const setting = getSetting();
 const app = initializeApp(setting.conf);
 const auth = getAuth();
+isTest && connectAuthEmulator(auth, "http://localhost:9099", undefined);
 const db = getDatabase(app, setting.dbURL);
+isTest && connectDatabaseEmulator(db, "localhost", 9000);
 
 /** 管理ユーザでログイン */
 async function login() {
@@ -185,7 +191,7 @@ function getSetting() {
 
   let conf;
   let dbURL;
-  if (firebaseTest === "true") {
+  /*if (firebaseTest === "true") {
     conf = {
       apiKey: "AIzaSyCIzvSrMgYAV2SVIPbRMSaHWjsdLDk781A",
       authDomain: "kakomimasu-test.firebaseapp.com",
@@ -196,17 +202,18 @@ function getSetting() {
     };
     dbURL = "https://kakomimasu-test-default-rtdb.firebaseio.com/";
   } else {
-    conf = {
-      apiKey: "AIzaSyBOas3O1fmIrl51n7I_hC09YCG0EEe7tlc",
-      authDomain: "kakomimasu.firebaseapp.com",
-      projectId: "kakomimasu",
-      storageBucket: "kakomimasu.appspot.com",
-      messagingSenderId: "883142143351",
-      appId: "1:883142143351:web:dc6ddc1158aa54ada74572",
-      measurementId: "G-L43FT511YW",
-    };
-    dbURL = "https://kakomimasu-default-rtdb.firebaseio.com/";
-  }
+    */
+  conf = {
+    apiKey: "AIzaSyBOas3O1fmIrl51n7I_hC09YCG0EEe7tlc",
+    authDomain: "kakomimasu.firebaseapp.com",
+    projectId: "kakomimasu",
+    storageBucket: "kakomimasu.appspot.com",
+    messagingSenderId: "883142143351",
+    appId: "1:883142143351:web:dc6ddc1158aa54ada74572",
+    measurementId: "G-L43FT511YW",
+  };
+  dbURL = "https://kakomimasu-default-rtdb.firebaseio.com/";
+  //}
 
   return { conf, dbURL, username, password };
 }
