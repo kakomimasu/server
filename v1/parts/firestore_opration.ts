@@ -189,8 +189,8 @@ function getSetting() {
     password = Deno.env.get("FIREBASE_PASSWORD");
   }
 
-  let conf;
-  let dbURL;
+  //let conf;
+  //let dbURL;
   /*if (firebaseTest === "true") {
     conf = {
       apiKey: "AIzaSyCIzvSrMgYAV2SVIPbRMSaHWjsdLDk781A",
@@ -203,7 +203,7 @@ function getSetting() {
     dbURL = "https://kakomimasu-test-default-rtdb.firebaseio.com/";
   } else {
     */
-  conf = {
+  const conf = {
     apiKey: "AIzaSyBOas3O1fmIrl51n7I_hC09YCG0EEe7tlc",
     authDomain: "kakomimasu.firebaseapp.com",
     projectId: "kakomimasu",
@@ -212,7 +212,7 @@ function getSetting() {
     appId: "1:883142143351:web:dc6ddc1158aa54ada74572",
     measurementId: "G-L43FT511YW",
   };
-  dbURL = "https://kakomimasu-default-rtdb.firebaseio.com/";
+  const dbURL = "https://kakomimasu-default-rtdb.firebaseio.com/";
   //}
 
   return { conf, dbURL, username, password };
