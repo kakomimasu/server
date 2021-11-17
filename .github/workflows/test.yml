@@ -7,8 +7,7 @@ jobs:
     uses: kakomimasu/kakomimasu.github.io/.github/workflows/dfl-check.yml@main
     with:
       config_file: deno.json
-
-  start-emulator:
+  test:
     needs: check
     runs-on: ubuntu-latest
     services:
@@ -18,12 +17,6 @@ jobs:
           - 8080:8080
           - 9000:9000
           - 9099:9099
-  test:
-    needs: check
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest,macos-latest,windows-latest]
     steps:
       - uses: actions/checkout@v2
       - uses: denoland/setup-deno@v1
