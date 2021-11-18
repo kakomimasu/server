@@ -7,13 +7,16 @@ jobs:
     uses: kakomimasu/kakomimasu.github.io/.github/workflows/dfl-check.yml@main
     with:
       config_file: deno.json
-
   test:
     needs: check
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest,macos-latest,windows-latest]
+    runs-on: ubuntu-latest
+    services:
+      firebase-emulator:
+        image: ghcr.io/kakomimasu/firebase-emulator:latest
+        ports:
+          - 8080:8080
+          - 9000:9000
+          - 9099:9099
     steps:
       - uses: actions/checkout@v2
       - uses: denoland/setup-deno@v1
@@ -25,8 +28,8 @@ jobs:
       - name: Run test
         if: ${{ runner.os == 'Windows' }}
         env:
-          FIREBASE_USERNAME: ${{secrets.FIREBASE_USERNAME}}
-          FIREBASE_PASSWORD: ${{secrets.FIREBASE_PASSWORD}}
+          FIREBASE_USERNAME: test@example.com
+          FIREBASE_PASSWORD: server-admin
           FIREBASE_TEST: true
         run: |
           deno run -A --location http://localhost server.ts > $null &
@@ -34,8 +37,8 @@ jobs:
       - name: Run test
         if: ${{ runner.os != 'Windows' }}
         env:
-          FIREBASE_USERNAME: ${{secrets.FIREBASE_USERNAME}}
-          FIREBASE_PASSWORD: ${{secrets.FIREBASE_PASSWORD}}
+          FIREBASE_USERNAME: test@example.com
+          FIREBASE_PASSWORD: server-admin
           FIREBASE_TEST: true
         run: |
           deno run -A --location http://localhost server.ts > /dev/null &

@@ -21,12 +21,14 @@ export { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase
 
 export {
   connectAuthEmulator,
+  createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
   signOut,
 } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
 
 export {
+  connectDatabaseEmulator,
   get,
   getDatabase,
   ref,
