@@ -15,7 +15,7 @@ import {
   signInWithEmailAndPassword,
 } from "../../deps.ts";
 
-const isTest = Deno.env.get("FIREBASE_TEST") === "true";
+const isTest = Deno.env.get("FIREBASE_TEST") !== undefined;
 
 const setting = getSetting();
 const app = initializeApp(setting.conf);
