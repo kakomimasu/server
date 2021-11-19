@@ -44,16 +44,44 @@ port=8881 # 任意のポート番号を指定
 
 ## テスト
 
-サーバを起動した状態で下記を実行
+テスト時にはFirebase Emulatorとserverが立ち上がっている必要があります。以下の2種類の方法で行うことができます。
 
-```
-deno test -A
+### ローカルでサーバを立てる方法(actを使わない方法)
+
+#### 1. Firebase emulatorをDockerで起動する
+
+```console
+$ docker pull ghcr.io/kakomimasu/firebase-emulator:latest
+$ docker run -p 4000:4000 -p 8080:8080 -p 9000:9000 -p 9099:9099 -d --name firebase-emu firebase-emu:latest
 ```
 
-### [act](https://github.com/nektos/act)を用いたGithub Actionsテスト
+#### 2. server起動
 
+```console
+$ denon start
 ```
-act
+
+#### 3. テスト
+
+```console
+$ deno test -A
+```
+
+### [act](https://github.com/nektos/act)を用いた方法
+
+事前に[act](https://github.com/nektos/act)をインストールしておく必要があります。
+
+#### 1. Firebase emulatorをDockerで起動する
+
+```console
+$ docker pull ghcr.io/kakomimasu/firebase-emulator:latest
+$ docker run -p 4000:4000 -p 8080:8080 -p 9000:9000 -p 9099:9099 -d --name firebase-emu firebase-emu:latest
+```
+
+#### 2. act実行
+
+```console
+$ act
 ```
 
 # メモ
