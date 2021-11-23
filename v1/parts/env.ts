@@ -6,7 +6,7 @@ const resolve = pathResolver(import.meta);
 
 type Config = Record<string, {
   require: boolean;
-  default: string;
+  default?: string;
 }>;
 
 console.log(Colors.yellow("[env]\tCheck environment"));
@@ -42,7 +42,7 @@ Object.entries(envConfig).forEach(([key, { require, default: def }]) => {
       );
     }
   } else {
-    if (def) reqEnv[key] = value || def;
+    if (def !== undefined) reqEnv[key] = value || def;
     else nonReqEnv[key] = value;
   }
 });
@@ -73,5 +73,5 @@ Deno.env.toObject = () => {
   return oldEnvToObject();
 };
 
-//console.log(env);
+//console.log(reqEnv, nonReqEnv);
 console.log(Colors.green("[env]\tChecked environment"));

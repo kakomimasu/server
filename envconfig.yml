@@ -8,3 +8,5 @@ FIREBASE_TEST:
   default: false
 FIREBASE_USERNAME: 
   require: true
+FIREBASE_PASSWORD:
+  require: true
