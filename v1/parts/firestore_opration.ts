@@ -1,8 +1,7 @@
-import { config, Core } from "../../deps.ts";
+import { Core } from "../../deps.ts";
 import type { IUser } from "../user.ts";
 import { Tournament as ITournament } from "../types.ts";
 import { ExpGame } from "./expKakomimasu.ts";
-import { pathResolver } from "../util.ts";
 import {
   connectAuthEmulator,
   connectDatabaseEmulator,
@@ -14,8 +13,9 @@ import {
   set,
   signInWithEmailAndPassword,
 } from "../../deps.ts";
+import { reqEnv } from "./env.ts";
 
-const isTest = Deno.env.get("FIREBASE_TEST") !== undefined;
+const isTest = reqEnv.FIREBASE_TEST;
 
 const setting = getSetting();
 const app = initializeApp(setting.conf);
@@ -169,25 +169,9 @@ function createBoard(data: any) {
 }
 
 function getSetting() {
-  const resolve = pathResolver(import.meta);
-  const env = config({
-    path: resolve("../../.env"),
-    defaults: resolve("../../.env.default"),
-  });
-
   // 初期化
-  let firebaseTest: string | undefined = env.FIREBASE_TEST;
-  if (firebaseTest === undefined) {
-    firebaseTest = Deno.env.get("FIREBASE_TEST");
-  }
-  let username: string | undefined = env.FIREBASE_USERNAME;
-  if (username === undefined) {
-    username = Deno.env.get("FIREBASE_USERNAME");
-  }
-  let password: string | undefined = env.FIREBASE_PASSWORD;
-  if (password === undefined) {
-    password = Deno.env.get("FIREBASE_PASSWORD");
-  }
+  const username: string | undefined = reqEnv.FIREBASE_USERNAME;
+  const password: string | undefined = reqEnv.FIREBASE_PASSWORD;
 
   //let conf;
   //let dbURL;

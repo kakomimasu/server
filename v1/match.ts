@@ -1,19 +1,13 @@
-import { config, Core, createRouter } from "../deps.ts";
+import { Core, createRouter } from "../deps.ts";
 
-import {
-  contentTypeFilter,
-  jsonParse,
-  jsonResponse,
-  pathResolver,
-} from "./util.ts";
-
-const resolve = pathResolver(import.meta);
+import { contentTypeFilter, jsonParse, jsonResponse } from "./util.ts";
 
 import { accounts } from "./user.ts";
 import { sendGame } from "./ws.ts";
 import { errors, ServerError } from "./error.ts";
 import { kkmm } from "../server.ts";
 import { aiList } from "./parts/ai-list.ts";
+import { nonReqEnv, reqEnv } from "./parts/env.ts";
 import {
   ActionPost as IActionPost,
   ActionReq,
@@ -23,11 +17,7 @@ import {
 import { auth } from "./middleware.ts";
 import { ExpGame, Player } from "./parts/expKakomimasu.ts";
 
-const env = config({
-  path: resolve("../.env"),
-  defaults: resolve("../.env.default"),
-});
-const boardname = env.boardname as string | undefined; // || "E-1"; // "F-1" "A-1"
+const boardname = nonReqEnv.boardname; // || "E-1"; // "F-1" "A-1"
 import { getAllBoards, getBoard } from "./parts/firestore_opration.ts";
 
 const getRandomBoard = async () => {
@@ -108,7 +98,7 @@ export const matchRouter = () => {
             "--aiOnly",
             "--nolog",
             "--host",
-            `http://localhost:${env.port}`,
+            `http://localhost:${reqEnv.port}`,
             "--gameId",
             game.uuid,
           ]);
@@ -122,7 +112,7 @@ export const matchRouter = () => {
                 "--aiOnly",
                 "--nolog",
                 "--host",
-                `http://localhost:${env.port}`,
+                `http://localhost:${reqEnv.port}`,
                 "--gameId",
                 game.uuid,
               ],

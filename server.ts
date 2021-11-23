@@ -1,16 +1,12 @@
-import { config, Core, cors, createApp, createRouter } from "./deps.ts";
+import { Core, cors, createApp, createRouter } from "./deps.ts";
 
 import * as util from "./v1/util.ts";
 const resolve = util.pathResolver(import.meta);
 
 import { ExpKakomimasu } from "./v1/parts/expKakomimasu.ts";
 import { errorCodeResponse } from "./v1/error.ts";
-
-const env = config({
-  path: resolve("./.env"),
-  defaults: resolve("./.env.default"),
-});
-const port = parseInt(env.port);
+import { reqEnv } from "./v1/parts/env.ts";
+const port = parseInt(reqEnv.port);
 
 import { getAllGames } from "./v1/parts/firestore_opration.ts";
 

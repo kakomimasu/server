@@ -1,0 +1,10 @@
+port:
+  require: false
+  default: 8880
+boardname:
+  require: false
+FIREBASE_TEST:
+  require: false
+  default: false
+FIREBASE_USERNAME: 
+  require: true
