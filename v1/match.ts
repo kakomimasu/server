@@ -84,8 +84,6 @@ export const matchRouter = () => {
         }
         //accounts.addGame(user.userId, game.uuid);
       } else if (reqData.useAi) {
-        const aiFolderPath =
-          "https://raw.githubusercontent.com/kakomimasu/client-deno/main/";
         const ai = aiList.find((e) => e.name === reqData.aiOption?.aiName);
         if (!ai) throw new ServerError(errors.NOT_AI);
         const bname = reqData.aiOption?.boardName || boardname;
@@ -100,34 +98,12 @@ export const matchRouter = () => {
           game.changeFuncs.push(sendGame(game));
           game.attachPlayer(player);
           //accounts.addGame(user.userId, game.uuid);
-          console.log([
-            "deno",
-            "run",
-            "-A",
-            aiFolderPath + ai.filePath,
-            "--aiOnly",
-            "--nolog",
-            "--host",
-            `http://localhost:${env.port}`,
-            "--gameId",
-            game.uuid,
-          ]);
-          Deno.run(
-            {
-              cmd: [
-                "deno",
-                "run",
-                "-A",
-                aiFolderPath + ai.filePath,
-                "--aiOnly",
-                "--nolog",
-                "--host",
-                `http://localhost:${env.port}`,
-                "--gameId",
-                game.uuid,
-              ],
-            },
-          );
+
+          const aiClient = new ai.client();
+          console.log("server new client");
+          const aiPlayer = new Player(ai.name, "");
+          game.ai = aiClient;
+          game.attachPlayer(aiPlayer);
         }
       } else {
         const freeGame = kkmm.getFreeGames();
