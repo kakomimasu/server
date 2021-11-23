@@ -54,7 +54,7 @@ const oldEnvToObject = Deno.env.toObject;
 const oldEnvDelete = Deno.env.delete;
 const deprecatedConsoleLog = (funcName: string) =>
   console.warn(
-    Colors.red(`${funcName} is deprecated. Use '/tools/env.ts' instead.`),
+    Colors.red(`${funcName} is deprecated. Use 'v1/parts/env.ts' instead.`),
   );
 Deno.env.get = (key) => {
   deprecatedConsoleLog("Deno.env.get");
