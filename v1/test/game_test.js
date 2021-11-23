@@ -41,7 +41,7 @@ const data = {
 
 // /v1/game/create Test
 // テスト項目
-// 正常、ボード名無し、ユーザ無し、既に登録済みのユーザ、playerIdentifiers無効
+// 正常、ボード名無し、存在しないボード名、ユーザ無し、既に登録済みのユーザ、playerIdentifiers無効
 // 存在しないトーナメントID
 // personal game通常、personal game auth invalid
 Deno.test("v1/game/create:normal", async () => {
@@ -84,6 +84,16 @@ Deno.test("v1/game/create:invalid boardName", async () => {
     const res = await ac.gameCreate({
       ...data,
       boardName: null,
+      option: { dryRun: true },
+    });
+    assertEquals(res.data, errors.INVALID_BOARD_NAME);
+  }
+});
+Deno.test("v1/game/create:not exist board", async () => {
+  {
+    const res = await ac.gameCreate({
+      ...data,
+      boardName: "existboard",
       option: { dryRun: true },
     });
     assertEquals(res.data, errors.INVALID_BOARD_NAME);
