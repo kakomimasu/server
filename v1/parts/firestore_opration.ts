@@ -116,11 +116,14 @@ export async function getAllGames(): Promise<ExpGame[]> {
 }
 
 /** ボードを1つ取得 */
-export async function getBoard(id: string): Promise<Core.Board> {
+export async function getBoard(id: string): Promise<Core.Board | undefined> {
   const boardsRef = ref(db, "boards/" + id);
   const snap = await get(boardsRef);
-  const board = createBoard(snap.val());
-  return board;
+  const rawBoard = snap.val();
+  if (rawBoard) {
+    const board = createBoard(snap.val());
+    return board;
+  } else return undefined;
 }
 
 /** ボードをすべて取得 */
