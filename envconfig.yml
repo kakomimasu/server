@@ -1,0 +1,12 @@
+port: # サーバのポート
+  require: false
+  default: 8880
+boardname: # フリーマッチで使われるボード(指定なしでランダム)
+  require: false
+FIREBASE_TEST: # firebase emulatorを使うかどうか
+  require: false
+  default: false
+FIREBASE_USERNAME: # firebase の管理者ユーザ名
+  require: true
+FIREBASE_PASSWORD: # firebase の管理者パスワード
+  require: true

@@ -7,7 +7,7 @@
 ## サーバ起動方法
 
 ```console
-deno run -A server.ts
+deno run -A --location http://localhost server.ts
 ```
 
 または、[`denon`](https://github.com/denosaurs/denon)がインストールされている場合、
@@ -15,6 +15,11 @@ deno run -A server.ts
 ```console
 denon start
 ```
+
+## 環境変数
+
+感興変数はサーバ起動時にシステム変数と`.env`ファイルの両方から読み込みます。
+使用可能な環境変数については[envconfig.yml](envconfig.yml)をご覧ください。
 
 ## 機能
 
