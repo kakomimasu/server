@@ -7,7 +7,7 @@ import { sendGame } from "./ws.ts";
 import { errors, ServerError } from "./error.ts";
 import { kkmm } from "../server.ts";
 import { aiList } from "./parts/ai-list.ts";
-import { nonReqEnv, reqEnv } from "./parts/env.ts";
+import { nonReqEnv } from "./parts/env.ts";
 import {
   ActionPost as IActionPost,
   ActionReq,
