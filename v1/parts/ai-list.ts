@@ -1,13 +1,23 @@
+import {
+  Algorithm,
+  ClientA1,
+  ClientA2,
+  ClientA3,
+  ClientA4,
+  ClientA5,
+  ClientNone,
+} from "../../deps.ts";
+
 interface IAi {
   name: string;
   filePath: string;
 }
 
-export const aiList: IAi[] = [
-  { name: "none", filePath: "client_none.js" },
-  { name: "a1", filePath: "client_a1.js" },
-  { name: "a2", filePath: "client_a2.js" },
-  { name: "a3", filePath: "client_a3.js" },
-  { name: "a4", filePath: "client_a4.js" },
-  { name: "a5", filePath: "client_a5.js" },
+export const aiList: { name: string; client: typeof Algorithm }[] = [
+  { name: "none", client: ClientNone },
+  { name: "a1", client: ClientA1 },
+  { name: "a2", client: ClientA2 },
+  { name: "a3", client: ClientA3 },
+  { name: "a4", client: ClientA4 },
+  { name: "a5", client: ClientA5 },
 ];
