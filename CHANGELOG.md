@@ -6,7 +6,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/ja/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [v1.0.0-beta.4]
+## v1.0.0-beta.5
+
+### Added
+
+- fix(v1): 500エラー時にDiscordにメッセージを送れるように by @kamekyame in
+  https://github.com/kakomimasu/server/pull/107
+
+### Fixed
+
+- Deno 1.16.0に対応 by @kamekyame in https://github.com/kakomimasu/server/pull/87
+- fix(docs): READMEのテストに関する記述を変更 by @kamekyame in
+  https://github.com/kakomimasu/server/pull/100
+- fix(parts): Realtime Databaseでnullが保存できないことに起因するバグを修正 by @kamekyame in
+  https://github.com/kakomimasu/server/pull/102
+- fix(v1): DBに存在しないボード名を取得したときの処理を追加 by @kamekyame in
+  https://github.com/kakomimasu/server/pull/106
+- fix(env): 環境変数の取扱いを整理 by @kamekyame in
+  https://github.com/kakomimasu/server/pull/105
+
+### Changed
+
+- Format & Lint チェックのgh-actionsをkakomimasu.github.ioのものに変更 by @kamekyame in
+  https://github.com/kakomimasu/server/pull/92
+- GIthub actionsのテストでFirebaseのエミュレータを使用するように変更 by @kamekyame in
+  https://github.com/kakomimasu/server/pull/95
+- fix(match): ai戦に使用するaiをサブプロセスで動かさない方法に変更 by @kamekyame in
+  https://github.com/kakomimasu/server/pull/104
+
+## v1.0.0-beta.4
 
 ### Added
 
@@ -16,19 +44,19 @@ and this project adheres to
 
 - データの管理をRealtime Databaseに移行
 
-## [v1.0.0-beta.3]
+## v1.0.0-beta.3
 
 ### Fixed
 
 - `v1/types.ts`：`UserRegistReq`の`password`が必須になっていたバグを修正(#64)
 
-## [v1.0.0-beta.2]
+## v1.0.0-beta.2
 
 ### Fixed
 
 - (#52)にて変更した`/api/`パスの変更が正しく反映されていなかったバグを修正(#57)
 
-## [v1.0.0-beta.1]
+## v1.0.0-beta.1
 
 ### Changed
 
