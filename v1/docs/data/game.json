@@ -1,0 +1,80 @@
+{
+  "board": {
+    "name": "sample-board",
+    "width": 3,
+    "height": 3,
+    "nAgent": 2,
+    "nPlayer": 2,
+    "nTurn": 30,
+    "nSec": 3,
+    "points": [1, -1, 1, -1, 3, -1, 1, -1, 1]
+  },
+  "ending": false,
+  "gameId": "f0112f6a-6360-47bb-b431-bbc81e0926c0",
+  "gameName": "sample-game",
+  "gaming": false,
+  "log": [
+    {
+      "players": [
+        {
+          "point": { "basepoint": 0, "wallpoint": 0 },
+          "actions": [
+            { "agentId": 0, "type": 1, "x": 0, "y": 0, "res": 0 },
+            { "agentId": 1, "type": 1, "x": 0, "y": 1, "res": 0 }
+          ]
+        },
+        {
+          "point": { "basepoint": 0, "wallpoint": 1 },
+          "actions": [
+            { "agentId": 0, "type": 1, "x": 0, "y": 2, "res": 0 },
+            { "agentId": 1, "type": 1, "x": 0, "y": 3, "res": 5 }
+          ]
+        }
+      ]
+    },
+    {
+      "players": [
+        {
+          "point": { "basepoint": 0, "wallpoint": -1 },
+          "actions": [
+            { "agentId": 0, "type": 3, "x": 1, "y": 0, "res": 0 },
+            { "agentId": 1, "type": 3, "x": 0, "y": 2, "res": 2 }
+          ]
+        },
+        {
+          "point": { "basepoint": 0, "wallpoint": 1 },
+          "actions": [{ "agentId": 1, "type": 3, "x": 1, "y": 4, "res": 5 }]
+        }
+      ]
+    }
+  ],
+  "nextTurnUnixTime": 1638030672,
+  "players": [
+    {
+      "id": "bc7b10ae-c19f-4a6b-a7b9-d256f41c2583",
+      "agents": [{ "x": 1, "y": 0 }, { "x": 0, "y": 1 }],
+      "point": { "basepoint": 0, "wallpoint": -1 }
+    },
+    {
+      "id": "fdc9c2e0-1feb-4334-ad44-9268cde6d488",
+      "agents": [{ "x": 0, "y": 2 }, { "x": -1, "y": -1 }],
+      "point": { "basepoint": 0, "wallpoint": 1 }
+    }
+  ],
+  "reservedUsers": [],
+  "startedAtUnixTime": 1638030666,
+  "tiled": [
+    { "type": 1, "player": 0 },
+    { "type": 1, "player": 0 },
+    { "type": 0, "player": null },
+    { "type": 1, "player": 0 },
+    { "type": 0, "player": null },
+    { "type": 0, "player": null },
+    { "type": 1, "player": 1 },
+    { "type": 0, "player": null },
+    { "type": 0, "player": null }
+  ],
+  "totalTurn": 30,
+  "turn": 2,
+  "type": "normal"
+}
