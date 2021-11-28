@@ -47,6 +47,7 @@ save("game.json", gameObj);
 
 Deno.exit(0);
 
+// deno-lint-ignore no-explicit-any
 function sortObject(object: Record<string, any>) {
   const sorted: typeof object = {};
   const keys = Object.keys(object).sort((a, b) => {
@@ -59,6 +60,8 @@ function sortObject(object: Record<string, any>) {
   }
   return sorted;
 }
+
+// deno-lint-ignore no-explicit-any
 function save(name: string, data: any) {
   Deno.writeTextFileSync(
     resolve("../docs/data/" + name),
