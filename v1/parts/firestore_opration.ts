@@ -21,9 +21,13 @@ const setting = getSetting();
 const app = initializeApp(setting.conf);
 const auth = getAuth();
 isTest &&
-  connectAuthEmulator(auth, "http://host.docker.internal:9099", undefined);
+  connectAuthEmulator(
+    auth,
+    `http://${reqEnv.FIREBASE_EMULATOR_HOST}:9099`,
+    undefined,
+  );
 const db = getDatabase(app, setting.dbURL);
-isTest && connectDatabaseEmulator(db, "host.docker.internal", 9000);
+isTest && connectDatabaseEmulator(db, reqEnv.FIREBASE_EMULATOR_HOST, 9000);
 
 /** 管理ユーザでログイン */
 async function login() {

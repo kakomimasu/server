@@ -8,6 +8,9 @@ DISCORD_WEBHOOK_URL: # 予期しないエラーが発生したときにDiscord�
 FIREBASE_TEST: # firebase emulatorを使うかどうか
   require: false
   default: false
+FIREBASE_EMULATOR_HOST:
+  require: false
+  default: "localhost"
 FIREBASE_USERNAME: # firebase の管理者ユーザ名
   require: true
 FIREBASE_PASSWORD: # firebase の管理者パスワード
