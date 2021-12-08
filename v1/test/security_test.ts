@@ -1,4 +1,4 @@
-import { assertEquals } from "../../deps.ts";
+import { assertEquals } from "../../deps-test.ts";
 
 const host = "http://localhost:8880";
 

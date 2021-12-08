@@ -1,4 +1,4 @@
-import { assert } from "../../deps.ts";
+import { assert } from "../../deps-test.ts";
 import { randomUUID } from "../util.ts";
 
 const authRequiredUrlList = [

@@ -1,6 +1,6 @@
-import { ApiClient, assert, assertEquals, v4 } from "../../deps.ts";
+import { assert, assertEquals, v4 } from "../../deps-test.ts";
+import ApiClient from "../../client/client.ts";
 
-//import { assert, assertEquals, test } from "../../asserts.js";
 import { pathResolver, randomUUID } from "../util.ts";
 import { diffTime, sleep } from "./client_util.ts";
 

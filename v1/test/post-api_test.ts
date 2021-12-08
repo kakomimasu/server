@@ -1,4 +1,6 @@
-import { ApiClient, assertEquals } from "../../deps.ts";
+import { assertEquals } from "../../deps-test.ts";
+
+import ApiClient from "../../client/client.ts";
 import { errors } from "../error.ts";
 import { randomUUID } from "../util.ts";
 
