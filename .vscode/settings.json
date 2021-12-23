@@ -29,5 +29,8 @@
   "files.exclude": {
     "public/app.bundle.js": true
   },
-  "files.eol": "\n"
+  "files.eol": "\n",
+  "deno.codeLens.referencesAllFunctions": true,
+  "deno.codeLens.implementations": true,
+  "deno.codeLens.references": true
 }
