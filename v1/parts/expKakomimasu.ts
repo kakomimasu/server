@@ -8,11 +8,24 @@ import { accounts } from "../user.ts";
 import { Game as GameType } from "../types.ts";
 
 class Player extends Core.Player<ExpGame> {
+  public pic: string;
+  constructor(...args: ConstructorParameters<typeof Core.Player>) {
+    super(...args);
+    this.pic = Player.generatePic();
+  }
+
   getJSON() {
     return {
       ...super.getJSON(),
       gameId: this.game?.uuid,
+      pic: this.pic,
     };
+  }
+
+  private static generatePic() {
+    const rnd = Math.random();
+    const str = ("000000" + Math.floor(rnd * 1000000)).slice(-6);
+    return str;
   }
 }
 

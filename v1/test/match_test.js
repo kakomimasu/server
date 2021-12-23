@@ -18,6 +18,7 @@ const assertMatch = (match, sample = {}) => {
   if (sample_.gameId) assertEquals(match_.gameId, sample_.gameId);
   assertEquals(typeof match_.index, "number");
   if (sample_.index) assertEquals(match_.index, sample_.index);
+  assertEquals(match.pic.length, 6);
 };
 
 const assertGame = (game, sample = {}) => {

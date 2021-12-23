@@ -64,6 +64,7 @@ export interface MatchRes {
   spec: string;
   gameId: string;
   index: number;
+  pic: string;
 }
 
 export interface ActionPost {

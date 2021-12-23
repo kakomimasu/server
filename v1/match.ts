@@ -13,6 +13,7 @@ import {
   ActionReq,
   ActionRes,
   MatchReq,
+  MatchRes,
 } from "./types.ts";
 import { auth } from "./middleware.ts";
 import { ExpGame, Player } from "./parts/expKakomimasu.ts";
@@ -112,7 +113,12 @@ export const matchRouter = () => {
           //console.log(player);
         }
       }
-      await req.respond(jsonResponse(player.getJSON()));
+      const { gameId, ...rawRes } = player.getJSON();
+      if (gameId === undefined) {
+        throw new Error("gameId is not found"); // TODO: gameIdがundefinedになることはないはずだが、Playerクラス上はあり得る。どこかで型をチェックするべき
+      }
+      const res: MatchRes = { ...rawRes, gameId }; // 型チェックのために代入
+      await req.respond(jsonResponse(res));
     },
   );
   router.get(new RegExp("^/(.+)$"), async (req) => {
