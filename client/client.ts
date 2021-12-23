@@ -148,7 +148,7 @@ export default class ApiClient {
     return { success: res.status === 200, data: await res.json(), res };
   }
 
-  async match(data: MatchReq, auth: string): ApiRes<MatchRes> {
+  async match(data: MatchReq, auth?: string): ApiRes<MatchRes> {
     const res = await this._fetchPostJson("/v1/match", data, auth);
     return { success: res.status === 200, data: await res.json(), res };
   }

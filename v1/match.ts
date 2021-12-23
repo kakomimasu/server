@@ -50,7 +50,7 @@ export const matchRouter = () => {
   router.post(
     "/",
     contentTypeFilter("application/json"),
-    auth({ bearer: true }),
+    auth({ bearer: true, required: false }),
     jsonParse(),
     async (req) => {
       const reqData = req.get("data") as Partial<MatchReq>;
@@ -58,10 +58,18 @@ export const matchRouter = () => {
       const authedUserId = req.getString("authed_userId");
 
       const user = accounts.getUsers().find((user) => user.id === authedUserId);
-      if (!user) throw new ServerError(errors.NOT_USER);
+      let player;
+      if (!user) {
+        if (reqData.guest) {
+          const { name } = reqData.guest;
+          player = new Player(name, reqData.spec);
+        } else {
+          throw new ServerError(errors.NOT_USER);
+        }
+      } else {
+        player = new Player(user.id, reqData.spec);
+      }
 
-      const player = new Player(user.id, reqData.spec);
-      //const player = kkmm.createPlayer(user.id, reqData.spec);
       if (reqData.gameId) {
         const game = kkmm.getGames().find((
           game,
@@ -83,9 +91,12 @@ export const matchRouter = () => {
         if (!reqData.option?.dryRun) {
           const game = new ExpGame(brd);
           kkmm.addGame(game);
-          game.name =
-            `対AI戦：${user.screenName}(@${user.name}) vs AI(${ai.name})`;
-
+          if (user) {
+            game.name =
+              `対AI戦：${user.screenName}(@${user.name}) vs AI(${ai.name})`;
+          } else {
+            game.name = `対AI戦：${player.id} vs AI(${ai.name})`;
+          }
           game.changeFuncs.push(sendGame(game));
           game.attachPlayer(player);
           //accounts.addGame(user.userId, game.uuid);
@@ -130,7 +141,6 @@ export const matchRouter = () => {
   router.post(
     new RegExp("^/(.+)/action$"),
     contentTypeFilter("application/json"),
-    auth({ bearer: true }),
     jsonParse(),
     async (req) => {
       //console.log(req, "SetAction");
@@ -143,20 +153,10 @@ export const matchRouter = () => {
       const game = kkmm.getGames().find((item) => item.uuid === gameId);
       if (!game) throw new ServerError(errors.NOT_GAME);
 
-      const authedUserId = req.getString("authed_userId");
       const actionData = req.get("data") as ActionReq;
 
-      const isPluralUser = () => {
-        return game.players.filter((p) => p.id === authedUserId).length !== 1;
-      };
-      let player;
-      if (isPluralUser()) {
-        player = game.players.find((p, i) =>
-          p.id === authedUserId && i === actionData.index
-        );
-      } else {
-        player = game.players.find((p) => p.id === authedUserId);
-      }
+      const pic = req.headers.get("Authorization");
+      const player = game.players.find((player) => player.pic === pic);
       if (!player) throw new ServerError(errors.INVALID_USER_AUTHORIZATION);
 
       if (actionData.actions.some((a) => !ActionPost.isEnable(a))) {

@@ -57,6 +57,9 @@ export interface MatchReq extends ApiOption {
     aiName: string;
     boardName?: string;
   };
+  guest?: {
+    name: string;
+  };
 }
 
 export interface MatchRes {
@@ -76,7 +79,6 @@ export interface ActionPost {
 
 export interface ActionReq extends ApiOption {
   actions: ActionPost[];
-  index?: number;
 }
 
 export interface ActionRes {
