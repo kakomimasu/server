@@ -102,6 +102,7 @@ Deno.test("match", async () => {
   assert(v4.validate(res.data.gameId));
   sample.gameId = res.data.gameId = "";
   sample.userId = userId;
+  sample.pic = res.data.pic;
   assertEquals(sample, res.data);
 });
 

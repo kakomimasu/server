@@ -17,6 +17,9 @@ let bearerToken = "";
 let userId = "";
 let gameId = "";
 
+let pic1: string;
+let pic2: string;
+
 Deno.test("regist user", async () => {
   const sampleFilePath = resolve("./sample/userRegist_sample.json");
 
@@ -78,22 +81,25 @@ Deno.test("show user", async () => {
 Deno.test("match", async () => {
   const sampleFilePath = resolve("./sample/match_sample.json");
 
-  const res = await ac.match({ spec: testSpec }, `Bearer ${bearerToken}`);
-  if (res.success === false) {
+  const res1 = await ac.match({ spec: testSpec }, `Bearer ${bearerToken}`);
+  if (res1.success === false) {
     throw Error(
-      "Response Error. ErrorCode:" + res.data.errorCode + " " +
-        res.data.message,
+      "Response Error. ErrorCode:" + res1.data.errorCode + " " +
+        res1.data.message,
     );
   }
-  await ac.match({ spec: testSpec }, `Bearer ${bearerToken}`);
-  //Deno.writeTextFileSync(sampleFilePath, JSON.stringify(res.data, null, 2));
+  pic1 = res1.data.pic;
+  const res2 = await ac.match({ spec: testSpec }, `Bearer ${bearerToken}`);
+  //Deno.writeTextFileSync(sampleFilePath, JSON.stringify(res1.data, null, 2));
+  pic2 = res2.success ? res2.data.pic : "";
 
   const sample = JSON.parse(Deno.readTextFileSync(sampleFilePath));
-  assert(v4.validate(res.data.gameId));
-  gameId = res.data.gameId;
-  sample.gameId = res.data.gameId = "";
+  assert(v4.validate(res1.data.gameId));
+  gameId = res1.data.gameId;
+  sample.gameId = res1.data.gameId = "";
   sample.userId = userId;
-  assertEquals(sample, res.data);
+  sample.pic = res1.data.pic;
+  assertEquals(sample, res1.data);
 });
 
 Deno.test("get gameinfo", async () => {
@@ -136,8 +142,7 @@ Deno.test("send action(Turn 1)", async () => {
   await sleep(diffTime(gameInfo.startedAtUnixTime) + 100);
   await ac.setAction(gameId, {
     actions: [{ agentId: 0, type: "PUT", x: 1, y: 1 }],
-    index: 0,
-  }, "Bearer " + bearerToken);
+  }, pic1);
   //console.log(reqJson);
 
   res = await ac.getMatch(gameId);
@@ -184,8 +189,7 @@ Deno.test("send action(Turn 2)", async () => {
 
   await ac.setAction(gameId, {
     actions: [{ agentId: 0, type: "PUT", x: 1, y: 2 }],
-    index: 1,
-  }, "Bearer " + bearerToken);
+  }, pic2);
   //console.log(reqJson);
 
   if (!gameInfo.nextTurnUnixTime) throw Error("nextTurnUnixTime is null.");
