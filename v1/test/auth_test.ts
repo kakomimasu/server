@@ -1,9 +1,6 @@
 import { assert } from "../../deps-test.ts";
-import { randomUUID } from "../util.ts";
 
 const authRequiredUrlList = [
-  `match`,
-  `match/${randomUUID()}/action`,
   `users/delete`,
 ];
 

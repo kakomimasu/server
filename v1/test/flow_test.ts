@@ -16,6 +16,8 @@ const testSpec = "test";
 let bearerToken = "";
 let userId = "";
 let gameId = "";
+let pic1: string;
+let pic2: string;
 
 Deno.test("regist user", async () => {
   const sampleFilePath = resolve("./sample/userRegist_sample.json");
@@ -88,13 +90,19 @@ Deno.test("match", async () => {
         res.data.message,
     );
   }
-  await ac.match({ spec: testSpec, gameId: gameId }, `Bearer ${bearerToken}`);
+  pic1 = res.data.pic;
+  const res2 = await ac.match(
+    { spec: testSpec, gameId: gameId },
+    `Bearer ${bearerToken}`,
+  );
+  pic2 = res2.success ? res2.data.pic : "";
   //Deno.writeTextFileSync(sampleFilePath, JSON.stringify(res.data, null, 2));
 
   const sample = JSON.parse(Deno.readTextFileSync(sampleFilePath));
   assert(v4.validate(res.data.gameId));
   sample.gameId = res.data.gameId = "";
   sample.userId = userId;
+  sample.pic = res.data.pic;
   assertEquals(sample, res.data);
 });
 
@@ -133,8 +141,7 @@ Deno.test("send action(Turn 1)", async () => {
   await sleep(diffTime(gameInfo.startedAtUnixTime) + 100);
   await ac.setAction(gameId, {
     actions: [{ agentId: 0, type: "PUT", x: 1, y: 1 }],
-    index: 0,
-  }, "Bearer " + bearerToken);
+  }, pic1);
   //console.log(reqJson);
 
   res = await ac.getMatch(gameId);
@@ -177,8 +184,7 @@ Deno.test("send action(Turn 2)", async () => {
 
   await ac.setAction(gameId, {
     actions: [{ agentId: 0, type: "PUT", x: 1, y: 2 }],
-    index: 1,
-  }, "Bearer " + bearerToken);
+  }, pic2);
   //console.log(reqJson);
 
   if (!gameInfo.nextTurnUnixTime) throw Error("nextTurnUnixTime is null.");

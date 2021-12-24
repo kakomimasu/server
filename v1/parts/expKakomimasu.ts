@@ -8,15 +8,43 @@ import { accounts } from "../user.ts";
 import { Game as GameType } from "../types.ts";
 
 class Player extends Core.Player<ExpGame> {
+  public pic: string;
+  constructor(...args: ConstructorParameters<typeof Core.Player>) {
+    super(...args);
+    this.pic = Player.generatePic();
+  }
+
+  static restore(data: Player, game?: ExpGame): Player { // Kakomimasu.tsから実装をコピー＋pidを追加
+    const player = new Player(data.id, data.spec);
+    player.index = data.index;
+    player.pic = data.pic;
+    if (game) {
+      player.game = game;
+      player.agents = data.agents.map((a) => {
+        return Core.Agent.restore(a, game.board, game.field);
+      });
+    }
+
+    return player;
+  }
+
   getJSON() {
     return {
       ...super.getJSON(),
       gameId: this.game?.uuid,
+      pic: this.pic,
     };
+  }
+
+  private static generatePic() {
+    const rnd = Math.random();
+    const str = ("000000" + Math.floor(rnd * 1000000)).slice(-6);
+    return str;
   }
 }
 
 class ExpGame extends Core.Game {
+  public override players: Player[];
   public uuid: string;
   public name?: string;
   public startedAtUnixTime: number | null;
@@ -35,6 +63,7 @@ class ExpGame extends Core.Game {
     this.reservedUsers = [];
     this.type = "normal";
     this.personalUserId = null;
+    this.players = [];
   }
 
   static restore(data: ExpGame) {

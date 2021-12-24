@@ -1,0 +1,16 @@
+{
+  "gaming": false,
+  "ending": false,
+  "board": null,
+  "turn": 0,
+  "totalTurn": 30,
+  "tiled": null,
+  "players": [],
+  "log": [],
+  "gameId": "6a4b68f3-3c2b-406e-94b3-a59c7648abf4",
+  "gameName": "test",
+  "startedAtUnixTime": null,
+  "nextTurnUnixTime": null,
+  "reservedUsers": [],
+  "type": "self"
+}
