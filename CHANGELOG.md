@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/ja/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.0.0-beta.6
+
+### Added
+
+- feat(match): ゲスト参加できるように改良 by @kamekyame in
+  https://github.com/kakomimasu/server/pull/117
+- fix(env): firebase emulatorのホスト名を環境変数で設定するように変更 by @kamekyame in
+  https://github.com/kakomimasu/server/pull/111
+
+### Fixed
+
+- fix(docs): ドキュメントを更新 by @kamekyame in
+  https://github.com/kakomimasu/server/pull/110
+
 ## v1.0.0-beta.5
 
 ### Added
