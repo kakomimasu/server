@@ -1,0 +1,12 @@
+name: PR labeler
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  call-workflow:
+    uses: kakomimasu/kakomimasu.github.io/.github/workflows/pr_labeler.yml@main
+    with:
+      title: ${{ github.event.pull_request.title }}
+
