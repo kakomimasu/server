@@ -1,6 +1,6 @@
-import { Core, createRouter } from "../deps.ts";
+import { Core, Router } from "../deps.ts";
 
-import { contentTypeFilter, jsonParse, jsonResponse } from "./util.ts";
+import { contentTypeFilter, jsonParse } from "./util.ts";
 
 import { accounts } from "./user.ts";
 import { sendGame } from "./ws.ts";
@@ -45,17 +45,17 @@ class ActionPost implements IActionPost {
 }
 
 export const matchRouter = () => {
-  const router = createRouter();
+  const router = new Router();
 
   router.post(
     "/",
     contentTypeFilter("application/json"),
-    auth({ bearer: true, required: false }),
+    auth({ bearer: true }),
     jsonParse(),
-    async (req) => {
-      const reqData = req.get("data") as Partial<MatchReq>;
+    async (ctx) => {
+      const reqData = ctx.state.data as Partial<MatchReq>;
       //console.log(reqData);
-      const authedUserId = req.getString("authed_userId");
+      const authedUserId = ctx.state.authed_userId as string;
 
       const user = accounts.getUsers().find((user) => user.id === authedUserId);
       let player;
@@ -129,33 +129,34 @@ export const matchRouter = () => {
         throw new Error("gameId is not found"); // TODO: gameIdがundefinedになることはないはずだが、Playerクラス上はあり得る。どこかで型をチェックするべき
       }
       const res: MatchRes = { ...rawRes, gameId }; // 型チェックのために代入
-      await req.respond(jsonResponse(res));
+      ctx.response.body = res;
     },
   );
-  router.get(new RegExp("^/(.+)$"), async (req) => {
-    const id = req.match[1];
+  router.get("/:id", (ctx) => {
+    const id = ctx.params.id;
     const game = kkmm.getGames().find((item) => item.uuid === id);
     if (!game) throw new ServerError(errors.NOT_GAME);
-    await req.respond(jsonResponse(game));
+    ctx.response.body = game;
   });
   router.post(
-    new RegExp("^/(.+)/action$"),
+    "/:gameId/action",
     contentTypeFilter("application/json"),
+    auth({ bearer: true }),
     jsonParse(),
-    async (req) => {
+    (ctx) => {
       //console.log(req, "SetAction");
 
       // Actionを受け取った時刻を取得
       const reqTime = new Date().getTime() / 1000;
 
-      const gameId = req.match[1];
+      const gameId = ctx.params.gameId;
 
       const game = kkmm.getGames().find((item) => item.uuid === gameId);
       if (!game) throw new ServerError(errors.NOT_GAME);
 
-      const actionData = req.get("data") as ActionReq;
+      const actionData = ctx.state.data as ActionReq;
 
-      const pic = req.headers.get("Authorization");
+      const pic = ctx.request.headers.get("Authorization");
       const player = game.players.find((player) => player.pic === pic);
       if (!player) throw new ServerError(errors.INVALID_USER_AUTHORIZATION);
 
@@ -185,11 +186,9 @@ export const matchRouter = () => {
         turn: nowTurn,
       };
 
-      await req.respond(
-        jsonResponse(resData),
-      );
+      ctx.response.body = resData;
     },
   );
 
-  return router;
+  return router.routes();
 };

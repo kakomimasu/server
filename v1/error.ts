@@ -111,15 +111,13 @@ export const errorCodeResponse = (error: Error) => {
   if (error instanceof ServerError) {
     return {
       status: 400,
-      headers: new Headers({ "content-type": "application/json" }),
-      body: JSON.stringify({ message, errorCode: error.errorCode }),
+      body: { message, errorCode: error.errorCode },
     };
   } else {
     console.error(error);
     return {
       status: 500,
-      headers: new Headers({ "content-type": "application/json" }),
-      body: JSON.stringify({ message, errorCode: 0 }),
+      body: { message, errorCode: 0 },
     };
   }
 };

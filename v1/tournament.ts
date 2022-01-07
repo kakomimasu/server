@@ -1,11 +1,6 @@
-import { createRouter } from "../deps.ts";
+import { Router } from "../deps.ts";
 
-import {
-  contentTypeFilter,
-  jsonParse,
-  jsonResponse,
-  randomUUID,
-} from "./util.ts";
+import { contentTypeFilter, jsonParse, randomUUID } from "./util.ts";
 import {
   getAllTournaments,
   setAllTournaments,
@@ -128,15 +123,15 @@ export class Tournaments {
 export const tournaments = await Tournaments.init();
 
 export const tournamentRouter = () => {
-  const router = createRouter();
+  const router = new Router();
 
   // 大会登録
   router.post(
     "/create",
     contentTypeFilter("application/json"),
     jsonParse(),
-    async (req) => {
-      const data = req.get("data") as TournamentCreateReq;
+    (ctx) => {
+      const data = ctx.state.data as TournamentCreateReq;
       if (!data.name) throw new ServerError(errors.INVALID_TOURNAMENT_NAME);
       if (!data.type || !checkType(data.type)) {
         throw new ServerError(errors.INVALID_TYPE);
@@ -149,7 +144,7 @@ export const tournamentRouter = () => {
         tournaments.add(tournament);
       }
 
-      await req.respond(jsonResponse(tournament));
+      ctx.response.body = tournament;
     },
   );
 
@@ -158,8 +153,8 @@ export const tournamentRouter = () => {
     "/delete",
     contentTypeFilter("application/json"),
     jsonParse(),
-    async (req) => {
-      const data = req.get("data") as TournamentDeleteReq;
+    (ctx) => {
+      const data = ctx.state.data as TournamentDeleteReq;
       if (!data.id) throw new ServerError(errors.INVALID_TOURNAMENT_ID);
 
       const tournament = tournaments.get(data.id);
@@ -169,18 +164,18 @@ export const tournamentRouter = () => {
         tournaments.delete(tournament);
       }
 
-      await req.respond(jsonResponse(tournament));
+      ctx.response.body = tournament;
     },
   );
 
   // 大会取得
-  router.get("/get", async (req) => {
-    const query = req.query;
+  router.get("/get", (ctx) => {
+    const query = ctx.request.url.searchParams;
     const id = query.get("id");
     const resData = id ? tournaments.get(id) : tournaments.getAll();
     if (!resData) throw new ServerError(errors.NOTHING_TOURNAMENT_ID);
 
-    await req.respond(jsonResponse(resData));
+    ctx.response.body = resData;
   });
 
   // 参加者追加
@@ -188,15 +183,15 @@ export const tournamentRouter = () => {
     "/add",
     contentTypeFilter("application/json"),
     jsonParse(),
-    async (req) => {
-      const query = req.query;
+    (ctx) => {
+      const query = ctx.request.url.searchParams;
       const tournamentId = query.get("id");
       //console.log(tournamentId);
       if (!tournamentId) throw new ServerError(errors.INVALID_TOURNAMENT_ID);
       let tournament = tournaments.get(tournamentId);
       if (!tournament) throw new ServerError(errors.INVALID_TOURNAMENT_ID);
 
-      const body = req.get("data") as TournamentAddUserReq;
+      const body = ctx.state.data as TournamentAddUserReq;
       const identifier = body.user;
       if (!identifier) throw new ServerError(errors.INVALID_USER_IDENTIFIER);
 
@@ -207,9 +202,9 @@ export const tournamentRouter = () => {
         tournament.addUser(identifier);
       }
 
-      await req.respond(jsonResponse(tournament));
+      ctx.response.body = tournament;
     },
   );
 
-  return router;
+  return router.routes();
 };

@@ -1,4 +1,4 @@
-import { ServeHandler } from "../deps.ts";
+import { Context } from "../deps.ts";
 
 import { accounts } from "./user.ts";
 import { getPayload } from "./parts/jwt.ts";
@@ -11,9 +11,9 @@ export const auth = (
     jwt?: boolean;
     required?: boolean;
   },
-): ServeHandler =>
-  async (req) => { // AuthorizationヘッダからユーザIDを取得
-    const auth = req.headers.get("Authorization");
+) =>
+  async (ctx: Context, next: () => Promise<unknown>) => { // AuthorizationヘッダからユーザIDを取得
+    const auth = ctx.request.headers.get("Authorization");
     if (auth) {
       if (basic && auth.startsWith("Basic ")) {
         const [identifier, pass] = auth.substr("Basic ".length).split(":");
@@ -22,8 +22,9 @@ export const auth = (
           (user.id === identifier || user.name === identifier)
         );
         if (account) {
-          req.set<string>("authed_userId", account.id);
-          req.set<string>("auth_method", "basic");
+          ctx.state.authed_userId = account.id;
+          ctx.state.auth_method = "basic";
+          await next();
           return;
         }
       } else if (bearer && auth.startsWith("Bearer ")) {
@@ -32,8 +33,9 @@ export const auth = (
           u.bearerToken === bearerToken
         );
         if (account) {
-          req.set<string>("authed_userId", account.id);
-          req.set<string>("auth_method", "bearer");
+          ctx.state.authed_userId = account.id;
+          ctx.state.auth_method = "bearer";
+          await next();
           return;
         }
       } else if (jwt) {
@@ -42,28 +44,40 @@ export const auth = (
           const id = payload.user_id;
           const account = accounts.getUsers().find((user) => user.id === id);
           if (account) {
-            req.set<string>("authed_userId", account.id);
-            req.set<string>("auth_method", "jwt");
+            ctx.state.authed_userId = account.id;
+            ctx.state.auth_method = "jwt";
+            await next();
             return;
           }
         }
       }
     }
     if (required) {
-      const { headers, body } = errorCodeResponse(
+      const { body } = errorCodeResponse(
         new ServerError(errors.UNAUTHORIZED),
       );
 
       //const headers = resTemp.headers
       if (basic) {
-        headers.append("WWW-Authenticate", `Basic realm="token_required"`);
+        ctx.response.headers.append(
+          "WWW-Authenticate",
+          `Basic realm="token_required"`,
+        );
       }
       if (bearer) {
-        headers.append("WWW-Authenticate", `Bearer realm="token_required"`);
+        ctx.response.headers.append(
+          "WWW-Authenticate",
+          `Bearer realm="token_required"`,
+        );
       }
       if (jwt) {
-        headers.append("WWW-Authenticate", `JWT realm="token_required"`);
+        ctx.response.headers.append(
+          "WWW-Authenticate",
+          `JWT realm="token_required"`,
+        );
       }
-      req.respond({ status: 401, headers, body });
+      ctx.response.status = 401;
+      ctx.response.body = body;
     }
+    await next();
   };
