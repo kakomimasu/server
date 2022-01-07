@@ -30,17 +30,11 @@ const db = getDatabase(app, setting.dbURL);
 isTest && connectDatabaseEmulator(db, reqEnv.FIREBASE_EMULATOR_HOST, 9000);
 
 /** 管理ユーザでログイン */
-async function login() {
-  if (auth.currentUser) {
-    return;
-  }
-
-  await signInWithEmailAndPassword(
-    auth,
-    setting.username,
-    setting.password,
-  );
-}
+await signInWithEmailAndPassword(
+  auth,
+  setting.username,
+  setting.password,
+);
 
 /** 全ユーザ保存 */
 export async function setAllUsers(users: IUser[]): Promise<void> {
@@ -133,7 +127,6 @@ export async function getBoard(id: string): Promise<Core.Board | undefined> {
 
 /** ボードをすべて取得 */
 export async function getAllBoards(): Promise<Core.Board[]> {
-  await login();
   const boardsRef = ref(db, "boards");
   const snap = await get(boardsRef);
   const boards: Core.Board[] = [];
