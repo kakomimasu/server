@@ -24,7 +24,7 @@ const methods = {
   "PATCH": false,
 };
 
-for (const [key, value] of Object.entries(methods)) {
+for (const [key, _value] of Object.entries(methods)) {
   Deno.test(`cors header check(method:${key})`, async () => {
     const path = "/v1/tournament/get";
     const res = await fetch(host + path, {
