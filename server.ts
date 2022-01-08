@@ -61,7 +61,6 @@ const app = new Application();
 app.use(oakCors({
   origin: "*",
   methods: ["GET", "POST"],
-  allowedHeaders: ["authorization", "content-type"],
 }));
 
 app.addEventListener("listen", ({ hostname, port, secure }) => {
