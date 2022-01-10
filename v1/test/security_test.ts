@@ -24,7 +24,7 @@ const methods = {
   "PATCH": false,
 };
 
-for (const [key, value] of Object.entries(methods)) {
+for (const [key, _value] of Object.entries(methods)) {
   Deno.test(`cors header check(method:${key})`, async () => {
     const path = "/v1/tournament/get";
     const res = await fetch(host + path, {
@@ -34,7 +34,7 @@ for (const [key, value] of Object.entries(methods)) {
     assertEquals(res.headers.get("Access-Control-Allow-Origin"), "*");
     assertEquals(
       res.headers.get("Access-Control-Allow-Methods"),
-      value ? key : "",
+      "GET,POST",
     );
     assertEquals(res.headers.get("Access-Control-Allow-Headers"), null);
   });
@@ -51,7 +51,7 @@ Deno.test(`cors header check(header:authorization)`, async () => {
     },
   });
   assertEquals(res.headers.get("Access-Control-Allow-Origin"), "*");
-  assertEquals(res.headers.get("Access-Control-Allow-Methods"), "GET");
+  assertEquals(res.headers.get("Access-Control-Allow-Methods"), "GET,POST");
   assertEquals(
     res.headers.get("Access-Control-Allow-Headers"),
     "authorization",
@@ -69,7 +69,7 @@ Deno.test(`cors header check(header:content-type)`, async () => {
     },
   });
   assertEquals(res.headers.get("Access-Control-Allow-Origin"), "*");
-  assertEquals(res.headers.get("Access-Control-Allow-Methods"), "POST");
+  assertEquals(res.headers.get("Access-Control-Allow-Methods"), "GET,POST");
   assertEquals(
     res.headers.get("Access-Control-Allow-Headers"),
     "content-type",

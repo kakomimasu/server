@@ -1,10 +1,10 @@
-import { Core, cors, createApp, createRouter } from "./deps.ts";
+import { Application, Core, oakCors, Router } from "./deps.ts";
 
 import * as util from "./v1/util.ts";
 const resolve = util.pathResolver(import.meta);
 
 import { ExpKakomimasu } from "./v1/parts/expKakomimasu.ts";
-import { errorCodeResponse, ServerError } from "./v1/error.ts";
+import { errorCodeResponse } from "./v1/error.ts";
 import { nonReqEnv, reqEnv } from "./v1/parts/env.ts";
 const port = parseInt(reqEnv.port);
 
@@ -23,25 +23,16 @@ accounts.dataCheck(kkmm.getGames());
 tournaments.dataCheck(kkmm.getGames());
 
 const apiRoutes = () => {
-  const router = createRouter();
-  router.use(cors({
-    origin: "*",
-    methods: ["GET", "POST"],
-    allowedHeaders: ["authorization", "content-type"],
-  }));
-
-  router.route("ws", wsRoutes());
-  router.route("match", matchRouter());
-  router.route("game", gameRouter());
-  router.route("users", userRouter());
-  router.route("tournament", tournamentRouter());
-  router.catch(async (err, req) => {
-    console.log(req);
-    if (!(err instanceof ServerError)) {
+  const router = new Router();
+  router.use(async (ctx, next) => {
+    try {
+      await next();
+    } catch (err) {
+      console.log(ctx.request);
       if (nonReqEnv.DISCORD_WEBHOOK_URL) {
         const content = `kakomimasu/serverで予期しないエラーを検出しました。
 Date: ${new Date().toLocaleString("ja-JP")}
-URL: ${req.url}
+URL: ${ctx.request.url}
 \`\`\`console\n${err.stack}\n\`\`\``;
         fetch(nonReqEnv.DISCORD_WEBHOOK_URL, {
           method: "POST",
@@ -51,16 +42,58 @@ URL: ${req.url}
           console.log(await res.text());
         });
       }
+      const { status, body } = errorCodeResponse(err);
+      ctx.response.status = status;
+      ctx.response.body = body;
     }
-    await req.respond(errorCodeResponse(err));
   });
-  return router;
+
+  router.use("/ws", wsRoutes());
+  router.use("/match", matchRouter());
+  router.use("/game", gameRouter());
+  router.use("/users", userRouter());
+  router.use("/tournament", tournamentRouter());
+  return router.routes();
 };
 
 // Port Listen
-const app = createApp();
-app.route("/v1/", apiRoutes());
-app.catch;
+const app = new Application();
+app.use(oakCors({
+  origin: "*",
+  methods: ["GET", "POST"],
+}));
+
+app.addEventListener("listen", ({ hostname, port, secure }) => {
+  console.log(
+    `Listening on: ${secure ? "https://" : "http://"}${
+      hostname ??
+        "localhost"
+    }:${port}`,
+  );
+});
+
+// Logger
+app.use(async (ctx, next) => {
+  await next();
+  const rt = ctx.response.headers.get("X-Response-Time");
+  const now = new Date().toISOString();
+  console.log(
+    `[${now}] ${ctx.response.status} ${ctx.request.method} ${ctx.request.url} - ${rt}`,
+  );
+});
+
+// Timing
+app.use(async (ctx, next) => {
+  const start = Date.now();
+  await next();
+  const ms = Date.now() - start;
+  ctx.response.headers.set("X-Response-Time", `${ms}ms`);
+});
+
+const router = new Router();
+router.use("/v1", apiRoutes());
+app.use(router.routes());
+app.use(router.allowedMethods());
 
 app.listen({ port });
 

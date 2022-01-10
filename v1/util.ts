@@ -1,4 +1,4 @@
-import { fromFileUrl, ServeHandler } from "../deps.ts";
+import { Context, fromFileUrl } from "../deps.ts";
 import { errors, ServerError } from "./error.ts";
 
 export const jsonResponse = <T>(json: T) => {
@@ -21,23 +21,25 @@ export function pathResolver(meta: ImportMeta): (p: string) => string {
 
 export const contentTypeFilter = (
   ...types: (string | RegExp)[]
-): ServeHandler =>
-  (req) => {
-    if (types.some((v) => req.headers.get("content-type")?.match(v))) {
+) =>
+  async (ctx: Context, next: () => Promise<unknown>) => {
+    if (types.some((v) => ctx.request.headers.get("content-type")?.match(v))) {
+      await next();
       return;
     }
     throw new ServerError(errors.INVALID_CONTENT_TYPE);
     //throw new RoutingError(400, "Invalid content-type");
   };
 
-export const jsonParse = (): ServeHandler =>
-  async (req) => {
+export const jsonParse = () =>
+  async (ctx: Context, next: () => Promise<unknown>) => {
     try {
-      const reqJson = await req.json();
-      req.set("data", reqJson);
+      const reqJson = await ctx.request.body({ type: "json" }).value;
+      ctx.state.data = reqJson;
     } catch (_e) {
       throw new ServerError(errors.INVALID_SYNTAX);
     }
+    await next();
   };
 
 export const randomUUID = () => crypto.randomUUID();
