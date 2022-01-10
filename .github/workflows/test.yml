@@ -24,7 +24,7 @@ jobs:
           deno-version: v1.x
       - name: Run cache & check
         run: |
-          deno cache ./server.ts
+          deno cache --no-cache=remote ./server.ts
       - name: Run test
         if: ${{ runner.os == 'Windows' }}
         env:
