@@ -78,6 +78,7 @@ export const auth = (
       }
       ctx.response.status = 401;
       ctx.response.body = body;
+    } else {
+      await next();
     }
-    await next();
   };

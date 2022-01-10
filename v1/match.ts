@@ -50,7 +50,7 @@ export const matchRouter = () => {
   router.post(
     "/",
     contentTypeFilter("application/json"),
-    auth({ bearer: true }),
+    auth({ bearer: true, required: false }),
     jsonParse(),
     async (ctx) => {
       const reqData = ctx.state.data as Partial<MatchReq>;
@@ -141,7 +141,6 @@ export const matchRouter = () => {
   router.post(
     "/:gameId/action",
     contentTypeFilter("application/json"),
-    auth({ bearer: true }),
     jsonParse(),
     (ctx) => {
       //console.log(req, "SetAction");
