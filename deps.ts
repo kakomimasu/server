@@ -23,7 +23,7 @@ export * from "https://raw.githubusercontent.com/kakomimasu/client-deno/v1.0.0-b
 export * from "https://raw.githubusercontent.com/kakomimasu/client-deno/v1.0.0-beta.1/client_a5.js";
 export * from "https://raw.githubusercontent.com/kakomimasu/client-deno/v1.0.0-beta.1/client_none.js";
 
-export { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
+export { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
 
 export {
   connectAuthEmulator,
@@ -31,7 +31,7 @@ export {
   getAuth,
   signInWithEmailAndPassword,
   signOut,
-} from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
 
 export {
   connectDatabaseEmulator,
@@ -39,4 +39,4 @@ export {
   getDatabase,
   ref,
   set,
-} from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";
+} from "https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js";
