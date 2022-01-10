@@ -1,4 +1,4 @@
-port: # サーバのポート
+PORT: # サーバのポート
   require: false
   default: 8880
 boardname: # フリーマッチで使われるボード(指定なしでランダム)
