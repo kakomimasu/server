@@ -64,8 +64,7 @@ export async function getAllUsers(): Promise<IUser[]> {
   const users: IUser[] = [];
   const usersRef = ref(db, "users");
   const snap = await get(usersRef);
-  // deno-lint-ignore no-explicit-any
-  snap.forEach((doc: any) => {
+  snap.forEach((doc) => {
     users.push(doc.val());
   });
   return users;
@@ -84,8 +83,7 @@ export async function getAllTournaments(): Promise<ITournament[]> {
   const tournaments: ITournament[] = [];
   const usersRef = ref(db, "tournaments");
   const snap = await get(usersRef);
-  // deno-lint-ignore no-explicit-any
-  snap.forEach((doc: any) => {
+  snap.forEach((doc) => {
     tournaments.push(doc.val());
   });
   return tournaments;
@@ -106,8 +104,7 @@ export async function getAllGames(): Promise<ExpGame[]> {
   const games: ExpGame[] = [];
   const gamesRef = ref(db, "games");
   const snap = await get(gamesRef);
-  // deno-lint-ignore no-explicit-any
-  snap.forEach((doc: any) => {
+  snap.forEach((doc) => {
     const game = ExpGame.restore(doc.val());
     games.push(game);
   });
