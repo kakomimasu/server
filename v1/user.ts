@@ -1,11 +1,6 @@
-import { createRouter } from "../deps.ts";
+import { Router } from "../deps.ts";
 
-import {
-  contentTypeFilter,
-  jsonParse,
-  jsonResponse,
-  randomUUID,
-} from "./util.ts";
+import { contentTypeFilter, jsonParse, randomUUID } from "./util.ts";
 import { getAllUsers, setAllUsers } from "./parts/firestore_opration.ts";
 import { errors, ServerError } from "./error.ts";
 import { ExpGame } from "./parts/expKakomimasu.ts";
@@ -183,10 +178,10 @@ export { User, Users };
 export const accounts = new Users();
 
 export const userRouter = () => {
-  const router = createRouter();
+  const router = new Router();
 
-  router.get("/verify", async (req) => {
-    const jwt = req.headers.get("Authorization");
+  router.get("/verify", async (ctx) => {
+    const jwt = ctx.request.headers.get("Authorization");
     if (!jwt) return;
     const payload = await getPayload(jwt);
     if (!payload) return;
@@ -195,7 +190,7 @@ export const userRouter = () => {
       user.id === payload.user_id
     );
     if (!isUser) throw new ServerError(errors.NOT_USER);
-    await req.respond({ status: 200 });
+    ctx.response.status = 200;
   });
 
   // ユーザ登録
@@ -203,8 +198,8 @@ export const userRouter = () => {
     "/regist",
     contentTypeFilter("application/json"),
     jsonParse(),
-    async (req) => {
-      const reqData = req.get("data") as Partial<UserRegistReq>;
+    async (ctx) => {
+      const reqData = ctx.state.data as Partial<UserRegistReq>;
       //console.log(reqData);
 
       if (!reqData.screenName) {
@@ -216,7 +211,7 @@ export const userRouter = () => {
         throw new ServerError(errors.ALREADY_REGISTERED_NAME);
       }
 
-      const idToken = req.headers.get("Authorization");
+      const idToken = ctx.request.headers.get("Authorization");
       let id: string | undefined = undefined;
       if (idToken) {
         const payload = await getPayload(idToken);
@@ -245,27 +240,25 @@ export const userRouter = () => {
       }
       //return user;
       //const user = accounts.registUser({ ...reqData, id }, jwt !== null);
-      await req.respond(jsonResponse(user.noSafe()));
+      ctx.response.body = user.noSafe();
     },
   );
 
   // ユーザ情報取得
   router.get(
-    new RegExp("^/show/(.*)$"),
+    "/show/:identifier",
     auth({ basic: true, jwt: true, required: false }),
-    async (req) => {
-      const identifier = req.match[1];
+    (ctx) => {
+      const identifier = ctx.params.identifier || "";
 
       if (identifier !== "") {
         const user = accounts.showUser(identifier);
 
         // 認証済みユーザかの確認
-        const authedUserId = req.getString("authed_userId");
-        await req.respond(
-          jsonResponse(user.id === authedUserId ? user.noSafe() : user),
-        );
+        const authedUserId = ctx.state.authed_userId as string;
+        ctx.response.body = user.id === authedUserId ? user.noSafe() : user;
       } else {
-        await req.respond(jsonResponse(accounts.getUsers()));
+        ctx.response.body = accounts.getUsers();
       }
     },
   );
@@ -276,21 +269,21 @@ export const userRouter = () => {
     contentTypeFilter("application/json"),
     auth({ bearer: true, jwt: true }),
     jsonParse(),
-    async (req) => {
-      const reqData = req.get("data") as UserDeleteReq;
-      const authedUserId = req.getString("authed_userId");
+    (ctx) => {
+      const reqData = ctx.state.data as UserDeleteReq;
+      const authedUserId = ctx.state.authed_userId as string;
 
       let user = accounts.getUsers().find((e) => e.id === authedUserId);
       if (!user) throw new ServerError(errors.NOT_USER);
       user = new User(user);
       accounts.deleteUser(user.id, reqData.option?.dryRun);
-      await req.respond(jsonResponse(user));
+      ctx.response.body = user;
     },
   );
 
   // ユーザ検索
-  router.get("/search", async (req) => {
-    const query = req.query;
+  router.get("/search", (ctx) => {
+    const query = ctx.request.url.searchParams;
     const q = query.get("q");
     if (!q) {
       throw new ServerError(errors.NOTHING_SEARCH_QUERY);
@@ -300,8 +293,8 @@ export const userRouter = () => {
     const matchId = accounts.getUsers().filter((e) => e.id.startsWith(q));
     const users = [...new Set([...matchName, ...matchId])];
 
-    await req.respond(jsonResponse(users));
+    ctx.response.body = users;
   });
 
-  return router;
+  return router.routes();
 };

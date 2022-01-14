@@ -1,6 +1,6 @@
-import { createRouter } from "../deps.ts";
+import { Router } from "../deps.ts";
 
-import { contentTypeFilter, jsonParse, jsonResponse } from "./util.ts";
+import { contentTypeFilter, jsonParse } from "./util.ts";
 import { accounts } from "./user.ts";
 import { sendGame } from "./ws.ts";
 import { errors, ServerError } from "./error.ts";
@@ -13,15 +13,15 @@ import { auth } from "./middleware.ts";
 import { ExpGame } from "./parts/expKakomimasu.ts";
 
 export const gameRouter = () => {
-  const router = createRouter();
+  const router = new Router();
 
   router.post(
     "/create",
     contentTypeFilter("application/json"),
     auth({ bearer: true, required: false }),
     jsonParse(),
-    async (req) => {
-      const reqJson = req.get("data") as GameCreateReq;
+    async (ctx) => {
+      const reqJson = ctx.state.data as GameCreateReq;
       if (!reqJson.boardName) {
         throw new ServerError(errors.INVALID_BOARD_NAME);
       }
@@ -40,7 +40,7 @@ export const gameRouter = () => {
       } else game = new ExpGame(board, reqJson.name);
 
       if (reqJson.isMySelf) {
-        const authedUserId = req.getString("authed_userId");
+        const authedUserId = ctx.state.authed_userId as string;
         console.log(authedUserId);
         if (authedUserId) game.setType("personal", authedUserId);
         else {
@@ -73,15 +73,15 @@ export const gameRouter = () => {
         }
       }
 
-      await req.respond(jsonResponse(game));
+      ctx.response.body = game;
       //console.log(kkmm_self);
     },
   );
-  router.get("/boards", async (req) => {
+  router.get("/boards", async (ctx) => {
     const boards = await getAllBoards();
     //console.log(boards);
-    await req.respond(jsonResponse(boards));
+    ctx.response.body = boards;
   });
 
-  return router;
+  return router.routes();
 };
