@@ -6,7 +6,7 @@ const resolve = util.pathResolver(import.meta);
 import { ExpKakomimasu } from "./v1/parts/expKakomimasu.ts";
 import { errorCodeResponse } from "./v1/error.ts";
 import { nonReqEnv, reqEnv } from "./v1/parts/env.ts";
-const port = parseInt(reqEnv.port);
+const port = parseInt(reqEnv.PORT);
 
 import { getAllGames } from "./v1/parts/firestore_opration.ts";
 
