@@ -4,7 +4,7 @@ import * as util from "./v1/util.ts";
 const resolve = util.pathResolver(import.meta);
 
 import { ExpKakomimasu } from "./v1/parts/expKakomimasu.ts";
-import { errorCodeResponse } from "./v1/error.ts";
+import { errorCodeResponse, ServerError } from "./v1/error.ts";
 import { nonReqEnv, reqEnv } from "./v1/parts/env.ts";
 const port = parseInt(reqEnv.PORT);
 
@@ -28,20 +28,22 @@ const apiRoutes = () => {
     try {
       await next();
     } catch (err) {
-      console.log(ctx.request);
-      if (nonReqEnv.DISCORD_WEBHOOK_URL) {
-        const content = `kakomimasu/serverで予期しないエラーを検出しました。
-Date: ${new Date().toLocaleString("ja-JP")}
-URL: ${ctx.request.url}
-\`\`\`console\n${err.stack}\n\`\`\``;
-        fetch(nonReqEnv.DISCORD_WEBHOOK_URL, {
-          method: "POST",
-          headers: new Headers({ "content-type": "application/json" }),
-          body: JSON.stringify({ content, username: "500 ERROR!" }),
-        }).then(async (res) => {
-          console.log(await res.text());
-        });
+      if (!(err instanceof ServerError)) {
+        if (nonReqEnv.DISCORD_WEBHOOK_URL) {
+          const content = `kakomimasu/serverで予期しないエラーを検出しました。
+  Date: ${new Date().toLocaleString("ja-JP")}
+  URL: ${ctx.request.url}
+  \`\`\`console\n${err.stack}\n\`\`\``;
+          fetch(nonReqEnv.DISCORD_WEBHOOK_URL, {
+            method: "POST",
+            headers: new Headers({ "content-type": "application/json" }),
+            body: JSON.stringify({ content, username: "500 ERROR!" }),
+          }).then(async (res) => {
+            console.log(await res.text());
+          });
+        }
       }
+      console.log(ctx.request);
       const { status, body } = errorCodeResponse(err);
       ctx.response.status = status;
       ctx.response.body = body;
