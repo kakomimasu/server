@@ -140,8 +140,13 @@ Deno.test("send action(Turn 1)", async () => {
   let gameInfo = res.data;
   if (!gameInfo.startedAtUnixTime) throw Error("startedAtUnixTime is null.");
   await sleep(diffTime(gameInfo.startedAtUnixTime) + 100);
+  // issue131:同ターンで複数アクションを送信時に送信したagentIDのみが反映されるかのテストを含む
+  // 2回アクションを送信しているが、どちらもagentIDが違うため両方反映される。
   await ac.setAction(gameId, {
     actions: [{ agentId: 0, type: "PUT", x: 1, y: 1 }],
+  }, pic1);
+  await ac.setAction(gameId, {
+    actions: [{ agentId: 1, type: "NONE", x: 1, y: 2 }],
   }, pic1);
   //console.log(reqJson);
 
