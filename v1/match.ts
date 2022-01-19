@@ -171,11 +171,27 @@ export const matchRouter = () => {
         return Core.Action.NONE;
       };
 
-      const actionsAry: [number, ReturnType<typeof getType>, number, number][] =
-        actionData.actions.map((a) => [a.agentId, getType(a.type), a.x, a.y]);
+      const newActions = player.actions;
+      actionData.actions.map((action) => {
+        const newAction = new Core.Action(
+          action.agentId,
+          getType(action.type),
+          action.x,
+          action.y,
+        );
+        const actionIdx = newActions.findIndex((a) =>
+          a.agentid === action.agentId
+        );
+        if (actionIdx === -1) {
+          newActions.push(newAction);
+        } else {
+          newActions[actionIdx] = newAction;
+        }
+      });
+
       let nowTurn;
       if (!actionData.option?.dryRun) {
-        nowTurn = player.setActions(Core.Action.fromJSON(actionsAry));
+        nowTurn = player.setActions(newActions);
       } else {
         nowTurn = game.turn;
       }
