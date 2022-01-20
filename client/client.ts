@@ -31,12 +31,6 @@ export default class ApiClient {
     this.baseUrl = new URL("", host);
   }
 
-  async _fetchToJson(path: string) {
-    const resJson = await (await fetch(new URL(path, this.baseUrl).href))
-      .json();
-    return resJson;
-  }
-
   // deno-lint-ignore ban-types
   async _fetchPostJson(path: string, data: object, auth?: string) {
     const headers = new Headers();
@@ -66,21 +60,6 @@ export default class ApiClient {
         : {},
     );
     return res;
-  }
-
-  async _fetchPostJsonToJson(
-    ...param: Parameters<ApiClient["_fetchPostJson"]>
-  ) {
-    const resJson = await (await this._fetchPostJson(...param)).json();
-    return resJson;
-  }
-
-  async _fetchPostJsonToJsonWithAuth(
-    ...param: Parameters<ApiClient["_fetchPostJson"]>
-  ) {
-    const res = await this._fetchPostJson(...param);
-    const json = await res.json();
-    return json;
   }
 
   async usersVerify(idToken: string): ApiRes<undefined> {
