@@ -36,30 +36,42 @@ export default class ApiClient {
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
     if (auth) headers.append("Authorization", auth);
-    const res = await fetch(
-      new URL(path, this.baseUrl).href,
-      {
-        method: "POST",
-        headers,
-        body: JSON.stringify(data),
-      },
-    );
-    return res;
+    try {
+      const res = await fetch(
+        new URL(path, this.baseUrl).href,
+        {
+          method: "POST",
+          headers,
+          body: JSON.stringify(data),
+        },
+      );
+      return res;
+    } catch (e) {
+      const error: Error = { errorCode: -1, message: e.message };
+      const res = new Response(JSON.stringify(error), { status: 404 });
+      return res;
+    }
   }
 
   async _fetch(path: string, auth?: string) {
-    console.log(new URL(path, this.baseUrl).href);
-    const res = await fetch(
-      new URL(path, this.baseUrl).href,
-      auth
-        ? {
-          headers: new Headers({
-            Authorization: auth,
-          }),
-        }
-        : {},
-    );
-    return res;
+    // console.log(new URL(path, this.baseUrl).href);
+    try {
+      const res = await fetch(
+        new URL(path, this.baseUrl).href,
+        auth
+          ? {
+            headers: new Headers({
+              Authorization: auth,
+            }),
+          }
+          : {},
+      );
+      return res;
+    } catch (e) {
+      const error: Error = { errorCode: -1, message: e.message };
+      const res = new Response(JSON.stringify(error), { status: 404 });
+      return res;
+    }
   }
 
   async usersVerify(idToken: string): ApiRes<undefined> {

@@ -26,3 +26,13 @@ urls.forEach((url) => {
     assertEquals(acString.baseUrl.origin, url.out);
   });
 });
+
+Deno.test("connecting failed", async () => {
+  const ac = new ApiClient("http://localhost:10000");
+  const res = await ac.getBoards();
+  //console.log(res);
+  assertEquals(res.success, false);
+  if (!res.success) {
+    assertEquals(res.data.errorCode, -1);
+  }
+});
