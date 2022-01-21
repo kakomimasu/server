@@ -31,56 +31,47 @@ export default class ApiClient {
     this.baseUrl = new URL("", host);
   }
 
-  async _fetchToJson(path: string) {
-    const resJson = await (await fetch(new URL(path, this.baseUrl).href))
-      .json();
-    return resJson;
-  }
-
   // deno-lint-ignore ban-types
   async _fetchPostJson(path: string, data: object, auth?: string) {
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
     if (auth) headers.append("Authorization", auth);
-    const res = await fetch(
-      new URL(path, this.baseUrl).href,
-      {
-        method: "POST",
-        headers,
-        body: JSON.stringify(data),
-      },
-    );
-    return res;
+    try {
+      const res = await fetch(
+        new URL(path, this.baseUrl).href,
+        {
+          method: "POST",
+          headers,
+          body: JSON.stringify(data),
+        },
+      );
+      return res;
+    } catch (e) {
+      const error: Error = { errorCode: -1, message: e.message };
+      const res = new Response(JSON.stringify(error), { status: 404 });
+      return res;
+    }
   }
 
   async _fetch(path: string, auth?: string) {
-    console.log(new URL(path, this.baseUrl).href);
-    const res = await fetch(
-      new URL(path, this.baseUrl).href,
-      auth
-        ? {
-          headers: new Headers({
-            Authorization: auth,
-          }),
-        }
-        : {},
-    );
-    return res;
-  }
-
-  async _fetchPostJsonToJson(
-    ...param: Parameters<ApiClient["_fetchPostJson"]>
-  ) {
-    const resJson = await (await this._fetchPostJson(...param)).json();
-    return resJson;
-  }
-
-  async _fetchPostJsonToJsonWithAuth(
-    ...param: Parameters<ApiClient["_fetchPostJson"]>
-  ) {
-    const res = await this._fetchPostJson(...param);
-    const json = await res.json();
-    return json;
+    // console.log(new URL(path, this.baseUrl).href);
+    try {
+      const res = await fetch(
+        new URL(path, this.baseUrl).href,
+        auth
+          ? {
+            headers: new Headers({
+              Authorization: auth,
+            }),
+          }
+          : {},
+      );
+      return res;
+    } catch (e) {
+      const error: Error = { errorCode: -1, message: e.message };
+      const res = new Response(JSON.stringify(error), { status: 404 });
+      return res;
+    }
   }
 
   async usersVerify(idToken: string): ApiRes<undefined> {

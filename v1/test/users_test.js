@@ -178,8 +178,9 @@ Deno.test("users search:no query", async () => {
     assertEquals(res.data, errors.NOTHING_SEARCH_QUERY);
   }
   {
-    const res = await ac._fetchToJson(`/v1/users/search`);
-    assertEquals(res, errors.NOTHING_SEARCH_QUERY);
+    const res = await ac._fetch(`/v1/users/search`);
+    const json = await res.json();
+    assertEquals(json, errors.NOTHING_SEARCH_QUERY);
   }
 });
 
