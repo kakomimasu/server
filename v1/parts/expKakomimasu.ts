@@ -78,10 +78,10 @@ class ExpGame extends Core.Game {
     });
     game.log = data.log;
     game.turn = data.turn;
-    game.startedAtUnixTime = data.startedAtUnixTime;
+    game.startedAtUnixTime = data.startedAtUnixTime ?? null;
     game.reservedUsers = data.reservedUsers;
     game.type = data.type || "normal";
-    game.personalUserId = data.personalUserId;
+    game.personalUserId = data.personalUserId ?? null;
     return game;
   }
 
