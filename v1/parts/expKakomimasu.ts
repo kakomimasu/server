@@ -70,7 +70,7 @@ class ExpGame extends Core.Game {
     const board = Core.Board.restore(data.board);
     const game = new ExpGame(board, data.name);
     game.uuid = data.uuid;
-    game.players = data.players.map((p) => Player.restore(p));
+    game.players = data.players.map((p) => Player.restore(p, game));
     game.gaming = data.gaming;
     game.ending = data.ending;
     game.field.field = data.field.field.map(({ type, player }) => {
