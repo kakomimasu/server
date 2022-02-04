@@ -9,7 +9,7 @@ Deno.test("fetch illegal failed", async () => {
   //console.log("res", res);
   await res.text();
 
-  assertEquals(res.status, 404);
+  assertEquals(res.status, 400);
 });
 
 const methods = {
