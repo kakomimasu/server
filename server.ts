@@ -97,6 +97,12 @@ router.use("/v1", apiRoutes());
 app.use(router.routes());
 app.use(router.allowedMethods());
 
+router.get("/version", (ctx) => {
+  ctx.response.body = {
+    version: reqEnv.HEROKU_RELEASE_VERSION,
+  };
+});
+
 app.listen({ port });
 
 export const readBoard = (fileName: string) => {

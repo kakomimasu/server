@@ -15,3 +15,6 @@ FIREBASE_USERNAME: # firebase の管理者ユーザ名
   require: true
 FIREBASE_PASSWORD: # firebase の管理者パスワード
   require: true
+HEROKU_RELEASE_VERSION:
+  require: false
+  default: "local"
