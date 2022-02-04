@@ -15,6 +15,10 @@ export const errors = {
     errorCode: 4,
     message: "unauthorized",
   },
+  NOT_FOUND: {
+    errorCode: 5,
+    message: "not found",
+  },
   NOT_GAME: {
     errorCode: 100,
     message: "can not find game",

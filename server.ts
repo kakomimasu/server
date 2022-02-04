@@ -1,10 +1,10 @@
-import { Application, Core, oakCors, Router } from "./deps.ts";
+import { Application, Context, Core, oakCors, Router } from "./deps.ts";
 
 import * as util from "./v1/util.ts";
 const resolve = util.pathResolver(import.meta);
 
 import { ExpKakomimasu } from "./v1/parts/expKakomimasu.ts";
-import { errorCodeResponse, ServerError } from "./v1/error.ts";
+import { errorCodeResponse, errors, ServerError } from "./v1/error.ts";
 import { nonReqEnv, reqEnv } from "./v1/parts/env.ts";
 const port = parseInt(reqEnv.PORT);
 
@@ -24,32 +24,6 @@ tournaments.dataCheck(kkmm.getGames());
 
 const apiRoutes = () => {
   const router = new Router();
-  router.use(async (ctx, next) => {
-    try {
-      await next();
-    } catch (err) {
-      if (!(err instanceof ServerError)) {
-        if (nonReqEnv.DISCORD_WEBHOOK_URL) {
-          const content = `kakomimasu/serverで予期しないエラーを検出しました。
-  Date: ${new Date().toLocaleString("ja-JP")}
-  URL: ${ctx.request.url}
-  \`\`\`console\n${err.stack}\n\`\`\``;
-          fetch(nonReqEnv.DISCORD_WEBHOOK_URL, {
-            method: "POST",
-            headers: new Headers({ "content-type": "application/json" }),
-            body: JSON.stringify({ content, username: "500 ERROR!" }),
-          }).then(async (res) => {
-            console.log(await res.text());
-          });
-        }
-      }
-      console.log(ctx.request);
-      const { status, body } = errorCodeResponse(err);
-      ctx.response.status = status;
-      ctx.response.body = body;
-    }
-  });
-
   router.use("/ws", wsRoutes());
   router.use("/match", matchRouter());
   router.use("/game", gameRouter());
@@ -93,9 +67,39 @@ app.use(async (ctx, next) => {
 });
 
 const router = new Router();
+
+router.use(async (ctx, next) => {
+  try {
+    await next();
+  } catch (err) {
+    if (!(err instanceof ServerError)) {
+      if (nonReqEnv.DISCORD_WEBHOOK_URL) {
+        const content = `kakomimasu/serverで予期しないエラーを検出しました。
+Date: ${new Date().toLocaleString("ja-JP")}
+URL: ${ctx.request.url}
+\`\`\`console\n${err.stack}\n\`\`\``;
+        fetch(nonReqEnv.DISCORD_WEBHOOK_URL, {
+          method: "POST",
+          headers: new Headers({ "content-type": "application/json" }),
+          body: JSON.stringify({ content, username: "500 ERROR!" }),
+        }).then(async (res) => {
+          console.log(await res.text());
+        });
+      }
+    }
+    console.log(ctx.request);
+    const { status, body } = errorCodeResponse(err);
+    ctx.response.status = status;
+    ctx.response.body = body;
+  }
+});
+
 router.use("/v1", apiRoutes());
 app.use(router.routes());
 app.use(router.allowedMethods());
+router.get("/(.*)", (_ctx: Context) => {
+  throw new ServerError(errors.NOT_FOUND);
+});
 
 app.listen({ port });
 
