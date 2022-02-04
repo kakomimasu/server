@@ -2,6 +2,7 @@ import { assertEquals } from "../../deps-test.ts";
 import { Core } from "../../deps.ts";
 import { ExpGame, Player } from "../parts/expKakomimasu.ts";
 
+// deno-lint-ignore no-explicit-any
 function deleteNull(obj: any) {
   Object.keys(obj).forEach((key) => {
     if (obj[key] === null) delete obj[key];
