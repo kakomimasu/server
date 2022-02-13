@@ -1,5 +1,7 @@
 import { Application, Context, Core, oakCors, Router } from "./deps.ts";
 
+import { VersionRes } from "./types.ts";
+
 import * as util from "./v1/util.ts";
 const resolve = util.pathResolver(import.meta);
 
@@ -97,14 +99,16 @@ URL: ${ctx.request.url}
 router.use("/v1", apiRoutes());
 app.use(router.routes());
 app.use(router.allowedMethods());
-router.get("/(.*)", (_ctx: Context) => {
-  throw new ServerError(errors.NOT_FOUND);
-});
 
 router.get("/version", (ctx) => {
-  ctx.response.body = {
+  const data: VersionRes = {
     version: reqEnv.HEROKU_RELEASE_VERSION,
   };
+  ctx.response.body = data;
+});
+
+router.get("/(.*)", (_ctx: Context) => {
+  throw new ServerError(errors.NOT_FOUND);
 });
 
 app.listen({ port });
