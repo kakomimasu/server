@@ -1,3 +1,4 @@
+import { VersionRes } from "../types.ts";
 import {
   ActionReq,
   ActionRes,
@@ -72,6 +73,11 @@ export default class ApiClient {
       const res = new Response(JSON.stringify(error), { status: 404 });
       return res;
     }
+  }
+
+  async getVersion(): ApiRes<VersionRes> {
+    const res = await this._fetch("/version");
+    return { success: res.status === 200, data: await res.json(), res };
   }
 
   async usersVerify(idToken: string): ApiRes<undefined> {
