@@ -50,4 +50,5 @@ Deno.test({
     assertEquals(game.toLogJSON(), restoredGame.toLogJSON());
   },
   sanitizeOps: false,
+  sanitizeResources: false,
 });
