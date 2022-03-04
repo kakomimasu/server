@@ -175,7 +175,7 @@ class Users {
 
 export { User, Users };
 
-export const accounts = new Users();
+export const accounts = await Users.init();
 
 export const userRouter = () => {
   const router = new Router();
