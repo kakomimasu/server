@@ -1,7 +1,7 @@
 // Standard Library
-export { fromFileUrl } from "https://deno.land/std@0.127.0/path/mod.ts";
-export { parse as yamlParse } from "https://deno.land/std@0.127.0/encoding/yaml.ts";
-export * as Colors from "https://deno.land/std@0.127.0/fmt/colors.ts";
+export { fromFileUrl } from "https://deno.land/std@0.128.0/path/mod.ts";
+export { parse as yamlParse } from "https://deno.land/std@0.128.0/encoding/yaml.ts";
+export * as Colors from "https://deno.land/std@0.128.0/fmt/colors.ts";
 
 // Third Party Modules
 export * from "https://deno.land/x/dotenv@v3.2.0/mod.ts";
