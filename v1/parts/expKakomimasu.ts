@@ -74,7 +74,7 @@ class ExpGame extends Core.Game {
     game.gaming = data.gaming;
     game.ending = data.ending;
     game.field.field = data.field.field.map(({ type, player }) => {
-      return { type, player: player || null };
+      return { type, player: player ?? null };
     });
     game.log = data.log;
     game.turn = data.turn;
