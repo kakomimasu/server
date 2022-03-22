@@ -10,6 +10,7 @@ type MapValue = {
   searchOption: SearchOptions;
   gameIds: string[];
   authedUserId?: string;
+  keepAliveTimerId: number;
 };
 const clients = new Map<WebSocket, MapValue>();
 
@@ -25,6 +26,17 @@ const analyzeStringSearchOption = (q: string) => {
   return qs;
 };
 
+const setKeepAliveTimeout = (ws: WebSocket) => {
+  const timerId = setInterval(() => {
+    if (ws.readyState === WebSocket.OPEN) {
+      ws.send("");
+    } else {
+      clearInterval(timerId);
+    }
+  }, 30 * 1000);
+
+  return timerId;
+};
 const filterGame = (
   game: ExpGame,
   { searchOption, authedUserId }: MapValue,
@@ -73,6 +85,8 @@ export function sendGame(game: ExpGame) {
         game: game.toJSON(),
       };
       ws.send(JSON.stringify(data));
+      clearTimeout(value.keepAliveTimerId);
+      value.keepAliveTimerId = setKeepAliveTimeout(ws);
     });
   };
 }
@@ -95,6 +109,7 @@ export const wsRoutes = () => {
         searchOption: [],
         gameIds: [],
         authedUserId: user?.id,
+        keepAliveTimerId: setKeepAliveTimeout(sock),
       };
       clients.set(sock, client);
       //console.log("ws client", clients);
@@ -140,12 +155,14 @@ export const wsRoutes = () => {
           };
 
           sock.send(JSON.stringify(body));
+          clearTimeout(client.keepAliveTimerId);
+          client.keepAliveTimerId = setKeepAliveTimeout(sock);
           //console.log(ev);
         } catch (e) {
           if (e instanceof Deno.errors.ConnectionAborted) {
             clients.delete(sock);
           } else {
-            console.log(e);
+            console.error(e);
           }
         }
       };
