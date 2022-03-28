@@ -21,19 +21,10 @@ jobs:
       - uses: actions/checkout@v2
       - uses: denoland/setup-deno@v1
         with:
-          deno-version: v1.x
+          deno-version: v1.20.3
       - name: Run cache & check
         run: |
-          deno cache --no-check=remote ./server.ts
-      # - name: Run test
-      #   if: ${{ runner.os == 'Windows' }}
-      #   env:
-      #     FIREBASE_USERNAME: test@example.com
-      #     FIREBASE_PASSWORD: server-admin
-      #     FIREBASE_TEST: true
-      #   run: |
-      #     deno run -A --no-check=remote --location http://localhost server.ts > $null &
-      #     deno test -A --no-check=remote --location http://localhost
+          deno task cache
       - name: Run test
         if: ${{ runner.os != 'Windows' }}
         env:
@@ -41,5 +32,5 @@ jobs:
           FIREBASE_PASSWORD: server-admin
           FIREBASE_TEST: true
         run: |
-          deno run -A --no-check=remote --location http://localhost server.ts > /dev/null &
-          deno test -A --no-check=remote --location http://localhost
+          deno task start > /dev/null &
+          deno task test

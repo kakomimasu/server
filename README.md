@@ -2,23 +2,17 @@
 
 ## 概要
 
-[Kakomimasu Core](https://github.com/codeforkosen/Kakomimasu)を使用した、囲みマスをオンラインで対戦するためのサーバです。実行には[Deno](https://deno.land/)がインストールされている必要があります。
+[Kakomimasu Core](https://github.com/codeforkosen/Kakomimasu)を使用した、囲みマスをオンラインで対戦するためのサーバです。実行には[Deno](https://deno.land/)(v1.20以降)がインストールされている必要があります。
 
 ## サーバ起動方法
 
 ```console
-deno run -A --location http://localhost server.ts
-```
-
-または、[`denon`](https://github.com/denosaurs/denon)がインストールされている場合、
-
-```console
-denon start
+deno task start
 ```
 
 ## 環境変数
 
-感興変数はサーバ起動時にシステム変数と`.env`ファイルの両方から読み込みます。
+環境変数はサーバ起動時にシステム変数と`.env`ファイルの両方から読み込みます。
 使用可能な環境変数については[envconfig.yml](envconfig.yml)をご覧ください。
 
 ## 機能
@@ -63,13 +57,13 @@ $ docker run -p 4000:4000 -p 8080:8080 -p 9000:9000 -p 9099:9099 -d --name fireb
 #### 2. server起動
 
 ```console
-$ denon start
+$ deno task start
 ```
 
 #### 3. テスト
 
 ```console
-$ deno test -A
+$ deno task test
 ```
 
 ### [act](https://github.com/nektos/act)を用いた方法
