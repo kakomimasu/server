@@ -2,7 +2,6 @@ import { Router } from "../deps.ts";
 
 import { contentTypeFilter, jsonParse } from "./util.ts";
 import { accounts } from "./user.ts";
-import { sendGame } from "./ws.ts";
 import { errors, ServerError } from "./error.ts";
 import { kkmm } from "../server.ts";
 import { tournaments } from "./tournament.ts";
@@ -33,10 +32,7 @@ export const gameRouter = () => {
       if (!reqJson.option?.dryRun) {
         game = new ExpGame(board, reqJson.name);
         kkmm.addGame(game);
-        //game = kkmm.createGame(board, reqJson.name);
-        const changeFunc = sendGame(game);
-        game.changeFuncs.push(changeFunc);
-        changeFunc();
+        game.wsSend();
       } else game = new ExpGame(board, reqJson.name);
 
       if (reqJson.isMySelf) {

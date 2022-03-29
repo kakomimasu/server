@@ -6,6 +6,7 @@ import { setGame } from "./firestore_opration.ts";
 import { accounts } from "../user.ts";
 
 import { Game as GameType } from "../types.ts";
+import { sendGame } from "../ws.ts";
 
 class Player extends Core.Player<ExpGame> {
   public pic: string;
@@ -48,7 +49,6 @@ class ExpGame extends Core.Game {
   public uuid: string;
   public name?: string;
   public startedAtUnixTime: number | null;
-  public changeFuncs: (((id: string) => void) | (() => void))[];
   public reservedUsers: string[];
   private type: "normal" | "self" | "personal";
   public personalUserId: string | null;
@@ -59,7 +59,6 @@ class ExpGame extends Core.Game {
     this.uuid = randomUUID();
     this.name = name;
     this.startedAtUnixTime = null;
-    this.changeFuncs = [];
     this.reservedUsers = [];
     this.type = "normal";
     this.personalUserId = null;
@@ -249,13 +248,11 @@ class ExpGame extends Core.Game {
 
   toLogJSON() {
     const data = { ...this, ...super.toLogJSON() };
-    data.changeFuncs = [];
     return data;
   }
 
   wsSend() {
-    //console.log("expKakomimasu", this.uuid);
-    this.changeFuncs.forEach((func) => func(this.uuid));
+    sendGame(this);
   }
 }
 

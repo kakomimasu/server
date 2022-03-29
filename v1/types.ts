@@ -166,4 +166,9 @@ interface WsGameResUpdate {
   game: Game;
 }
 
-export type WsGameRes = WsGameResInitial | WsGameResUpdate;
+interface WsGameResRemove {
+  type: "remove";
+  gameId: string;
+}
+
+export type WsGameRes = WsGameResInitial | WsGameResUpdate | WsGameResRemove;

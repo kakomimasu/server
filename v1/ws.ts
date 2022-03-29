@@ -54,6 +54,14 @@ const filterGame = (
       if (so.value === "personal" && game.personalUserId !== authedUserId) {
         isMatched = false;
       }
+
+      if (so.value === "waiting" && !game.isFree()) {
+        isMatched = false;
+      } else if (so.value === "gaming" && !game.gaming) {
+        isMatched = false;
+      } else if (so.value === "finished" && !game.ending) {
+        isMatched = false;
+      }
     }
     if (so.op === "id" && so.value !== game.uuid) isMatched = false;
   });
@@ -62,33 +70,43 @@ const filterGame = (
 };
 
 export function sendGame(game: ExpGame) {
-  return () => {
-    clients.forEach((value, ws) => {
-      if (ws.readyState === WebSocket.CLOSED) {
-        clients.delete(ws);
-        return;
-      }
-      //console.log(game, value);
-      if (!value.gameIds.some((id) => id === game.uuid)) {
-        if (
-          value.searchOption.some((so) =>
-            so.op === "is" && so.value === "newGame"
-          )
-        ) {
-          value.gameIds.push(game.uuid);
-        } else return;
-      }
+  clients.forEach((value, ws) => {
+    if (ws.readyState === WebSocket.CLOSED) {
+      clients.delete(ws);
+      return;
+    }
+    //console.log(game, value);
+    if (!value.gameIds.some((id) => id === game.uuid)) {
+      if (
+        value.searchOption.some((so) =>
+          so.op === "is" && so.value === "newGame"
+        )
+      ) {
+        value.gameIds.push(game.uuid);
+      } else return;
+    }
 
-      if (!filterGame(game, value)) return;
+    if (!filterGame(game, value)) {
+      console.error("filterGame error!!!!!", value);
+      const removeIndex = value.gameIds.findIndex((id) => id === game.uuid);
+      value.gameIds.splice(removeIndex, 1);
+      console.log("remove gameId", game.uuid, removeIndex, value.gameIds);
+      const data: WsGameRes = {
+        type: "remove",
+        gameId: game.uuid,
+      };
+      ws.send(JSON.stringify(data));
+      // return;
+    } else {
       const data: WsGameRes = {
         type: "update",
         game: game.toJSON(),
       };
       ws.send(JSON.stringify(data));
-      clearTimeout(value.keepAliveTimerId);
-      value.keepAliveTimerId = setKeepAliveTimeout(ws);
-    });
-  };
+    }
+    clearTimeout(value.keepAliveTimerId);
+    value.keepAliveTimerId = setKeepAliveTimeout(ws);
+  });
 }
 
 export const wsRoutes = () => {
