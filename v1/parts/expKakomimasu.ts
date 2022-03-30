@@ -6,7 +6,6 @@ import { setGame } from "./firestore_opration.ts";
 import { accounts } from "../user.ts";
 
 import { Game as GameType } from "../types.ts";
-import { sendGame } from "../ws.ts";
 
 class Player extends Core.Player<ExpGame> {
   public pic: string;
@@ -251,7 +250,8 @@ class ExpGame extends Core.Game {
     return data;
   }
 
-  wsSend() {
+  async wsSend() {
+    const { sendGame } = await import("../ws.ts");
     sendGame(this);
   }
 }
