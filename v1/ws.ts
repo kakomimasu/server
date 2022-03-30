@@ -1,5 +1,5 @@
 import { Router } from "../deps.ts";
-import type { WsGameReq, WsGameRes } from "./types.ts";
+import type { User, WsGameReq, WsGameRes } from "./types.ts";
 import { UnknownRequest } from "./util.ts";
 
 import { ExpGame } from "./parts/expKakomimasu.ts";
@@ -131,14 +131,17 @@ export const wsRoutes = () => {
   router.get(
     "/game",
     async (ctx) => {
-      const sock = await ctx.upgrade();
-
-      //console.log("ws connected.");
       const bearerToken = ctx.request.headers.get("sec-websocket-protocol");
-      const user = accounts.getUsers().find((user) =>
-        user.bearerToken === bearerToken
-      );
-      //console.log("ws", user);
+      const upgradeOptions: Parameters<typeof ctx.upgrade>[0] = {};
+      let user: User | undefined;
+      if (bearerToken) {
+        user = accounts.getUsers().find((user) =>
+          user.bearerToken === bearerToken
+        );
+        if (user) upgradeOptions.protocol = bearerToken;
+        // console.log("ws", user);
+      }
+      const sock = await ctx.upgrade(upgradeOptions);
 
       sock.onmessage = (ev) => {
         try {
@@ -202,7 +205,6 @@ export const wsRoutes = () => {
       sock.onclose = () => {
         clients.delete(sock);
       };
-      ctx.response.status = 200;
     },
   );
 
