@@ -3,7 +3,6 @@ import { Core, Router } from "../deps.ts";
 import { contentTypeFilter, jsonParse } from "./util.ts";
 
 import { accounts } from "./user.ts";
-import { sendGame } from "./ws.ts";
 import { errors, ServerError } from "./error.ts";
 import { kkmm } from "../server.ts";
 import { aiList } from "./parts/ai-list.ts";
@@ -97,7 +96,6 @@ export const matchRouter = () => {
           } else {
             game.name = `対AI戦：${player.id} vs AI(${ai.name})`;
           }
-          game.changeFuncs.push(sendGame(game));
           game.attachPlayer(player);
           //accounts.addGame(user.userId, game.uuid);
 
@@ -116,7 +114,6 @@ export const matchRouter = () => {
             if (!brd) throw new ServerError(errors.INVALID_BOARD_NAME);
             const game = new ExpGame(brd);
             //const game = kkmm.createGame(brd);
-            game.changeFuncs.push(sendGame(game));
             freeGame.push(game);
             kkmm.addGame(game);
           }

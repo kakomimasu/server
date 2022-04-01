@@ -1,5 +1,7 @@
 import { Router } from "../deps.ts";
-import type { WsGameRes } from "./types.ts";
+import type { User, WsGameReq, WsGameRes } from "./types.ts";
+import { UnknownRequest } from "./util.ts";
+
 import { ExpGame } from "./parts/expKakomimasu.ts";
 
 import { kkmm } from "../server.ts";
@@ -10,6 +12,7 @@ type MapValue = {
   searchOption: SearchOptions;
   gameIds: string[];
   authedUserId?: string;
+  allowNewGame: boolean;
   keepAliveTimerId: number;
 };
 const clients = new Map<WebSocket, MapValue>();
@@ -37,58 +40,90 @@ const setKeepAliveTimeout = (ws: WebSocket) => {
 
   return timerId;
 };
-const filterGame = (
+
+const sortCompareFn = (
+  a: ExpGame,
+  b: ExpGame,
+  searchOptions: MapValue["searchOption"],
+) => {
+  const sort = searchOptions.find((query) => query.op === "sort");
+  if (!sort) return 0;
+  const v = sort.value;
+  if (v === "startAtUnixTime-desc") {
+    return (b.startedAtUnixTime ?? 10000000000) -
+      (a.startedAtUnixTime ?? 10000000000);
+  } else if (v === "startAtUnixTime-asc") {
+    return (a.startedAtUnixTime ?? 10000000000) -
+      (b.startedAtUnixTime ?? 10000000000);
+  }
+  return 0;
+};
+
+const staticFilter = (
   game: ExpGame,
   { searchOption, authedUserId }: MapValue,
 ) => {
-  let isMatched = true;
-  searchOption.forEach((so) => {
-    if (so.op === "is") {
-      if (so.value === "self" && game.getType() !== "self") {
-        isMatched = false;
-      }
-      if (so.value === "normal" && game.getType() !== "normal") {
-        isMatched = false;
-      }
-      //console.log("filterGame", so.value, game.personalUserId, authedUserId);
+  for (const so of searchOption) {
+    if (so.op === "type") {
+      if (so.value === "self" && game.getType() !== "self") return false;
+      if (so.value === "normal" && game.getType() !== "normal") return false;
       if (so.value === "personal" && game.personalUserId !== authedUserId) {
-        isMatched = false;
+        return false;
       }
+    } else if (so.op === "id" && so.value !== game.uuid) return false;
+  }
+  return true;
+};
+
+const dynamicFilter = (game: ExpGame, { searchOption }: MapValue) => {
+  for (const so of searchOption) {
+    if (so.op === "is") {
+      if (so.value === "waiting" && !game.isFree()) return false;
+      else if (so.value === "gaming" && !game.gaming) return false;
+      else if (so.value === "finished" && !game.ending) return false;
     }
-    if (so.op === "id" && so.value !== game.uuid) isMatched = false;
-  });
-  //console.log(game.type, isMatched);
-  return isMatched;
+  }
+  return true;
 };
 
 export function sendGame(game: ExpGame) {
-  return () => {
-    clients.forEach((value, ws) => {
-      if (ws.readyState === WebSocket.CLOSED) {
-        clients.delete(ws);
-        return;
-      }
-      //console.log(game, value);
-      if (!value.gameIds.some((id) => id === game.uuid)) {
-        if (
-          value.searchOption.some((so) =>
-            so.op === "is" && so.value === "newGame"
-          )
-        ) {
-          value.gameIds.push(game.uuid);
-        } else return;
-      }
+  clients.forEach((value, ws) => {
+    if (ws.readyState === WebSocket.CLOSED) {
+      clients.delete(ws);
+      return;
+    }
+    //console.log(game, value);
 
-      if (!filterGame(game, value)) return;
-      const data: WsGameRes = {
-        type: "update",
-        game: game.toJSON(),
-      };
-      ws.send(JSON.stringify(data));
-      clearTimeout(value.keepAliveTimerId);
-      value.keepAliveTimerId = setKeepAliveTimeout(ws);
-    });
-  };
+    let data: WsGameRes;
+
+    if (value.gameIds.some((id) => id === game.uuid)) {
+      if (dynamicFilter(game, value)) {
+        data = {
+          type: "update",
+          game: game.toJSON(),
+        };
+      } else {
+        const removeIndex = value.gameIds.findIndex((id) => id === game.uuid);
+        value.gameIds.splice(removeIndex, 1);
+        data = {
+          type: "remove",
+          gameId: game.uuid,
+        };
+      }
+    } else {
+      if (!value.allowNewGame) return;
+      if (staticFilter(game, value) && dynamicFilter(game, value)) {
+        value.gameIds.push(game.uuid);
+        data = {
+          type: "add",
+          game: game.toJSON(),
+        };
+      } else return;
+    }
+    ws.send(JSON.stringify(data));
+    clearTimeout(value.keepAliveTimerId);
+    value.keepAliveTimerId = setKeepAliveTimeout(ws);
+  });
 }
 
 export const wsRoutes = () => {
@@ -96,51 +131,51 @@ export const wsRoutes = () => {
   router.get(
     "/game",
     async (ctx) => {
-      const sock = await ctx.upgrade();
-
-      //console.log("ws connected.");
       const bearerToken = ctx.request.headers.get("sec-websocket-protocol");
-      const user = accounts.getUsers().find((user) =>
-        user.bearerToken === bearerToken
-      );
-      //console.log("ws", user);
-
-      const client: MapValue = {
-        searchOption: [],
-        gameIds: [],
-        authedUserId: user?.id,
-        keepAliveTimerId: setKeepAliveTimeout(sock),
-      };
-      clients.set(sock, client);
-      //console.log("ws client", clients);
+      const upgradeOptions: Parameters<typeof ctx.upgrade>[0] = {};
+      let user: User | undefined;
+      if (bearerToken) {
+        user = accounts.getUsers().find((user) =>
+          user.bearerToken === bearerToken
+        );
+        if (user) upgradeOptions.protocol = bearerToken;
+        // console.log("ws", user);
+      }
+      const sock = await ctx.upgrade(upgradeOptions);
 
       sock.onmessage = (ev) => {
         try {
           if (typeof ev.data !== "string") return;
 
-          const { q, startIndex: sIdx, endIndex: eIdx } = JSON.parse(ev.data);
+          const { q, startIndex: sIdx, endIndex: eIdx, allowNewGame } = JSON
+            .parse(ev.data) as UnknownRequest<WsGameReq>;
 
           // check json type
           if (typeof q !== "string") return;
           if (typeof sIdx !== "number" && typeof sIdx !== "undefined") return;
           if (typeof eIdx !== "number" && typeof eIdx !== "undefined") return;
+          if (
+            typeof allowNewGame !== "boolean" &&
+            typeof allowNewGame !== "undefined"
+          ) {
+            return;
+          }
+
+          const client: MapValue = {
+            searchOption: [],
+            gameIds: [],
+            authedUserId: user?.id,
+            allowNewGame: allowNewGame ?? false,
+            keepAliveTimerId: setKeepAliveTimeout(sock),
+          };
+          clients.set(sock, client);
 
           const searchOptions = analyzeStringSearchOption(q);
           client.searchOption = searchOptions;
 
-          const games = kkmm.getGames().sort((a, b) => {
-            const sort = searchOptions.find((query) => query.op === "sort");
-            if (!sort) return 0;
-            const v = sort.value;
-            if (v === "startAtUnixTime-desc") {
-              return (b.startedAtUnixTime ?? 10000000000) -
-                (a.startedAtUnixTime ?? 10000000000);
-            } else if (v === "startAtUnixTime-asc") {
-              return (a.startedAtUnixTime ?? 10000000000) -
-                (b.startedAtUnixTime ?? 10000000000);
-            }
-            return 0;
-          }).filter((game) => filterGame(game, client));
+          const games = kkmm.getGames().filter((game) => {
+            return staticFilter(game, client) && dynamicFilter(game, client);
+          }).sort((a, b) => sortCompareFn(a, b, searchOptions));
 
           const gamesNum = games.length;
           const slicedGames = games.slice(sIdx, eIdx);
@@ -170,7 +205,6 @@ export const wsRoutes = () => {
       sock.onclose = () => {
         clients.delete(sock);
       };
-      ctx.response.status = 200;
     },
   );
 

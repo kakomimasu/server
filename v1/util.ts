@@ -1,6 +1,8 @@
 import { Context, fromFileUrl } from "../deps.ts";
 import { errors, ServerError } from "./error.ts";
 
+export type UnknownRequest<T> = Record<keyof T, unknown>;
+
 export const jsonResponse = <T>(json: T) => {
   return {
     status: 200,
