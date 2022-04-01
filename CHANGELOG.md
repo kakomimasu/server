@@ -6,6 +6,43 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/ja/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v1.0.0-beta.7
+
+### Added
+
+- feat: サーバのバージョンを返すAPIを作る by @ninja03 in
+  https://github.com/kakomimasu/server/pull/140
+- feat: 存在しないパスにアクセスしたときのレスポンスを付ける by @ninja03 in
+  https://github.com/kakomimasu/server/pull/139
+
+### Changed
+
+- fix(v1/ws): WebSocket APIの仕様・アルゴリズム変更 by @kamekyame in
+  https://github.com/kakomimasu/server/pull/156
+- Oakにしました by @ninja03 in https://github.com/kakomimasu/server/pull/123
+
+### Fixed
+
+- fix(v1): 起動時にfirebaseにログインするように変更 by @kamekyame in
+  https://github.com/kakomimasu/server/pull/122
+- Fix(v1): firebaseの型定義を追加しました by @kamekyame in
+  https://github.com/kakomimasu/server/pull/124
+- エラー処理修正 by @ninja03 in https://github.com/kakomimasu/server/pull/126
+- fix(match): Action時にagentIDにかかわらず前回送信したアクションが削除される問題を修正 by @kamekyame in
+  https://github.com/kakomimasu/server/pull/132
+- fix(client): 接続先が見つからない場合に例外ではなく適切な戻り値を返すように修正 by @kamekyame in
+  https://github.com/kakomimasu/server/pull/133
+- fix(v1): プレイヤーのエージェント情報が正しくrestoreされなかった問題を修正 by @kamekyame in
+  https://github.com/kakomimasu/server/pull/135
+- fix: versionが返されないバグを修正 by @kamekyame in
+  https://github.com/kakomimasu/server/pull/142
+- fix(user): サーバ開始時に既存のユーザを取得していないバグを修正 by @kamekyame in
+  https://github.com/kakomimasu/server/pull/147
+- fix: プレイヤー0のタイル情報が消えているバグを修正 by @kamekyame in
+  https://github.com/kakomimasu/server/pull/150
+- fix(v1/ws): Websocket接続でherokuにH15エラーで切断されるバグを修正 by @kamekyame in
+  https://github.com/kakomimasu/server/pull/151
+
 ## v1.0.0-beta.6
 
 ### Added
