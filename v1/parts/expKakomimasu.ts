@@ -74,10 +74,16 @@ class ExpGame extends Core.Game {
     game.field.field = data.field.field.map(({ type, player }) => {
       return { type, player: player ?? null };
     });
-    game.log = data.log;
+    game.log = data.log.map((turn) => {
+      return {
+        players: turn.players.map(({ point, actions }) => {
+          return { point, actions: actions ?? [] };
+        }),
+      };
+    });
     game.turn = data.turn;
     game.startedAtUnixTime = data.startedAtUnixTime ?? null;
-    game.reservedUsers = data.reservedUsers;
+    game.reservedUsers = data.reservedUsers ?? [];
     game.type = data.type || "normal";
     game.personalUserId = data.personalUserId ?? null;
     return game;
