@@ -252,7 +252,7 @@ class ExpGame extends Core.Game {
   }
 
   toLogJSON() {
-    const data = { ...this, ...super.toLogJSON() };
+    const data = { ...this, ...super.toLogJSON(), ...{ ai: undefined } };
     return data;
   }
 
