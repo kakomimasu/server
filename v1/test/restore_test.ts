@@ -1,12 +1,13 @@
-import { assertEquals } from "../../deps-test.ts";
+import { assertEquals, delay } from "../../deps-test.ts";
 import { Core } from "../../deps.ts";
 import { ExpGame, Player } from "../parts/expKakomimasu.ts";
 
 // deno-lint-ignore no-explicit-any
-function deleteNull(obj: any) {
+function firebaseSave(obj: any) {
   Object.keys(obj).forEach((key) => {
     if (obj[key] === null) delete obj[key];
-    else if (typeof obj[key] === "object") deleteNull(obj[key]);
+    else if (Array.isArray(obj[key]) && obj[key].length === 0) delete obj[key];
+    else if (typeof obj[key] === "object") firebaseSave(obj[key]);
   });
   return obj;
 }
@@ -32,7 +33,7 @@ Deno.test({
 
 Deno.test({
   name: "restore ExpGame class",
-  fn() {
+  async fn() {
     const board = new Core.Board({
       w: 2,
       h: 2,
@@ -44,9 +45,18 @@ Deno.test({
     });
     const game = new ExpGame(board);
     const p1 = new Player("p1");
+    const p2 = new Player("p2");
     game.attachPlayer(p1);
+    game.attachPlayer(p2);
+    p1.setActions([new Core.Action(0, 1, 0, 1)]);
 
-    const restoredGame = ExpGame.restore(deleteNull(game.toLogJSON()));
+    while (game.turn < 2) {
+      await delay(1000);
+    }
+
+    const restoredGame = ExpGame.restore(
+      firebaseSave(structuredClone(game.toLogJSON())),
+    );
     assertEquals(game.toLogJSON(), restoredGame.toLogJSON());
   },
   sanitizeOps: false,
