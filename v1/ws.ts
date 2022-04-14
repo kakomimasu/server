@@ -1,5 +1,5 @@
 import { Router } from "../deps.ts";
-import type { User, WsGameReq, WsGameRes } from "./types.ts";
+import type { WsGameReq, WsGameRes } from "./types.ts";
 import { UnknownRequest } from "./util.ts";
 
 import { ExpGame } from "./parts/expKakomimasu.ts";
