@@ -133,7 +133,7 @@ export const wsRoutes = () => {
     async (ctx) => {
       const bearerToken = ctx.request.headers.get("sec-websocket-protocol");
       const upgradeOptions: Parameters<typeof ctx.upgrade>[0] = {};
-      let user: User | undefined;
+      let user: ReturnType<typeof accounts.getUsers>[0] | undefined;
       if (bearerToken) {
         user = accounts.getUsers().find((user) =>
           user.bearerToken === bearerToken

@@ -3,8 +3,6 @@ import { nowUnixTime, randomUUID } from "../util.ts";
 
 import { setGame } from "./firestore_opration.ts";
 
-import { accounts } from "../user.ts";
-
 import { Game as GameType } from "../types.ts";
 
 class Player extends Core.Player<ExpGame> {
@@ -107,7 +105,6 @@ class ExpGame extends Core.Game {
 
     if (super.attachPlayer(player) === false) return false;
     this.updateStatus();
-    accounts.addGame(player.id, this.uuid);
     return true;
   }
 

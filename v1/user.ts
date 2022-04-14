@@ -3,7 +3,6 @@ import { Router } from "../deps.ts";
 import { contentTypeFilter, jsonParse, randomUUID } from "./util.ts";
 import { getAllUsers, setAllUsers } from "./parts/firestore_opration.ts";
 import { errors, ServerError } from "./error.ts";
-import { ExpGame } from "./parts/expKakomimasu.ts";
 import { getPayload } from "./parts/jwt.ts";
 import { UserDeleteReq, UserRegistReq } from "./types.ts";
 import { auth } from "./middleware.ts";
@@ -13,6 +12,7 @@ export interface IUser {
   name: string;
   id?: string;
   password?: string;
+  /** @deprecated */
   gamesId?: string[];
   bearerToken?: string;
 }
@@ -34,12 +34,6 @@ class User implements IUser {
     this.bearerToken = data.bearerToken || randomUUID();
   }
 
-  dataCheck(games: ExpGame[]) {
-    this.gamesId = this.gamesId.filter((gameId) => {
-      if (games.some((game) => game.uuid === gameId)) return true;
-      else return false;
-    });
-  }
   // シリアライズする際にパスワードを返さないように
   // パスワードを返したい場合にはnoSafe()を用いる
   toJSON() {
@@ -65,11 +59,6 @@ class Users {
     this.users = usersData.map((e) => new User(e));
   };
   save = () => setAllUsers(this.users.map((e) => e.noSafe()));
-
-  dataCheck(games: ExpGame[]) {
-    this.users.forEach((user) => user.dataCheck(games));
-    this.save();
-  }
 
   getUsers = () => this.users;
 
@@ -163,14 +152,6 @@ class Users {
       (e.id === identifier) || (e.name === identifier)
     );
   }
-
-  addGame(identifier: string, gameId: string) {
-    const user = this.find(identifier);
-    if (user) {
-      user.gamesId.push(gameId);
-    }
-    this.save();
-  }
 }
 
 export { User, Users };
@@ -248,7 +229,7 @@ export const userRouter = () => {
   router.get(
     "/show/:identifier",
     auth({ basic: true, jwt: true, required: false }),
-    (ctx) => {
+    async (ctx) => {
       const identifier = ctx.params.identifier || "";
 
       if (identifier !== "") {
@@ -256,7 +237,16 @@ export const userRouter = () => {
 
         // 認証済みユーザかの確認
         const authedUserId = ctx.state.authed_userId as string;
-        ctx.response.body = user.id === authedUserId ? user.noSafe() : user;
+        const bodyUser = user.id === authedUserId ? user.noSafe() : user;
+        const { kkmm } = await import("../server.ts");
+        const gamesId = kkmm.getGames().filter((game) => {
+          return game.players.some((p) => p.id === user.id);
+        }).sort((a, b) => {
+          return (a.startedAtUnixTime ?? Infinity) -
+            (b.startedAtUnixTime ?? Infinity);
+        }).map((game) => game.uuid);
+
+        ctx.response.body = { ...bodyUser, gamesId };
       } else {
         ctx.response.body = accounts.getUsers();
       }
