@@ -3,5 +3,9 @@
     "cache": "deno cache --no-check=remote server.ts",
     "start": "deno run --allow-read --allow-env --allow-net --no-check=remote server.ts",
     "test": "deno test --allow-read --allow-env --allow-net --no-check=remote"
+  },
+  "compilerOptions": {
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   }
 }

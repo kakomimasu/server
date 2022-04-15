@@ -8,11 +8,6 @@ import {
   ClientNone,
 } from "../../deps.ts";
 
-interface IAi {
-  name: string;
-  filePath: string;
-}
-
 export const aiList: { name: string; client: typeof Algorithm }[] = [
   { name: "none", client: ClientNone },
   { name: "a1", client: ClientA1 },

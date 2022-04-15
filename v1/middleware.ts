@@ -1,8 +1,8 @@
 import { Context } from "../deps.ts";
 
-import { accounts } from "./user.ts";
-import { getPayload } from "./parts/jwt.ts";
+import { accounts } from "./datas.ts";
 import { errorCodeResponse, errors, ServerError } from "./error.ts";
+import { getPayload } from "./parts/jwt.ts";
 
 export const auth = (
   { basic, bearer, jwt, required = true }: {

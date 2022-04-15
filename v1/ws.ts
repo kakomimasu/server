@@ -1,11 +1,9 @@
 import { Router } from "../deps.ts";
+
 import type { WsGameReq, WsGameRes } from "./types.ts";
 import { UnknownRequest } from "./util.ts";
-
+import { accounts, kkmm } from "./datas.ts";
 import { ExpGame } from "./parts/expKakomimasu.ts";
-
-import { kkmm } from "../server.ts";
-import { accounts } from "./user.ts";
 
 type SearchOptions = { op: string; value: string }[];
 type MapValue = {
