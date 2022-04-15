@@ -154,6 +154,17 @@ export { User, Users };
 
 export const accounts = await Users.init();
 
+async function getGamesId(user: User) {
+  const { kkmm } = await import("../server.ts");
+  const gamesId = kkmm.getGames().filter((game) => {
+    return game.players.some((p) => p.id === user.id);
+  }).sort((a, b) => {
+    return (a.startedAtUnixTime ?? Infinity) -
+      (b.startedAtUnixTime ?? Infinity);
+  }).map((game) => game.uuid);
+  return gamesId;
+}
+
 export const userRouter = () => {
   const router = new Router();
 
@@ -217,7 +228,7 @@ export const userRouter = () => {
       }
       //return user;
       //const user = accounts.registUser({ ...reqData, id }, jwt !== null);
-      ctx.response.body = user.noSafe();
+      ctx.response.body = { ...user.noSafe(), gamesId: [] };
     },
   );
 
@@ -236,13 +247,7 @@ export const userRouter = () => {
         const bodyUser = user.id === authedUserId
           ? user.noSafe()
           : user.toJSON();
-        const { kkmm } = await import("../server.ts");
-        const gamesId = kkmm.getGames().filter((game) => {
-          return game.players.some((p) => p.id === user.id);
-        }).sort((a, b) => {
-          return (a.startedAtUnixTime ?? Infinity) -
-            (b.startedAtUnixTime ?? Infinity);
-        }).map((game) => game.uuid);
+        const gamesId = await getGamesId(user);
 
         ctx.response.body = { ...bodyUser, gamesId };
       } else {
@@ -257,7 +262,7 @@ export const userRouter = () => {
     contentTypeFilter("application/json"),
     auth({ bearer: true, jwt: true }),
     jsonParse(),
-    (ctx) => {
+    async (ctx) => {
       const reqData = ctx.state.data as UserDeleteReq;
       const authedUserId = ctx.state.authed_userId as string;
 
@@ -265,12 +270,13 @@ export const userRouter = () => {
       if (!user) throw new ServerError(errors.NOT_USER);
       user = new User(user);
       accounts.deleteUser(user.id, reqData.option?.dryRun);
-      ctx.response.body = user;
+      const gamesId = await getGamesId(user);
+      ctx.response.body = { ...user.toJSON(), gamesId };
     },
   );
 
   // ユーザ検索
-  router.get("/search", (ctx) => {
+  router.get("/search", async (ctx) => {
     const query = ctx.request.url.searchParams;
     const q = query.get("q");
     if (!q) {
@@ -280,8 +286,12 @@ export const userRouter = () => {
     const matchName = accounts.getUsers().filter((e) => e.name.startsWith(q));
     const matchId = accounts.getUsers().filter((e) => e.id.startsWith(q));
     const users = [...new Set([...matchName, ...matchId])];
+    const body = await Promise.all(users.map(async (user) => {
+      const gamesId = await getGamesId(user);
+      return { ...user.toJSON(), gamesId };
+    }));
 
-    ctx.response.body = users;
+    ctx.response.body = body;
   });
 
   return router.routes();
