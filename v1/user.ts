@@ -4,18 +4,8 @@ import { contentTypeFilter, jsonParse } from "./util.ts";
 import { errors, ServerError } from "./error.ts";
 import { UserDeleteReq, UserRegistReq } from "./types.ts";
 import { auth } from "./middleware.ts";
-import { accounts, kkmm, User } from "./datas.ts";
+import { accounts, User } from "./datas.ts";
 import { getPayload } from "./parts/jwt.ts";
-
-function getGamesId(user: User) {
-  const gamesId = kkmm.getGames().filter((game) => {
-    return game.players.some((p) => p.id === user.id);
-  }).sort((a, b) => {
-    return (a.startedAtUnixTime ?? Infinity) -
-      (b.startedAtUnixTime ?? Infinity);
-  }).map((game) => game.uuid);
-  return gamesId;
-}
 
 export const userRouter = () => {
   const router = new Router();
@@ -80,7 +70,7 @@ export const userRouter = () => {
       }
       //return user;
       //const user = accounts.registUser({ ...reqData, id }, jwt !== null);
-      ctx.response.body = { ...user.noSafe(), gamesId: [] };
+      ctx.response.body = user.noSafe();
     },
   );
 
@@ -88,23 +78,16 @@ export const userRouter = () => {
   router.get(
     "/show/:identifier",
     auth({ basic: true, jwt: true, required: false }),
-    async (ctx) => {
-      const identifier = ctx.params.identifier || "";
+    (ctx) => {
+      const identifier = ctx.params.identifier;
 
-      if (identifier !== "") {
-        const user = accounts.showUser(identifier);
+      const user = accounts.showUser(identifier);
 
-        // 認証済みユーザかの確認
-        const authedUserId = ctx.state.authed_userId as string;
-        const bodyUser = user.id === authedUserId
-          ? user.noSafe()
-          : user.toJSON();
-        const gamesId = await getGamesId(user);
+      // 認証済みユーザかの確認
+      const authedUserId = ctx.state.authed_userId as string;
+      const bodyUser = user.id === authedUserId ? user.noSafe() : user.toJSON();
 
-        ctx.response.body = { ...bodyUser, gamesId };
-      } else {
-        ctx.response.body = accounts.getUsers();
-      }
+      ctx.response.body = bodyUser;
     },
   );
 
@@ -114,7 +97,7 @@ export const userRouter = () => {
     contentTypeFilter("application/json"),
     auth({ bearer: true, jwt: true }),
     jsonParse(),
-    async (ctx) => {
+    (ctx) => {
       const reqData = ctx.state.data as UserDeleteReq;
       const authedUserId = ctx.state.authed_userId as string;
 
@@ -122,13 +105,12 @@ export const userRouter = () => {
       if (!user) throw new ServerError(errors.NOT_USER);
       user = new User(user);
       accounts.deleteUser(user.id, reqData.option?.dryRun);
-      const gamesId = await getGamesId(user);
-      ctx.response.body = { ...user.toJSON(), gamesId };
+      ctx.response.body = user;
     },
   );
 
   // ユーザ検索
-  router.get("/search", async (ctx) => {
+  router.get("/search", (ctx) => {
     const query = ctx.request.url.searchParams;
     const q = query.get("q");
     if (!q) {
@@ -138,12 +120,8 @@ export const userRouter = () => {
     const matchName = accounts.getUsers().filter((e) => e.name.startsWith(q));
     const matchId = accounts.getUsers().filter((e) => e.id.startsWith(q));
     const users = [...new Set([...matchName, ...matchId])];
-    const body = await Promise.all(users.map(async (user) => {
-      const gamesId = await getGamesId(user);
-      return { ...user.toJSON(), gamesId };
-    }));
 
-    ctx.response.body = body;
+    ctx.response.body = users;
   });
 
   return router.routes();

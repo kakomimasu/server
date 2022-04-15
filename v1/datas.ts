@@ -33,15 +33,25 @@ class User implements IUser {
     this.bearerToken = data.bearerToken || randomUUID();
   }
 
+  private getGamesId() {
+    const gamesId = kkmm.getGames().filter((game) => {
+      return game.players.some((p) => p.id === this.id);
+    }).sort((a, b) => {
+      return (a.startedAtUnixTime ?? Infinity) -
+        (b.startedAtUnixTime ?? Infinity);
+    }).map((game) => game.uuid);
+    return gamesId;
+  }
+
   // シリアライズする際にパスワードを返さないように
   // パスワードを返したい場合にはnoSafe()を用いる
   toJSON() {
-    const { password: _p, bearerToken: _b, ...data } = { ...this };
+    const { password: _p, bearerToken: _b, ...data } = this.noSafe();
     return data;
   }
 
-  // password,accessTokenも含めたオブジェクトにする
-  noSafe = () => ({ ...this });
+  // password,bearerTokenも含めたオブジェクトにする
+  noSafe = () => ({ ...this, gamesId: this.getGamesId() });
 }
 
 class Users {
@@ -51,7 +61,7 @@ class Users {
     const usersData = await getAllUsers();
     this.users = usersData.map((e) => new User(e));
   };
-  save = () => setAllUsers(this.users.map((e) => e.noSafe()));
+  save = () => setAllUsers(this.users);
 
   getUsers = () => this.users;
 
