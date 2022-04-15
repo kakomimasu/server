@@ -2,7 +2,6 @@ import { Algorithm, Core } from "../../deps.ts";
 import { nowUnixTime, randomUUID } from "../util.ts";
 
 import { setGame } from "./firestore_opration.ts";
-import { sendGame } from "../ws.ts";
 
 import { Game as GameType } from "../types.ts";
 
@@ -254,7 +253,8 @@ class ExpGame extends Core.Game {
     return data;
   }
 
-  wsSend() {
+  async wsSend() {
+    const { sendGame } = await import("../ws.ts");
     sendGame(this);
   }
 }
