@@ -237,7 +237,9 @@ export const userRouter = () => {
 
         // 認証済みユーザかの確認
         const authedUserId = ctx.state.authed_userId as string;
-        const bodyUser = user.id === authedUserId ? user.noSafe() : user;
+        const bodyUser = user.id === authedUserId
+          ? user.noSafe()
+          : user.toJSON();
         const { kkmm } = await import("../server.ts");
         const gamesId = kkmm.getGames().filter((game) => {
           return game.players.some((p) => p.id === user.id);
