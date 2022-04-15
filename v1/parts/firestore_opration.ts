@@ -48,7 +48,6 @@ export async function setAllUsers(users: IUser[]): Promise<void> {
       screenName: a.screenName,
       name: a.name,
       id: a.id,
-      gamesId: a.gamesId,
       bearerToken: a.bearerToken,
     };
     if (a.password != undefined) {

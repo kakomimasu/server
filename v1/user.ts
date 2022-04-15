@@ -12,8 +12,6 @@ export interface IUser {
   name: string;
   id?: string;
   password?: string;
-  /** @deprecated */
-  gamesId?: string[];
   bearerToken?: string;
 }
 
@@ -22,7 +20,6 @@ class User implements IUser {
   public name: string;
   public readonly id: string;
   public password?: string;
-  public gamesId: string[];
   public readonly bearerToken: string;
 
   constructor(data: IUser) {
@@ -30,7 +27,6 @@ class User implements IUser {
     this.name = data.name;
     this.id = data.id || randomUUID();
     this.password = data.password;
-    this.gamesId = data.gamesId || [];
     this.bearerToken = data.bearerToken || randomUUID();
   }
 
