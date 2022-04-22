@@ -1,169 +1,11 @@
 import { Router } from "../deps.ts";
 
-import { contentTypeFilter, jsonParse, randomUUID } from "./util.ts";
-import { getAllUsers, setAllUsers } from "./parts/firestore_opration.ts";
+import { contentTypeFilter, jsonParse } from "./util.ts";
 import { errors, ServerError } from "./error.ts";
-import { getPayload } from "./parts/jwt.ts";
 import { UserDeleteReq, UserRegistReq } from "./types.ts";
 import { auth } from "./middleware.ts";
-
-export interface IUser {
-  screenName: string;
-  name: string;
-  id?: string;
-  password?: string;
-  bearerToken?: string;
-}
-
-class User implements IUser {
-  public screenName: string;
-  public name: string;
-  public readonly id: string;
-  public password?: string;
-  public readonly bearerToken: string;
-
-  constructor(data: IUser) {
-    this.screenName = data.screenName;
-    this.name = data.name;
-    this.id = data.id || randomUUID();
-    this.password = data.password;
-    this.bearerToken = data.bearerToken || randomUUID();
-  }
-
-  // シリアライズする際にパスワードを返さないように
-  // パスワードを返したい場合にはnoSafe()を用いる
-  toJSON() {
-    const { password: _p, bearerToken: _b, ...data } = { ...this };
-    return data;
-  }
-
-  // password,accessTokenも含めたオブジェクトにする
-  noSafe = () => ({ ...this });
-}
-
-class Users {
-  private users: Array<User> = [];
-
-  static init = async () => {
-    const u = new Users();
-    await u.read();
-    return u;
-  };
-
-  read = async () => {
-    const usersData = await getAllUsers();
-    this.users = usersData.map((e) => new User(e));
-  };
-  save = () => setAllUsers(this.users.map((e) => e.noSafe()));
-
-  getUsers = () => this.users;
-
-  deleteUser(userId: string, dryRun = false) {
-    const index = this.users.findIndex((u) => u.id === userId);
-    if (index === -1) throw new ServerError(errors.NOT_USER);
-
-    if (dryRun !== true) {
-      this.users.splice(index, 1);
-      this.save();
-    }
-  }
-
-  /*updateUser(
-    { screenName = "", name = "", id = "", password = "" },
-  ): string {
-    //console.log(screenName, name, id, password);
-    var u: User | undefined;
-    if (password !== "") {
-      if (id !== "") {
-        u = this.users.find((
-          e,
-        ) => (e.id === id && e.password === password));
-        if (u !== undefined) {
-          if (screenName !== "") u.screenName = screenName;
-          if (
-            name !== "" && u.name !== name &&
-            this.users.some((e) => e.name === name) === false
-          ) {
-            u.name = name;
-          }
-        } else {
-          // idが無効
-          throw new UserUpdateError("Invalid id");
-        }
-      } else if (name !== "") {
-        u = this.users.find(
-          (e) => (e.name === name && e.password === password),
-        );
-
-        if (u !== undefined) {
-          if (screenName !== "") u.screenName = screenName;
-        } else {
-          if (screenName !== "") {
-            u = new User(screenName, name, password);
-            this.users.push(u);
-          } else {
-            // name無効
-            throw new UserUpdateError("Invalid name.");
-          }
-        }
-      } else {
-        // id,nameが無効
-        throw new UserUpdateError("Invalid id,mane.");
-      }
-    } else {
-      // パスワード無効
-      throw new UserUpdateError("Invalid password.");
-    }
-
-    this.write();
-    return u.id;
-  }*/
-
-  showUser(identifier: string) {
-    const user = this.users.find((
-      e,
-    ) => (e.id === identifier || e.name === identifier));
-    if (user === undefined) throw new ServerError(errors.NOT_USER);
-    return user;
-  }
-
-  getUser(identifier: string, password: string) {
-    if (!password) throw new ServerError(errors.NOTHING_PASSWORD);
-    //if (password === "") throw Error("Invalid password.");
-    const user = this.users.find((
-      e,
-    ) => ((e.id === identifier || e.name === identifier) &&
-      e.password === password)
-    );
-    if (!user) throw new ServerError(errors.NOT_USER);
-    return user;
-  }
-
-  findById(id: string) {
-    return this.users.find((e) => e.id === id);
-  }
-
-  find(identifier: string) {
-    return this.users.find((e) =>
-      (e.id === identifier) || (e.name === identifier)
-    );
-  }
-}
-
-export { User, Users };
-
-export const accounts = await Users.init();
-
-async function getGamesId(user: User) {
-  const { kkmm } = await import("../server.ts");
-  const gamesId = kkmm.getGames().filter((game) => {
-    return game.players.some((p) => p.id === user.id);
-  }).sort((a, b) => {
-    return (a.startedAtUnixTime ?? Infinity) -
-      (b.startedAtUnixTime ?? Infinity);
-  }).map((game) => game.uuid);
-  return gamesId;
-}
+import { accounts, User } from "./datas.ts";
+import { getPayload } from "./parts/jwt.ts";
 
 export const userRouter = () => {
   const router = new Router();
@@ -228,7 +70,7 @@ export const userRouter = () => {
       }
       //return user;
       //const user = accounts.registUser({ ...reqData, id }, jwt !== null);
-      ctx.response.body = { ...user.noSafe(), gamesId: [] };
+      ctx.response.body = user.noSafe();
     },
   );
 
@@ -236,23 +78,16 @@ export const userRouter = () => {
   router.get(
     "/show/:identifier",
     auth({ basic: true, jwt: true, required: false }),
-    async (ctx) => {
-      const identifier = ctx.params.identifier || "";
+    (ctx) => {
+      const identifier = ctx.params.identifier;
 
-      if (identifier !== "") {
-        const user = accounts.showUser(identifier);
+      const user = accounts.showUser(identifier);
 
-        // 認証済みユーザかの確認
-        const authedUserId = ctx.state.authed_userId as string;
-        const bodyUser = user.id === authedUserId
-          ? user.noSafe()
-          : user.toJSON();
-        const gamesId = await getGamesId(user);
+      // 認証済みユーザかの確認
+      const authedUserId = ctx.state.authed_userId as string;
+      const bodyUser = user.id === authedUserId ? user.noSafe() : user.toJSON();
 
-        ctx.response.body = { ...bodyUser, gamesId };
-      } else {
-        ctx.response.body = accounts.getUsers();
-      }
+      ctx.response.body = bodyUser;
     },
   );
 
@@ -262,7 +97,7 @@ export const userRouter = () => {
     contentTypeFilter("application/json"),
     auth({ bearer: true, jwt: true }),
     jsonParse(),
-    async (ctx) => {
+    (ctx) => {
       const reqData = ctx.state.data as UserDeleteReq;
       const authedUserId = ctx.state.authed_userId as string;
 
@@ -270,13 +105,12 @@ export const userRouter = () => {
       if (!user) throw new ServerError(errors.NOT_USER);
       user = new User(user);
       accounts.deleteUser(user.id, reqData.option?.dryRun);
-      const gamesId = await getGamesId(user);
-      ctx.response.body = { ...user.toJSON(), gamesId };
+      ctx.response.body = user;
     },
   );
 
   // ユーザ検索
-  router.get("/search", async (ctx) => {
+  router.get("/search", (ctx) => {
     const query = ctx.request.url.searchParams;
     const q = query.get("q");
     if (!q) {
@@ -286,12 +120,8 @@ export const userRouter = () => {
     const matchName = accounts.getUsers().filter((e) => e.name.startsWith(q));
     const matchId = accounts.getUsers().filter((e) => e.id.startsWith(q));
     const users = [...new Set([...matchName, ...matchId])];
-    const body = await Promise.all(users.map(async (user) => {
-      const gamesId = await getGamesId(user);
-      return { ...user.toJSON(), gamesId };
-    }));
 
-    ctx.response.body = body;
+    ctx.response.body = users;
   });
 
   return router.routes();

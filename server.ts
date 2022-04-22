@@ -1,27 +1,16 @@
-import { Application, Context, Core, oakCors, Router } from "./deps.ts";
+import { Application, Context, oakCors, Router } from "./deps.ts";
 
 import { VersionRes } from "./types.ts";
 
-import * as util from "./v1/util.ts";
-const resolve = util.pathResolver(import.meta);
-
-import { ExpKakomimasu } from "./v1/parts/expKakomimasu.ts";
 import { errorCodeResponse, errors, ServerError } from "./v1/error.ts";
-import { nonReqEnv, reqEnv } from "./v1/parts/env.ts";
-const port = parseInt(reqEnv.PORT);
-
-import { getAllGames } from "./v1/parts/firestore_opration.ts";
-
-import { tournamentRouter, tournaments } from "./v1/tournament.ts";
+import { tournamentRouter } from "./v1/tournament.ts";
 import { userRouter } from "./v1/user.ts";
 import { gameRouter } from "./v1/game.ts";
 import { matchRouter } from "./v1/match.ts";
 import { wsRoutes } from "./v1/ws.ts";
+import { nonReqEnv, reqEnv } from "./v1/parts/env.ts";
 
-export const kkmm = new ExpKakomimasu();
-kkmm.games.push(...await getAllGames());
-
-tournaments.dataCheck(kkmm.getGames());
+const port = parseInt(reqEnv.PORT);
 
 if (import.meta.main) {
   const apiRoutes = () => {
@@ -113,25 +102,3 @@ URL: ${ctx.request.url}
 
   app.listen({ port });
 }
-
-export const readBoard = (fileName: string) => {
-  const path = resolve(`./board/${fileName}.json`);
-  if (Deno.statSync(path).isFile) {
-    const boardJson = JSON.parse(
-      Deno.readTextFileSync(path),
-    );
-    if (boardJson.points[0] instanceof Array) {
-      boardJson.points = boardJson.points.flat();
-    }
-    /*console.log(
-      boardJson.width,
-      boardJson.height,
-      boardJson.points,
-      boardJson.nagent,
-    );*/
-
-    return new Core.Board(boardJson);
-  } else {
-    throw Error("Can not find Board");
-  }
-};

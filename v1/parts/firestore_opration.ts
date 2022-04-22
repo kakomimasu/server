@@ -1,10 +1,7 @@
-import { Core } from "../../deps.ts";
-import type { IUser } from "../user.ts";
-import { Tournament as ITournament } from "../types.ts";
-import { ExpGame } from "./expKakomimasu.ts";
 import {
   connectAuthEmulator,
   connectDatabaseEmulator,
+  Core,
   get,
   getAuth,
   getDatabase,
@@ -13,6 +10,10 @@ import {
   set,
   signInWithEmailAndPassword,
 } from "../../deps.ts";
+
+import type { IUser } from "../datas.ts";
+import { Tournament as ITournament } from "../types.ts";
+import { ExpGame } from "./expKakomimasu.ts";
 import { reqEnv } from "./env.ts";
 
 const isTest = reqEnv.FIREBASE_TEST;

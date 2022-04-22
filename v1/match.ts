@@ -1,12 +1,8 @@
 import { Core, Router } from "../deps.ts";
 
 import { contentTypeFilter, jsonParse } from "./util.ts";
-
-import { accounts } from "./user.ts";
+import { accounts, kkmm } from "./datas.ts";
 import { errors, ServerError } from "./error.ts";
-import { kkmm } from "../server.ts";
-import { aiList } from "./parts/ai-list.ts";
-import { nonReqEnv } from "./parts/env.ts";
 import {
   ActionPost as IActionPost,
   ActionReq,
@@ -15,10 +11,12 @@ import {
   MatchRes,
 } from "./types.ts";
 import { auth } from "./middleware.ts";
+import { aiList } from "./parts/ai-list.ts";
+import { nonReqEnv } from "./parts/env.ts";
 import { ExpGame, Player } from "./parts/expKakomimasu.ts";
+import { getAllBoards, getBoard } from "./parts/firestore_opration.ts";
 
 const boardname = nonReqEnv.boardname; // || "E-1"; // "F-1" "A-1"
-import { getAllBoards, getBoard } from "./parts/firestore_opration.ts";
 
 const getRandomBoard = async () => {
   const list = await getAllBoards(); //Deno.readDir(resolve("./board"));

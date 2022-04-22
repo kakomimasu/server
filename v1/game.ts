@@ -1,14 +1,11 @@
 import { Router } from "../deps.ts";
 
 import { contentTypeFilter, jsonParse } from "./util.ts";
-import { accounts } from "./user.ts";
+import { accounts, kkmm, tournaments } from "./datas.ts";
 import { errors, ServerError } from "./error.ts";
-import { kkmm } from "../server.ts";
-import { tournaments } from "./tournament.ts";
-import { getAllBoards, getBoard } from "./parts/firestore_opration.ts";
 import { GameCreateReq } from "./types.ts";
 import { auth } from "./middleware.ts";
-
+import { getAllBoards, getBoard } from "./parts/firestore_opration.ts";
 import { ExpGame } from "./parts/expKakomimasu.ts";
 
 export const gameRouter = () => {
