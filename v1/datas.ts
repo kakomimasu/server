@@ -142,7 +142,7 @@ export class Tournament implements ITournament {
   }
 }
 
-export class Tournaments {
+class Tournaments {
   private tournaments: Tournament[] = [];
 
   static init = async () => {
@@ -214,4 +214,4 @@ tournaments.dataCheck(kkmm.getGames());
 const accounts = new Users();
 await accounts.read();
 
-export { accounts, kkmm, tournaments, User, Users };
+export { accounts, kkmm, tournaments, User };
