@@ -33,4 +33,5 @@ jobs:
           FIREBASE_TEST: true
         run: |
           deno task start > /dev/null &
+          deno run -A ./v1/parts/wait-start.ts
           deno task test
