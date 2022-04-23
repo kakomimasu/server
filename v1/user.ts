@@ -1,7 +1,7 @@
 import { Router } from "../deps.ts";
 
 import { contentTypeFilter, jsonParse } from "./util.ts";
-import { errors, ServerError } from "./error.ts";
+import { errorCodeResponse, errors, ServerError } from "./error.ts";
 import { UserDeleteReq, UserRegistReq } from "./types.ts";
 import { auth } from "./middleware.ts";
 import { accounts, User } from "./datas.ts";
@@ -31,6 +31,20 @@ export const userRouter = () => {
     async (ctx) => {
       const reqData = ctx.state.data as Partial<UserRegistReq>;
       //console.log(reqData);
+      const idToken = ctx.request.headers.get("Authorization");
+
+      if (!idToken) {
+        ctx.response.headers.append(
+          "WWW-Authenticate",
+          `JWT realm="token_required"`,
+        );
+
+        ctx.response.status = 401;
+        ctx.response.body = errorCodeResponse(
+          new ServerError(errors.UNAUTHORIZED),
+        );
+        return;
+      }
 
       if (!reqData.screenName) {
         throw new ServerError(errors.INVALID_SCREEN_NAME);
@@ -41,26 +55,16 @@ export const userRouter = () => {
         throw new ServerError(errors.ALREADY_REGISTERED_NAME);
       }
 
-      const idToken = ctx.request.headers.get("Authorization");
-      let id: string | undefined = undefined;
-      if (idToken) {
-        const payload = await getPayload(idToken);
-        if (payload) {
-          id = payload.user_id;
-          if (accounts.getUsers().some((e) => e.id === id)) {
-            throw new ServerError(errors.ALREADY_REGISTERED_USER);
-          }
-        } else throw new ServerError(errors.INVALID_USER_AUTHORIZATION);
-      } else {
-        if (!reqData.password) {
-          throw new ServerError(errors.NOTHING_PASSWORD);
-        }
+      const payload = await getPayload(idToken);
+      if (!payload) throw new ServerError(errors.INVALID_USER_AUTHORIZATION);
+      const id = payload.user_id;
+      if (accounts.getUsers().some((e) => e.id === id)) {
+        throw new ServerError(errors.ALREADY_REGISTERED_USER);
       }
 
       const user = new User({
         name: reqData.name,
         screenName: reqData.screenName,
-        password: reqData.password,
         id,
       });
 
@@ -68,8 +72,6 @@ export const userRouter = () => {
         accounts.getUsers().push(user);
         accounts.save();
       }
-      //return user;
-      //const user = accounts.registUser({ ...reqData, id }, jwt !== null);
       ctx.response.body = user.noSafe();
     },
   );
@@ -77,7 +79,7 @@ export const userRouter = () => {
   // ユーザ情報取得
   router.get(
     "/show/:identifier",
-    auth({ basic: true, jwt: true, required: false }),
+    auth({ jwt: true, required: false }),
     (ctx) => {
       const identifier = ctx.params.identifier;
 

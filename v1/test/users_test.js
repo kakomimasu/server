@@ -1,7 +1,22 @@
+import { getAuth, signInWithEmailAndPassword } from "../../deps.ts";
 import { assert, assertEquals, v4 } from "../../deps-test.ts";
 
 import ApiClient from "../../client/client.ts";
 import { pathResolver, randomUUID } from "../util.ts";
+
+import "../parts/firestore_opration.ts";
+
+const auth = getAuth();
+// const u = await createUserWithEmailAndPassword(
+//   auth,
+//   "client@example.com",
+//   "test-client",
+// );
+const u = await signInWithEmailAndPassword(
+  auth,
+  "client@example.com",
+  "test-client",
+);
 
 const ac = new ApiClient();
 const resolve = pathResolver(import.meta);
@@ -15,11 +30,7 @@ const read = (fileName) => {
 };
 
 const uuid = randomUUID();
-const data = {
-  screenName: uuid,
-  name: uuid,
-  password: uuid,
-};
+const data = { screenName: uuid, name: uuid };
 
 let bearerToken = undefined;
 
@@ -31,7 +42,6 @@ const assertUser = (
   const user_ = { ...user };
   let sample_ = { ...sample };
   //console.log("assert user", user_, sample_);
-  assert(v4.validate(user_.id));
   if (!sample_) {
     //save("usersRegist", res);
     sample_ = read("usersRegist");
@@ -40,94 +50,76 @@ const assertUser = (
   }
   if (noSafe) {
     assert(v4.validate(user_.bearerToken));
-  } else {
-    delete sample_.password;
   }
   user_.id = sample_.id = undefined;
   user_.bearerToken = sample_.bearerToken = undefined;
+  assert(Array.isArray(user.gamesId));
+  user_.gamesId = sample_.gamesId;
   assertEquals(user_, sample_);
 };
 
 // /v1/users/regist Test
 // テスト項目
-// 正常・パスワード無し・表示名無し・名前無し・登録済みのユーザ
+// 正常・表示名無し・名前無し・登録済みのユーザ
 Deno.test("users regist:normal", async () => {
   const res = await ac.usersRegist({
     ...data,
     option: { dryRun: true },
-  });
+  }, await u.user.getIdToken());
   assertUser(res.data, data, true);
 });
-Deno.test("users regist:not password", async () => {
-  const data_ = {
-    ...data,
-    password: undefined,
-    option: { dryRun: true },
-  };
-  {
-    const res = await ac.usersRegist(data_);
-    assertEquals(res.data, errors.NOTHING_PASSWORD);
-  }
-  {
-    data_.password = null;
-    const res = await ac.usersRegist(data_);
-    assertEquals(res.data, errors.NOTHING_PASSWORD);
-  }
-  {
-    data_.password = "";
-    const res = await ac.usersRegist(data_);
-    assertEquals(res.data, errors.NOTHING_PASSWORD);
-  }
-});
 Deno.test("users regist:invalid screenName", async () => {
+  const token = await u.user.getIdToken();
   const data_ = {
     ...data,
     screenName: undefined,
     option: { dryRun: true },
   };
   {
-    const res = await ac.usersRegist(data_);
+    const res = await ac.usersRegist(data_, token);
     assertEquals(res.data, errors.INVALID_SCREEN_NAME);
   }
   {
     data_.screenName = null;
-    const res = await ac.usersRegist(data_);
+    const res = await ac.usersRegist(data_, token);
     assertEquals(res.data, errors.INVALID_SCREEN_NAME);
   }
   {
     data_.screenName = "";
-    const res = await ac.usersRegist(data_);
+    const res = await ac.usersRegist(data_, token);
     assertEquals(res.data, errors.INVALID_SCREEN_NAME);
   }
 });
 Deno.test("users regist:invalid name", async () => {
+  const token = await u.user.getIdToken();
   const data_ = {
     ...data,
     name: undefined,
     option: { dryRun: true },
   };
   {
-    const res = await ac.usersRegist(data_);
+    const res = await ac.usersRegist(data_, token);
     assertEquals(res.data, errors.INVALID_USER_NAME);
   }
   {
     data_.name = null;
-    const res = await ac.usersRegist(data_);
+    const res = await ac.usersRegist(data_, token);
     assertEquals(res.data, errors.INVALID_USER_NAME);
   }
   {
     data_.name = "";
-    const res = await ac.usersRegist(data_);
+    const res = await ac.usersRegist(data_, token);
     assertEquals(res.data, errors.INVALID_USER_NAME);
   }
 });
 Deno.test("users regist:already registered name", async () => {
-  let res = await ac.usersRegist(data);
+  const token = await u.user.getIdToken();
+  let res = await ac.usersRegist(data, token);
   assertUser(res.data, data, true);
   data.id = res.data.id;
   bearerToken = res.data.bearerToken;
 
-  res = await ac.usersRegist(data);
+  res = await ac.usersRegist(data, token);
   assertEquals(res.data, errors.ALREADY_REGISTERED_NAME);
 });
 
@@ -146,18 +138,8 @@ Deno.test("users show:not user", async () => {
   const res = await ac.usersShow(randomUUID());
   assertEquals(res.data, errors.NOT_USER);
 });
-Deno.test("users show:normal with auth by name", async () => {
-  const res = await ac.usersShow(
-    data.name,
-    `Basic ${data.name}:${data.password}`,
-  );
-  assertUser(res.data, data, true);
-});
-Deno.test("users show:normal with auth by id", async () => {
-  const res = await ac.usersShow(
-    data.name,
-    `Basic ${data.id}:${data.password}`,
-  );
+Deno.test("users show:normal with auth(jwt)", async () => {
+  const res = await ac.usersShow(data.name, await u.user.getIdToken());
   assertUser(res.data, data, true);
 });
 

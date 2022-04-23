@@ -44,17 +44,12 @@ export async function setAllUsers(users: IUser[]): Promise<void> {
   }
   const usersRef = ref(db, "users");
   const users2 = users.map((a) => {
-    // deno-lint-ignore no-explicit-any
-    const b: any = {
+    return {
       screenName: a.screenName,
       name: a.name,
       id: a.id,
       bearerToken: a.bearerToken,
     };
-    if (a.password != undefined) {
-      b.password = a.password;
-    }
-    return b;
   });
   await set(usersRef, users2);
 }
