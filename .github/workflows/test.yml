@@ -33,5 +33,6 @@ jobs:
           FIREBASE_TEST: true
         run: |
           deno run -A ./.github/workflows/wait-start.ts
+          sleep 10
           deno task start > /dev/null &
           deno task test
