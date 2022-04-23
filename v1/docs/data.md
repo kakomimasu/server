@@ -168,7 +168,6 @@
 | `name`<br>必須       | string   | 名前<br>※他のユーザと被ることのない固有の名前ですが、ユーザにより変更される場合があります。 |
 | `id`               | string   | ID<br>※ユーザ固有のIDです。他のユーザと被ることはなく、変更されることもありません。   |
 | `gamesId`          | string[] | ユーザが参加したゲームIDのリスト                                |
-| `password`         | string   | パスワード<br>※Basic認証またはBearer認証が必要です。               |
 | `bearerToken`      | string   | BearerToken<br>※Bearer認証が必要です。                   |
 
 ---

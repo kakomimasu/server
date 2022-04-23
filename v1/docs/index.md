@@ -23,17 +23,7 @@
 
 認証が必要な大半のAPIはこのBearerTokenを使用します。
 
-BearerTokenの取得方法は、ユーザの種類によって異なります。
-
-- 通常ユーザの場合
-
-  ビューアからユーザ登録された方は通常ユーザとなります。 通常ユーザはビューアから自身のユーザ詳細を見ることでBearerTokenを得ることが出来ます。
-
-- 旧式ユーザの場合
-
-  [`users/show`](./users_api.md#ユーザ情報取得) APIを使用したパスワード登録式のユーザ登録を行った方は旧式ユーザとなります。
-  旧式ユーザはBasic認証を使用して[`users/show`](./users_api.md#ユーザ情報取得)
-  APIを使用することで、BearerTokenを得ることができます。
+ビューア（kakomimasu.com）でログインした状態で[自身のユーザ詳細](https://kakomimasu.com/user/detail)を見ることでBearerTokenを得ることが出来ます。
 
 Bearer認証を行うには以下のようなAuthorizationヘッダを含めます。
 
@@ -56,30 +46,6 @@ Bearer認証が必要なAPIは以下の通りです。
 
   行動情報送信時の本人確認のため必須となります。
 
-### Basic認証
-
-Basic認証は旧式ユーザにてBearerTokenを確認する際に使用されます。
-
-ビューアからユーザ登録された方はBasic認証は必要ありません。（パスワードがないため行うことが出来ません。）
-
-Basic認証を行うには以下のようなAuthorizationヘッダを含めます。
-
-```
-Authorization: Basic ${ID}:${PASSWORD}
-// or
-Authorization: Basic ${NAME}:${PASSWORD}
-```
-
-`${ID}`、`${NAME}`、`${PASSWORD}`には自身のものに置換えてください。
-
-ユーザIDとユーザネームのどちらでも認証を行うことが出来ます。
-
-Basic認証が必要なAPIは以下の通りです。
-
-- [`users/show`](./users_api.md#ユーザ情報取得) API
-
-  ユーザ情報取得する際にBasic認証を付加するとBearerTokenやPasswordなどの個人情報を得ることが出来ます。Basic認証がない場合はBearerToken、Passwordは得られません。
-
 ## API詳細
 
 APIは以下のようにいくつかに分かれています。それぞれの詳細は各ページをご覧ください。
@@ -90,7 +56,7 @@ APIは以下のようにいくつかに分かれています。それぞれの�
 
 - [users API](./docs/users_api.md)
 
-  ユーザ関連のAPI（ユーザ登録、情報取得、削除など）
+  ユーザ関連のAPI（ユーザ情報取得、削除など）
 
 - [tournaments API](./docs/tournaments_api.md)
 
