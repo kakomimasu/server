@@ -32,5 +32,6 @@ jobs:
           FIREBASE_PASSWORD: server-admin
           FIREBASE_TEST: true
         run: |
+          sleep 10
           deno task start > /dev/null &
           deno task test

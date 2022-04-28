@@ -20,9 +20,7 @@ export interface User extends UserBase {
   bearerToken?: string;
 }
 
-export interface UserRegistReq extends ApiOption, UserBase {
-  password?: string;
-}
+export interface UserRegistReq extends ApiOption, UserBase {}
 
 export type UserDeleteReq = ApiOption;
 
