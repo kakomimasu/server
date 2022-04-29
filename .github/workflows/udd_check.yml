@@ -8,8 +8,6 @@ on:
 jobs:
   call-workflow:
     uses: kakomimasu/kakomimasu.github.io/.github/workflows/udd-check.yml@main
-    with:
-      deps_file: deps.ts
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}

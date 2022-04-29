@@ -5,8 +5,6 @@ on: [push,pull_request]
 jobs:
   check:
     uses: kakomimasu/kakomimasu.github.io/.github/workflows/dfl-check.yml@main
-    with:
-      config_file: deno.json
   test:
     needs: check
     runs-on: ubuntu-latest
