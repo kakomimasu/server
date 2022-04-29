@@ -36,10 +36,6 @@ export const errors = {
     errorCode: 104,
     message: "invalid action",
   },
-  NOTHING_PASSWORD: {
-    errorCode: 200,
-    message: "nothing password",
-  },
   INVALID_SCREEN_NAME: {
     errorCode: 201,
     message: "invalid screenName",

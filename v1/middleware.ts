@@ -5,8 +5,7 @@ import { errorCodeResponse, errors, ServerError } from "./error.ts";
 import { getPayload } from "./parts/jwt.ts";
 
 export const auth = (
-  { basic, bearer, jwt, required = true }: {
-    basic?: boolean;
+  { bearer, jwt, required = true }: {
     bearer?: boolean;
     jwt?: boolean;
     required?: boolean;
@@ -15,19 +14,7 @@ export const auth = (
   async (ctx: Context, next: () => Promise<unknown>) => { // AuthorizationヘッダからユーザIDを取得
     const auth = ctx.request.headers.get("Authorization");
     if (auth) {
-      if (basic && auth.startsWith("Basic ")) {
-        const [identifier, pass] = auth.substr("Basic ".length).split(":");
-        const account = accounts.getUsers().find((user) =>
-          user.password === pass &&
-          (user.id === identifier || user.name === identifier)
-        );
-        if (account) {
-          ctx.state.authed_userId = account.id;
-          ctx.state.auth_method = "basic";
-          await next();
-          return;
-        }
-      } else if (bearer && auth.startsWith("Bearer ")) {
+      if (bearer && auth.startsWith("Bearer ")) {
         const bearerToken = auth.substr("Bearer ".length);
         const account = accounts.getUsers().find((u) =>
           u.bearerToken === bearerToken
@@ -58,12 +45,6 @@ export const auth = (
       );
 
       //const headers = resTemp.headers
-      if (basic) {
-        ctx.response.headers.append(
-          "WWW-Authenticate",
-          `Basic realm="token_required"`,
-        );
-      }
       if (bearer) {
         ctx.response.headers.append(
           "WWW-Authenticate",

@@ -1,3 +1,4 @@
+import { getAuth, signInWithEmailAndPassword } from "../../deps.ts";
 import { assert, assertEquals, v4 } from "../../deps-test.ts";
 
 import ApiClient from "../../client/client.ts";
@@ -6,6 +7,15 @@ import { randomUUID } from "../util.ts";
 const ac = new ApiClient();
 
 import { errors } from "../error.ts";
+
+import "../parts/firestore_opration.ts";
+
+const auth = getAuth();
+const u = await signInWithEmailAndPassword(
+  auth,
+  "client@example.com",
+  "test-client",
+);
 
 const assertMatch = (match, sample = {}) => {
   const match_ = Object.assign({}, match);
@@ -64,13 +74,13 @@ const assertAction = (actionRes) => {
 // ゲスト参加
 Deno.test("v1/match:invalid bearerToken", async () => {
   const res = await ac.match({ option: { dryRun: true } });
-  console.log(res);
+  // console.log(res);
   assertEquals(res.data, errors.NOT_USER);
 });
 Deno.test("v1/match:can not find game", async () => {
   const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid, password: uuid };
-  const userRes = await ac.usersRegist(userData);
+  const userData = { screenName: uuid, name: uuid };
+  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
   userData.id = userRes.data.id;
   const data = {
     gameId: randomUUID(),
@@ -82,8 +92,8 @@ Deno.test("v1/match:can not find game", async () => {
 });
 Deno.test("v1/match:can not find ai", async () => {
   const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid, password: uuid };
-  const userRes = await ac.usersRegist(userData);
+  const userData = { screenName: uuid, name: uuid };
+  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
   userData.id = userRes.data.id;
 
   const data = {
@@ -99,8 +109,8 @@ Deno.test("v1/match:can not find ai", async () => {
 });
 Deno.test("v1/match:normal", async () => {
   const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid, password: uuid };
-  const userRes = await ac.usersRegist(userData);
+  const userData = { screenName: uuid, name: uuid };
+  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
   userData.id = userRes.data.id;
 
   const res = await ac.match({}, "Bearer " + userRes.data.bearerToken);
@@ -110,8 +120,8 @@ Deno.test("v1/match:normal", async () => {
 });
 Deno.test("v1/match:normal by selfGame", async () => {
   const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid, password: uuid };
-  const userRes = await ac.usersRegist(userData);
+  const userData = { screenName: uuid, name: uuid };
+  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
   userData.id = userRes.data.id;
 
   const gameData = { name: "テスト", boardName: "A-1" };
@@ -127,8 +137,8 @@ Deno.test("v1/match:normal by selfGame", async () => {
 });
 Deno.test("v1/match:normal by useAi", async () => {
   const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid, password: uuid };
-  const userRes = await ac.usersRegist(userData);
+  const userData = { screenName: uuid, name: uuid };
+  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
   userData.id = userRes.data.id;
 
   const data = {
@@ -152,7 +162,7 @@ Deno.test("v1/match:normal by guest", async () => {
     },
   };
   const res = await ac.match(data);
-  console.log(res);
+  // console.log(res);
   assertMatch(res.data, { userId: "test" });
 });
 
@@ -178,8 +188,8 @@ Deno.test("v1/match/(gameId):not find game", async () => {
 // 正常、アクセストークン無効
 Deno.test("v1/match/(gameId)/action:normal", async () => {
   const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid, password: uuid };
-  const userRes = await ac.usersRegist(userData);
+  const userData = { screenName: uuid, name: uuid };
+  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
   userData.id = userRes.data.id;
 
   const data = {
@@ -207,8 +217,8 @@ Deno.test("v1/match/(gameId)/action:normal", async () => {
 
 Deno.test("v1/match/(gameId)/action:invalid user", async () => {
   const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid, password: uuid };
-  const userRes = await ac.usersRegist(userData);
+  const userData = { screenName: uuid, name: uuid };
+  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
 
   userData.id = userRes.data.id;
 

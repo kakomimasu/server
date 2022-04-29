@@ -1,3 +1,4 @@
+import { getAuth, signInWithEmailAndPassword } from "../../deps.ts";
 import { assert, assertEquals, v4 } from "../../deps-test.ts";
 
 import ApiClient from "../../client/client.ts";
@@ -6,6 +7,15 @@ import { randomUUID } from "../util.ts";
 const ac = new ApiClient();
 
 import { errors } from "../error.ts";
+
+import "../parts/firestore_opration.ts";
+
+const auth = getAuth();
+const u = await signInWithEmailAndPassword(
+  auth,
+  "client@example.com",
+  "test-client",
+);
 
 const typelist = ["round-robin", "knockout"];
 const assertType = (type) => {
@@ -144,8 +154,8 @@ Deno.test("v1/tournament/get:nothing tournament id", async () => {
 // 正常、ID無し、user無し、存在しない大会ID、存在しないユーザ、登録済みのユーザ
 Deno.test("v1/tournament/add:normal", async () => {
   const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid, password: uuid };
-  const userRes = await ac.usersRegist(userData);
+  const userData = { screenName: uuid, name: uuid };
+  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
 
   const res = await ac.tournamentsAddUser(data.id, {
     user: userRes.data.id,
@@ -217,8 +227,8 @@ Deno.test("v1/tournament/add:user that do not exist", async () => {
 });
 Deno.test("v1/tournament/add:already registed user", async () => {
   const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid, password: uuid };
-  const userRes = await ac.usersRegist(userData);
+  const userData = { screenName: uuid, name: uuid };
+  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
 
   await ac.tournamentsAddUser(data.id, { user: userRes.data.id });
   const res = await ac.tournamentsAddUser(data.id, { user: userRes.data.id });

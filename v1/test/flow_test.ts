@@ -1,3 +1,4 @@
+import { getAuth, signInWithEmailAndPassword } from "../../deps.ts";
 import { assert, assertEquals, v4 } from "../../deps-test.ts";
 import ApiClient from "../../client/client.ts";
 
@@ -8,9 +9,17 @@ const ac = new ApiClient();
 
 const resolve = pathResolver(import.meta);
 
+import "../parts/firestore_opration.ts";
+
+const auth = getAuth();
+const u = await signInWithEmailAndPassword(
+  auth,
+  "client@example.com",
+  "test-client",
+);
+
 const testScreenName = "高専太郎";
 const testName = randomUUID();
-const testPassword = "nit-taro-pw";
 const testSpec = "test";
 
 let bearerToken = "";
@@ -25,8 +34,7 @@ Deno.test("regist user", async () => {
   const res = await ac.usersRegist({
     screenName: testScreenName,
     name: testName,
-    password: testPassword,
-  });
+  }, await u.user.getIdToken());
   if (res.success === false) {
     throw Error("Response Error. ErrorCode:" + res.data.errorCode);
   }
@@ -37,28 +45,11 @@ Deno.test("regist user", async () => {
 
   const sample = JSON.parse(Deno.readTextFileSync(sampleFilePath));
   sample.name = testName;
-  assert(v4.validate(res.data.id));
   assert(v4.validate(res.data.bearerToken));
+  assert(Array.isArray(res.data.gamesId));
   res.data.id = sample.id = "";
   res.data.bearerToken = sample.bearerToken = "";
-  assertEquals(sample, res.data);
-});
-
-Deno.test("show user", async () => {
-  const sampleFilePath = resolve("./sample/userShow_sample.json");
-
-  const res = await ac.usersShow(testName, `Basic ${testName}:${testPassword}`);
-  if (res.success === false) {
-    throw Error("Response Error. ErrorCode:" + res.data.errorCode);
-  }
-  //Deno.writeTextFileSync(sampleFilePath, JSON.stringify(res.data));
-
-  const sample = JSON.parse(Deno.readTextFileSync(sampleFilePath));
-  sample.name = testName;
-  assert(v4.validate(res.data.id));
-  res.data.bearerToken && v4.validate(res.data.bearerToken);
-  res.data.id = sample.id = "";
-  res.data.bearerToken = sample.bearerToken = "";
+  res.data.gamesId = sample.gamesId = [];
   assertEquals(sample, res.data);
 });
 
@@ -118,8 +109,6 @@ Deno.test("get gameinfo", async () => {
 
   const sample = JSON.parse(Deno.readTextFileSync(sampleFilePath));
   assert(v4.validate(res.data.gameId));
-  assert(v4.validate(res.data.players[0].id));
-  assert(v4.validate(res.data.players[1].id));
   sample.gameId = res.data.gameId = "";
   sample.players[0].id = res.data.players[0].id = "";
   sample.players[1].id = res.data.players[1].id = "";
@@ -168,8 +157,6 @@ Deno.test("send action(Turn 1)", async () => {
   const sample = JSON.parse(Deno.readTextFileSync(sampleFilePath));
 
   assert(v4.validate(res.data.gameId));
-  assert(v4.validate(res.data.players[0].id));
-  assert(v4.validate(res.data.players[1].id));
   sample.gameId = res.data.gameId = "";
   sample.players[0].id = res.data.players[0].id = "";
   sample.players[1].id = res.data.players[1].id = "";
@@ -205,8 +192,6 @@ Deno.test("send action(Turn 2)", async () => {
   const sample = JSON.parse(Deno.readTextFileSync(sampleFilePath));
 
   assert(v4.validate(res.data.gameId));
-  assert(v4.validate(res.data.players[0].id));
-  assert(v4.validate(res.data.players[1].id));
   sample.gameId = res.data.gameId = "";
   sample.players[0].id = res.data.players[0].id = "";
   sample.players[1].id = res.data.players[1].id = "";
@@ -217,7 +202,7 @@ Deno.test("send action(Turn 2)", async () => {
 });
 
 Deno.test("delete user", async () => {
-  const res = await ac.usersDelete({}, `Bearer ${bearerToken}`);
+  const res = await ac.usersDelete({}, await u.user.getIdToken());
   //console.log(res);
   assert(res.success);
 });

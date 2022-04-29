@@ -22,7 +22,7 @@ urls.forEach((url) => {
       const acUrl = new ApiClient(new URL(url.in));
       assertEquals(acString.baseUrl, acUrl.baseUrl);
     }
-    console.log(acString);
+    // console.log(acString);
     assertEquals(acString.baseUrl.origin, url.out);
   });
 });

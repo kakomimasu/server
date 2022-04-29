@@ -14,7 +14,6 @@ export interface IUser {
   screenName: string;
   name: string;
   id?: string;
-  password?: string;
   bearerToken?: string;
 }
 
@@ -22,14 +21,12 @@ class User implements IUser {
   public screenName: string;
   public name: string;
   public readonly id: string;
-  public password?: string;
   public readonly bearerToken: string;
 
   constructor(data: IUser) {
     this.screenName = data.screenName;
     this.name = data.name;
     this.id = data.id || randomUUID();
-    this.password = data.password;
     this.bearerToken = data.bearerToken || randomUUID();
   }
 
@@ -43,14 +40,14 @@ class User implements IUser {
     return gamesId;
   }
 
-  // シリアライズする際にパスワードを返さないように
+  // シリアライズする際にBearerTokenを返さないように
   // パスワードを返したい場合にはnoSafe()を用いる
   toJSON() {
-    const { password: _p, bearerToken: _b, ...data } = this.noSafe();
+    const { bearerToken: _b, ...data } = this.noSafe();
     return data;
   }
 
-  // password,bearerTokenも含めたオブジェクトにする
+  // BearerTokenも含めたオブジェクトにする
   noSafe = () => ({ ...this, gamesId: this.getGamesId() });
 }
 
@@ -80,18 +77,6 @@ class Users {
       e,
     ) => (e.id === identifier || e.name === identifier));
     if (user === undefined) throw new ServerError(errors.NOT_USER);
-    return user;
-  }
-
-  getUser(identifier: string, password: string) {
-    if (!password) throw new ServerError(errors.NOTHING_PASSWORD);
-    //if (password === "") throw Error("Invalid password.");
-    const user = this.users.find((
-      e,
-    ) => ((e.id === identifier || e.name === identifier) &&
-      e.password === password)
-    );
-    if (!user) throw new ServerError(errors.NOT_USER);
     return user;
   }
 
