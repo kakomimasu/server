@@ -2,6 +2,7 @@ import { randomUUID } from "./util.ts";
 import { errors, ServerError } from "./error.ts";
 import { Tournament as ITournament, TournamentType } from "./types.ts";
 import {
+  type FUser,
   getAllGames,
   getAllTournaments,
   getAllUsers,
@@ -10,24 +11,23 @@ import {
 } from "./parts/firestore_opration.ts";
 import { ExpGame, ExpKakomimasu } from "./parts/expKakomimasu.ts";
 
-export interface IUser {
-  screenName: string;
-  name: string;
-  id?: string;
-  bearerToken?: string;
-}
-
-class User implements IUser {
+class User implements FUser {
   public screenName: string;
   public name: string;
   public readonly id: string;
   public readonly bearerToken: string;
 
-  constructor(data: IUser) {
+  constructor(data: FUser); // Firebaseのデータ取得時に使用
+  constructor(data: Pick<FUser, "screenName" | "name" | "id">); // 新規ユーザ作成時に使用
+  constructor(data: FUser | Pick<FUser, "screenName" | "name" | "id">) {
     this.screenName = data.screenName;
     this.name = data.name;
-    this.id = data.id || randomUUID();
-    this.bearerToken = data.bearerToken || randomUUID();
+    this.id = data.id;
+    if ("bearerToken" in data) {
+      this.bearerToken = data.bearerToken;
+    } else {
+      this.bearerToken = randomUUID();
+    }
   }
 
   private getGamesId() {
