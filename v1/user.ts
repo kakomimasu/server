@@ -62,7 +62,7 @@ export const userRouter = () => {
         throw new ServerError(errors.ALREADY_REGISTERED_USER);
       }
 
-      const user = new User({
+      const user = User.create({
         name: reqData.name,
         screenName: reqData.screenName,
         id,

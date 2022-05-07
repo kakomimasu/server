@@ -29,7 +29,7 @@ export const tournamentRouter = () => {
       if (!data.type || !checkType(data.type)) {
         throw new ServerError(errors.INVALID_TYPE);
       }
-      const tournament = new Tournament(data);
+      const tournament = Tournament.create(data);
       if (data.participants) {
         data.participants.forEach((e) => tournament.addUser(e));
       }

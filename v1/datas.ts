@@ -17,17 +17,20 @@ class User implements FUser {
   public readonly id: string;
   public readonly bearerToken: string;
 
-  constructor(data: FUser); // Firebaseのデータ取得時に使用
-  constructor(data: Pick<FUser, "screenName" | "name" | "id">); // 新規ユーザ作成時に使用
-  constructor(data: FUser | Pick<FUser, "screenName" | "name" | "id">) {
+  constructor(data: FUser) {
     this.screenName = data.screenName;
     this.name = data.name;
     this.id = data.id;
-    if ("bearerToken" in data) {
-      this.bearerToken = data.bearerToken;
-    } else {
-      this.bearerToken = randomUUID();
-    }
+    this.bearerToken = data.bearerToken;
+  }
+
+  static create(data: Pick<FUser, "screenName" | "name" | "id">) {
+    return new User({
+      screenName: data.screenName,
+      name: data.name,
+      id: data.id,
+      bearerToken: randomUUID(),
+    });
   }
 
   private getGamesId() {
@@ -111,24 +114,26 @@ export class Tournament implements FTournament {
   public users: string[];
   public gameIds: string[];
 
-  constructor(data: FTournament); // Firebaseデータ取得時に使用
-  constructor(data: newTournamentConstructorParam); // 新規大会作成時に使用
-  constructor(data: FTournament | newTournamentConstructorParam) {
+  constructor(data: FTournament) {
+    this.id = data.id;
     this.name = data.name;
+    this.organizer = data.organizer;
     this.type = data.type;
-    if ("id" in data) {
-      this.id = data.id;
-      this.organizer = data.organizer;
-      this.remarks = data.remarks;
-      this.users = data.users;
-      this.gameIds = data.gameIds;
-    } else {
-      this.id = randomUUID();
-      this.organizer = "";
-      this.remarks = "";
-      this.users = [];
-      this.gameIds = [];
-    }
+    this.remarks = data.remarks;
+    this.users = data.users;
+    this.gameIds = data.gameIds;
+  }
+
+  static create(data: newTournamentConstructorParam) {
+    return new Tournament({
+      id: randomUUID(),
+      name: data.name,
+      organizer: data.organizer ?? "",
+      type: data.type,
+      remarks: data.remarks ?? "",
+      users: [],
+      gameIds: [],
+    });
   }
 
   dataCheck(games: ExpGame[]) {
