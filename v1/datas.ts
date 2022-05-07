@@ -1,7 +1,7 @@
-import { randomUUID } from "./util.ts";
+import { PartiallyPartial, randomUUID } from "./util.ts";
 import { errors, ServerError } from "./error.ts";
-import { Tournament as ITournament, TournamentType } from "./types.ts";
 import {
+  type FTournament,
   type FUser,
   getAllGames,
   getAllTournaments,
@@ -91,23 +91,44 @@ class Users {
   }
 }
 
-export class Tournament implements ITournament {
+type newTournamentConstructorParam = PartiallyPartial<
+  Pick<
+    FTournament,
+    | "name"
+    | "organizer"
+    | "type"
+    | "remarks"
+  >,
+  "organizer" | "remarks"
+>;
+
+export class Tournament implements FTournament {
   public id: string;
   public name: string;
   public organizer: string;
-  public type: TournamentType;
+  public type: FTournament["type"];
   public remarks: string;
   public users: string[];
   public gameIds: string[];
 
-  constructor(a: ITournament) {
-    this.name = a.name;
-    this.organizer = a.organizer || "";
-    this.type = a.type;
-    this.remarks = a.remarks || "";
-    this.id = a.id || randomUUID();
-    this.users = a.users || [];
-    this.gameIds = a.gameIds || [];
+  constructor(data: FTournament); // Firebaseデータ取得時に使用
+  constructor(data: newTournamentConstructorParam); // 新規大会作成時に使用
+  constructor(data: FTournament | newTournamentConstructorParam) {
+    this.name = data.name;
+    this.type = data.type;
+    if ("id" in data) {
+      this.id = data.id;
+      this.organizer = data.organizer;
+      this.remarks = data.remarks;
+      this.users = data.users;
+      this.gameIds = data.gameIds;
+    } else {
+      this.id = randomUUID();
+      this.organizer = "";
+      this.remarks = "";
+      this.users = [];
+      this.gameIds = [];
+    }
   }
 
   dataCheck(games: ExpGame[]) {

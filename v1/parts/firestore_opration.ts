@@ -11,8 +11,7 @@ import {
   signInWithEmailAndPassword,
 } from "../../deps.ts";
 
-import type { User } from "../datas.ts";
-import { Tournament as ITournament } from "../types.ts";
+import type { Tournament, User } from "../datas.ts";
 import { ExpGame } from "./expKakomimasu.ts";
 import { reqEnv } from "./env.ts";
 
@@ -35,6 +34,16 @@ export interface FUser {
   name: string;
   id: string;
   bearerToken: string;
+}
+
+export interface FTournament {
+  id: string;
+  name: string;
+  type: "round-robin" | "knockout";
+  organizer: string;
+  remarks: string;
+  users: string[];
+  gameIds: string[];
 }
 
 /** 管理ユーザでログイン */
@@ -74,15 +83,15 @@ export async function getAllUsers(): Promise<FUser[]> {
 
 /** 全大会保存 */
 export async function setAllTournaments(
-  tournaments: ITournament[],
+  tournaments: Tournament[],
 ): Promise<void> {
   const tournamentsRef = ref(db, "tournaments");
   await set(tournamentsRef, tournaments);
 }
 
 /** 全大会取得 */
-export async function getAllTournaments(): Promise<ITournament[]> {
-  const tournaments: ITournament[] = [];
+export async function getAllTournaments(): Promise<FTournament[]> {
+  const tournaments: FTournament[] = [];
   const usersRef = ref(db, "tournaments");
   const snap = await get(usersRef);
   snap.forEach((doc) => {

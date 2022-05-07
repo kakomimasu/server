@@ -2,6 +2,9 @@ import { Context, fromFileUrl } from "../deps.ts";
 import { errors, ServerError } from "./error.ts";
 
 export type UnknownRequest<T> = Record<keyof T, unknown>;
+export type PartiallyPartial<T, K extends keyof T> =
+  & Omit<T, K>
+  & Partial<Pick<T, K>>;
 
 export const jsonResponse = <T>(json: T) => {
   return {
