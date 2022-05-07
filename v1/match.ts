@@ -7,6 +7,7 @@ import {
   ActionPost as IActionPost,
   ActionReq,
   ActionRes,
+  Game as IGame,
   MatchReq,
   MatchRes,
 } from "./types.ts";
@@ -131,7 +132,8 @@ export const matchRouter = () => {
     const id = ctx.params.id;
     const game = kkmm.getGames().find((item) => item.uuid === id);
     if (!game) throw new ServerError(errors.NOT_GAME);
-    ctx.response.body = game;
+    const body: IGame = game.toJSON();
+    ctx.response.body = body;
   });
   router.post(
     "/:gameId/action",

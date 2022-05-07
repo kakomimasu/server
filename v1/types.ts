@@ -9,6 +9,13 @@ export interface Error {
   errorCode: number;
 }
 
+export interface User {
+  screenName: string;
+  name: string;
+  id: string;
+  bearerToken?: string;
+}
+
 export interface UserRegistReq extends ApiOption {
   screenName: string;
   name: string;

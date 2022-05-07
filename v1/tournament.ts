@@ -7,6 +7,7 @@ import {
   TournamentAddUserReq,
   TournamentCreateReq,
   TournamentDeleteReq,
+  TournamentRes,
 } from "./types.ts";
 
 const checkType = (type: string): boolean => {
@@ -36,8 +37,8 @@ export const tournamentRouter = () => {
       if (data.option?.dryRun !== true) {
         tournaments.add(tournament);
       }
-
-      ctx.response.body = tournament;
+      const body: TournamentRes = tournament;
+      ctx.response.body = body;
     },
   );
 
@@ -57,7 +58,8 @@ export const tournamentRouter = () => {
         tournaments.delete(tournament);
       }
 
-      ctx.response.body = tournament;
+      const body: TournamentRes = tournament;
+      ctx.response.body = body;
     },
   );
 
@@ -68,7 +70,8 @@ export const tournamentRouter = () => {
     const resData = id ? tournaments.get(id) : tournaments.getAll();
     if (!resData) throw new ServerError(errors.NOTHING_TOURNAMENT_ID);
 
-    ctx.response.body = resData;
+    const body: TournamentRes | TournamentRes[] = resData;
+    ctx.response.body = body;
   });
 
   // 参加者追加
@@ -95,7 +98,8 @@ export const tournamentRouter = () => {
         tournament.addUser(identifier);
       }
 
-      ctx.response.body = tournament;
+      const resBody: TournamentRes = tournament;
+      ctx.response.body = resBody;
     },
   );
 
