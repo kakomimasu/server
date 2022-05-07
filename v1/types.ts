@@ -13,6 +13,7 @@ export interface User {
   screenName: string;
   name: string;
   id: string;
+  gamesId: string[];
   bearerToken?: string;
 }
 
