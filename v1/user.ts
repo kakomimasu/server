@@ -110,7 +110,7 @@ export const userRouter = () => {
       if (!user) throw new ServerError(errors.NOT_USER);
       user = new User(user);
       accounts.deleteUser(user.id, reqData.option?.dryRun);
-      const body: IUser = user;
+      const body: IUser = user.toJSON();
       ctx.response.body = body;
     },
   );
@@ -127,7 +127,7 @@ export const userRouter = () => {
     const matchId = accounts.getUsers().filter((e) => e.id.startsWith(q));
     const users = [...new Set([...matchName, ...matchId])];
 
-    const body: IUser[] = users;
+    const body: IUser[] = users.map((u) => u.toJSON());
     ctx.response.body = body;
   });
 
