@@ -9,18 +9,18 @@ export interface Error {
   errorCode: number;
 }
 
-interface UserBase {
+export interface User {
   screenName: string;
   name: string;
-}
-
-export interface User extends UserBase {
   id: string;
   gamesId: string[];
   bearerToken?: string;
 }
 
-export interface UserRegistReq extends ApiOption, UserBase {}
+export interface UserRegistReq extends ApiOption {
+  screenName: string;
+  name: string;
+}
 
 export type UserDeleteReq = ApiOption;
 

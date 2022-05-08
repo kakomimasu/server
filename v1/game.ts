@@ -3,7 +3,7 @@ import { Router } from "../deps.ts";
 import { contentTypeFilter, jsonParse } from "./util.ts";
 import { accounts, kkmm, tournaments } from "./datas.ts";
 import { errors, ServerError } from "./error.ts";
-import { GameCreateReq } from "./types.ts";
+import { Game as IGame, GameCreateReq } from "./types.ts";
 import { auth } from "./middleware.ts";
 import { getAllBoards, getBoard } from "./parts/firestore_opration.ts";
 import { ExpGame } from "./parts/expKakomimasu.ts";
@@ -66,7 +66,8 @@ export const gameRouter = () => {
         }
       }
 
-      ctx.response.body = game;
+      const body: IGame = game.toJSON();
+      ctx.response.body = body;
       //console.log(kkmm_self);
     },
   );

@@ -1,3 +1,5 @@
+import { Error as IError } from "./types.ts";
+
 export const errors = {
   NOTHING_SEARCH_QUERY: {
     errorCode: 1,
@@ -91,11 +93,6 @@ export const errors = {
   },
 };
 
-interface IError {
-  errorCode: number;
-  message: string;
-}
-
 export class ServerError extends Error {
   public errorCode: number;
 
@@ -106,7 +103,9 @@ export class ServerError extends Error {
   }
 }
 
-export const errorCodeResponse = (error: Error) => {
+export const errorCodeResponse = (
+  error: Error,
+): { status: 400 | 500; body: IError } => {
   const message = error.message;
   if (error instanceof ServerError) {
     return {

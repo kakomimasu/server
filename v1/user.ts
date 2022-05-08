@@ -2,7 +2,7 @@ import { Router } from "../deps.ts";
 
 import { contentTypeFilter, jsonParse } from "./util.ts";
 import { errorCodeResponse, errors, ServerError } from "./error.ts";
-import { UserDeleteReq, UserRegistReq } from "./types.ts";
+import { User as IUser, UserDeleteReq, UserRegistReq } from "./types.ts";
 import { auth } from "./middleware.ts";
 import { accounts, User } from "./datas.ts";
 import { getPayload } from "./parts/jwt.ts";
@@ -62,7 +62,7 @@ export const userRouter = () => {
         throw new ServerError(errors.ALREADY_REGISTERED_USER);
       }
 
-      const user = new User({
+      const user = User.create({
         name: reqData.name,
         screenName: reqData.screenName,
         id,
@@ -72,7 +72,9 @@ export const userRouter = () => {
         accounts.getUsers().push(user);
         accounts.save();
       }
-      ctx.response.body = user.noSafe();
+
+      const body: Required<IUser> = user.noSafe();
+      ctx.response.body = body;
     },
   );
 
@@ -89,7 +91,8 @@ export const userRouter = () => {
       const authedUserId = ctx.state.authed_userId as string;
       const bodyUser = user.id === authedUserId ? user.noSafe() : user.toJSON();
 
-      ctx.response.body = bodyUser;
+      const body: IUser = bodyUser;
+      ctx.response.body = body;
     },
   );
 
@@ -107,7 +110,8 @@ export const userRouter = () => {
       if (!user) throw new ServerError(errors.NOT_USER);
       user = new User(user);
       accounts.deleteUser(user.id, reqData.option?.dryRun);
-      ctx.response.body = user;
+      const body: IUser = user.toJSON();
+      ctx.response.body = body;
     },
   );
 
@@ -123,7 +127,8 @@ export const userRouter = () => {
     const matchId = accounts.getUsers().filter((e) => e.id.startsWith(q));
     const users = [...new Set([...matchName, ...matchId])];
 
-    ctx.response.body = users;
+    const body: IUser[] = users.map((u) => u.toJSON());
+    ctx.response.body = body;
   });
 
   return router.routes();

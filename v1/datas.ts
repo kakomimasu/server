@@ -1,7 +1,8 @@
-import { randomUUID } from "./util.ts";
+import { PartiallyPartial, randomUUID } from "./util.ts";
 import { errors, ServerError } from "./error.ts";
-import { Tournament as ITournament, TournamentType } from "./types.ts";
 import {
+  type FTournament,
+  type FUser,
   getAllGames,
   getAllTournaments,
   getAllUsers,
@@ -10,24 +11,26 @@ import {
 } from "./parts/firestore_opration.ts";
 import { ExpGame, ExpKakomimasu } from "./parts/expKakomimasu.ts";
 
-export interface IUser {
-  screenName: string;
-  name: string;
-  id?: string;
-  bearerToken?: string;
-}
-
-class User implements IUser {
+class User implements FUser {
   public screenName: string;
   public name: string;
   public readonly id: string;
   public readonly bearerToken: string;
 
-  constructor(data: IUser) {
+  constructor(data: FUser) {
     this.screenName = data.screenName;
     this.name = data.name;
-    this.id = data.id || randomUUID();
-    this.bearerToken = data.bearerToken || randomUUID();
+    this.id = data.id;
+    this.bearerToken = data.bearerToken;
+  }
+
+  static create(data: Pick<FUser, "screenName" | "name" | "id">) {
+    return new User({
+      screenName: data.screenName,
+      name: data.name,
+      id: data.id,
+      bearerToken: randomUUID(),
+    });
   }
 
   private getGamesId() {
@@ -91,23 +94,46 @@ class Users {
   }
 }
 
-export class Tournament implements ITournament {
+type newTournamentConstructorParam = PartiallyPartial<
+  Pick<
+    FTournament,
+    | "name"
+    | "organizer"
+    | "type"
+    | "remarks"
+  >,
+  "organizer" | "remarks"
+>;
+
+export class Tournament implements FTournament {
   public id: string;
   public name: string;
   public organizer: string;
-  public type: TournamentType;
+  public type: FTournament["type"];
   public remarks: string;
   public users: string[];
   public gameIds: string[];
 
-  constructor(a: ITournament) {
-    this.name = a.name;
-    this.organizer = a.organizer || "";
-    this.type = a.type;
-    this.remarks = a.remarks || "";
-    this.id = a.id || randomUUID();
-    this.users = a.users || [];
-    this.gameIds = a.gameIds || [];
+  constructor(data: FTournament) {
+    this.id = data.id;
+    this.name = data.name;
+    this.organizer = data.organizer;
+    this.type = data.type;
+    this.remarks = data.remarks;
+    this.users = data.users;
+    this.gameIds = data.gameIds;
+  }
+
+  static create(data: newTournamentConstructorParam) {
+    return new Tournament({
+      id: randomUUID(),
+      name: data.name,
+      organizer: data.organizer ?? "",
+      type: data.type,
+      remarks: data.remarks ?? "",
+      users: [],
+      gameIds: [],
+    });
   }
 
   dataCheck(games: ExpGame[]) {
