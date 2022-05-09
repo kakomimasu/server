@@ -1,8 +1,5 @@
 import { Core } from "../../deps.ts";
-import { pathResolver } from "../util.ts";
 import { ExpGame, Player } from "../parts/expKakomimasu.ts";
-
-const resolve = pathResolver(import.meta);
 
 const board = new Core.Board({
   w: 3,
@@ -64,7 +61,7 @@ function sortObject(object: Record<string, any>) {
 // deno-lint-ignore no-explicit-any
 function save(name: string, data: any) {
   Deno.writeTextFileSync(
-    resolve("../docs/data/" + name),
+    "./v1/docs/data/" + name,
     JSON.stringify(data),
   );
 }

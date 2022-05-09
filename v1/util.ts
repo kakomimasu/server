@@ -1,28 +1,10 @@
-import { Context, fromFileUrl } from "../deps.ts";
+import { Context } from "../deps.ts";
 import { errors, ServerError } from "./error.ts";
 
 export type UnknownRequest<T> = Record<keyof T, unknown>;
 export type PartiallyPartial<T, K extends keyof T> =
   & Omit<T, K>
   & Partial<Pick<T, K>>;
-
-export const jsonResponse = <T>(json: T) => {
-  return {
-    status: 200,
-    headers: new Headers({
-      "content-type": "application/json",
-    }),
-    body: JSON.stringify(json),
-  };
-};
-
-export const readJsonFileSync = (path: string | URL) => {
-  return JSON.parse(Deno.readTextFileSync(path));
-};
-
-export function pathResolver(meta: ImportMeta): (p: string) => string {
-  return (p) => fromFileUrl(new URL(p, meta.url));
-}
 
 export const contentTypeFilter = (
   ...types: (string | RegExp)[]

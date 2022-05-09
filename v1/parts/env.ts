@@ -1,9 +1,5 @@
 import { Colors, config, yamlParse } from "../../deps.ts";
 
-import { pathResolver } from "../util.ts";
-
-const resolve = pathResolver(import.meta);
-
 type Config = Record<string, {
   require: boolean;
   default?: string;
@@ -16,7 +12,7 @@ const envConfig = yamlParse(getConfigStr()) as Config;
 //console.log(envConfig);
 function getConfigStr() {
   try {
-    return Deno.readTextFileSync(resolve("../../envconfig.yml"));
+    return Deno.readTextFileSync("./envconfig.yml");
   } catch (_) {
     throw Error("There is no envconfig.yml");
   }
@@ -24,9 +20,8 @@ function getConfigStr() {
 
 // Read dotenv file
 config({
-  path: resolve("../../.env"),
+  path: "./.env",
   export: true,
-  //defaults: resolve("../../.env.default"),
 });
 
 // Check env

@@ -2,7 +2,7 @@ import { getAuth, signInWithEmailAndPassword } from "../../deps.ts";
 import { assert, assertEquals, v4 } from "../../deps-test.ts";
 
 import ApiClient from "../../client/client.ts";
-import { pathResolver, randomUUID } from "../util.ts";
+import { randomUUID } from "../util.ts";
 
 import "../parts/firestore_opration.ts";
 
@@ -19,15 +19,8 @@ const u = await signInWithEmailAndPassword(
 );
 
 const ac = new ApiClient();
-const resolve = pathResolver(import.meta);
 
 import { errors } from "../error.ts";
-
-const read = (fileName) => {
-  return JSON.parse(
-    Deno.readTextFileSync(resolve(`./sample_/${fileName}.json`)),
-  );
-};
 
 const uuid = randomUUID();
 const data = { screenName: uuid, name: uuid };
@@ -36,18 +29,13 @@ let bearerToken = undefined;
 
 const assertUser = (
   user,
-  sample = undefined,
+  sample,
   noSafe = false,
 ) => {
   const user_ = { ...user };
-  let sample_ = { ...sample };
+  const sample_ = { ...sample };
   //console.log("assert user", user_, sample_);
-  if (!sample_) {
-    //save("usersRegist", res);
-    sample_ = read("usersRegist");
-  } else {
-    sample_.gamesId = [];
-  }
+  sample_.gamesId = [];
   if (noSafe) {
     assert(v4.validate(user_.bearerToken));
   }

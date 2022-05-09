@@ -2,12 +2,27 @@ import { getAuth, signInWithEmailAndPassword } from "../../deps.ts";
 import { assert, assertEquals, v4 } from "../../deps-test.ts";
 import ApiClient from "../../client/client.ts";
 
-import { pathResolver, randomUUID } from "../util.ts";
+import { randomUUID } from "../util.ts";
 import { diffTime, sleep } from "./client_util.ts";
 
-const ac = new ApiClient();
+import userRegistSample from "./sample/userRegist_sample.json" assert {
+  type: "json",
+};
+import createGameSample from "./sample/createGame_sample.json" assert {
+  type: "json",
+};
+import matchSample from "./sample/match_sample.json" assert { type: "json" };
+import matchGameInfoSample from "./sample/matchGameInfo_sample.json" assert {
+  type: "json",
+};
+import afterActionSample from "./sample/afterAction_sample.json" assert {
+  type: "json",
+};
+import afterActionSample2 from "./sample/afterAction_sample2.json" assert {
+  type: "json",
+};
 
-const resolve = pathResolver(import.meta);
+const ac = new ApiClient();
 
 import "../parts/firestore_opration.ts";
 
@@ -29,8 +44,6 @@ let pic1: string;
 let pic2: string;
 
 Deno.test("regist user", async () => {
-  const sampleFilePath = resolve("./sample/userRegist_sample.json");
-
   const res = await ac.usersRegist({
     screenName: testScreenName,
     name: testName,
@@ -38,12 +51,15 @@ Deno.test("regist user", async () => {
   if (res.success === false) {
     throw Error("Response Error. ErrorCode:" + res.data.errorCode);
   }
-  //Deno.writeTextFileSync(sampleFilePath, JSON.stringify(res.data));
+  // Deno.writeTextFileSync(
+  //   "./v1/test/sample/userRegist_sample.json",
+  //   JSON.stringify(res.data),
+  // );
 
   userId = res.data.id;
   bearerToken = res.data.bearerToken;
 
-  const sample = JSON.parse(Deno.readTextFileSync(sampleFilePath));
+  const sample = userRegistSample;
   sample.name = testName;
   assert(v4.validate(res.data.bearerToken));
   assert(Array.isArray(res.data.gamesId));
@@ -54,13 +70,15 @@ Deno.test("regist user", async () => {
 });
 
 Deno.test("create game", async () => {
-  const sampleFilePath = resolve("./sample/createGame_sample.json");
   const res = await ac.gameCreate({ name: "test", boardName: "A-1" });
   if (res.success === false) {
     throw Error("Response Error. ErrorCode:" + res.data.errorCode);
   }
-  //Deno.writeTextFileSync(sampleFilePath, JSON.stringify(res, null, 2));
-  const sample = JSON.parse(Deno.readTextFileSync(sampleFilePath));
+  // Deno.writeTextFileSync(
+  //   "./v1/test/sample/createGame_sample.json",
+  //   JSON.stringify(res.data, null, 2),
+  // );
+  const sample = createGameSample;
 
   assert(v4.validate(res.data.gameId));
   gameId = res.data.gameId;
@@ -69,8 +87,6 @@ Deno.test("create game", async () => {
 });
 
 Deno.test("match", async () => {
-  const sampleFilePath = resolve("./sample/match_sample.json");
-
   const res = await ac.match(
     { spec: testSpec, gameId },
     `Bearer ${bearerToken}`,
@@ -87,9 +103,12 @@ Deno.test("match", async () => {
     `Bearer ${bearerToken}`,
   );
   pic2 = res2.success ? res2.data.pic : "";
-  //Deno.writeTextFileSync(sampleFilePath, JSON.stringify(res.data, null, 2));
+  // Deno.writeTextFileSync(
+  //   "./v1/test/sample/match_sample.json",
+  //   JSON.stringify(res.data, null, 2),
+  // );
 
-  const sample = JSON.parse(Deno.readTextFileSync(sampleFilePath));
+  const sample = matchSample;
   assert(v4.validate(res.data.gameId));
   sample.gameId = res.data.gameId = "";
   sample.userId = userId;
@@ -98,16 +117,17 @@ Deno.test("match", async () => {
 });
 
 Deno.test("get gameinfo", async () => {
-  const sampleFilePath = resolve("./sample/matchGameInfo_sample.json");
-
   const res = await ac.getMatch(gameId);
   if (res.success === false) {
     throw Error("Response Error. ErrorCode:" + res.data.errorCode);
   }
   //console.log(JSON.stringify(res));
-  //Deno.writeTextFileSync(sampleFilePath, JSON.stringify(res.data, null, 2));
+  // Deno.writeTextFileSync(
+  //   "./v1/test/sample/matchGameInfo_sample.json",
+  //   JSON.stringify(res.data, null, 2),
+  // );
 
-  const sample = JSON.parse(Deno.readTextFileSync(sampleFilePath));
+  const sample = matchGameInfoSample;
   assert(v4.validate(res.data.gameId));
   sample.gameId = res.data.gameId = "";
   sample.players[0].id = res.data.players[0].id = "";
@@ -119,8 +139,6 @@ Deno.test("get gameinfo", async () => {
 });
 
 Deno.test("send action(Turn 1)", async () => {
-  const sampleFilePath = resolve("./sample/afterAction_sample.json");
-
   let res = await ac.getMatch(gameId);
   if (res.success === false) {
     throw Error("Response Error. ErrorCode:" + res.data.errorCode);
@@ -150,11 +168,14 @@ Deno.test("send action(Turn 1)", async () => {
   if (res.success === false) {
     throw Error("Response Error. ErrorCode:" + res.data.errorCode);
   }
-  // Deno.writeTextFileSync(sampleFilePath, JSON.stringify(res.data, null, 2));
+  // Deno.writeTextFileSync(
+  //   "./v1/test/sample/afterAction_sample.json",
+  //   JSON.stringify(res.data, null, 2),
+  // );
 
   //console.log(res);
   //console.log(JSON.stringify(reqJson, null, 2));
-  const sample = JSON.parse(Deno.readTextFileSync(sampleFilePath));
+  const sample = afterActionSample as typeof res.data;
 
   assert(v4.validate(res.data.gameId));
   sample.gameId = res.data.gameId = "";
@@ -166,8 +187,6 @@ Deno.test("send action(Turn 1)", async () => {
   assertEquals(sample, res.data);
 });
 Deno.test("send action(Turn 2)", async () => {
-  const sampleFilePath = resolve("./sample/afterAction_sample2.json");
-
   let res = await ac.getMatch(gameId);
   if (res.success === false) {
     throw Error("Response Error. ErrorCode:" + res.data.errorCode);
@@ -185,11 +204,14 @@ Deno.test("send action(Turn 2)", async () => {
   if (res.success === false) {
     throw Error("Response Error. ErrorCode:" + res.data.errorCode);
   }
-  // Deno.writeTextFileSync(sampleFilePath, JSON.stringify(res.data));
+  // Deno.writeTextFileSync(
+  //   "./v1/test/sample/afterAction_sample2.json",
+  //   JSON.stringify(res.data),
+  // );
 
   //console.log(res);
   //console.log(JSON.stringify(reqJson, null, 2));
-  const sample = JSON.parse(Deno.readTextFileSync(sampleFilePath));
+  const sample = afterActionSample2 as typeof res.data;
 
   assert(v4.validate(res.data.gameId));
   sample.gameId = res.data.gameId = "";
