@@ -1,5 +1,5 @@
-import { PartiallyPartial, randomUUID } from "./util.ts";
 import { errors, ServerError } from "./error.ts";
+import { ExpGame, ExpKakomimasu } from "./expKakomimasu.ts";
 import {
   type FTournament,
   type FUser,
@@ -8,8 +8,8 @@ import {
   getAllUsers,
   setAllTournaments,
   setAllUsers,
-} from "./parts/firestore_opration.ts";
-import { ExpGame, ExpKakomimasu } from "./parts/expKakomimasu.ts";
+} from "./firestore_opration.ts";
+import { PartiallyPartial, randomUUID } from "./util.ts";
 
 class User implements FUser {
   public screenName: string;

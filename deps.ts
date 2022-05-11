@@ -1,5 +1,4 @@
 // Standard Library
-export { fromFileUrl } from "https://deno.land/std@0.137.0/path/mod.ts";
 export { parse as yamlParse } from "https://deno.land/std@0.137.0/encoding/yaml.ts";
 export * as Colors from "https://deno.land/std@0.137.0/fmt/colors.ts";
 

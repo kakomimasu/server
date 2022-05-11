@@ -1,14 +1,15 @@
 import { getAuth, signInWithEmailAndPassword } from "../../deps.ts";
 import { assert, assertEquals, v4 } from "../../deps-test.ts";
 
+import { randomUUID } from "../../core/util.ts";
+
 import ApiClient from "../../client/client.ts";
-import { randomUUID } from "../util.ts";
 
 const ac = new ApiClient();
 
-import { errors } from "../error.ts";
+import { errors } from "../../core/error.ts";
 
-import "../parts/firestore_opration.ts";
+import "../../core/firestore_opration.ts";
 
 const auth = getAuth();
 const u = await signInWithEmailAndPassword(

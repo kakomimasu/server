@@ -1,8 +1,8 @@
 import { Router } from "../deps.ts";
 
 import { contentTypeFilter, jsonParse } from "./util.ts";
-import { Tournament, tournaments } from "./datas.ts";
-import { errors, ServerError } from "./error.ts";
+import { Tournament, tournaments } from "../core/datas.ts";
+import { errors, ServerError } from "../core/error.ts";
 import {
   TournamentAddUserReq,
   TournamentCreateReq,

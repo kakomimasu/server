@@ -1,8 +1,9 @@
 import { Core, Router } from "../deps.ts";
 
+import { nowUnixTime } from "../core/util.ts";
 import { contentTypeFilter, jsonParse } from "./util.ts";
-import { accounts, kkmm } from "./datas.ts";
-import { errors, ServerError } from "./error.ts";
+import { accounts, kkmm } from "../core/datas.ts";
+import { errors, ServerError } from "../core/error.ts";
 import {
   ActionPost as IActionPost,
   ActionReq,
@@ -13,9 +14,9 @@ import {
 } from "./types.ts";
 import { auth } from "./middleware.ts";
 import { aiList } from "./parts/ai-list.ts";
-import { nonReqEnv } from "./parts/env.ts";
-import { ExpGame, Player } from "./parts/expKakomimasu.ts";
-import { getAllBoards, getBoard } from "./parts/firestore_opration.ts";
+import { nonReqEnv } from "../core/env.ts";
+import { ExpGame, Player } from "../core/expKakomimasu.ts";
+import { getAllBoards, getBoard } from "../core/firestore_opration.ts";
 
 const boardname = nonReqEnv.boardname; // || "E-1"; // "F-1" "A-1"
 
@@ -143,7 +144,7 @@ export const matchRouter = () => {
       //console.log(req, "SetAction");
 
       // Actionを受け取った時刻を取得
-      const reqTime = new Date().getTime() / 1000;
+      const reqTime = nowUnixTime();
 
       const gameId = ctx.params.gameId;
 
@@ -194,7 +195,7 @@ export const matchRouter = () => {
       }
 
       const resData: ActionRes = {
-        receptionUnixTime: Math.floor(reqTime),
+        receptionUnixTime: reqTime,
         turn: nowTurn,
       };
 

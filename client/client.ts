@@ -1,9 +1,9 @@
 import { VersionRes } from "../types.ts";
+import { Error } from "../core/types.ts";
 import {
   ActionReq,
   ActionRes,
   Board,
-  Error,
   Game,
   GameCreateReq,
   MatchReq,
