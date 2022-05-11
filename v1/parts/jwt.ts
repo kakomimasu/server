@@ -1,5 +1,5 @@
 import { decode } from "../../deps.ts";
-import { reqEnv } from "./env.ts";
+import { reqEnv } from "../../core/env.ts";
 
 const isTest = reqEnv.FIREBASE_TEST;
 

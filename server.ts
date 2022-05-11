@@ -2,13 +2,13 @@ import { Application, Context, oakCors, Router } from "./deps.ts";
 
 import { VersionRes } from "./types.ts";
 
-import { errorCodeResponse, errors, ServerError } from "./v1/error.ts";
+import { errorCodeResponse, errors, ServerError } from "./core/error.ts";
 import { tournamentRouter } from "./v1/tournament.ts";
 import { userRouter } from "./v1/user.ts";
 import { gameRouter } from "./v1/game.ts";
 import { matchRouter } from "./v1/match.ts";
 import { wsRoutes } from "./v1/ws.ts";
-import { nonReqEnv, reqEnv } from "./v1/parts/env.ts";
+import { nonReqEnv, reqEnv } from "./core/env.ts";
 
 const port = parseInt(reqEnv.PORT);
 

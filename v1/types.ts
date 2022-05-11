@@ -4,11 +4,6 @@ export interface ApiOption {
   };
 }
 
-export interface Error {
-  message: string;
-  errorCode: number;
-}
-
 export interface User {
   screenName: string;
   name: string;

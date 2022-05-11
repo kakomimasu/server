@@ -1,4 +1,4 @@
-import { Colors, config, yamlParse } from "../../deps.ts";
+import { Colors, config, yamlParse } from "../deps.ts";
 
 type Config = Record<string, {
   require: boolean;

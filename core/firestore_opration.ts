@@ -9,11 +9,11 @@ import {
   ref,
   set,
   signInWithEmailAndPassword,
-} from "../../deps.ts";
+} from "../deps.ts";
 
-import type { Tournament, User } from "../datas.ts";
-import { ExpGame } from "./expKakomimasu.ts";
 import { reqEnv } from "./env.ts";
+import { ExpGame } from "./expKakomimasu.ts";
+import type { Tournament, User } from "./datas.ts";
 
 const isTest = reqEnv.FIREBASE_TEST;
 
