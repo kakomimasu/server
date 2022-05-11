@@ -5,7 +5,7 @@ import { randomUUID } from "../../core/util.ts";
 
 import ApiClient from "../../client/client.ts";
 
-import "../parts/firestore_opration.ts";
+import "../../core/firestore_opration.ts";
 
 const auth = getAuth();
 // const u = await createUserWithEmailAndPassword(
@@ -21,7 +21,7 @@ const u = await signInWithEmailAndPassword(
 
 const ac = new ApiClient();
 
-import { errors } from "../error.ts";
+import { errors } from "../../core/error.ts";
 
 const uuid = randomUUID();
 const data = { screenName: uuid, name: uuid };
