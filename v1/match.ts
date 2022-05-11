@@ -1,5 +1,6 @@
 import { Core, Router } from "../deps.ts";
 
+import { nowUnixTime } from "../core/util.ts";
 import { contentTypeFilter, jsonParse } from "./util.ts";
 import { accounts, kkmm } from "./datas.ts";
 import { errors, ServerError } from "./error.ts";
@@ -143,7 +144,7 @@ export const matchRouter = () => {
       //console.log(req, "SetAction");
 
       // Actionを受け取った時刻を取得
-      const reqTime = new Date().getTime() / 1000;
+      const reqTime = nowUnixTime();
 
       const gameId = ctx.params.gameId;
 
@@ -194,7 +195,7 @@ export const matchRouter = () => {
       }
 
       const resData: ActionRes = {
-        receptionUnixTime: Math.floor(reqTime),
+        receptionUnixTime: reqTime,
         turn: nowTurn,
       };
 

@@ -1,9 +1,10 @@
 import { getAuth, signInWithEmailAndPassword } from "../../deps.ts";
 import { assertEquals } from "../../deps-test.ts";
 
+import { randomUUID } from "../../core/util.ts";
+
 import ApiClient from "../../client/client.ts";
 import { errors } from "../error.ts";
-import { randomUUID } from "../util.ts";
 
 const ac = new ApiClient();
 

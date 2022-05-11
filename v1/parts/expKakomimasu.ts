@@ -1,5 +1,5 @@
 import { Algorithm, Core } from "../../deps.ts";
-import { nowUnixTime, randomUUID } from "../util.ts";
+import { nowUnixTime, randomUUID } from "../../core/util.ts";
 
 import { setGame } from "./firestore_opration.ts";
 

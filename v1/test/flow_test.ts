@@ -1,8 +1,9 @@
 import { getAuth, signInWithEmailAndPassword } from "../../deps.ts";
 import { assert, assertEquals, v4 } from "../../deps-test.ts";
-import ApiClient from "../../client/client.ts";
 
-import { randomUUID } from "../util.ts";
+import { randomUUID } from "../../core/util.ts";
+
+import ApiClient from "../../client/client.ts";
 import { diffTime, sleep } from "./client_util.ts";
 
 import userRegistSample from "./sample/userRegist_sample.json" assert {

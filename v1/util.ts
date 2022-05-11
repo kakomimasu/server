@@ -2,9 +2,6 @@ import { Context } from "../deps.ts";
 import { errors, ServerError } from "./error.ts";
 
 export type UnknownRequest<T> = Record<keyof T, unknown>;
-export type PartiallyPartial<T, K extends keyof T> =
-  & Omit<T, K>
-  & Partial<Pick<T, K>>;
 
 export const contentTypeFilter = (
   ...types: (string | RegExp)[]
@@ -28,9 +25,3 @@ export const jsonParse = () =>
     }
     await next();
   };
-
-export const randomUUID = () => crypto.randomUUID();
-
-export const nowUnixTime = () => {
-  return Math.floor(new Date().getTime() / 1000);
-};

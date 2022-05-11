@@ -1,4 +1,4 @@
-import { PartiallyPartial, randomUUID } from "./util.ts";
+import { PartiallyPartial, randomUUID } from "../core/util.ts";
 import { errors, ServerError } from "./error.ts";
 import {
   type FTournament,
