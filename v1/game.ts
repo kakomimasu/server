@@ -5,7 +5,7 @@ import { accounts, kkmm, tournaments } from "../core/datas.ts";
 import { errors, ServerError } from "../core/error.ts";
 import { Game as IGame, GameCreateReq } from "./types.ts";
 import { auth } from "./middleware.ts";
-import { getAllBoards, getBoard } from "../core/firestore_opration.ts";
+import { getAllBoards, getBoard } from "../core/firestore.ts";
 import { ExpGame } from "../core/expKakomimasu.ts";
 
 export const gameRouter = () => {

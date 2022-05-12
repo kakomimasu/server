@@ -1,6 +1,6 @@
 import { Algorithm, Core } from "../deps.ts";
 
-import { setGame } from "./firestore_opration.ts";
+import { setGame } from "./firestore.ts";
 import { nowUnixTime, randomUUID } from "./util.ts";
 
 const sendGameFn: ((game: ExpGame) => void)[] = [];

@@ -9,7 +9,7 @@ const ac = new ApiClient();
 
 import { errors } from "../../core/error.ts";
 
-import "../../core/firestore_opration.ts";
+import "../../core/firestore.ts";
 
 const auth = getAuth();
 const u = await signInWithEmailAndPassword(

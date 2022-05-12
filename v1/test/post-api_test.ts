@@ -8,7 +8,7 @@ import { errors } from "../../core/error.ts";
 
 const ac = new ApiClient();
 
-import "../../core/firestore_opration.ts";
+import "../../core/firestore.ts";
 
 const auth = getAuth();
 const u = await signInWithEmailAndPassword(

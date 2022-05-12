@@ -8,7 +8,7 @@ import {
   getAllUsers,
   setAllTournaments,
   setAllUsers,
-} from "./firestore_opration.ts";
+} from "./firestore.ts";
 import { PartiallyPartial, randomUUID } from "./util.ts";
 
 class User implements FUser {
