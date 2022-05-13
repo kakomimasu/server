@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -15,3 +16,4 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "kakomimasu" #Must be unique in Heroku
           heroku_email: "kakomimasu@googlegroups.com"
+          branch: "main"
