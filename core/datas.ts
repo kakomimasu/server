@@ -120,8 +120,8 @@ export class Tournament implements FTournament {
     this.organizer = data.organizer;
     this.type = data.type;
     this.remarks = data.remarks;
-    this.users = data.users;
-    this.gameIds = data.gameIds;
+    this.users = data.users ?? [];
+    this.gameIds = data.gameIds ?? [];
   }
 
   static create(data: newTournamentConstructorParam) {
