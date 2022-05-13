@@ -13,7 +13,7 @@ import {
 } from "../deps.ts";
 
 import { reqEnv } from "./env.ts";
-import { ExpGame } from "./expKakomimasu.ts";
+import type { ExpGame } from "./expKakomimasu.ts";
 import type { Tournament, User } from "./datas.ts";
 
 export interface FUser {
@@ -118,15 +118,10 @@ export async function setGame(
 }
 
 /** 全ゲーム取得 */
-export async function getAllGames(): Promise<ExpGame[]> {
-  const games: ExpGame[] = [];
+export async function getAllGameSnapShot() {
   const gamesRef = ref(db, "games");
   const snap = await get(gamesRef);
-  snap.forEach((doc) => {
-    const game = ExpGame.restore(doc.val());
-    games.push(game);
-  });
-  return games;
+  return snap;
 }
 
 /** ボードを1つ取得 */

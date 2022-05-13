@@ -3,7 +3,7 @@ import { ExpGame, ExpKakomimasu } from "./expKakomimasu.ts";
 import {
   type FTournament,
   type FUser,
-  getAllGames,
+  getAllGameSnapShot,
   getAllTournaments,
   getAllUsers,
   setAllTournaments,
@@ -216,7 +216,9 @@ class Tournaments {
 }
 
 const kkmm = new ExpKakomimasu();
-kkmm.games.push(...await getAllGames());
+(await getAllGameSnapShot()).forEach((doc) => {
+  kkmm.games.push(ExpGame.restore(doc.val()));
+});
 
 const tournaments = new Tournaments();
 await tournaments.read();
