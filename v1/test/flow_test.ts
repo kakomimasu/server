@@ -25,7 +25,7 @@ import afterActionSample2 from "./sample/afterAction_sample2.json" assert {
 
 const ac = new ApiClient();
 
-import "../../core/firestore_opration.ts";
+import "../../core/firestore.ts";
 
 const auth = getAuth();
 const u = await signInWithEmailAndPassword(

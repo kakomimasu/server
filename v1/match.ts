@@ -16,7 +16,7 @@ import { auth } from "./middleware.ts";
 import { aiList } from "./parts/ai-list.ts";
 import { nonReqEnv } from "../core/env.ts";
 import { ExpGame, Player } from "../core/expKakomimasu.ts";
-import { getAllBoards, getBoard } from "../core/firestore_opration.ts";
+import { getAllBoards, getBoard } from "../core/firestore.ts";
 
 const boardname = nonReqEnv.boardname; // || "E-1"; // "F-1" "A-1"
 

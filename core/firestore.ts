@@ -2,6 +2,7 @@ import {
   connectAuthEmulator,
   connectDatabaseEmulator,
   Core,
+  FirebaseOptions,
   get,
   getAuth,
   getDatabase,
@@ -12,22 +13,8 @@ import {
 } from "../deps.ts";
 
 import { reqEnv } from "./env.ts";
-import { ExpGame } from "./expKakomimasu.ts";
+import type { ExpGame } from "./expKakomimasu.ts";
 import type { Tournament, User } from "./datas.ts";
-
-const isTest = reqEnv.FIREBASE_TEST;
-
-const setting = getSetting();
-const app = initializeApp(setting.conf);
-const auth = getAuth();
-isTest &&
-  connectAuthEmulator(
-    auth,
-    `http://${reqEnv.FIREBASE_EMULATOR_HOST}:9099`,
-    undefined,
-  );
-const db = getDatabase(app, setting.dbURL);
-isTest && connectDatabaseEmulator(db, reqEnv.FIREBASE_EMULATOR_HOST, 9000);
 
 export interface FUser {
   screenName: string;
@@ -46,11 +33,31 @@ export interface FTournament {
   gameIds: string[] | null;
 }
 
+const firebaseConfig: FirebaseOptions = {
+  apiKey: "AIzaSyBOas3O1fmIrl51n7I_hC09YCG0EEe7tlc",
+  authDomain: "kakomimasu.firebaseapp.com",
+  databaseURL: "https://kakomimasu-default-rtdb.firebaseio.com",
+  projectId: "kakomimasu",
+  storageBucket: "kakomimasu.appspot.com",
+  messagingSenderId: "883142143351",
+  appId: "1:883142143351:web:dc6ddc1158aa54ada74572",
+  measurementId: "G-L43FT511YW",
+};
+
+initializeApp(firebaseConfig);
+const auth = getAuth();
+const db = getDatabase();
+
+if (reqEnv.FIREBASE_TEST) {
+  connectAuthEmulator(auth, `http://${reqEnv.FIREBASE_EMULATOR_HOST}:9099`);
+  connectDatabaseEmulator(db, reqEnv.FIREBASE_EMULATOR_HOST, 9000);
+}
+
 /** 管理ユーザでログイン */
 await signInWithEmailAndPassword(
   auth,
-  setting.username,
-  setting.password,
+  reqEnv.FIREBASE_USERNAME,
+  reqEnv.FIREBASE_PASSWORD,
 );
 
 /** 全ユーザ保存 */
@@ -111,15 +118,10 @@ export async function setGame(
 }
 
 /** 全ゲーム取得 */
-export async function getAllGames(): Promise<ExpGame[]> {
-  const games: ExpGame[] = [];
+export async function getAllGameSnapShot() {
   const gamesRef = ref(db, "games");
   const snap = await get(gamesRef);
-  snap.forEach((doc) => {
-    const game = ExpGame.restore(doc.val());
-    games.push(game);
-  });
-  return games;
+  return snap;
 }
 
 /** ボードを1つ取得 */
@@ -175,38 +177,4 @@ function createBoard(data: any) {
     name,
   });
   return board;
-}
-
-function getSetting() {
-  // 初期化
-  const username: string | undefined = reqEnv.FIREBASE_USERNAME;
-  const password: string | undefined = reqEnv.FIREBASE_PASSWORD;
-
-  //let conf;
-  //let dbURL;
-  /*if (firebaseTest === "true") {
-    conf = {
-      apiKey: "AIzaSyCIzvSrMgYAV2SVIPbRMSaHWjsdLDk781A",
-      authDomain: "kakomimasu-test.firebaseapp.com",
-      projectId: "kakomimasu-test",
-      storageBucket: "kakomimasu-test.appspot.com",
-      messagingSenderId: "35306968138",
-      appId: "1:35306968138:web:513405a81673c8415e42b3",
-    };
-    dbURL = "https://kakomimasu-test-default-rtdb.firebaseio.com/";
-  } else {
-    */
-  const conf = {
-    apiKey: "AIzaSyBOas3O1fmIrl51n7I_hC09YCG0EEe7tlc",
-    authDomain: "kakomimasu.firebaseapp.com",
-    projectId: "kakomimasu",
-    storageBucket: "kakomimasu.appspot.com",
-    messagingSenderId: "883142143351",
-    appId: "1:883142143351:web:dc6ddc1158aa54ada74572",
-    measurementId: "G-L43FT511YW",
-  };
-  const dbURL = "https://kakomimasu-default-rtdb.firebaseio.com/";
-  //}
-
-  return { conf, dbURL, username, password };
 }

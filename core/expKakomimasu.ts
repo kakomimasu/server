@@ -1,7 +1,13 @@
 import { Algorithm, Core } from "../deps.ts";
 
-import { setGame } from "./firestore_opration.ts";
+import { setGame } from "./firestore.ts";
 import { nowUnixTime, randomUUID } from "./util.ts";
+
+const sendGameFn: ((game: ExpGame) => void)[] = [];
+
+export const addSendGameFn = (fn: typeof sendGameFn[number]) => [
+  sendGameFn.push(fn),
+];
 
 class Player extends Core.Player<ExpGame> {
   public pic: string;
@@ -251,9 +257,8 @@ class ExpGame extends Core.Game {
     return data;
   }
 
-  async wsSend() {
-    const { sendGame } = await import("../v1/ws.ts");
-    sendGame(this);
+  wsSend() {
+    sendGameFn.forEach((fn) => fn(this));
   }
 }
 

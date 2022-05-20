@@ -3,7 +3,7 @@ import { Router } from "../deps.ts";
 import type { WsGameReq, WsGameRes } from "./types.ts";
 import { UnknownRequest } from "./util.ts";
 import { accounts, kkmm } from "../core/datas.ts";
-import { ExpGame } from "../core/expKakomimasu.ts";
+import { addSendGameFn, ExpGame } from "../core/expKakomimasu.ts";
 
 type SearchOptions = { op: string; value: string }[];
 type MapValue = {
@@ -123,6 +123,8 @@ export function sendGame(game: ExpGame) {
     value.keepAliveTimerId = setKeepAliveTimeout(ws);
   });
 }
+
+addSendGameFn(sendGame);
 
 export const wsRoutes = () => {
   const router = new Router();
