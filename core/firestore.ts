@@ -29,8 +29,8 @@ export interface FTournament {
   type: "round-robin" | "knockout";
   organizer: string;
   remarks: string;
-  users: string[];
-  gameIds: string[];
+  users: string[] | null;
+  gameIds: string[] | null;
 }
 
 const firebaseConfig: FirebaseOptions = {
