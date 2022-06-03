@@ -1,3 +1,7 @@
+import { Middleware } from "../deps.ts";
+
+import { errors, ServerError } from "./error.ts";
+
 export type PartiallyPartial<T, K extends keyof T> =
   & Omit<T, K>
   & Partial<Pick<T, K>>;
@@ -7,3 +11,16 @@ export const nowUnixTime = () => {
 };
 
 export const randomUUID = () => crypto.randomUUID();
+
+export type StateData<T> = { data: T };
+
+export const jsonParse = <T>(): Middleware<StateData<T>> =>
+  async (ctx, next) => {
+    try {
+      const reqJson = await ctx.request.body({ type: "json" }).value;
+      ctx.state.data = reqJson;
+    } catch (_e) {
+      throw new ServerError(errors.INVALID_SYNTAX);
+    }
+    await next();
+  };

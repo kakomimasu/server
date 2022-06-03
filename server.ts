@@ -10,6 +10,8 @@ import { matchRouter } from "./v1/match.ts";
 import { wsRoutes } from "./v1/ws.ts";
 import { nonReqEnv, reqEnv } from "./core/env.ts";
 
+import { router as miyakonojoRouter } from "./miyakonojo/router.ts";
+
 const port = parseInt(reqEnv.PORT);
 
 if (import.meta.main) {
@@ -86,6 +88,7 @@ URL: ${ctx.request.url}
   });
 
   router.use("/v1", apiRoutes());
+  router.use("/miyakonojo", miyakonojoRouter.routes());
   app.use(router.routes());
   app.use(router.allowedMethods());
 

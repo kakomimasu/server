@@ -16,6 +16,7 @@ export const contentTypeFilter = (
   };
 
 export const jsonParse = () =>
+  // TODO: coreのutilに移行
   async (ctx: Context, next: () => Promise<unknown>) => {
     try {
       const reqJson = await ctx.request.body({ type: "json" }).value;

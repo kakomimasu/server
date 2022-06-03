@@ -92,6 +92,10 @@ class Users {
       (e.id === identifier) || (e.name === identifier)
     );
   }
+
+  getWithAuth(auth: string) {
+    return this.users.find((e) => e.bearerToken === auth);
+  }
 }
 
 type newTournamentConstructorParam = PartiallyPartial<
