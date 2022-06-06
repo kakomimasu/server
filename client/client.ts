@@ -17,6 +17,10 @@ import {
   UserRegistReq,
 } from "../v1/types.ts";
 
+export * from "../types.ts";
+export * from "../core/types.ts";
+export * from "../v1/types.ts";
+
 export type ApiRes<T> = Promise<
   { success: true; data: T; res: Response } | {
     success: false;
