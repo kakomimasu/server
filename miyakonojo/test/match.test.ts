@@ -197,7 +197,7 @@ Deno.test({
     await sleep(diffTime(startAtUnixTime) + 500);
 
     await t.step("/matches/:id/action", async (t) => {
-      await t.step("200 Success", async () => {
+      await t.step("201 Success", async () => {
         const res = await fetch(
           baseUrl + `/matches/${matchRes.gameId}/action`,
           {
@@ -207,7 +207,7 @@ Deno.test({
           },
         );
         const json = await res.json();
-        // assertEquals(res.status, 200);
+        assertEquals(res.status, 201);
         // console.log(json);
 
         assert(Array.isArray(json));

@@ -1,3 +1,16 @@
+type Failure400<T extends string> = {
+  startAtUnixTime?: number;
+  status: T;
+};
+
+export type FailureInvalidMatches = Failure400<"InvalidMatches">;
+export type FailureTooEarly = Failure400<"TooEarly">;
+export type FailureUnAcceptableTime = Failure400<"UnAcceptableTime">;
+
+export type FailureInvalidToken = { status: "InvalidToken" };
+
+export type ActionType = "move" | "remove" | "stay" | "put";
+
 export type PriorMatch = {
   id: string;
   intervalMillis: 0;
@@ -13,7 +26,7 @@ export type Match = {
     agentID: number;
     dx: number;
     dy: number;
-    type: "move" | "remove" | "stay" | "put";
+    type: ActionType;
     apply: -1 | 0 | 1;
     turn: number;
   }>;
@@ -39,9 +52,14 @@ export type Action = {
   agentID: number;
   dx: number;
   dy: number;
-  type: "move" | "remove" | "stay" | "put"; // TODO:Action Typeとしてまとめる
+  type: ActionType;
 };
 
-export type UpdateActionReq = Action[];
+export type PriorMatchesRes = PriorMatch[];
 
+export type MatchesRes = Match;
+
+export type UpdateActionReq = Action[];
 export type UpdateActionRes = (Action & { turn: number })[];
+
+export type PingRes = { status: "OK" };

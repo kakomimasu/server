@@ -7,7 +7,9 @@ import { StateData } from "../core/util.ts";
 import { getToken, StateToken } from "./_util.ts";
 import {
   Match,
+  MatchesRes,
   PriorMatch,
+  PriorMatchesRes,
   UpdateActionReq,
   UpdateActionRes,
 } from "./types.ts";
@@ -15,7 +17,7 @@ import {
 export const priorMatches: Middleware<StateToken> = (ctx) => {
   const authedUser = ctx.state.user;
 
-  const matches: PriorMatch[] = kkmm.getGames().filter((game) => {
+  const matches = kkmm.getGames().filter((game) => {
     if (game.ending) return false;
     const user = game.players.find((player) => {
       return player.id === authedUser.id;
@@ -45,8 +47,10 @@ export const priorMatches: Middleware<StateToken> = (ctx) => {
     return [...matches];
   });
 
+  const body: PriorMatchesRes = matches;
+
   ctx.response.status = 200;
-  ctx.response.body = matches;
+  ctx.response.body = body;
 };
 
 export const matches: RouterMiddleware<"/matches/:id"> = (
@@ -56,80 +60,77 @@ export const matches: RouterMiddleware<"/matches/:id"> = (
   const token = getToken(ctx);
   if (!token) {
     ctx.response.status = 401;
-    ctx.response.body = {
-      status: "InvalidToken",
-    };
+    ctx.response.body = { status: "InvalidToken" };
     return;
   }
 
   const game = kkmm.getGames().find((game) => game.uuid === id);
-  if (
-    game?.players.find((player) => player.pic === token) === undefined
-  ) {
+  if (game?.players.find((player) => player.pic === token) === undefined) {
     ctx.response.status = 400;
     ctx.response.body = { status: "InvalidMatches" };
-  } else {
-    if (game.gaming === false && game.ending === false) {
-      ctx.response.status = 400;
-      ctx.response.body = {
-        status: "TooEarly",
-        startAtUnixTime: game.startedAtUnixTime ?? undefined,
-      };
-    } else {
-      const actions = getActions(game);
+    return;
+  }
+  if (game.gaming === false && game.ending === false) {
+    ctx.response.status = 400;
+    ctx.response.body = {
+      status: "TooEarly",
+      startAtUnixTime: game.startedAtUnixTime ?? undefined,
+    };
+    return;
+  }
 
-      const points: number[][] = new Array(game.board.h);
-      const tiled: number[][] = new Array(game.board.h);
-      for (let y = 0; y < game.board.h; y++) {
-        points[y] = new Array(game.board.w);
-        tiled[y] = new Array(game.board.w);
-        for (let x = 0; x < game.board.w; x++) {
-          const idx = y * game.board.h + x;
-          points[y][x] = game.board.points[idx];
-          const tile = game.field.field[idx];
-          if (tile.player !== null && tile.type === Core.Field.WALL) {
-            tiled[y][x] = tile.player + 1;
-          } else {
-            tiled[y][x] = 0;
-          }
-        }
+  const actions = getActions(game);
+
+  const points: number[][] = new Array(game.board.h);
+  const tiled: number[][] = new Array(game.board.h);
+  for (let y = 0; y < game.board.h; y++) {
+    points[y] = new Array(game.board.w);
+    tiled[y] = new Array(game.board.w);
+    for (let x = 0; x < game.board.w; x++) {
+      const idx = y * game.board.h + x;
+      points[y][x] = game.board.points[idx];
+      const tile = game.field.field[idx];
+      if (tile.player !== null && tile.type === Core.Field.WALL) {
+        tiled[y][x] = tile.player + 1;
+      } else {
+        tiled[y][x] = 0;
       }
-
-      const playerPoints = game.field.getPoints();
-
-      const startedAtUnixTime = game.startedAtUnixTime as number;
-
-      const teams = game.players.map((player, playerIdx) => {
-        const agents = player.agents.map((agent, agentIdx) => {
-          return {
-            agentID: getAgentID(playerIdx, agentIdx, game.board.nagent),
-            x: agent.x,
-            y: agent.y,
-          };
-        });
-        const { basepoint: areaPoint, wallpoint: tilePoint } =
-          playerPoints[playerIdx];
-        return {
-          agents,
-          areaPoint,
-          teamID: player.id,
-          tilePoint,
-        };
-      });
-
-      const body: Match = {
-        actions,
-        height: game.board.h,
-        points,
-        startedAtUnixTime,
-        teams,
-        tiled,
-        turn: game.turn,
-        width: game.board.w,
-      };
-      ctx.response.body = body;
     }
   }
+
+  const playerPoints = game.field.getPoints();
+
+  const startedAtUnixTime = game.startedAtUnixTime as number;
+
+  const teams = game.players.map((player, playerIdx) => {
+    const agents = player.agents.map((agent, agentIdx) => {
+      return {
+        agentID: getAgentID(playerIdx, agentIdx, game.board.nagent),
+        x: agent.x,
+        y: agent.y,
+      };
+    });
+    const { basepoint: areaPoint, wallpoint: tilePoint } =
+      playerPoints[playerIdx];
+    return {
+      agents,
+      areaPoint,
+      teamID: player.id,
+      tilePoint,
+    };
+  });
+
+  const body: MatchesRes = {
+    actions,
+    height: game.board.h,
+    points,
+    startedAtUnixTime,
+    teams,
+    tiled,
+    turn: game.turn,
+    width: game.board.w,
+  };
+  ctx.response.body = body;
 };
 
 export const updateAction: RouterMiddleware<
@@ -143,9 +144,7 @@ export const updateAction: RouterMiddleware<
   const token = getToken(ctx);
   if (!token) {
     ctx.response.status = 401;
-    ctx.response.body = {
-      status: "InvalidToken",
-    };
+    ctx.response.body = { status: "InvalidToken" }; // TODO: PIC認証をまとめる
     return;
   }
 
@@ -156,66 +155,70 @@ export const updateAction: RouterMiddleware<
   if (game === undefined || player === undefined) {
     ctx.response.status = 400;
     ctx.response.body = { status: "InvalidMatches" };
-  } else {
-    if (game.gaming === false && game.ending === false) {
-      ctx.response.status = 400;
-      ctx.response.body = {
-        status: "TooEarly",
-        startAtUnixTime: game.startedAtUnixTime ?? undefined,
-      };
-    } else if (game.ending) {
-      ctx.response.status = 400;
-      ctx.response.body = {
-        status: "UnacceptableTime",
-        startAtUnixTime: game.startedAtUnixTime,
-      };
-    } else {
-      const actions = ctx.state.data;
-      const newActions = player.actions;
-
-      const body: UpdateActionRes = [];
-      const nowTurn = game.turn;
-
-      actions.map((action) => {
-        const coreAgentId = getCoreAgentId(action.agentID, game.board.nagent);
-        const type = getTypeFromString(action.type);
-        const agent = player.agents[coreAgentId];
-
-        let x = 0, y = 0;
-        if (type === Core.Action.PUT) {
-          x = action.dx;
-          y = action.dy;
-        } else {
-          if (agent) {
-            x = agent.x + action.dx;
-            y = agent.y + action.dy;
-          }
-        }
-        const newAction = new Core.Action(
-          coreAgentId,
-          getTypeFromString(action.type),
-          x,
-          y,
-        );
-        const actionIdx = newActions.findIndex((a) =>
-          // TODO: AddActionとして関数に出したらどうだろう
-          a.agentid === coreAgentId
-        );
-        if (actionIdx === -1) {
-          newActions.push(newAction);
-        } else {
-          newActions[actionIdx] = newAction;
-        }
-
-        body.push({
-          ...action,
-          turn: nowTurn,
-        });
-      });
-
-      ctx.response.body = body;
-    }
+    return;
   }
+  if (game.gaming === false && game.ending === false) {
+    ctx.response.status = 400;
+    ctx.response.body = {
+      status: "TooEarly",
+      startAtUnixTime: game.startedAtUnixTime ?? undefined,
+    };
+    return;
+  }
+  if (game.ending) {
+    ctx.response.status = 400;
+    ctx.response.body = {
+      status: "UnacceptableTime",
+      startAtUnixTime: game.startedAtUnixTime,
+    };
+    return;
+  }
+
+  const actions = ctx.state.data;
+  const newActions = player.actions;
+
+  const body: UpdateActionRes = [];
+  const nowTurn = game.turn;
+
+  actions.map((action) => {
+    const coreAgentId = getCoreAgentId(action.agentID, game.board.nagent);
+    const type = getTypeFromString(action.type);
+    const agent = player.agents[coreAgentId];
+
+    let x = 0, y = 0;
+    if (type === Core.Action.PUT) {
+      x = action.dx;
+      y = action.dy;
+    } else {
+      if (agent) {
+        x = agent.x + action.dx;
+        y = agent.y + action.dy;
+      }
+    }
+    const newAction = new Core.Action(
+      coreAgentId,
+      getTypeFromString(action.type),
+      x,
+      y,
+    );
+    const actionIdx = newActions.findIndex((a) =>
+      // TODO: AddActionとして関数に出したらどうだろう
+      a.agentid === coreAgentId
+    );
+    if (actionIdx === -1) {
+      newActions.push(newAction);
+    } else {
+      newActions[actionIdx] = newAction;
+    }
+
+    body.push({
+      ...action,
+      turn: nowTurn,
+    });
+  });
+
+  ctx.response.status = 201;
+  ctx.response.body = body;
 };
 
 function getActions(game: ExpGame) {
