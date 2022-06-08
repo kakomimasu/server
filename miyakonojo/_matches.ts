@@ -4,7 +4,7 @@ import { kkmm } from "../core/datas.ts";
 import type { ExpGame } from "../core/expKakomimasu.ts";
 import { StateData } from "../core/util.ts";
 
-import { getToken, StateToken } from "./_util.ts";
+import { StatePic, StateToken } from "./_util.ts";
 import {
   Match,
   MatchesRes,
@@ -53,19 +53,18 @@ export const priorMatches: Middleware<StateToken> = (ctx) => {
   ctx.response.body = body;
 };
 
-export const matches: RouterMiddleware<"/matches/:id"> = (
+export const matches: RouterMiddleware<
+  "/matches/:id",
+  { id: string },
+  StatePic
+> = (
   ctx,
 ) => {
   const id = ctx.params.id;
-  const token = getToken(ctx);
-  if (!token) {
-    ctx.response.status = 401;
-    ctx.response.body = { status: "InvalidToken" };
-    return;
-  }
+  const pic = ctx.state.pic;
 
   const game = kkmm.getGames().find((game) => game.uuid === id);
-  if (game?.players.find((player) => player.pic === token) === undefined) {
+  if (game?.players.find((player) => player.pic === pic) === undefined) {
     ctx.response.status = 400;
     ctx.response.body = { status: "InvalidMatches" };
     return;
@@ -120,7 +119,7 @@ export const matches: RouterMiddleware<"/matches/:id"> = (
     };
   });
 
-  const body: MatchesRes = {
+  const body: MatchesRes = { // TODO: util.tsに変換系はまとめる
     actions,
     height: game.board.h,
     points,
@@ -136,20 +135,15 @@ export const matches: RouterMiddleware<"/matches/:id"> = (
 export const updateAction: RouterMiddleware<
   "/matches/:id/action",
   { id: string },
-  StateData<UpdateActionReq>
+  StateData<UpdateActionReq> & StatePic
 > = (
   ctx,
 ) => {
   const id = ctx.params.id;
-  const token = getToken(ctx);
-  if (!token) {
-    ctx.response.status = 401;
-    ctx.response.body = { status: "InvalidToken" }; // TODO: PIC認証をまとめる
-    return;
-  }
+  const pic = ctx.state.pic;
 
   const game = kkmm.getGames().find((game) => game.uuid === id);
-  const playerIdx = game?.players.findIndex((player) => player.pic === token) ??
+  const playerIdx = game?.players.findIndex((player) => player.pic === pic) ??
     -1;
   const player = playerIdx >= 0 ? game?.players[playerIdx] : undefined;
   if (game === undefined || player === undefined) {
