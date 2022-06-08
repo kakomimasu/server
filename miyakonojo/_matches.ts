@@ -4,7 +4,7 @@ import { kkmm } from "../core/datas.ts";
 import type { ExpGame } from "../core/expKakomimasu.ts";
 import { StateData } from "../core/util.ts";
 
-import { StateToken } from "./_util.ts";
+import { getToken, StateToken } from "./_util.ts";
 import {
   Match,
   PriorMatch,
@@ -17,42 +17,54 @@ export const priorMatches: Middleware<StateToken> = (ctx) => {
 
   const matches: PriorMatch[] = kkmm.getGames().filter((game) => {
     if (game.ending) return false;
-    if (!game.isReady()) return false;
-    const user = game.players.filter((player) => {
-      player.id === authedUser.id;
+    const user = game.players.find((player) => {
+      return player.id === authedUser.id;
     });
-    if (user.length !== 1) return false;
-  }).map((game) => {
-    const oppoUser = game.players.filter((player) => {
-      player.id !== authedUser.id;
-    }).map((player) => player.id);
+    if (user === undefined) return false;
+    return true;
+  }).flatMap((game) => {
+    const myIdx = game.players.flatMap((player, i) => {
+      if (player.id === authedUser.id) return [i];
+      else return [];
+    });
+    const matches: PriorMatch[] = myIdx.map((idx) => {
+      const oppoUser = game.players.filter((_, i) => i !== idx).map((player) =>
+        player.id
+      );
 
-    return {
-      id: game.uuid,
-      intervalMillis: 0,
-      matchTo: oppoUser.join(","),
-      teamID: authedUser.id,
-      turnMillis: game.board.nsec,
-      turns: game.board.nturn,
-    };
+      return {
+        id: game.uuid,
+        intervalMillis: 0,
+        matchTo: oppoUser.join(","),
+        teamID: parseInt(game.players[idx].pic),
+        turnMillis: game.board.nsec * 1000,
+        turns: game.board.nturn,
+        index: idx,
+      };
+    });
+    return [...matches];
   });
 
   ctx.response.status = 200;
   ctx.response.body = matches;
 };
 
-export const matches: RouterMiddleware<
-  "/matches/:id",
-  { id: string },
-  StateToken
-> = (
+export const matches: RouterMiddleware<"/matches/:id"> = (
   ctx,
 ) => {
   const id = ctx.params.id;
-  const authedUser = ctx.state.user;
+  const token = getToken(ctx);
+  if (!token) {
+    ctx.response.status = 401;
+    ctx.response.body = {
+      status: "InvalidToken",
+    };
+    return;
+  }
+
   const game = kkmm.getGames().find((game) => game.uuid === id);
   if (
-    game?.players.find((player) => player.id === authedUser.id) === undefined
+    game?.players.find((player) => player.pic === token) === undefined
   ) {
     ctx.response.status = 400;
     ctx.response.body = { status: "InvalidMatches" };
@@ -61,7 +73,7 @@ export const matches: RouterMiddleware<
       ctx.response.status = 400;
       ctx.response.body = {
         status: "TooEarly",
-        startAtUnixTime: game.startedAtUnixTime,
+        startAtUnixTime: game.startedAtUnixTime ?? undefined,
       };
     } else {
       const actions = getActions(game);
@@ -123,15 +135,23 @@ export const matches: RouterMiddleware<
 export const updateAction: RouterMiddleware<
   "/matches/:id/action",
   { id: string },
-  StateToken & StateData<UpdateActionReq>
+  StateData<UpdateActionReq>
 > = (
   ctx,
 ) => {
   const id = ctx.params.id;
-  const authedUser = ctx.state.user;
+  const token = getToken(ctx);
+  if (!token) {
+    ctx.response.status = 401;
+    ctx.response.body = {
+      status: "InvalidToken",
+    };
+    return;
+  }
+
   const game = kkmm.getGames().find((game) => game.uuid === id);
-  const playerIdx =
-    game?.players.findIndex((player) => player.id === authedUser.id) ?? -1;
+  const playerIdx = game?.players.findIndex((player) => player.pic === token) ??
+    -1;
   const player = playerIdx >= 0 ? game?.players[playerIdx] : undefined;
   if (game === undefined || player === undefined) {
     ctx.response.status = 400;
@@ -141,9 +161,9 @@ export const updateAction: RouterMiddleware<
       ctx.response.status = 400;
       ctx.response.body = {
         status: "TooEarly",
-        startAtUnixTime: game.startedAtUnixTime,
+        startAtUnixTime: game.startedAtUnixTime ?? undefined,
       };
-    } else if (game.gaming) {
+    } else if (game.ending) {
       ctx.response.status = 400;
       ctx.response.body = {
         status: "UnacceptableTime",
@@ -207,7 +227,7 @@ function getActions(game: ExpGame) {
   );
   prevAxisList.fill(null);
 
-  const actions = game.log.flatMap((turnLog, turn) => {
+  const actions = game.log.flatMap((turnLog, turnIdx) => {
     const turnActions = turnLog.players.flatMap((player, playerIdx) => {
       const actions: Match["actions"] = player.actions.map((action) => {
         const agentId = getAgentID(playerIdx, action.agentId, agentNum);
@@ -230,7 +250,7 @@ function getActions(game: ExpGame) {
         if (apply === 1) {
           prevAxisList[agentId] = { x: dx, y: dy };
         }
-        return { agentID: agentId, dx, dy, type, apply, turn };
+        return { agentID: agentId, dx, dy, type, apply, turn: turnIdx + 1 };
       });
       return [...actions];
     });

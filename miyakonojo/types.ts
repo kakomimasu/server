@@ -2,9 +2,10 @@ export type PriorMatch = {
   id: string;
   intervalMillis: 0;
   matchTo: string;
-  teamID: string;
+  teamID: number;
   turnMillis: number;
   turns: number;
+  index: number;
 };
 
 export type Match = {
