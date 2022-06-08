@@ -119,7 +119,7 @@ export const matches: RouterMiddleware<
     };
   });
 
-  const body: MatchesRes = { // TODO: util.tsに変換系はまとめる
+  const body: MatchesRes = {
     actions,
     height: game.board.h,
     points,

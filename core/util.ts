@@ -16,6 +16,10 @@ export type StateData<T> = { data: T };
 
 export const jsonParse = <T>(): Middleware<StateData<T>> =>
   async (ctx, next) => {
+    const contentType = ctx.request.headers.get("content-type");
+    if (contentType === null || contentType !== "application/json") {
+      throw new ServerError(errors.INVALID_CONTENT_TYPE);
+    }
     try {
       const reqJson = await ctx.request.body({ type: "json" }).value;
       ctx.state.data = reqJson;

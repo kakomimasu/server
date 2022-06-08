@@ -114,7 +114,10 @@ Deno.test({
           baseUrl + `/matches/${matchRes.gameId}/action`,
           {
             method: "POST",
-            headers: { "Authorization": "" },
+            headers: {
+              "Authorization": "",
+              "content-type": "application/json",
+            },
             body: JSON.stringify([]),
           },
         );
@@ -147,7 +150,10 @@ Deno.test({
               baseUrl + `/matches/${matchRes.gameId}/action`,
               {
                 method: "POST",
-                headers: { "Authorization": `${pic}` },
+                headers: {
+                  "Authorization": `${pic}`,
+                  "content-type": "application/json",
+                },
                 body: JSON.stringify([]),
               },
             );
@@ -182,7 +188,10 @@ Deno.test({
           baseUrl + `/matches/${matchRes.gameId}/action`,
           {
             method: "POST",
-            headers: { "Authorization": `${pic}` },
+            headers: {
+              "Authorization": `${pic}`,
+              "content-type": "application/json",
+            },
             body: JSON.stringify([]),
           },
         );
@@ -202,7 +211,10 @@ Deno.test({
           baseUrl + `/matches/${matchRes.gameId}/action`,
           {
             method: "POST",
-            headers: { "Authorization": `${pic}` },
+            headers: {
+              "Authorization": `${pic}`,
+              "content-type": "application/json",
+            },
             body: JSON.stringify([tempAction]),
           },
         );
