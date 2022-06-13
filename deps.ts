@@ -7,7 +7,10 @@ export * from "https://deno.land/x/dotenv@v3.2.0/mod.ts";
 export {
   Application,
   Context,
+  type Middleware,
   Router,
+  type RouterContext,
+  type RouterMiddleware,
 } from "https://deno.land/x/oak@v10.5.1/mod.ts";
 export { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 export * from "https://deno.land/x/djwt@v2.3/mod.ts";
