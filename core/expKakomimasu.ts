@@ -174,6 +174,16 @@ class ExpGame extends Core.Game {
     return this.options.operationSec ?? this.board.nsec;
   }
 
+  isTransitionStep() {
+    if (this.gaming === false) return false;
+    if (this.startedAtUnixTime === null) return false;
+    const elapsetTimeFromStart = nowUnixTime() - this.startedAtUnixTime;
+    const elapsetTimeFromTurn = elapsetTimeFromStart %
+      (this.transitionTime() + this.operasionTime());
+    if (elapsetTimeFromTurn - this.operasionTime() < 0) return false;
+    else return true;
+  }
+
   onInit() {
     //console.log("onInit");
     if (this.ai) {
