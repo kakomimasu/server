@@ -55,7 +55,7 @@
       ]
     }
   ],
-  "nextTurnUnixTime": 1638030672,
+  "operationTime": 1,
   "players": [
     {
       "id": "bc7b10ae-c19f-4a6b-a7b9-d256f41c2583",
@@ -82,6 +82,7 @@
     { "type": 0, "player": null }
   ],
   "totalTurn": 30,
+  "transitionTime": 1,
   "turn": 2,
   "type": "normal"
 }
@@ -103,7 +104,7 @@
 | `log[].players.actions[].x`       | number                      | 行動先のx座標                                                                                                        |
 | `log[].players.actions[].y`       | number                      | 行動先のy座標                                                                                                        |
 | `log[].players.actions[].res`     | number                      | 行動結果。`0`以外は何らかの原因により失敗した場合になります。<br> `0`:成功、`1`:競合、`2`:無効、`3`:同じターンに複数の行動指示、`4`:存在しないエージェントへの指示、`5`:存在しない行動の指示 |
-| `nextTurnUnixTime`                | number                      | 次のターンが始まるUnix時刻                                                                                                |
+| `operationTime`                   | number                      | 行動ステップ時間（秒）                                                                                                    |
 | `players`                         | array                       | プレイヤー情報の配列                                                                                                     |
 | `players[].id`                    | string                      | ユーザID                                                                                                          |
 | `players[].agents`                | array                       | エージェントの情報。<br>x,y座標を取得できる。                                                                                     |
@@ -114,7 +115,9 @@
 | `tiled[].type`                    | number                      | マスの種類。※`player`が`null`の場合は空白マス<br> `0`:陣地、`1`:壁                                                                |
 | `tiled[].player`                  | number &#124; null          | マスを所持するプレイヤー。`players`の配列番号<br>※`null`の場合は空白マス                                                                 |
 | `totalTurn`                       | number                      | 非推奨(Board情報内の`nTurn`を使用してください)<br>このゲームの総ターン                                                                   |
+| `transitionTime`                  | number                      | 遷移ステップ時間（秒）                                                                                                    |
 | `turn`                            | number                      | 現在のターン                                                                                                         |
+| `type`                            | string                      | ゲームの種別。<br> `normal`:フリーマッチ `self`:カスタムマッチ`personal`: プライベートマッチ                                                |
 
 ---
 
