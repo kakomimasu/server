@@ -32,24 +32,25 @@ const assertMatch = (match, sample = {}) => {
   assertEquals(match.pic.length, 6);
 };
 
-const assertGame = (game, sample = {}) => {
-  const game_ = Object.assign({}, game);
-  const sample_ = Object.assign({}, sample);
-  assert(v4.validate(game_.gameId));
-  if (sample_.gameId) assertEquals(game_.gameId, sample_.gameId);
-  assertEquals(game_.gaming, sample_.gaming || false);
-  assertEquals(game_.ending, sample_.ending || false);
-  assertEquals(game_.board, sample_.board || null);
-  if (game_.board) assertBoard(game_.board);
-  assertEquals(game_.turn, sample_.turn || 0);
-  assertEquals(game_.tiled, sample_.tiled || null);
-  assert(Array.isArray(game_.players));
-  assert(Array.isArray(game_.log));
-  assertEquals(game_.gameName, sample_.name || "");
-  assertEquals(game_.startedAtUnixTime, null);
-  assertEquals(game_.nextTurnUnixTime, null);
-  assert(Array.isArray(game_.reservedUsers));
-  if (sample_.reservedUsers) assert(game_.reservedUsers, sample_.reservedUsers);
+const assertGame = (game_, sample_ = {}) => {
+  const game = structuredClone(game_);
+  const sample = structuredClone(sample_);
+  assert(v4.validate(game.gameId));
+  if (sample.gameId) assertEquals(game.gameId, sample.gameId);
+  assertEquals(game.gaming, sample.gaming || false);
+  assertEquals(game.ending, sample.ending || false);
+  assertEquals(game.board, sample.board || null);
+  if (game.board) assertBoard(game.board);
+  assertEquals(game.turn, sample.turn || 0);
+  assertEquals(game.tiled, sample.tiled || null);
+  assert(Array.isArray(game.players));
+  assert(Array.isArray(game.log));
+  assertEquals(game.gameName, sample.name || "");
+  assertEquals(game.startedAtUnixTime, null);
+  assertEquals(typeof game.operationTime, "number");
+  assertEquals(typeof game.transitionTime, "number");
+  assert(Array.isArray(game.reservedUsers));
+  if (sample.reservedUsers) assert(game.reservedUsers, sample.reservedUsers);
 };
 
 const assertBoard = (board) => {

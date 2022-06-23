@@ -134,10 +134,11 @@ Deno.test("get gameinfo", async () => {
   sample.players[0].id = res.data.players[0].id = "";
   sample.players[1].id = res.data.players[1].id = "";
   sample.startedAtUnixTime = res.data.startedAtUnixTime = 0;
-  sample.nextTurnUnixTime = res.data.nextTurnUnixTime = 0;
 
   assertEquals(sample, res.data);
 });
+
+let nextTurnUnixTime: number;
 
 Deno.test("send action(Turn 1)", async () => {
   let res = await ac.getMatch(gameId);
@@ -146,7 +147,8 @@ Deno.test("send action(Turn 1)", async () => {
   }
   let gameInfo = res.data;
   if (!gameInfo.startedAtUnixTime) throw Error("startedAtUnixTime is null.");
-  await sleep(diffTime(gameInfo.startedAtUnixTime) + 100);
+  nextTurnUnixTime = gameInfo.startedAtUnixTime;
+  await sleep(diffTime(nextTurnUnixTime) + 100);
   // issue131:同ターンで複数アクションを送信時に送信したagentIDのみが反映されるかのテストを含む
   // 2回アクションを送信しているが、どちらもagentIDが違うため両方反映される。
   await ac.setAction(gameId, {
@@ -163,8 +165,8 @@ Deno.test("send action(Turn 1)", async () => {
   }
   gameInfo = res.data;
 
-  if (!gameInfo.nextTurnUnixTime) throw Error("nextTurnUnixTime is null.");
-  await sleep(diffTime(gameInfo.nextTurnUnixTime) + 100);
+  nextTurnUnixTime += gameInfo.operationTime + gameInfo.transitionTime;
+  await sleep(diffTime(nextTurnUnixTime) + 100);
   res = await ac.getMatch(gameId);
   if (res.success === false) {
     throw Error("Response Error. ErrorCode:" + res.data.errorCode);
@@ -183,7 +185,6 @@ Deno.test("send action(Turn 1)", async () => {
   sample.players[0].id = res.data.players[0].id = "";
   sample.players[1].id = res.data.players[1].id = "";
   sample.startedAtUnixTime = res.data.startedAtUnixTime;
-  sample.nextTurnUnixTime = res.data.nextTurnUnixTime;
 
   assertEquals(sample, res.data);
 });
@@ -199,15 +200,15 @@ Deno.test("send action(Turn 2)", async () => {
   }, pic2);
   //console.log(reqJson);
 
-  if (!gameInfo.nextTurnUnixTime) throw Error("nextTurnUnixTime is null.");
-  await sleep(diffTime(gameInfo.nextTurnUnixTime) + 100);
+  nextTurnUnixTime += gameInfo.operationTime + gameInfo.transitionTime;
+  await sleep(diffTime(nextTurnUnixTime) + 100);
   res = await ac.getMatch(gameId);
   if (res.success === false) {
     throw Error("Response Error. ErrorCode:" + res.data.errorCode);
   }
   // Deno.writeTextFileSync(
   //   "./v1/test/sample/afterAction_sample2.json",
-  //   JSON.stringify(res.data),
+  //   JSON.stringify(res.data, null, 2),
   // );
 
   //console.log(res);
@@ -219,7 +220,6 @@ Deno.test("send action(Turn 2)", async () => {
   sample.players[0].id = res.data.players[0].id = "";
   sample.players[1].id = res.data.players[1].id = "";
   sample.startedAtUnixTime = res.data.startedAtUnixTime;
-  sample.nextTurnUnixTime = res.data.nextTurnUnixTime;
 
   assertEquals(sample, res.data);
 });

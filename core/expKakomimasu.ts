@@ -3,6 +3,14 @@ import { Algorithm, Core } from "../deps.ts";
 import { setGame } from "./firestore.ts";
 import { nowUnixTime, randomUUID } from "./util.ts";
 
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function diffTime(s: number) {
+  return (s * 1000) - new Date().getTime();
+}
+
 const sendGameFn: ((game: ExpGame) => void)[] = [];
 
 export const addSendGameFn = (fn: typeof sendGameFn[number]) => [
@@ -45,6 +53,11 @@ class Player extends Core.Player<ExpGame> {
   }
 }
 
+type GameOptions = {
+  transitionSec?: number;
+  operationSec?: number;
+};
+
 class ExpGame extends Core.Game {
   public override players: Player[];
   public uuid: string;
@@ -54,8 +67,9 @@ class ExpGame extends Core.Game {
   private type: "normal" | "self" | "personal";
   public personalUserId: string | null;
   public ai: Algorithm | undefined;
+  private options: GameOptions;
 
-  constructor(board: Core.Board, name?: string) {
+  constructor(board: Core.Board, name?: string, options?: GameOptions) {
     super(board);
     this.uuid = randomUUID();
     this.name = name;
@@ -64,11 +78,12 @@ class ExpGame extends Core.Game {
     this.type = "normal";
     this.personalUserId = null;
     this.players = [];
+    this.options = options ?? {};
   }
 
   static restore(data: ExpGame) {
     const board = Core.Board.restore(data.board);
-    const game = new ExpGame(board, data.name);
+    const game = new ExpGame(board, data.name, data.options);
     game.uuid = data.uuid;
     game.players = data.players.map((p) => Player.restore(p, game));
     game.gaming = data.gaming;
@@ -108,7 +123,9 @@ class ExpGame extends Core.Game {
     }
 
     if (super.attachPlayer(player) === false) return false;
-    this.updateStatus();
+    if (this.isReady()) {
+      this.updateStatus();
+    }
     return true;
   }
 
@@ -121,43 +138,40 @@ class ExpGame extends Core.Game {
     }
   }
 
-  updateStatus() {
-    try {
-      if (this.isGaming()) { // ゲーム進行中
-        const nextTurnUnixTime = this.getNextTurnUnixTime();
-        if (!nextTurnUnixTime) throw Error("nextTurnUnixTime is null");
-        this.onTurn();
-        const diff = (nextTurnUnixTime * 1000) - new Date().getTime();
-        setTimeout(() => {
-          this.nextTurn();
-          this.updateStatus();
-        }, diff);
-      } else if (this.ending) { // ゲーム終了後
-        setGame(this);
+  private async updateStatus() {
+    // 試合開始時間を設定
+    this.startedAtUnixTime = nowUnixTime() + 5;
+    this.onInit();
+    await sleep(diffTime(this.startedAtUnixTime));
 
-        //console.log("turn", this.turn);
-      } // ゲーム開始前
-      else if (this.isReady()) {
-        this.startedAtUnixTime = nowUnixTime() + 5;
-        this.onInit();
-        const diff = (this.startedAtUnixTime * 1000) - new Date().getTime();
-        setTimeout(() => {
-          this.start();
-          this.updateStatus();
-        }, diff);
-      }
+    // 試合開始
+    this.start();
+    this.wsSend();
+
+    while (this.gaming) {
+      this.onTurn();
+      // 次の遷移ステップ時間まで待つ
+      const nextTransitionUnixTime = this.startedAtUnixTime +
+        this.nsec * (this.turn) + this.transitionTime() * (this.turn - 1);
+      await sleep(diffTime(nextTransitionUnixTime));
+
+      this.nextTurn();
+
+      // 次の行動ステップ時間まで待つ
+      const nextOperationUnixTime = nextTransitionUnixTime +
+        this.transitionTime();
+      await sleep(diffTime(nextOperationUnixTime));
+
       this.wsSend();
-    } catch (e) {
-      console.error(e);
     }
+    setGame(this);
   }
 
-  getNextTurnUnixTime() {
-    if (this.startedAtUnixTime === null || this.ending) {
-      return null;
-    } else {
-      return this.startedAtUnixTime + this.nsec * this.turn;
-    }
+  transitionTime() {
+    return this.options.transitionSec ?? 1;
+  }
+  operasionTime() {
+    return this.options.operationSec ?? this.board.nsec;
   }
 
   onInit() {
@@ -246,9 +260,10 @@ class ExpGame extends Core.Game {
       gameId: this.uuid,
       gameName: this.name,
       startedAtUnixTime: this.startedAtUnixTime,
-      nextTurnUnixTime: this.getNextTurnUnixTime(),
       reservedUsers: this.reservedUsers,
       type: this.type,
+      transitionTime: this.transitionTime(),
+      operationTime: this.operasionTime(),
     };
   }
 

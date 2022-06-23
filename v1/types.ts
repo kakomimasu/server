@@ -102,9 +102,10 @@ export interface Game {
   }[];
   gameName: string | undefined;
   startedAtUnixTime: number | null;
-  nextTurnUnixTime: number | null;
   reservedUsers: string[];
   type: string;
+  operationTime: number;
+  transitionTime: number;
 }
 
 export interface Board {

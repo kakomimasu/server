@@ -80,7 +80,7 @@ URL: ${ctx.request.url}
           });
         }
       }
-      console.log(ctx.request);
+      // console.log(ctx.request);
       const { status, body } = errorCodeResponse(err);
       ctx.response.status = status;
       ctx.response.body = body;
