@@ -2,6 +2,7 @@ import { getAuth, signInWithEmailAndPassword } from "../../deps.ts";
 import { assert, assertEquals, v4 } from "../../deps-test.ts";
 
 import { randomUUID } from "../../core/util.ts";
+import { errors } from "../../core/error.ts";
 
 import ApiClient from "../../client/client.ts";
 import { diffTime, sleep } from "./client_util.ts";
@@ -139,8 +140,10 @@ Deno.test("get gameinfo", async () => {
 });
 
 let nextTurnUnixTime: number;
+let operationTime: number;
+let transitionTime: number;
 
-Deno.test("send action(Turn 1)", async () => {
+Deno.test("send action(Turn 1) Operation Step", async () => {
   let res = await ac.getMatch(gameId);
   if (res.success === false) {
     throw Error("Response Error. ErrorCode:" + res.data.errorCode);
@@ -148,6 +151,8 @@ Deno.test("send action(Turn 1)", async () => {
   let gameInfo = res.data;
   if (!gameInfo.startedAtUnixTime) throw Error("startedAtUnixTime is null.");
   nextTurnUnixTime = gameInfo.startedAtUnixTime;
+  operationTime = gameInfo.operationTime;
+  transitionTime = gameInfo.transitionTime;
   await sleep(diffTime(nextTurnUnixTime) + 100);
   // issue131:同ターンで複数アクションを送信時に送信したagentIDのみが反映されるかのテストを含む
   // 2回アクションを送信しているが、どちらもagentIDが違うため両方反映される。
@@ -165,19 +170,36 @@ Deno.test("send action(Turn 1)", async () => {
   }
   gameInfo = res.data;
 
-  nextTurnUnixTime += gameInfo.operationTime + gameInfo.transitionTime;
+  nextTurnUnixTime += operationTime;
   await sleep(diffTime(nextTurnUnixTime) + 100);
-  res = await ac.getMatch(gameId);
-  if (res.success === false) {
-    throw Error("Response Error. ErrorCode:" + res.data.errorCode);
-  }
+});
+
+Deno.test("invalid match(Turn 1) Transition Step", async () => {
+  const res = await ac.getMatch(gameId);
+  assert(res.success === false);
+  assertEquals(res.data, errors.DURING_TRANSITION_STEP);
+});
+Deno.test("invalid action(Turn 1) Transition Step", async () => {
+  const res = await ac.setAction(gameId, {
+    actions: [{ agentId: 0, type: "PUT", x: 1, y: 1 }],
+  }, pic1);
+  assert(res.success === false);
+  assertEquals(res.data, errors.DURING_TRANSITION_STEP);
+
+  nextTurnUnixTime += transitionTime;
+  await sleep(diffTime(nextTurnUnixTime) + 100);
+});
+
+Deno.test("check match(Turn 2) Operation Step", async () => {
+  const res = await ac.getMatch(gameId);
+  assert(res.success === true);
+
   // Deno.writeTextFileSync(
   //   "./v1/test/sample/afterAction_sample.json",
   //   JSON.stringify(res.data, null, 2),
   // );
 
   //console.log(res);
-  //console.log(JSON.stringify(reqJson, null, 2));
   const sample = afterActionSample as typeof res.data;
 
   assert(v4.validate(res.data.gameId));
@@ -188,31 +210,45 @@ Deno.test("send action(Turn 1)", async () => {
 
   assertEquals(sample, res.data);
 });
-Deno.test("send action(Turn 2)", async () => {
-  let res = await ac.getMatch(gameId);
-  if (res.success === false) {
-    throw Error("Response Error. ErrorCode:" + res.data.errorCode);
-  }
-  const gameInfo = res.data;
 
+Deno.test("send action(Turn 2) Operation Step", async () => {
   await ac.setAction(gameId, {
     actions: [{ agentId: 0, type: "PUT", x: 1, y: 2 }],
   }, pic2);
   //console.log(reqJson);
 
-  nextTurnUnixTime += gameInfo.operationTime + gameInfo.transitionTime;
+  nextTurnUnixTime += operationTime;
   await sleep(diffTime(nextTurnUnixTime) + 100);
-  res = await ac.getMatch(gameId);
+});
+
+Deno.test("invalid match(Turn 2) Transition Step", async () => {
+  const res = await ac.getMatch(gameId);
+  assert(res.success === false);
+  assertEquals(res.data, errors.DURING_TRANSITION_STEP);
+});
+Deno.test("invalid action(Turn 2) Transition Step", async () => {
+  const res = await ac.setAction(gameId, {
+    actions: [{ agentId: 0, type: "PUT", x: 1, y: 1 }],
+  }, pic1);
+  assert(res.success === false);
+  assertEquals(res.data, errors.DURING_TRANSITION_STEP);
+
+  nextTurnUnixTime += transitionTime;
+  await sleep(diffTime(nextTurnUnixTime) + 100);
+});
+
+Deno.test("check match(Turn 3) Operation Step", async () => {
+  const res = await ac.getMatch(gameId);
   if (res.success === false) {
     throw Error("Response Error. ErrorCode:" + res.data.errorCode);
   }
+
   // Deno.writeTextFileSync(
   //   "./v1/test/sample/afterAction_sample2.json",
   //   JSON.stringify(res.data, null, 2),
   // );
 
   //console.log(res);
-  //console.log(JSON.stringify(reqJson, null, 2));
   const sample = afterActionSample2 as typeof res.data;
 
   assert(v4.validate(res.data.gameId));

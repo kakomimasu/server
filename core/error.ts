@@ -38,6 +38,10 @@ export const errors = {
     errorCode: 104,
     message: "invalid action",
   },
+  DURING_TRANSITION_STEP: {
+    errorCode: 105,
+    message: "during the transition step",
+  },
   INVALID_SCREEN_NAME: {
     errorCode: 201,
     message: "invalid screenName",

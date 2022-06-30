@@ -133,6 +133,10 @@ export const matchRouter = () => {
     const id = ctx.params.id;
     const game = kkmm.getGames().find((item) => item.uuid === id);
     if (!game) throw new ServerError(errors.NOT_GAME);
+    if (game.isTransitionStep()) {
+      throw new ServerError(errors.DURING_TRANSITION_STEP);
+    }
+
     const body: IGame = game.toJSON();
     ctx.response.body = body;
   });
@@ -150,6 +154,10 @@ export const matchRouter = () => {
 
       const game = kkmm.getGames().find((item) => item.uuid === gameId);
       if (!game) throw new ServerError(errors.NOT_GAME);
+
+      if (game.isTransitionStep()) {
+        throw new ServerError(errors.DURING_TRANSITION_STEP);
+      }
 
       const actionData = ctx.state.data as ActionReq;
 
