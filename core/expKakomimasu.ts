@@ -123,9 +123,7 @@ class ExpGame extends Core.Game {
     }
 
     if (super.attachPlayer(player) === false) return false;
-    if (this.isReady()) {
-      this.updateStatus();
-    }
+    this.updateStatus();
     return true;
   }
 
@@ -139,6 +137,8 @@ class ExpGame extends Core.Game {
   }
 
   private async updateStatus() {
+    this.wsSend();
+    if (!this.isReady()) return;
     // 試合開始時間を設定
     this.startedAtUnixTime = nowUnixTime() + 5;
     this.onInit();
