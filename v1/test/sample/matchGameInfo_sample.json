@@ -604,7 +604,8 @@
   "gameId": "61dfbe96-a6db-4362-8196-5cf56e862213",
   "gameName": "test",
   "startedAtUnixTime": 1634863448,
-  "nextTurnUnixTime": 1634863448,
   "reservedUsers": [],
-  "type": "self"
+  "type": "self",
+  "transitionTime": 1,
+  "operationTime": 1
 }

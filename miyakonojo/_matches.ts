@@ -36,10 +36,10 @@ export const priorMatches: Middleware<StateToken> = (ctx) => {
 
       return {
         id: game.uuid,
-        intervalMillis: 0,
+        intervalMillis: game.transitionTime() * 1000,
         matchTo: oppoUser.join(","),
         teamID: parseInt(game.players[idx].pic),
-        turnMillis: game.board.nsec * 1000,
+        turnMillis: game.operasionTime() * 1000,
         turns: game.board.nturn,
         index: idx,
       };
@@ -159,7 +159,7 @@ export const updateAction: RouterMiddleware<
     };
     return;
   }
-  if (game.ending) {
+  if (game.ending || game.isTransitionStep()) {
     ctx.response.status = 400;
     ctx.response.body = {
       status: "UnacceptableTime",

@@ -18,23 +18,24 @@ const u = await signInWithEmailAndPassword(
   "test-client",
 );
 
-const assertGame = (game, sample = {}) => {
-  const game_ = Object.assign({}, game);
-  const sample_ = Object.assign({}, sample);
-  assert(v4.validate(game_.gameId));
-  assertEquals(game_.gaming, false);
-  assertEquals(game_.ending, false);
-  assertEquals(game_.board, null);
-  assertEquals(game_.turn, 0);
-  assertEquals(game_.tiled, null);
-  assert(Array.isArray(game_.players));
-  assert(Array.isArray(game_.log));
-  assertEquals(game_.gameName, sample_.name || "");
-  assertEquals(game_.startedAtUnixTime, null);
-  assertEquals(game_.nextTurnUnixTime, null);
-  assert(Array.isArray(game_.reservedUsers));
+const assertGame = (game_, sample_ = {}) => {
+  const game = structuredClone(game_);
+  const sample = structuredClone(sample_);
+  assert(v4.validate(game.gameId));
+  assertEquals(game.gaming, false);
+  assertEquals(game.ending, false);
+  assertEquals(game.board, null);
+  assertEquals(game.turn, 0);
+  assertEquals(game.tiled, null);
+  assert(Array.isArray(game.players));
+  assert(Array.isArray(game.log));
+  assertEquals(game.gameName, sample.name || "");
+  assertEquals(game.startedAtUnixTime, null);
+  assertEquals(typeof game.operationTime, "number");
+  assertEquals(typeof game.transitionTime, "number");
+  assert(Array.isArray(game.reservedUsers));
 
-  if (sample_.reservedUsers) assert(game_.reservedUsers, sample_.reservedUsers);
+  if (sample.reservedUsers) assert(game.reservedUsers, sample.reservedUsers);
 };
 
 const assertBoard = (board) => {

@@ -10,7 +10,8 @@
   "log": [],
   "gameName": "test",
   "startedAtUnixTime": null,
-  "nextTurnUnixTime": null,
   "reservedUsers": [],
-  "type": "self"
+  "type": "self",
+  "transitionTime": 1,
+  "operationTime": 1
 }

@@ -13,7 +13,7 @@ export type ActionType = "move" | "remove" | "stay" | "put";
 
 export type PriorMatch = {
   id: string;
-  intervalMillis: 0;
+  intervalMillis: number;
   matchTo: string;
   teamID: number;
   turnMillis: number;

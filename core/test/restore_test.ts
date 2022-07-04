@@ -1,6 +1,6 @@
 import { assertEquals, delay } from "../../deps-test.ts";
 import { Core } from "../../deps.ts";
-import { ExpGame, Player } from "../../core/expKakomimasu.ts";
+import { ExpGame, Player } from "../expKakomimasu.ts";
 
 // deno-lint-ignore no-explicit-any
 function firebaseSave(obj: any) {
