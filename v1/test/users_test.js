@@ -36,14 +36,14 @@ const assertUser = (
   const user_ = { ...user };
   const sample_ = { ...sample };
   //console.log("assert user", user_, sample_);
-  sample_.gamesId = [];
+  sample_.gameIds = [];
   if (noSafe) {
     assert(v4.validate(user_.bearerToken));
   }
   user_.id = sample_.id = undefined;
   user_.bearerToken = sample_.bearerToken = undefined;
-  assert(Array.isArray(user.gamesId));
-  user_.gamesId = sample_.gamesId;
+  assert(Array.isArray(user.gameIds));
+  user_.gameIds = sample_.gameIds;
   assertEquals(user_, sample_);
 };
 

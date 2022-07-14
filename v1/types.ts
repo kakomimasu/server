@@ -8,7 +8,7 @@ export interface User {
   screenName: string;
   name: string;
   id: string;
-  gamesId: string[];
+  gameIds: string[];
   bearerToken?: string;
 }
 

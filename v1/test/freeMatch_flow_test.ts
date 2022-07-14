@@ -61,10 +61,10 @@ Deno.test("regist user", async () => {
   const sample = userRegistSample;
   sample.name = testName;
   assert(v4.validate(res.data.bearerToken));
-  assert(Array.isArray(res.data.gamesId));
+  assert(Array.isArray(res.data.gameIds));
   res.data.id = sample.id = "";
   res.data.bearerToken = sample.bearerToken = "";
-  res.data.gamesId = sample.gamesId = [];
+  res.data.gameIds = sample.gameIds = [];
   assertEquals(sample, res.data);
 });
 
