@@ -47,8 +47,8 @@ const assertGame = (game_, sample_ = {}) => {
   assert(Array.isArray(game.log));
   assertEquals(game.gameName, sample.name || "");
   assertEquals(game.startedAtUnixTime, null);
-  assertEquals(typeof game.operationTime, "number");
-  assertEquals(typeof game.transitionTime, "number");
+  assertEquals(typeof game.operationSec, "number");
+  assertEquals(typeof game.transitionSec, "number");
   assert(Array.isArray(game.reservedUsers));
   if (sample.reservedUsers) assert(game.reservedUsers, sample.reservedUsers);
 };

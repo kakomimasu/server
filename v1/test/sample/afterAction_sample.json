@@ -640,6 +640,6 @@
   "startedAtUnixTime": 1634863288,
   "reservedUsers": [],
   "type": "self",
-  "transitionTime": 1,
-  "operationTime": 1
+  "transitionSec": 1,
+  "operationSec": 1
 }

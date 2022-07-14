@@ -48,7 +48,7 @@
       ]
     }
   ],
-  "operationTime": 1,
+  "operationSec": 1,
   "players": [
     {
       "id": "bc7b10ae-c19f-4a6b-a7b9-d256f41c2583",
@@ -75,7 +75,7 @@
     { "type": 0, "player": null }
   ],
   "totalTurn": 30,
-  "transitionTime": 1,
+  "transitionSec": 1,
   "turn": 2,
   "type": "normal"
 }

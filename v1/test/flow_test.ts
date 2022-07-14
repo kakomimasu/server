@@ -140,8 +140,8 @@ Deno.test("get gameinfo", async () => {
 });
 
 let nextTurnUnixTime: number;
-let operationTime: number;
-let transitionTime: number;
+let operationSec: number;
+let transitionSec: number;
 
 Deno.test("send action(Turn 1) Operation Step", async () => {
   let res = await ac.getMatch(gameId);
@@ -151,8 +151,8 @@ Deno.test("send action(Turn 1) Operation Step", async () => {
   let gameInfo = res.data;
   if (!gameInfo.startedAtUnixTime) throw Error("startedAtUnixTime is null.");
   nextTurnUnixTime = gameInfo.startedAtUnixTime;
-  operationTime = gameInfo.operationTime;
-  transitionTime = gameInfo.transitionTime;
+  operationSec = gameInfo.operationSec;
+  transitionSec = gameInfo.transitionSec;
   await sleep(diffTime(nextTurnUnixTime) + 100);
   // issue131:同ターンで複数アクションを送信時に送信したagentIDのみが反映されるかのテストを含む
   // 2回アクションを送信しているが、どちらもagentIDが違うため両方反映される。
@@ -170,7 +170,7 @@ Deno.test("send action(Turn 1) Operation Step", async () => {
   }
   gameInfo = res.data;
 
-  nextTurnUnixTime += operationTime;
+  nextTurnUnixTime += operationSec;
   await sleep(diffTime(nextTurnUnixTime) + 100);
 });
 
@@ -186,7 +186,7 @@ Deno.test("invalid action(Turn 1) Transition Step", async () => {
   assert(res.success === false);
   assertEquals(res.data, errors.DURING_TRANSITION_STEP);
 
-  nextTurnUnixTime += transitionTime;
+  nextTurnUnixTime += transitionSec;
   await sleep(diffTime(nextTurnUnixTime) + 100);
 });
 
@@ -217,7 +217,7 @@ Deno.test("send action(Turn 2) Operation Step", async () => {
   }, pic2);
   //console.log(reqJson);
 
-  nextTurnUnixTime += operationTime;
+  nextTurnUnixTime += operationSec;
   await sleep(diffTime(nextTurnUnixTime) + 100);
 });
 
@@ -233,7 +233,7 @@ Deno.test("invalid action(Turn 2) Transition Step", async () => {
   assert(res.success === false);
   assertEquals(res.data, errors.DURING_TRANSITION_STEP);
 
-  nextTurnUnixTime += transitionTime;
+  nextTurnUnixTime += transitionSec;
   await sleep(diffTime(nextTurnUnixTime) + 100);
 });
 

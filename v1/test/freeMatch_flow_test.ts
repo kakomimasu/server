@@ -151,7 +151,7 @@ Deno.test("send action(Turn 1)", async () => {
   }
   gameInfo = res.data;
 
-  nextTurnUnixTime += gameInfo.operationTime + gameInfo.transitionTime;
+  nextTurnUnixTime += gameInfo.operationSec + gameInfo.transitionSec;
   await sleep(diffTime(nextTurnUnixTime) + 100);
   res = await ac.getMatch(gameId);
   if (res.success === false) {
@@ -190,7 +190,7 @@ Deno.test("send action(Turn 2)", async () => {
   }, pic2);
   //console.log(reqJson);
 
-  nextTurnUnixTime += gameInfo.operationTime + gameInfo.transitionTime;
+  nextTurnUnixTime += gameInfo.operationSec + gameInfo.transitionSec;
   await sleep(diffTime(nextTurnUnixTime) + 100);
   res = await ac.getMatch(gameId);
   if (res.success === false) {

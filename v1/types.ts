@@ -104,8 +104,8 @@ export interface Game {
   startedAtUnixTime: number | null;
   reservedUsers: string[];
   type: string;
-  operationTime: number;
-  transitionTime: number;
+  operationSec: number;
+  transitionSec: number;
 }
 
 export interface Board {
