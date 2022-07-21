@@ -554,8 +554,8 @@
         }
       ],
       "point": {
-        "basepoint": 0,
-        "wallpoint": 0
+        "areaPoint": 0,
+        "wallPoint": 0
       }
     },
     {
@@ -595,8 +595,8 @@
         }
       ],
       "point": {
-        "basepoint": 0,
-        "wallpoint": 0
+        "areaPoint": 0,
+        "wallPoint": 0
       }
     }
   ],

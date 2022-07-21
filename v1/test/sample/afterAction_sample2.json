@@ -229,7 +229,7 @@
         { "x": -1, "y": -1 },
         { "x": -1, "y": -1 }
       ],
-      "point": { "basepoint": 0, "wallpoint": 5 }
+      "point": { "areaPoint": 0, "wallPoint": 5 }
     },
     {
       "id": "ea8dac53-7311-48cb-b008-210a2f69ad5a",
@@ -243,27 +243,27 @@
         { "x": -1, "y": -1 },
         { "x": -1, "y": -1 }
       ],
-      "point": { "basepoint": 0, "wallpoint": 7 }
+      "point": { "areaPoint": 0, "wallPoint": 7 }
     }
   ],
   "log": [
     {
       "players": [
         {
-          "point": { "basepoint": 0, "wallpoint": 5 },
+          "point": { "areaPoint": 0, "wallPoint": 5 },
           "actions": [
             { "agentId": 0, "type": 1, "x": 1, "y": 1, "res": 0 },
             { "agentId": 1, "type": 2, "x": 1, "y": 2, "res": 5 }
           ]
         },
-        { "point": { "basepoint": 0, "wallpoint": 0 }, "actions": [] }
+        { "point": { "areaPoint": 0, "wallPoint": 0 }, "actions": [] }
       ]
     },
     {
       "players": [
-        { "point": { "basepoint": 0, "wallpoint": 5 }, "actions": [] },
+        { "point": { "areaPoint": 0, "wallPoint": 5 }, "actions": [] },
         {
-          "point": { "basepoint": 0, "wallpoint": 7 },
+          "point": { "areaPoint": 0, "wallPoint": 7 },
           "actions": [{ "agentId": 0, "type": 1, "x": 1, "y": 2, "res": 0 }]
         }
       ]

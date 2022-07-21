@@ -24,14 +24,14 @@
     {
       "players": [
         {
-          "point": { "basepoint": 0, "wallpoint": 0 },
+          "point": { "areaPoint": 0, "wallPoint": 0 },
           "actions": [
             { "agentId": 0, "type": 1, "x": 0, "y": 0, "res": 0 },
             { "agentId": 1, "type": 1, "x": 0, "y": 1, "res": 0 }
           ]
         },
         {
-          "point": { "basepoint": 0, "wallpoint": 1 },
+          "point": { "areaPoint": 0, "wallPoint": 1 },
           "actions": [
             { "agentId": 0, "type": 1, "x": 0, "y": 2, "res": 0 },
             { "agentId": 1, "type": 1, "x": 0, "y": 3, "res": 5 }
@@ -42,14 +42,14 @@
     {
       "players": [
         {
-          "point": { "basepoint": 0, "wallpoint": -1 },
+          "point": { "areaPoint": 0, "wallPoint": -1 },
           "actions": [
             { "agentId": 0, "type": 3, "x": 1, "y": 0, "res": 0 },
             { "agentId": 1, "type": 3, "x": 0, "y": 2, "res": 2 }
           ]
         },
         {
-          "point": { "basepoint": 0, "wallpoint": 1 },
+          "point": { "areaPoint": 0, "wallPoint": 1 },
           "actions": [{ "agentId": 1, "type": 3, "x": 1, "y": 4, "res": 5 }]
         }
       ]
@@ -60,12 +60,12 @@
     {
       "id": "bc7b10ae-c19f-4a6b-a7b9-d256f41c2583",
       "agents": [{ "x": 1, "y": 0 }, { "x": 0, "y": 1 }],
-      "point": { "basepoint": 0, "wallpoint": -1 }
+      "point": { "areaPoint": 0, "wallPoint": -1 }
     },
     {
       "id": "fdc9c2e0-1feb-4334-ad44-9268cde6d488",
       "agents": [{ "x": 0, "y": 2 }, { "x": -1, "y": -1 }],
-      "point": { "basepoint": 0, "wallpoint": 1 }
+      "point": { "areaPoint": 0, "wallPoint": 1 }
     }
   ],
   "reservedUsers": [],
@@ -97,7 +97,7 @@
 | `gaming`                          | boolean                     | ゲーム中かどうか                                                                                                       |
 | `log`                             | array                       | ゲームのログ<br>ターンごとの配列になっています                                                                                      |
 | `log[].players`                   | array                       | そのターンでのプレイヤーのログ。プレイヤー順は`players`と同じ                                                                            |
-| `log[].players.point`             | object                      | そのターンでのプレイヤーの点数<br> `basepoint`は陣地ポイント、`wallpoint`は壁ポイント                                                       |
+| `log[].players.point`             | object                      | そのターンでのプレイヤーの点数<br> `areaPoint`は陣地ポイント、`wallPoint`は壁ポイント                                                       |
 | `log[].players.actions`           | array                       | そのターンでのプレイヤーの行動情報と結果                                                                                           |
 | `log[].players.actions[].agentId` | number                      | エージェントID。`players[].agemts`の配列番号                                                                               |
 | `log[].players.actions[].type`    | number                      | 行動タイプ<br> `1`:PUT、`2`:NONE、`3`:MOVE、`4`:REMOVE                                                                 |
@@ -108,7 +108,7 @@
 | `players`                         | array                       | プレイヤー情報の配列                                                                                                     |
 | `players[].id`                    | string                      | ユーザID                                                                                                          |
 | `players[].agents`                | array                       | エージェントの情報。<br>x,y座標を取得できる。                                                                                     |
-| `players[].point`                 | string                      | ポイント情報<br> `basepoint`は陣地ポイント、`wallpoint`は壁ポイントで、この2つを合計したものがそのプレイヤーの総得点となる                                    |
+| `players[].point`                 | string                      | ポイント情報<br> `areaPoint`は陣地ポイント、`wallPoint`は壁ポイントで、この2つを合計したものがそのプレイヤーの総得点となる                                    |
 | `reservedUsers`                   | string[]                    | ゲームに入室可能なユーザIDのリスト。空の場合は誰でも入室可能                                                                                |
 | `startedAtUnixTime`               | number                      | ゲーム開始Unix時刻                                                                                                    |
 | `tiled`                           | array                       | フィールドの状態(壁・陣地・どのプレイヤーのマスかなど)。ゲームの開始前は非公開(null)です。<br>各要素はboard.pointsと対応                                       |

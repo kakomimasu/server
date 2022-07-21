@@ -90,7 +90,7 @@ export interface Game {
   players: Player[];
   log: {
     players: {
-      point: { basepoint: number; wallpoint: number };
+      point: Point;
       actions: {
         agentId: number;
         type: 1 | 2 | 3 | 4;
@@ -119,10 +119,15 @@ export interface Board {
   points: number[];
 }
 
+export interface Point {
+  areaPoint: number;
+  wallPoint: number;
+}
+
 export interface Player {
   id: string;
   agents: { x: number; y: number }[];
-  point: { basepoint: number; wallpoint: number };
+  point: Point;
 }
 
 export type TournamentType = "round-robin" | "knockout";

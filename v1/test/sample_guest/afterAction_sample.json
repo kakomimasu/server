@@ -554,8 +554,8 @@
         }
       ],
       "point": {
-        "basepoint": 0,
-        "wallpoint": 5
+        "areaPoint": 0,
+        "wallPoint": 5
       }
     },
     {
@@ -595,8 +595,8 @@
         }
       ],
       "point": {
-        "basepoint": 0,
-        "wallpoint": 0
+        "areaPoint": 0,
+        "wallPoint": 0
       }
     }
   ],
@@ -605,8 +605,8 @@
       "players": [
         {
           "point": {
-            "basepoint": 0,
-            "wallpoint": 5
+            "areaPoint": 0,
+            "wallPoint": 5
           },
           "actions": [
             {
@@ -620,8 +620,8 @@
         },
         {
           "point": {
-            "basepoint": 0,
-            "wallpoint": 0
+            "areaPoint": 0,
+            "wallPoint": 0
           },
           "actions": []
         }

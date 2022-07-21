@@ -109,8 +109,7 @@ export const matches: RouterMiddleware<
         y: agent.y,
       };
     });
-    const { basepoint: areaPoint, wallpoint: tilePoint } =
-      playerPoints[playerIdx];
+    const { areaPoint, wallPoint: tilePoint } = playerPoints[playerIdx];
     return {
       agents,
       areaPoint,
