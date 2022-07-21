@@ -17,8 +17,8 @@
     "points": [1, -1, 1, -1, 3, -1, 1, -1, 1]
   },
   "ending": false,
-  "gameId": "f0112f6a-6360-47bb-b431-bbc81e0926c0",
-  "gameName": "sample-game",
+  "id": "f0112f6a-6360-47bb-b431-bbc81e0926c0",
+  "name": "sample-game",
   "gaming": false,
   "log": [
     {
@@ -92,8 +92,8 @@
 | --------------------------------- | --------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | `board`                           | [Board](#Board) &#124; null | ゲームで使用されるボード情報<br>ゲームが開始するまでは非公開(null)です。                                                                      |
 | `ending`                          | boolean                     | ゲームが終了したかどうか                                                                                                   |
-| `gameId`                          | string                      | ゲームID                                                                                                          |
-| `gameName`                        | string                      | ゲーム名                                                                                                           |
+| `id`                              | string                      | ゲームID                                                                                                          |
+| `name`                            | string                      | ゲーム名                                                                                                           |
 | `gaming`                          | boolean                     | ゲーム中かどうか                                                                                                       |
 | `log`                             | array                       | ゲームのログ<br>ターンごとの配列になっています                                                                                      |
 | `log[].players`                   | array                       | そのターンでのプレイヤーのログ。プレイヤー順は`players`と同じ                                                                            |

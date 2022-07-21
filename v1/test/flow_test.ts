@@ -82,9 +82,9 @@ Deno.test("create game", async () => {
   // );
   const sample = createGameSample;
 
-  assert(v4.validate(res.data.gameId));
-  gameId = res.data.gameId;
-  res.data.gameId = sample.gameId = "";
+  assert(v4.validate(res.data.id));
+  gameId = res.data.id;
+  res.data.id = sample.id = "";
   assertEquals(sample, res.data);
 });
 
@@ -130,8 +130,8 @@ Deno.test("get gameinfo", async () => {
   // );
 
   const sample = matchGameInfoSample;
-  assert(v4.validate(res.data.gameId));
-  sample.gameId = res.data.gameId = "";
+  assert(v4.validate(res.data.id));
+  sample.id = res.data.id = "";
   sample.players[0].id = res.data.players[0].id = "";
   sample.players[1].id = res.data.players[1].id = "";
   sample.startedAtUnixTime = res.data.startedAtUnixTime = 0;
@@ -202,8 +202,8 @@ Deno.test("check match(Turn 2) Operation Step", async () => {
   //console.log(res);
   const sample = afterActionSample as typeof res.data;
 
-  assert(v4.validate(res.data.gameId));
-  sample.gameId = res.data.gameId = "";
+  assert(v4.validate(res.data.id));
+  sample.id = res.data.id = "";
   sample.players[0].id = res.data.players[0].id = "";
   sample.players[1].id = res.data.players[1].id = "";
   sample.startedAtUnixTime = res.data.startedAtUnixTime;
@@ -251,8 +251,8 @@ Deno.test("check match(Turn 3) Operation Step", async () => {
   //console.log(res);
   const sample = afterActionSample2 as typeof res.data;
 
-  assert(v4.validate(res.data.gameId));
-  sample.gameId = res.data.gameId = "";
+  assert(v4.validate(res.data.id));
+  sample.id = res.data.id = "";
   sample.players[0].id = res.data.players[0].id = "";
   sample.players[1].id = res.data.players[1].id = "";
   sample.startedAtUnixTime = res.data.startedAtUnixTime;

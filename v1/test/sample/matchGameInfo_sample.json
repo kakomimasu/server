@@ -601,8 +601,8 @@
     }
   ],
   "log": [],
-  "gameId": "61dfbe96-a6db-4362-8196-5cf56e862213",
-  "gameName": "test",
+  "id": "61dfbe96-a6db-4362-8196-5cf56e862213",
+  "name": "test",
   "startedAtUnixTime": 1634863448,
   "reservedUsers": [],
   "type": "self",

@@ -80,7 +80,7 @@ export interface ActionRes {
 }
 
 export interface Game {
-  gameId: string;
+  id: string;
   gaming: boolean;
   ending: boolean;
   board: Board | null;
@@ -100,7 +100,7 @@ export interface Game {
       }[];
     }[];
   }[];
-  gameName: string | undefined;
+  name: string | undefined;
   startedAtUnixTime: number | null;
   reservedUsers: string[];
   type: string;

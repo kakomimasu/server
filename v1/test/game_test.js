@@ -21,7 +21,7 @@ const u = await signInWithEmailAndPassword(
 const assertGame = (game_, sample_ = {}) => {
   const game = structuredClone(game_);
   const sample = structuredClone(sample_);
-  assert(v4.validate(game.gameId));
+  assert(v4.validate(game.id));
   assertEquals(game.gaming, false);
   assertEquals(game.ending, false);
   assertEquals(game.board, null);
@@ -29,7 +29,7 @@ const assertGame = (game_, sample_ = {}) => {
   assertEquals(game.tiled, null);
   assert(Array.isArray(game.players));
   assert(Array.isArray(game.log));
-  assertEquals(game.gameName, sample.name || "");
+  assertEquals(game.name, sample.name || "");
   assertEquals(game.startedAtUnixTime, null);
   assertEquals(typeof game.operationSec, "number");
   assertEquals(typeof game.transitionSec, "number");

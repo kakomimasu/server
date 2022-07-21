@@ -111,15 +111,15 @@ Deno.test("get gameinfo", async () => {
   // );
 
   const sample = matchGameInfoSample as typeof res.data;
-  assert(v4.validate(res.data.gameId));
-  sample.gameId = res.data.gameId = "";
+  assert(v4.validate(res.data.id));
+  sample.id = res.data.id = "";
   sample.players[0].id = res.data.players[0].id = "";
   sample.players[1].id = res.data.players[1].id = "";
   sample.startedAtUnixTime = res.data.startedAtUnixTime = 0;
   assertEquals(res.data.type, "normal");
   sample.type = res.data.type;
-  assertEquals(res.data.gameName, undefined);
-  delete sample.gameName;
+  assertEquals(res.data.name, undefined);
+  delete sample.name;
 
   assertEquals(sample, res.data);
 });
@@ -166,15 +166,15 @@ Deno.test("send action(Turn 1)", async () => {
   //console.log(JSON.stringify(reqJson, null, 2));
   const sample = afterActionSample as typeof res.data;
 
-  assert(v4.validate(res.data.gameId));
-  sample.gameId = res.data.gameId = "";
+  assert(v4.validate(res.data.id));
+  sample.id = res.data.id = "";
   sample.players[0].id = res.data.players[0].id = "";
   sample.players[1].id = res.data.players[1].id = "";
   sample.startedAtUnixTime = res.data.startedAtUnixTime;
   assertEquals(res.data.type, "normal");
   sample.type = res.data.type;
-  assertEquals(res.data.gameName, undefined);
-  delete sample.gameName;
+  assertEquals(res.data.name, undefined);
+  delete sample.name;
 
   assertEquals(sample, res.data);
 });
@@ -205,15 +205,15 @@ Deno.test("send action(Turn 2)", async () => {
   //console.log(JSON.stringify(reqJson, null, 2));
   const sample = afterActionSample2 as typeof res.data;
 
-  assert(v4.validate(res.data.gameId));
-  sample.gameId = res.data.gameId = "";
+  assert(v4.validate(res.data.id));
+  sample.id = res.data.id = "";
   sample.players[0].id = res.data.players[0].id = "";
   sample.players[1].id = res.data.players[1].id = "";
   sample.startedAtUnixTime = res.data.startedAtUnixTime;
   assertEquals(res.data.type, "normal");
   sample.type = res.data.type;
-  assertEquals(res.data.gameName, undefined);
-  delete sample.gameName;
+  assertEquals(res.data.name, undefined);
+  delete sample.name;
 
   assertEquals(sample, res.data);
 });

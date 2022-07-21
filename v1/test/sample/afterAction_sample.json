@@ -635,8 +635,8 @@
       ]
     }
   ],
-  "gameId": "12c1bc2b-96be-435f-ac2a-d9ed46c24af6",
-  "gameName": "test",
+  "id": "12c1bc2b-96be-435f-ac2a-d9ed46c24af6",
+  "name": "test",
   "startedAtUnixTime": 1634863288,
   "reservedUsers": [],
   "type": "self",

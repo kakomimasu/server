@@ -267,8 +267,8 @@ class ExpGame extends Core.Game {
     const ret = super.toJSON();
     return {
       ...ret,
-      gameId: this.uuid,
-      gameName: this.name,
+      id: this.uuid,
+      name: this.name,
       startedAtUnixTime: this.startedAtUnixTime,
       reservedUsers: this.reservedUsers,
       type: this.type,

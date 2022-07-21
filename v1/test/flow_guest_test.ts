@@ -36,9 +36,9 @@ Deno.test("create game", async () => {
   // );
   const sample = createGameSample;
 
-  assert(v4.validate(res.data.gameId));
-  gameId = res.data.gameId;
-  res.data.gameId = sample.gameId = "";
+  assert(v4.validate(res.data.id));
+  gameId = res.data.id;
+  res.data.id = sample.id = "";
   assertEquals(sample, res.data);
 });
 
@@ -77,10 +77,10 @@ Deno.test("get gameinfo", async () => {
   // );
 
   const sample = matchGameInfoSample;
-  assert(v4.validate(res.data.gameId));
+  assert(v4.validate(res.data.id));
   assertEquals(res.data.players[0].id, "test1");
   assertEquals(res.data.players[1].id, "test2");
-  sample.gameId = res.data.gameId = "";
+  sample.id = res.data.id = "";
   sample.players[0].id = res.data.players[0].id = "";
   sample.players[1].id = res.data.players[1].id = "";
   sample.startedAtUnixTime = res.data.startedAtUnixTime = 0;
@@ -125,10 +125,10 @@ Deno.test("send action(Turn 1)", async () => {
   //console.log(JSON.stringify(reqJson, null, 2));
   const sample = afterActionSample as typeof res.data;
 
-  assert(v4.validate(res.data.gameId));
+  assert(v4.validate(res.data.id));
   assertEquals(res.data.players[0].id, "test1");
   assertEquals(res.data.players[1].id, "test2");
-  sample.gameId = res.data.gameId = "";
+  sample.id = res.data.id = "";
   sample.players[0].id = res.data.players[0].id = "";
   sample.players[1].id = res.data.players[1].id = "";
   sample.startedAtUnixTime = res.data.startedAtUnixTime;
@@ -162,10 +162,10 @@ Deno.test("send action(Turn 2)", async () => {
   //console.log(JSON.stringify(reqJson, null, 2));
   const sample = afterActionSample2 as typeof res.data;
 
-  assert(v4.validate(res.data.gameId));
+  assert(v4.validate(res.data.id));
   assertEquals(res.data.players[0].id, "test1");
   assertEquals(res.data.players[1].id, "test2");
-  sample.gameId = res.data.gameId = "";
+  sample.id = res.data.id = "";
   sample.players[0].id = res.data.players[0].id = "";
   sample.players[1].id = res.data.players[1].id = "";
   sample.startedAtUnixTime = res.data.startedAtUnixTime;

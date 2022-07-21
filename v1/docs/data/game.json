@@ -10,8 +10,8 @@
     "points": [1, -1, 1, -1, 3, -1, 1, -1, 1]
   },
   "ending": false,
-  "gameId": "f0112f6a-6360-47bb-b431-bbc81e0926c0",
-  "gameName": "sample-game",
+  "id": "f0112f6a-6360-47bb-b431-bbc81e0926c0",
+  "name": "sample-game",
   "gaming": false,
   "log": [
     {
