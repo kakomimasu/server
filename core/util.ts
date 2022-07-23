@@ -14,8 +14,8 @@ export const randomUUID = () => crypto.randomUUID();
 
 export type StateData<T> = { data: T };
 
-export const jsonParse = <T>(): Middleware<StateData<T>> =>
-  async (ctx, next) => {
+export const jsonParse =
+  <T>(): Middleware<StateData<T>> => async (ctx, next) => {
     const contentType = ctx.request.headers.get("content-type");
     if (contentType === null || contentType !== "application/json") {
       throw new ServerError(errors.INVALID_CONTENT_TYPE);
