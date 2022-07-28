@@ -35,8 +35,8 @@ const assertMatch = (match, sample = {}) => {
 const assertGame = (game_, sample_ = {}) => {
   const game = structuredClone(game_);
   const sample = structuredClone(sample_);
-  assert(v4.validate(game.gameId));
-  if (sample.gameId) assertEquals(game.gameId, sample.gameId);
+  assert(v4.validate(game.id));
+  if (sample.id) assertEquals(game.id, sample.id);
   assertEquals(game.gaming, sample.gaming || false);
   assertEquals(game.ending, sample.ending || false);
   assertEquals(game.board, sample.board || null);
@@ -45,10 +45,10 @@ const assertGame = (game_, sample_ = {}) => {
   assertEquals(game.tiled, sample.tiled || null);
   assert(Array.isArray(game.players));
   assert(Array.isArray(game.log));
-  assertEquals(game.gameName, sample.name || "");
+  assertEquals(game.name, sample.name || "");
   assertEquals(game.startedAtUnixTime, null);
-  assertEquals(typeof game.operationTime, "number");
-  assertEquals(typeof game.transitionTime, "number");
+  assertEquals(typeof game.operationSec, "number");
+  assertEquals(typeof game.transitionSec, "number");
   assert(Array.isArray(game.reservedUsers));
   if (sample.reservedUsers) assert(game.reservedUsers, sample.reservedUsers);
 };
@@ -174,10 +174,12 @@ Deno.test("v1/match:normal by guest", async () => {
 Deno.test("v1/match/(gameId):normal", async () => {
   const gameData = { name: "テスト", boardName: "A-1" };
   const gameRes = await ac.gameCreate(gameData);
+  console.log("gameRes", gameRes);
 
-  const res = await ac.getMatch(gameRes.data.gameId);
+  const res = await ac.getMatch(gameRes.data.id);
 
-  assertGame(res.data, { gameId: gameRes.data.gameId, name: gameData.name });
+  console.log(res.data);
+  assertGame(res.data, { id: gameRes.data.id, name: gameData.name });
 });
 Deno.test("v1/match/(gameId):not find game", async () => {
   const res = await ac.getMatch(randomUUID());

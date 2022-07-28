@@ -554,8 +554,8 @@
         }
       ],
       "point": {
-        "basepoint": 0,
-        "wallpoint": 0
+        "areaPoint": 0,
+        "wallPoint": 0
       }
     },
     {
@@ -595,17 +595,17 @@
         }
       ],
       "point": {
-        "basepoint": 0,
-        "wallpoint": 0
+        "areaPoint": 0,
+        "wallPoint": 0
       }
     }
   ],
   "log": [],
-  "gameId": "61dfbe96-a6db-4362-8196-5cf56e862213",
-  "gameName": "test",
+  "id": "61dfbe96-a6db-4362-8196-5cf56e862213",
+  "name": "test",
   "startedAtUnixTime": 1634863448,
   "reservedUsers": [],
   "type": "self",
-  "transitionTime": 1,
-  "operationTime": 1
+  "transitionSec": 1,
+  "operationSec": 1
 }

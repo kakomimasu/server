@@ -64,10 +64,10 @@ Deno.test("regist user", async () => {
   const sample = userRegistSample;
   sample.name = testName;
   assert(v4.validate(res.data.bearerToken));
-  assert(Array.isArray(res.data.gamesId));
+  assert(Array.isArray(res.data.gameIds));
   res.data.id = sample.id = "";
   res.data.bearerToken = sample.bearerToken = "";
-  res.data.gamesId = sample.gamesId = [];
+  res.data.gameIds = sample.gameIds = [];
   assertEquals(sample, res.data);
 });
 
@@ -82,9 +82,9 @@ Deno.test("create game", async () => {
   // );
   const sample = createGameSample;
 
-  assert(v4.validate(res.data.gameId));
-  gameId = res.data.gameId;
-  res.data.gameId = sample.gameId = "";
+  assert(v4.validate(res.data.id));
+  gameId = res.data.id;
+  res.data.id = sample.id = "";
   assertEquals(sample, res.data);
 });
 
@@ -130,8 +130,8 @@ Deno.test("get gameinfo", async () => {
   // );
 
   const sample = matchGameInfoSample;
-  assert(v4.validate(res.data.gameId));
-  sample.gameId = res.data.gameId = "";
+  assert(v4.validate(res.data.id));
+  sample.id = res.data.id = "";
   sample.players[0].id = res.data.players[0].id = "";
   sample.players[1].id = res.data.players[1].id = "";
   sample.startedAtUnixTime = res.data.startedAtUnixTime = 0;
@@ -140,8 +140,8 @@ Deno.test("get gameinfo", async () => {
 });
 
 let nextTurnUnixTime: number;
-let operationTime: number;
-let transitionTime: number;
+let operationSec: number;
+let transitionSec: number;
 
 Deno.test("send action(Turn 1) Operation Step", async () => {
   let res = await ac.getMatch(gameId);
@@ -151,8 +151,8 @@ Deno.test("send action(Turn 1) Operation Step", async () => {
   let gameInfo = res.data;
   if (!gameInfo.startedAtUnixTime) throw Error("startedAtUnixTime is null.");
   nextTurnUnixTime = gameInfo.startedAtUnixTime;
-  operationTime = gameInfo.operationTime;
-  transitionTime = gameInfo.transitionTime;
+  operationSec = gameInfo.operationSec;
+  transitionSec = gameInfo.transitionSec;
   await sleep(diffTime(nextTurnUnixTime) + 100);
   // issue131:同ターンで複数アクションを送信時に送信したagentIDのみが反映されるかのテストを含む
   // 2回アクションを送信しているが、どちらもagentIDが違うため両方反映される。
@@ -170,7 +170,7 @@ Deno.test("send action(Turn 1) Operation Step", async () => {
   }
   gameInfo = res.data;
 
-  nextTurnUnixTime += operationTime;
+  nextTurnUnixTime += operationSec;
   await sleep(diffTime(nextTurnUnixTime) + 100);
 });
 
@@ -186,7 +186,7 @@ Deno.test("invalid action(Turn 1) Transition Step", async () => {
   assert(res.success === false);
   assertEquals(res.data, errors.DURING_TRANSITION_STEP);
 
-  nextTurnUnixTime += transitionTime;
+  nextTurnUnixTime += transitionSec;
   await sleep(diffTime(nextTurnUnixTime) + 100);
 });
 
@@ -202,8 +202,8 @@ Deno.test("check match(Turn 2) Operation Step", async () => {
   //console.log(res);
   const sample = afterActionSample as typeof res.data;
 
-  assert(v4.validate(res.data.gameId));
-  sample.gameId = res.data.gameId = "";
+  assert(v4.validate(res.data.id));
+  sample.id = res.data.id = "";
   sample.players[0].id = res.data.players[0].id = "";
   sample.players[1].id = res.data.players[1].id = "";
   sample.startedAtUnixTime = res.data.startedAtUnixTime;
@@ -217,7 +217,7 @@ Deno.test("send action(Turn 2) Operation Step", async () => {
   }, pic2);
   //console.log(reqJson);
 
-  nextTurnUnixTime += operationTime;
+  nextTurnUnixTime += operationSec;
   await sleep(diffTime(nextTurnUnixTime) + 100);
 });
 
@@ -233,7 +233,7 @@ Deno.test("invalid action(Turn 2) Transition Step", async () => {
   assert(res.success === false);
   assertEquals(res.data, errors.DURING_TRANSITION_STEP);
 
-  nextTurnUnixTime += transitionTime;
+  nextTurnUnixTime += transitionSec;
   await sleep(diffTime(nextTurnUnixTime) + 100);
 });
 
@@ -251,8 +251,8 @@ Deno.test("check match(Turn 3) Operation Step", async () => {
   //console.log(res);
   const sample = afterActionSample2 as typeof res.data;
 
-  assert(v4.validate(res.data.gameId));
-  sample.gameId = res.data.gameId = "";
+  assert(v4.validate(res.data.id));
+  sample.id = res.data.id = "";
   sample.players[0].id = res.data.players[0].id = "";
   sample.players[1].id = res.data.players[1].id = "";
   sample.startedAtUnixTime = res.data.startedAtUnixTime;

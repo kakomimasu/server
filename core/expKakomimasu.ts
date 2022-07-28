@@ -152,14 +152,14 @@ class ExpGame extends Core.Game {
       this.onTurn();
       // 次の遷移ステップ時間まで待つ
       const nextTransitionUnixTime = this.startedAtUnixTime +
-        this.nsec * (this.turn) + this.transitionTime() * (this.turn - 1);
+        this.nsec * (this.turn) + this.transitionSec() * (this.turn - 1);
       await sleep(diffTime(nextTransitionUnixTime));
 
       this.nextTurn();
 
       // 次の行動ステップ時間まで待つ
       const nextOperationUnixTime = nextTransitionUnixTime +
-        this.transitionTime();
+        this.transitionSec();
       await sleep(diffTime(nextOperationUnixTime));
 
       this.wsSend();
@@ -167,10 +167,10 @@ class ExpGame extends Core.Game {
     setGame(this);
   }
 
-  transitionTime() {
+  transitionSec() {
     return this.options.transitionSec ?? 1;
   }
-  operasionTime() {
+  operationSec() {
     return this.options.operationSec ?? this.board.nsec;
   }
 
@@ -179,8 +179,8 @@ class ExpGame extends Core.Game {
     if (this.startedAtUnixTime === null) return false;
     const elapsetTimeFromStart = nowUnixTime() - this.startedAtUnixTime;
     const elapsetTimeFromTurn = elapsetTimeFromStart %
-      (this.transitionTime() + this.operasionTime());
-    if (elapsetTimeFromTurn - this.operasionTime() < 0) return false;
+      (this.transitionSec() + this.operationSec());
+    if (elapsetTimeFromTurn - this.operationSec() < 0) return false;
     else return true;
   }
 
@@ -267,13 +267,13 @@ class ExpGame extends Core.Game {
     const ret = super.toJSON();
     return {
       ...ret,
-      gameId: this.uuid,
-      gameName: this.name,
+      id: this.uuid,
+      name: this.name,
       startedAtUnixTime: this.startedAtUnixTime,
       reservedUsers: this.reservedUsers,
       type: this.type,
-      transitionTime: this.transitionTime(),
-      operationTime: this.operasionTime(),
+      transitionSec: this.transitionSec(),
+      operationSec: this.operationSec(),
     };
   }
 

@@ -33,14 +33,14 @@ class User implements FUser {
     });
   }
 
-  private getGamesId() {
-    const gamesId = kkmm.getGames().filter((game) => {
+  private getGameIds() {
+    const gameIds = kkmm.getGames().filter((game) => {
       return game.players.some((p) => p.id === this.id);
     }).sort((a, b) => {
       return (a.startedAtUnixTime ?? Infinity) -
         (b.startedAtUnixTime ?? Infinity);
     }).map((game) => game.uuid);
-    return gamesId;
+    return gameIds;
   }
 
   // シリアライズする際にBearerTokenを返さないように
@@ -51,7 +51,7 @@ class User implements FUser {
   }
 
   // BearerTokenも含めたオブジェクトにする
-  noSafe = () => ({ ...this, gamesId: this.getGamesId() });
+  noSafe = () => ({ ...this, gameIds: this.getGameIds() });
 }
 
 class Users {

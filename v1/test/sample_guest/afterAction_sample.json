@@ -554,8 +554,8 @@
         }
       ],
       "point": {
-        "basepoint": 0,
-        "wallpoint": 5
+        "areaPoint": 0,
+        "wallPoint": 5
       }
     },
     {
@@ -595,8 +595,8 @@
         }
       ],
       "point": {
-        "basepoint": 0,
-        "wallpoint": 0
+        "areaPoint": 0,
+        "wallPoint": 0
       }
     }
   ],
@@ -605,8 +605,8 @@
       "players": [
         {
           "point": {
-            "basepoint": 0,
-            "wallpoint": 5
+            "areaPoint": 0,
+            "wallPoint": 5
           },
           "actions": [
             {
@@ -620,19 +620,19 @@
         },
         {
           "point": {
-            "basepoint": 0,
-            "wallpoint": 0
+            "areaPoint": 0,
+            "wallPoint": 0
           },
           "actions": []
         }
       ]
     }
   ],
-  "gameId": "6a4b68f3-3c2b-406e-94b3-a59c7648abf4",
-  "gameName": "test",
+  "id": "6a4b68f3-3c2b-406e-94b3-a59c7648abf4",
+  "name": "test",
   "startedAtUnixTime": 1640239463,
   "reservedUsers": [],
   "type": "self",
-  "transitionTime": 1,
-  "operationTime": 1
+  "transitionSec": 1,
+  "operationSec": 1
 }

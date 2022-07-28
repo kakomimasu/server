@@ -17,21 +17,21 @@
     "points": [1, -1, 1, -1, 3, -1, 1, -1, 1]
   },
   "ending": false,
-  "gameId": "f0112f6a-6360-47bb-b431-bbc81e0926c0",
-  "gameName": "sample-game",
+  "id": "f0112f6a-6360-47bb-b431-bbc81e0926c0",
+  "name": "sample-game",
   "gaming": false,
   "log": [
     {
       "players": [
         {
-          "point": { "basepoint": 0, "wallpoint": 0 },
+          "point": { "areaPoint": 0, "wallPoint": 0 },
           "actions": [
             { "agentId": 0, "type": 1, "x": 0, "y": 0, "res": 0 },
             { "agentId": 1, "type": 1, "x": 0, "y": 1, "res": 0 }
           ]
         },
         {
-          "point": { "basepoint": 0, "wallpoint": 1 },
+          "point": { "areaPoint": 0, "wallPoint": 1 },
           "actions": [
             { "agentId": 0, "type": 1, "x": 0, "y": 2, "res": 0 },
             { "agentId": 1, "type": 1, "x": 0, "y": 3, "res": 5 }
@@ -42,30 +42,30 @@
     {
       "players": [
         {
-          "point": { "basepoint": 0, "wallpoint": -1 },
+          "point": { "areaPoint": 0, "wallPoint": -1 },
           "actions": [
             { "agentId": 0, "type": 3, "x": 1, "y": 0, "res": 0 },
             { "agentId": 1, "type": 3, "x": 0, "y": 2, "res": 2 }
           ]
         },
         {
-          "point": { "basepoint": 0, "wallpoint": 1 },
+          "point": { "areaPoint": 0, "wallPoint": 1 },
           "actions": [{ "agentId": 1, "type": 3, "x": 1, "y": 4, "res": 5 }]
         }
       ]
     }
   ],
-  "operationTime": 1,
+  "operationSec": 1,
   "players": [
     {
       "id": "bc7b10ae-c19f-4a6b-a7b9-d256f41c2583",
       "agents": [{ "x": 1, "y": 0 }, { "x": 0, "y": 1 }],
-      "point": { "basepoint": 0, "wallpoint": -1 }
+      "point": { "areaPoint": 0, "wallPoint": -1 }
     },
     {
       "id": "fdc9c2e0-1feb-4334-ad44-9268cde6d488",
       "agents": [{ "x": 0, "y": 2 }, { "x": -1, "y": -1 }],
-      "point": { "basepoint": 0, "wallpoint": 1 }
+      "point": { "areaPoint": 0, "wallPoint": 1 }
     }
   ],
   "reservedUsers": [],
@@ -82,7 +82,7 @@
     { "type": 0, "player": null }
   ],
   "totalTurn": 30,
-  "transitionTime": 1,
+  "transitionSec": 1,
   "turn": 2,
   "type": "normal"
 }
@@ -92,30 +92,30 @@
 | --------------------------------- | --------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | `board`                           | [Board](#Board) &#124; null | ゲームで使用されるボード情報<br>ゲームが開始するまでは非公開(null)です。                                                                      |
 | `ending`                          | boolean                     | ゲームが終了したかどうか                                                                                                   |
-| `gameId`                          | string                      | ゲームID                                                                                                          |
-| `gameName`                        | string                      | ゲーム名                                                                                                           |
+| `id`                              | string                      | ゲームID                                                                                                          |
+| `name`                            | string                      | ゲーム名                                                                                                           |
 | `gaming`                          | boolean                     | ゲーム中かどうか                                                                                                       |
 | `log`                             | array                       | ゲームのログ<br>ターンごとの配列になっています                                                                                      |
 | `log[].players`                   | array                       | そのターンでのプレイヤーのログ。プレイヤー順は`players`と同じ                                                                            |
-| `log[].players.point`             | object                      | そのターンでのプレイヤーの点数<br> `basepoint`は陣地ポイント、`wallpoint`は壁ポイント                                                       |
+| `log[].players.point`             | object                      | そのターンでのプレイヤーの点数<br> `areaPoint`は陣地ポイント、`wallPoint`は壁ポイント                                                       |
 | `log[].players.actions`           | array                       | そのターンでのプレイヤーの行動情報と結果                                                                                           |
 | `log[].players.actions[].agentId` | number                      | エージェントID。`players[].agemts`の配列番号                                                                               |
 | `log[].players.actions[].type`    | number                      | 行動タイプ<br> `1`:PUT、`2`:NONE、`3`:MOVE、`4`:REMOVE                                                                 |
 | `log[].players.actions[].x`       | number                      | 行動先のx座標                                                                                                        |
 | `log[].players.actions[].y`       | number                      | 行動先のy座標                                                                                                        |
 | `log[].players.actions[].res`     | number                      | 行動結果。`0`以外は何らかの原因により失敗した場合になります。<br> `0`:成功、`1`:競合、`2`:無効、`3`:同じターンに複数の行動指示、`4`:存在しないエージェントへの指示、`5`:存在しない行動の指示 |
-| `operationTime`                   | number                      | 行動ステップ時間（秒）                                                                                                    |
+| `operationSec`                    | number                      | 行動ステップ時間（秒）                                                                                                    |
 | `players`                         | array                       | プレイヤー情報の配列                                                                                                     |
 | `players[].id`                    | string                      | ユーザID                                                                                                          |
 | `players[].agents`                | array                       | エージェントの情報。<br>x,y座標を取得できる。                                                                                     |
-| `players[].point`                 | string                      | ポイント情報<br> `basepoint`は陣地ポイント、`wallpoint`は壁ポイントで、この2つを合計したものがそのプレイヤーの総得点となる                                    |
+| `players[].point`                 | string                      | ポイント情報<br> `areaPoint`は陣地ポイント、`wallPoint`は壁ポイントで、この2つを合計したものがそのプレイヤーの総得点となる                                    |
 | `reservedUsers`                   | string[]                    | ゲームに入室可能なユーザIDのリスト。空の場合は誰でも入室可能                                                                                |
 | `startedAtUnixTime`               | number                      | ゲーム開始Unix時刻                                                                                                    |
 | `tiled`                           | array                       | フィールドの状態(壁・陣地・どのプレイヤーのマスかなど)。ゲームの開始前は非公開(null)です。<br>各要素はboard.pointsと対応                                       |
 | `tiled[].type`                    | number                      | マスの種類。※`player`が`null`の場合は空白マス<br> `0`:陣地、`1`:壁                                                                |
 | `tiled[].player`                  | number &#124; null          | マスを所持するプレイヤー。`players`の配列番号<br>※`null`の場合は空白マス                                                                 |
 | `totalTurn`                       | number                      | 非推奨(Board情報内の`nTurn`を使用してください)<br>このゲームの総ターン                                                                   |
-| `transitionTime`                  | number                      | 遷移ステップ時間（秒）                                                                                                    |
+| `transitionSec`                   | number                      | 遷移ステップ時間（秒）                                                                                                    |
 | `turn`                            | number                      | 現在のターン                                                                                                         |
 | `type`                            | string                      | ゲームの種別。<br> `normal`:フリーマッチ `self`:カスタムマッチ`personal`: プライベートマッチ                                                |
 
@@ -160,7 +160,7 @@
   "screenName": "A-1",
   "name": "a1",
   "id": "a92070bf-7f78-4c64-953b-189ddb44c159",
-  "gamesId": [],
+  "gameIds": [],
   "bearerToken": ""
 }
 ```
@@ -170,7 +170,7 @@
 | `screenName`<br>必須 | string   | 表示名                                              |
 | `name`<br>必須       | string   | 名前<br>※他のユーザと被ることのない固有の名前ですが、ユーザにより変更される場合があります。 |
 | `id`               | string   | ID<br>※ユーザ固有のIDです。他のユーザと被ることはなく、変更されることもありません。   |
-| `gamesId`          | string[] | ユーザが参加したゲームIDのリスト                                |
+| `gameIds`          | string[] | ユーザが参加したゲームIDのリスト                                |
 | `bearerToken`      | string   | BearerToken<br>※Bearer認証が必要です。                   |
 
 ---

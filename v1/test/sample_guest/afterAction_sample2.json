@@ -229,7 +229,7 @@
         { "x": -1, "y": -1 },
         { "x": -1, "y": -1 }
       ],
-      "point": { "basepoint": 0, "wallpoint": 5 }
+      "point": { "areaPoint": 0, "wallPoint": 5 }
     },
     {
       "id": "test2",
@@ -243,34 +243,34 @@
         { "x": -1, "y": -1 },
         { "x": -1, "y": -1 }
       ],
-      "point": { "basepoint": 0, "wallpoint": 7 }
+      "point": { "areaPoint": 0, "wallPoint": 7 }
     }
   ],
   "log": [
     {
       "players": [
         {
-          "point": { "basepoint": 0, "wallpoint": 5 },
+          "point": { "areaPoint": 0, "wallPoint": 5 },
           "actions": [{ "agentId": 0, "type": 1, "x": 1, "y": 1, "res": 0 }]
         },
-        { "point": { "basepoint": 0, "wallpoint": 0 }, "actions": [] }
+        { "point": { "areaPoint": 0, "wallPoint": 0 }, "actions": [] }
       ]
     },
     {
       "players": [
-        { "point": { "basepoint": 0, "wallpoint": 5 }, "actions": [] },
+        { "point": { "areaPoint": 0, "wallPoint": 5 }, "actions": [] },
         {
-          "point": { "basepoint": 0, "wallpoint": 7 },
+          "point": { "areaPoint": 0, "wallPoint": 7 },
           "actions": [{ "agentId": 0, "type": 1, "x": 1, "y": 2, "res": 0 }]
         }
       ]
     }
   ],
-  "gameId": "6a4b68f3-3c2b-406e-94b3-a59c7648abf4",
-  "gameName": "test",
+  "id": "6a4b68f3-3c2b-406e-94b3-a59c7648abf4",
+  "name": "test",
   "startedAtUnixTime": 1640239463,
   "reservedUsers": [],
   "type": "self",
-  "transitionTime": 1,
-  "operationTime": 1
+  "transitionSec": 1,
+  "operationSec": 1
 }

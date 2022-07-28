@@ -8,7 +8,7 @@ export interface User {
   screenName: string;
   name: string;
   id: string;
-  gamesId: string[];
+  gameIds: string[];
   bearerToken?: string;
 }
 
@@ -80,7 +80,7 @@ export interface ActionRes {
 }
 
 export interface Game {
-  gameId: string;
+  id: string;
   gaming: boolean;
   ending: boolean;
   board: Board | null;
@@ -90,7 +90,7 @@ export interface Game {
   players: Player[];
   log: {
     players: {
-      point: { basepoint: number; wallpoint: number };
+      point: Point;
       actions: {
         agentId: number;
         type: 1 | 2 | 3 | 4;
@@ -100,12 +100,12 @@ export interface Game {
       }[];
     }[];
   }[];
-  gameName: string | undefined;
+  name: string | undefined;
   startedAtUnixTime: number | null;
   reservedUsers: string[];
   type: string;
-  operationTime: number;
-  transitionTime: number;
+  operationSec: number;
+  transitionSec: number;
 }
 
 export interface Board {
@@ -119,10 +119,15 @@ export interface Board {
   points: number[];
 }
 
+export interface Point {
+  areaPoint: number;
+  wallPoint: number;
+}
+
 export interface Player {
   id: string;
   agents: { x: number; y: number }[];
-  point: { basepoint: number; wallpoint: number };
+  point: Point;
 }
 
 export type TournamentType = "round-robin" | "knockout";
