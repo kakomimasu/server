@@ -165,6 +165,7 @@ export const matchRouter = () => {
       const player = game.players.find((player) => player.pic === pic);
       if (!player) throw new ServerError(errors.INVALID_USER_AUTHORIZATION);
 
+      if (!actionData.actions) actionData.actions = [];
       if (actionData.actions.some((a) => !ActionPost.isEnable(a))) {
         throw new ServerError(errors.INVALID_ACTION);
       }

@@ -1,4 +1,4 @@
-import { getAuth, signInWithEmailAndPassword } from "../../deps.ts";
+import { createUserWithEmailAndPassword, getAuth } from "../../deps.ts";
 import { assert, assertEquals, v4 } from "../../deps-test.ts";
 
 import { randomUUID } from "../../core/util.ts";
@@ -12,9 +12,9 @@ import { errors } from "../../core/error.ts";
 import "../../core/firestore.ts";
 
 const auth = getAuth();
-const u = await signInWithEmailAndPassword(
+const u = await createUserWithEmailAndPassword(
   auth,
-  "client@example.com",
+  `${randomUUID()}@example.com`,
   "test-client",
 );
 
@@ -189,7 +189,7 @@ Deno.test("v1/match/(gameId):not find game", async () => {
 
 // /v1/match/(gameId)/action Test
 // テスト項目
-// 正常、アクセストークン無効
+// 正常、正常（actions:null）、アクセストークン無効
 Deno.test("v1/match/(gameId)/action:normal", async () => {
   const uuid = randomUUID();
   const userData = { screenName: uuid, name: uuid };
@@ -216,6 +216,31 @@ Deno.test("v1/match/(gameId)/action:normal", async () => {
   );
   await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
 
+  assertAction(res.data);
+});
+
+Deno.test("v1/match/(gameId)/action:normal(actions is null)", async () => {
+  const uuid = randomUUID();
+  const userData = { screenName: uuid, name: uuid };
+  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
+  userData.id = userRes.data.id;
+
+  const data = {
+    useAi: true,
+    aiOption: {
+      aiName: "a1",
+    },
+  };
+  const matchRes = await ac.match(data, "Bearer " + userRes.data.bearerToken);
+
+  const actionData = { actions: null };
+  const res = await ac.setAction(
+    matchRes.data.gameId,
+    actionData,
+    matchRes.data.pic,
+  );
+  await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
+  console.log(res);
   assertAction(res.data);
 });
 
