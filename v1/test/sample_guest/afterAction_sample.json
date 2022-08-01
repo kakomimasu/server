@@ -556,7 +556,8 @@
       "point": {
         "areaPoint": 0,
         "wallPoint": 5
-      }
+      },
+      "type": "guest"
     },
     {
       "id": "test2",
@@ -597,7 +598,8 @@
       "point": {
         "areaPoint": 0,
         "wallPoint": 0
-      }
+      },
+      "type": "guest"
     }
   ],
   "log": [

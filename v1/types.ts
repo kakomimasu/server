@@ -128,6 +128,7 @@ export interface Player {
   id: string;
   agents: { x: number; y: number }[];
   point: Point;
+  type: "account" | "guest";
 }
 
 export type TournamentType = "round-robin" | "knockout";

@@ -556,7 +556,8 @@
       "point": {
         "areaPoint": 0,
         "wallPoint": 0
-      }
+      },
+      "type": "account"
     },
     {
       "id": "2227255c-30db-4761-a571-52e8ca7e7e18",
@@ -597,7 +598,8 @@
       "point": {
         "areaPoint": 0,
         "wallPoint": 0
-      }
+      },
+      "type": "account"
     }
   ],
   "log": [],
