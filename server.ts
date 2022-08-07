@@ -11,6 +11,7 @@ import { wsRoutes } from "./v1/ws.ts";
 import { nonReqEnv, reqEnv } from "./core/env.ts";
 
 import { router as miyakonojoRouter } from "./miyakonojo/router.ts";
+import { router as tomakomaiRouter } from "./tomakomai/router.ts";
 
 const port = parseInt(reqEnv.PORT);
 
@@ -89,6 +90,7 @@ URL: ${ctx.request.url}
 
   router.use("/v1", apiRoutes());
   router.use("/miyakonojo", miyakonojoRouter.routes());
+  router.use("/tomakomai", tomakomaiRouter.routes());
   app.use(router.routes());
   app.use(router.allowedMethods());
 
