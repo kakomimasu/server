@@ -121,7 +121,8 @@ class ExpGame extends Core.Game {
 
   attachPlayer(player: Player) {
     if (this.reservedUsers.length > 0) {
-      const isReservedUser = this.reservedUsers.some((e) => e === player.id);
+      const isReservedUser = player.type === "account" &&
+        this.reservedUsers.some((e) => e === player.id);
       if (!isReservedUser) throw Error("Not allowed user");
     }
 

@@ -110,10 +110,11 @@ export const matches: RouterMiddleware<
       };
     });
     const { areaPoint, wallPoint: tilePoint } = playerPoints[playerIdx];
+    const teamID = player.pic === pic ? parseInt(player.pic) : 0;
     return {
       agents,
       areaPoint,
-      teamID: player.id,
+      teamID,
       tilePoint,
     };
   });

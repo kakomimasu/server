@@ -293,7 +293,7 @@ Deno.test({
         assertEquals(typeof agent.x, "number");
         assertEquals(typeof agent.y, "number");
         assertEquals(typeof team.areaPoint, "number");
-        assertEquals(typeof team.teamID, "string");
+        assertEquals(typeof team.teamID, "number");
         assertEquals(typeof team.tilePoint, "number");
 
         assert(Array.isArray(json.tiled));

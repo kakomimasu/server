@@ -36,7 +36,7 @@ export const getMatches = (userId: string) => {
   const matches = kkmm.getGames().filter((game) => {
     if (game.ending) return false;
     const user = game.players.find((player) => {
-      return player.id === userId;
+      return player.type === "account" && player.id === userId;
     });
     if (user === undefined) return false;
     return true;

@@ -40,7 +40,7 @@ export type Match = {
       y: number;
     }>;
     areaPoint: number;
-    teamID: string;
+    teamID: number;
     tilePoint: number;
   }>;
   tiled: number[][];
