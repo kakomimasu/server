@@ -19,15 +19,18 @@ export const addSendGameFn = (fn: typeof sendGameFn[number]) => [
 
 class Player extends Core.Player<ExpGame> {
   public pic: string;
-  constructor(...args: ConstructorParameters<typeof Core.Player>) {
-    super(...args);
+  public type: "account" | "guest";
+  constructor(id: string, spec?: string, type: Player["type"] = "account") {
+    super(id, spec);
     this.pic = Player.generatePic();
+    this.type = type;
   }
 
-  static restore(data: Player, game?: ExpGame): Player { // Kakomimasu.tsから実装をコピー＋pidを追加
+  static restore(data: Player, game?: ExpGame): Player { // Kakomimasu.tsから実装をコピー＋picを追加
     const player = new Player(data.id, data.spec);
     player.index = data.index;
     player.pic = data.pic;
+    player.type = data.type ?? "account";
     if (game) {
       player.game = game;
       player.agents = data.agents.map((a) => {
@@ -118,7 +121,8 @@ class ExpGame extends Core.Game {
 
   attachPlayer(player: Player) {
     if (this.reservedUsers.length > 0) {
-      const isReservedUser = this.reservedUsers.some((e) => e === player.id);
+      const isReservedUser = player.type === "account" &&
+        this.reservedUsers.some((e) => e === player.id);
       if (!isReservedUser) throw Error("Not allowed user");
     }
 
@@ -264,9 +268,30 @@ class ExpGame extends Core.Game {
   }
 
   toJSON() {
-    const ret = super.toJSON();
+    const { players: _, ...ret } = super.toJSON();
+    const players = this.players.map((p, i) => { // kakomimasu.tsから実装をコピー&typeを追加
+      const id = p.id;
+      let agents: { x: number; y: number }[] = [];
+      if (this.isReady()) {
+        agents = [];
+        p.agents.forEach((a) => {
+          const agent = {
+            x: a.x,
+            y: a.y,
+          };
+          agents.push(agent);
+        });
+      }
+      return {
+        id: id,
+        agents: agents,
+        point: this.field.getPoints()[i],
+        type: p.type,
+      };
+    });
     return {
       ...ret,
+      players,
       id: this.uuid,
       name: this.name,
       startedAtUnixTime: this.startedAtUnixTime,

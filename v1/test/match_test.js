@@ -178,7 +178,7 @@ Deno.test("v1/match/(gameId):normal", async () => {
 
   const res = await ac.getMatch(gameRes.data.id);
 
-  console.log(res.data);
+  // console.log(res.data);
   assertGame(res.data, { id: gameRes.data.id, name: gameData.name });
 });
 Deno.test("v1/match/(gameId):not find game", async () => {

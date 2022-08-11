@@ -61,7 +61,7 @@ export const matchRouter = () => {
       if (!user) {
         if (reqData.guest) {
           const { name } = reqData.guest;
-          player = new Player(name, reqData.spec);
+          player = new Player(name, reqData.spec, "guest");
         } else {
           throw new ServerError(errors.NOT_USER);
         }

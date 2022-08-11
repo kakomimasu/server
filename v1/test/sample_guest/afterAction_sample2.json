@@ -229,7 +229,8 @@
         { "x": -1, "y": -1 },
         { "x": -1, "y": -1 }
       ],
-      "point": { "areaPoint": 0, "wallPoint": 5 }
+      "point": { "areaPoint": 0, "wallPoint": 5 },
+      "type": "guest"
     },
     {
       "id": "test2",
@@ -243,7 +244,8 @@
         { "x": -1, "y": -1 },
         { "x": -1, "y": -1 }
       ],
-      "point": { "areaPoint": 0, "wallPoint": 7 }
+      "point": { "areaPoint": 0, "wallPoint": 7 },
+      "type": "guest"
     }
   ],
   "log": [

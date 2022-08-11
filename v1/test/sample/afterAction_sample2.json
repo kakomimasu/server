@@ -229,7 +229,8 @@
         { "x": -1, "y": -1 },
         { "x": -1, "y": -1 }
       ],
-      "point": { "areaPoint": 0, "wallPoint": 5 }
+      "point": { "areaPoint": 0, "wallPoint": 5 },
+      "type": "account"
     },
     {
       "id": "ea8dac53-7311-48cb-b008-210a2f69ad5a",
@@ -243,7 +244,8 @@
         { "x": -1, "y": -1 },
         { "x": -1, "y": -1 }
       ],
-      "point": { "areaPoint": 0, "wallPoint": 7 }
+      "point": { "areaPoint": 0, "wallPoint": 7 },
+      "type": "account"
     }
   ],
   "log": [
