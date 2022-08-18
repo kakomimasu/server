@@ -25,23 +25,14 @@ const getRandomBoard = async () => {
   return list[Math.floor(Math.random() * list.length)];
 };
 
-class ActionPost implements IActionPost {
-  constructor(
-    public agentId: number,
-    public type: string,
-    public x: number,
-    public y: number,
-  ) {}
-
-  static isEnable(a: ActionPost) {
-    if (
-      a.agentId === undefined || a.type === undefined || a.x === undefined ||
-      a.y === undefined
-    ) {
-      return false;
-    } else return true;
-  }
-}
+const isEnableActionPost = (a: IActionPost) => {
+  if (
+    a.agentId === undefined || a.type === undefined || a.x === undefined ||
+    a.y === undefined
+  ) {
+    return false;
+  } else return true;
+};
 
 export const matchRouter = () => {
   const router = new Router();
@@ -166,7 +157,7 @@ export const matchRouter = () => {
       if (!player) throw new ServerError(errors.INVALID_USER_AUTHORIZATION);
 
       if (!actionData.actions) actionData.actions = [];
-      if (actionData.actions.some((a) => !ActionPost.isEnable(a))) {
+      if (actionData.actions.some((a) => !isEnableActionPost(a))) {
         throw new ServerError(errors.INVALID_ACTION);
       }
 

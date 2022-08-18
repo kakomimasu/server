@@ -65,7 +65,7 @@ export interface MatchRes {
 
 export interface ActionPost {
   agentId: number;
-  type: string;
+  type: "PUT" | "NONE" | "MOVE" | "REMOVE";
   x: number;
   y: number;
 }
@@ -128,7 +128,6 @@ export interface Player {
   id: string;
   agents: { x: number; y: number }[];
   point: Point;
-  type: "account" | "guest";
 }
 
 export type TournamentType = "round-robin" | "knockout";
