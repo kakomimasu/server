@@ -1,5 +1,5 @@
 import { assert, assertEquals, v4 } from "../../deps-test.ts";
-import ApiClient from "../../client/client.ts";
+import ApiClient, { Game } from "../../client/client.ts";
 
 import { diffTime, sleep } from "./client_util.ts";
 
@@ -76,7 +76,7 @@ Deno.test("get gameinfo", async () => {
   //   JSON.stringify(res.data, null, 2),
   // );
 
-  const sample = matchGameInfoSample;
+  const sample = matchGameInfoSample as Game;
   assert(v4.validate(res.data.id));
   assertEquals(res.data.players[0].id, "test1");
   assertEquals(res.data.players[1].id, "test2");

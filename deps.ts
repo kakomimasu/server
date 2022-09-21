@@ -1,6 +1,6 @@
 // Standard Library
-export { parse as yamlParse } from "https://deno.land/std@0.137.0/encoding/yaml.ts";
-export * as Colors from "https://deno.land/std@0.137.0/fmt/colors.ts";
+export { parse as yamlParse } from "https://deno.land/std@0.156.0/encoding/yaml.ts";
+export * as Colors from "https://deno.land/std@0.156.0/fmt/colors.ts";
 
 // Third Party Modules
 export * from "https://deno.land/x/dotenv@v3.2.0/mod.ts";
@@ -11,7 +11,7 @@ export {
   Router,
   type RouterContext,
   type RouterMiddleware,
-} from "https://deno.land/x/oak@v10.5.1/mod.ts";
+} from "https://deno.land/x/oak@v11.1.0/mod.ts";
 export { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 export * from "https://deno.land/x/djwt@v2.3/mod.ts";
 
