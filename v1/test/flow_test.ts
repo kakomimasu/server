@@ -4,7 +4,7 @@ import { assert, assertEquals, v4 } from "../../deps-test.ts";
 import { randomUUID } from "../../core/util.ts";
 import { errors } from "../../core/error.ts";
 
-import ApiClient from "../../client/client.ts";
+import ApiClient, { Game } from "../../client/client.ts";
 import { diffTime, sleep } from "./client_util.ts";
 
 import userRegistSample from "./sample/userRegist_sample.json" assert {
@@ -129,7 +129,7 @@ Deno.test("get gameinfo", async () => {
   //   JSON.stringify(res.data, null, 2),
   // );
 
-  const sample = matchGameInfoSample;
+  const sample = matchGameInfoSample as Game;
   assert(v4.validate(res.data.id));
   sample.id = res.data.id = "";
   sample.players[0].id = res.data.players[0].id = "";
