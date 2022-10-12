@@ -205,6 +205,7 @@ export const wsRoutes = () => {
       sock.onclose = () => {
         clients.delete(sock);
       };
+      ctx.response.status = 200;
     },
   );
 

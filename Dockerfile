@@ -1,9 +1,6 @@
-FROM denoland/deno:alpine-1.20.3
+FROM denoland/deno:alpine-1.26.1
 
-# EXPOSEはHerokuではサポートされていないが、ローカル用に残しておく。
 EXPOSE $PORT
-
-RUN apk add --no-cache curl
 
 WORKDIR /home/kkmm-server
 COPY . .
