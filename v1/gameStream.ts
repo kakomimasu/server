@@ -37,7 +37,7 @@ const setKeepAliveTimeout = (controller: ReadableStreamDefaultController) => {
         clearInterval(timerId);
       }
     }
-  }, 30 * 1000);
+  }, 10 * 1000);
 
   return timerId;
 };
@@ -116,7 +116,6 @@ export function sendGame(game: ExpGame) {
       } else return;
     }
     controller.enqueue(JSON.stringify(data) + "\n");
-    // controller
 
     clearTimeout(value.keepAliveTimerId);
     value.keepAliveTimerId = setKeepAliveTimeout(controller);
