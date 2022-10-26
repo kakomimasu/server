@@ -16,6 +16,7 @@ type MapValue = {
 const clients = new Map<ReadableStreamDefaultController, MapValue>();
 
 const analyzeStringSearchOption = (q: string) => {
+  console.log("query", q);
   const qs: SearchOptions = q.split(" ").map((s) => {
     const sp = s.split(":");
     if (sp.length === 1) {
@@ -114,7 +115,8 @@ export function sendGame(game: ExpGame) {
         };
       } else return;
     }
-    controller.enqueue(JSON.stringify(data));
+    controller.enqueue(JSON.stringify(data) + "\n");
+    // controller
 
     clearTimeout(value.keepAliveTimerId);
     value.keepAliveTimerId = setKeepAliveTimeout(controller);
