@@ -181,3 +181,10 @@ export type WsGameRes =
   | WsGameResUpdate
   | WsGameResRemove
   | WsGameResAdd;
+
+export type GameStreamReq = WsGameReq;
+export type GameStreamResInitial = WsGameResInitial;
+export type GameStreamResUpdate = WsGameResUpdate;
+export type GameStreamResRemove = WsGameResRemove;
+export type GameStreamResAdd = WsGameResAdd;
+export type GameStreamRes = WsGameRes;

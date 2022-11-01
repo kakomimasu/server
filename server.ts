@@ -8,6 +8,7 @@ import { userRouter } from "./v1/user.ts";
 import { gameRouter } from "./v1/game.ts";
 import { matchRouter } from "./v1/match.ts";
 import { wsRoutes } from "./v1/ws.ts";
+import { streamRoutes } from "./v1/gameStream.ts";
 import { nonReqEnv, reqEnv } from "./core/env.ts";
 
 import { router as miyakonojoRouter } from "./miyakonojo/router.ts";
@@ -21,6 +22,7 @@ if (import.meta.main) {
     router.use("/ws", wsRoutes());
     router.use("/match", matchRouter());
     router.use("/game", gameRouter());
+    router.use("/game", streamRoutes());
     router.use("/users", userRouter());
     router.use("/tournament", tournamentRouter());
     return router.routes();
