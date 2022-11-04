@@ -29,11 +29,13 @@ jobs:
         run: |
           deno task cache
       - name: Run test
-        id: test
         env:
           FIREBASE_USERNAME: test@example.com
           FIREBASE_PASSWORD: server-admin
           FIREBASE_TEST: true
         working-directory: ./firebase-emulator
-        run: |
-          firebase emulators:exec --import ./data/ "deno task start > /dev/null & deno task test"
+        run: >
+          firebase emulators:exec --import ./data/ "
+            deno task start > /dev/null & 
+            deno task test
+          "
