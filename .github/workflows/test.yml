@@ -25,5 +25,6 @@ jobs:
           FIREBASE_USERNAME: test@example.com
           FIREBASE_PASSWORD: server-admin
           FIREBASE_TEST: true
+        working-directory: ./firebase-emulator
         run: |
           firebase emulators:exec --import ./data/ "deno task test-ci"
