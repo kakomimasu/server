@@ -1,10 +1,15 @@
 name: CI
 
-on: [push,pull_request]
+on: 
+  workflow_dispatch:
+  push: 
+    branches:
+      - main
+  pull_request: 
 
 jobs:
   check:
-    name: deno format & lint check
+    name: format & lint check
     uses: kakomimasu/kakomimasu.github.io/.github/workflows/dfl-check.yml@main
   test:
     needs: check

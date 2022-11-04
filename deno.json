@@ -2,8 +2,7 @@
   "tasks": {
     "cache": "deno cache server.ts",
     "start": "deno run --allow-read --allow-env --allow-net server.ts",
-    "test": "deno test --allow-read --allow-env --allow-net",
-    "test-ci": "deno task start & deno task test ; exit"
+    "test": "deno test --allow-read --allow-env --allow-net"
   },
   "fmt": {
     "files": { "exclude": ["firebase-emulator/"] }
