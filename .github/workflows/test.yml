@@ -1,22 +1,19 @@
-name: Deno Test
+name: CI
 
 on: [push,pull_request]
 
 jobs:
   check:
+    name: deno format & lint check
     uses: kakomimasu/kakomimasu.github.io/.github/workflows/dfl-check.yml@main
   test:
     needs: check
     runs-on: ubuntu-latest
-    services:
-      firebase-emulator:
-        image: ghcr.io/kakomimasu/firebase-emulator:latest
-        ports:
-          - 8080:8080
-          - 9000:9000
-          - 9099:9099
     steps:
       - uses: actions/checkout@v2
+      - name: Setup Firebase Emulator
+        working-directory: ./firebase-emulator
+        run: ./setup.sh
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.26.1
@@ -24,12 +21,9 @@ jobs:
         run: |
           deno task cache
       - name: Run test
-        if: ${{ runner.os != 'Windows' }}
         env:
           FIREBASE_USERNAME: test@example.com
           FIREBASE_PASSWORD: server-admin
           FIREBASE_TEST: true
         run: |
-          sleep 10
-          deno task start > /dev/null &
-          deno task test
+          firebase emulators:exec --import ./data/ "deno task test-ci"

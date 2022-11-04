@@ -1,0 +1,9 @@
+{
+  "emulators": {
+    "auth": {},
+    "database": {},
+    "ui": {
+      "enabled": true
+    }
+  }
+}
