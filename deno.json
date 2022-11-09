@@ -4,6 +4,9 @@
     "start": "deno run --allow-read --allow-env --allow-net server.ts",
     "test": "deno test --allow-read --allow-env --allow-net"
   },
+  "fmt": {
+    "files": { "exclude": ["firebase-emulator/"] }
+  },
   "compilerOptions": {
     "noUnusedLocals": true,
     "noUnusedParameters": true

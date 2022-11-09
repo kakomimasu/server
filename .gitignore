@@ -1,3 +1,5 @@
 v1/log/
 v1/data/
 .env
+*.log
+firebase-emulator/firebase
