@@ -38,7 +38,7 @@ export {
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
-  signOut,
+  type UserCredential,
 } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
 
 // @deno-types="https://cdn.esm.sh/v61/firebase@9.6.0/app/dist/database/index.d.ts"

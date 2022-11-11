@@ -1,22 +1,12 @@
-import { getAuth, signInWithEmailAndPassword } from "../../deps.ts";
 import { assert, assertEquals, v4 } from "../../deps-test.ts";
 
+import { useUser } from "../../util/test/useUser.ts";
+
 import { randomUUID } from "../../core/util.ts";
-
-import ApiClient from "../../client/client.ts";
-
-const ac = new ApiClient();
-
 import { errors } from "../../core/error.ts";
 
-import "../../core/firestore.ts";
-
-const auth = getAuth();
-const u = await signInWithEmailAndPassword(
-  auth,
-  "client@example.com",
-  "test-client",
-);
+import ApiClient from "../../client/client.ts";
+const ac = new ApiClient();
 
 const typelist = ["round-robin", "knockout"];
 const assertType = (type) => {
@@ -154,17 +144,14 @@ Deno.test("v1/tournament/get:nothing tournament id", async () => {
 // テスト項目
 // 正常、ID無し、user無し、存在しない大会ID、存在しないユーザ、登録済みのユーザ
 Deno.test("v1/tournament/add:normal", async () => {
-  const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid };
-  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
+  await useUser(async (user) => {
+    const res = await ac.tournamentsAddUser(data.id, {
+      user: user.id,
+      option: { dryRun: true },
+    });
 
-  const res = await ac.tournamentsAddUser(data.id, {
-    user: userRes.data.id,
-    option: { dryRun: true },
+    assertTournament(res.data, { ...data, users: [user.id] });
   });
-
-  await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
-  assertTournament(res.data, { ...data, users: [userRes.data.id] });
 });
 Deno.test("v1/tournament/add:tournament that do not exist", async () => {
   {
@@ -227,15 +214,12 @@ Deno.test("v1/tournament/add:user that do not exist", async () => {
   }
 });
 Deno.test("v1/tournament/add:already registed user", async () => {
-  const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid };
-  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
+  await useUser(async (user) => {
+    await ac.tournamentsAddUser(data.id, { user: user.id });
+    const res = await ac.tournamentsAddUser(data.id, { user: user.id });
 
-  await ac.tournamentsAddUser(data.id, { user: userRes.data.id });
-  const res = await ac.tournamentsAddUser(data.id, { user: userRes.data.id });
-
-  await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
-  assertEquals(res.data, errors.ALREADY_REGISTERED_USER);
+    assertEquals(res.data, errors.ALREADY_REGISTERED_USER);
+  });
 });
 
 // /v1/tournament/delete Test

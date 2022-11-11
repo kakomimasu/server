@@ -1,22 +1,15 @@
-import { createUserWithEmailAndPassword, getAuth } from "../../deps.ts";
 import { assert, assertEquals, v4 } from "../../deps-test.ts";
 
+import { useUser } from "../../util/test/useUser.ts";
+
 import { randomUUID } from "../../core/util.ts";
+import { errors } from "../../core/error.ts";
 
 import ApiClient from "../../client/client.ts";
 
+import { openapi, validator } from "../openapi.ts";
+
 const ac = new ApiClient();
-
-import { errors } from "../../core/error.ts";
-
-import "../../core/firestore.ts";
-
-const auth = getAuth();
-const u = await createUserWithEmailAndPassword(
-  auth,
-  `${randomUUID()}@example.com`,
-  "test-client",
-);
 
 const assertMatch = (match, sample = {}) => {
   const match_ = Object.assign({}, match);
@@ -40,7 +33,6 @@ const assertGame = (game_, sample_ = {}) => {
   assertEquals(game.gaming, sample.gaming || false);
   assertEquals(game.ending, sample.ending || false);
   assertEquals(game.board, sample.board || null);
-  if (game.board) assertBoard(game.board);
   assertEquals(game.turn, sample.turn || 0);
   assertEquals(game.tiled, sample.tiled || null);
   assert(Array.isArray(game.players));
@@ -51,16 +43,9 @@ const assertGame = (game_, sample_ = {}) => {
   assertEquals(typeof game.transitionSec, "number");
   assert(Array.isArray(game.reservedUsers));
   if (sample.reservedUsers) assert(game.reservedUsers, sample.reservedUsers);
-};
 
-const assertBoard = (board) => {
-  assertEquals(typeof board.name, "string");
-  assertEquals(typeof board.width, "number");
-  assertEquals(typeof board.height, "number");
-  assertEquals(typeof board.nTurn, "number");
-  assertEquals(typeof board.nAgent, "number");
-  assertEquals(typeof board.nSec, "number");
-  assert(Array.isArray(board.points));
+  const isValid = validator.validate(game_, openapi.components.schemas.Game);
+  assert(isValid);
 };
 
 const assertAction = (actionRes) => {
@@ -80,78 +65,61 @@ Deno.test("v1/match:invalid bearerToken", async () => {
   assertEquals(res.data, errors.NOT_USER);
 });
 Deno.test("v1/match:can not find game", async () => {
-  const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid };
-  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
-  userData.id = userRes.data.id;
-  const data = {
-    gameId: randomUUID(),
-    option: { dryRun: true },
-  };
-  const res = await ac.match(data, "Bearer " + userRes.data.bearerToken);
-  await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
-  assertEquals(res.data, errors.NOT_GAME);
+  await useUser(async (user) => {
+    const data = {
+      gameId: randomUUID(),
+      option: { dryRun: true },
+    };
+    const res = await ac.match(data, "Bearer " + user.bearerToken);
+
+    assertEquals(res.data, errors.NOT_GAME);
+  });
 });
 Deno.test("v1/match:can not find ai", async () => {
-  const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid };
-  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
-  userData.id = userRes.data.id;
-
-  const data = {
-    useAi: true,
-    aiOption: {
-      aiName: "",
-    },
-    option: { dryRun: true },
-  };
-  const res = await ac.match(data, "Bearer " + userRes.data.bearerToken);
-  await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
-  assertEquals(res.data, errors.NOT_AI);
+  await useUser(async (user) => {
+    const data = {
+      useAi: true,
+      aiOption: {
+        aiName: "",
+      },
+      option: { dryRun: true },
+    };
+    const res = await ac.match(data, "Bearer " + user.bearerToken);
+    assertEquals(res.data, errors.NOT_AI);
+  });
 });
 Deno.test("v1/match:normal", async () => {
-  const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid };
-  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
-  userData.id = userRes.data.id;
+  await useUser(async (user) => {
+    const res = await ac.match({}, "Bearer " + user.bearerToken);
 
-  const res = await ac.match({}, "Bearer " + userRes.data.bearerToken);
-  await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
-
-  assertMatch(res.data, { userId: userData.id });
+    assertMatch(res.data, { userId: user.id });
+  });
 });
 Deno.test("v1/match:normal by selfGame", async () => {
-  const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid };
-  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
-  userData.id = userRes.data.id;
+  await useUser(async (user) => {
+    const gameData = { name: "テスト", boardName: "A-1" };
+    const gameRes = await ac.gameCreate(gameData);
 
-  const gameData = { name: "テスト", boardName: "A-1" };
-  const gameRes = await ac.gameCreate(gameData);
+    const data = {
+      gameId: gameRes.data.gameId,
+    };
+    const res = await ac.match(data, "Bearer " + user.bearerToken);
 
-  const data = {
-    gameId: gameRes.data.gameId,
-  };
-  const res = await ac.match(data, "Bearer " + userRes.data.bearerToken);
-  await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
-
-  assertMatch(res.data, { userId: userData.id, gameId: gameRes.data.gameId });
+    assertMatch(res.data, { userId: user.id, gameId: gameRes.data.gameId });
+  });
 });
 Deno.test("v1/match:normal by useAi", async () => {
-  const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid };
-  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
-  userData.id = userRes.data.id;
+  await useUser(async (user) => {
+    const data = {
+      useAi: true,
+      aiOption: {
+        aiName: "a1",
+      },
+    };
+    const res = await ac.match(data, "Bearer " + user.bearerToken);
 
-  const data = {
-    useAi: true,
-    aiOption: {
-      aiName: "a1",
-    },
-  };
-  const res = await ac.match(data, "Bearer " + userRes.data.bearerToken);
-  await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
-  assertMatch(res.data, { userId: userData.id });
+    assertMatch(res.data, { userId: user.id });
+  });
 });
 Deno.test("v1/match:normal by guest", async () => {
   const data = {
@@ -174,7 +142,7 @@ Deno.test("v1/match:normal by guest", async () => {
 Deno.test("v1/match/(gameId):normal", async () => {
   const gameData = { name: "テスト", boardName: "A-1" };
   const gameRes = await ac.gameCreate(gameData);
-  console.log("gameRes", gameRes);
+  // console.log("gameRes", gameRes);
 
   const res = await ac.getMatch(gameRes.data.id);
 
@@ -191,85 +159,72 @@ Deno.test("v1/match/(gameId):not find game", async () => {
 // テスト項目
 // 正常、正常（actions:null）、アクセストークン無効
 Deno.test("v1/match/(gameId)/action:normal", async () => {
-  const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid };
-  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
-  userData.id = userRes.data.id;
+  await useUser(async (user) => {
+    const data = {
+      useAi: true,
+      aiOption: {
+        aiName: "a1",
+      },
+    };
+    const matchRes = await ac.match(data, "Bearer " + user.bearerToken);
 
-  const data = {
-    useAi: true,
-    aiOption: {
-      aiName: "a1",
-    },
-  };
-  const matchRes = await ac.match(data, "Bearer " + userRes.data.bearerToken);
+    const actionData = {
+      actions: [
+        { agentId: 0, type: "PUT", x: 0, y: 0 },
+      ],
+    };
+    const res = await ac.setAction(
+      matchRes.data.gameId,
+      actionData,
+      matchRes.data.pic,
+    );
 
-  const actionData = {
-    actions: [
-      { agentId: 0, type: "PUT", x: 0, y: 0 },
-    ],
-  };
-  const res = await ac.setAction(
-    matchRes.data.gameId,
-    actionData,
-    matchRes.data.pic,
-  );
-  await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
-
-  assertAction(res.data);
+    assertAction(res.data);
+  });
 });
 
 Deno.test("v1/match/(gameId)/action:normal(actions is null)", async () => {
-  const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid };
-  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
-  userData.id = userRes.data.id;
+  await useUser(async (user) => {
+    const data = {
+      useAi: true,
+      aiOption: {
+        aiName: "a1",
+      },
+    };
+    const matchRes = await ac.match(data, "Bearer " + user.bearerToken);
 
-  const data = {
-    useAi: true,
-    aiOption: {
-      aiName: "a1",
-    },
-  };
-  const matchRes = await ac.match(data, "Bearer " + userRes.data.bearerToken);
-
-  const actionData = { actions: null };
-  const res = await ac.setAction(
-    matchRes.data.gameId,
-    actionData,
-    matchRes.data.pic,
-  );
-  await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
-  console.log(res);
-  assertAction(res.data);
+    const actionData = { actions: null };
+    const res = await ac.setAction(
+      matchRes.data.gameId,
+      actionData,
+      matchRes.data.pic,
+    );
+    // console.log(res);
+    assertAction(res.data);
+  });
 });
 
 Deno.test("v1/match/(gameId)/action:invalid user", async () => {
-  const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid };
-  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
+  await useUser(async (user) => {
+    const data = {
+      useAi: true,
+      aiOption: {
+        aiName: "a1",
+      },
+    };
+    const matchRes = await ac.match(data, "Bearer " + user.bearerToken);
 
-  userData.id = userRes.data.id;
+    const actionData = {
+      actions: [
+        { agentId: 0, type: "PUT", x: 0, y: 0 },
+      ],
+    };
+    const res = await ac.setAction(
+      matchRes.data.gameId,
+      actionData,
+      "0000000",
+    );
 
-  const data = {
-    useAi: true,
-    aiOption: {
-      aiName: "a1",
-    },
-  };
-  const matchRes = await ac.match(data, "Bearer " + userRes.data.bearerToken);
-
-  const actionData = {
-    actions: [
-      { agentId: 0, type: "PUT", x: 0, y: 0 },
-    ],
-  };
-  const res = await ac.setAction(
-    matchRes.data.gameId,
-    actionData,
-    "0000000",
-  );
-  await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
-
-  assertEquals(res.data, errors.INVALID_USER_AUTHORIZATION);
+    assertEquals(res.data, errors.INVALID_USER_AUTHORIZATION);
+  });
 });
