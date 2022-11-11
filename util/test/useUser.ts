@@ -5,12 +5,14 @@ import {
 } from "../../deps.ts";
 import { assert } from "../../deps-test.ts";
 
-import "../../core/firestore.ts";
+import { firebaseInit } from "../../core/firebase.ts";
 
 import ApiClient, { User } from "../../client/client.ts";
 
-const ac = new ApiClient();
+await firebaseInit({ auth: true });
 const auth = getAuth();
+
+const ac = new ApiClient();
 
 export async function createFirebaseUser() {
   const u = await createUserWithEmailAndPassword(
