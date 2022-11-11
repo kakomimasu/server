@@ -49,3 +49,9 @@ export {
   ref,
   set,
 } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js";
+
+export {
+  type OpenAPIObject,
+  type ReferenceObject,
+  type SchemaObject,
+} from "https://esm.sh/openapi3-ts@3.1.1";

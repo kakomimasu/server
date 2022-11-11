@@ -1,22 +1,15 @@
-import { getAuth, signInWithEmailAndPassword } from "../../deps.ts";
 import { assert, assertEquals, v4 } from "../../deps-test.ts";
 
 import { randomUUID } from "../../core/util.ts";
+
+import { useUser } from "../../util/test/useUser.ts";
+import { openapi, validator } from "../openapi.ts";
 
 import ApiClient from "../../client/client.ts";
 
 const ac = new ApiClient();
 
 import { errors } from "../../core/error.ts";
-
-import "../../core/firestore.ts";
-
-const auth = getAuth();
-const u = await signInWithEmailAndPassword(
-  auth,
-  "client@example.com",
-  "test-client",
-);
 
 const assertGame = (game_, sample_ = {}) => {
   const game = structuredClone(game_);
@@ -36,6 +29,9 @@ const assertGame = (game_, sample_ = {}) => {
   assert(Array.isArray(game.reservedUsers));
 
   if (sample.reservedUsers) assert(game.reservedUsers, sample.reservedUsers);
+
+  const isValid = validator.validate(game_, openapi.components.schemas.Game);
+  assert(isValid);
 };
 
 const assertBoard = (board) => {
@@ -63,19 +59,14 @@ Deno.test("v1/game/create:normal", async () => {
   assertGame(res.data, data);
 });
 Deno.test("v1/game/create:normal with playerIdentifiers", async () => {
-  const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid };
-  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
-  userData.id = userRes.data.id;
-
-  const res = await ac.gameCreate({
-    ...data,
-    playerIdentifiers: [userData.id],
-    option: { dryRun: true },
+  await useUser(async (user) => {
+    const res = await ac.gameCreate({
+      ...data,
+      playerIdentifiers: [user.id],
+      option: { dryRun: true },
+    });
+    assertGame(res.data, { ...data, reservedUsers: [user.id] });
   });
-
-  assertGame(res.data, { ...data, reservedUsers: [userData.id] });
-  await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
 });
 Deno.test("v1/game/create:invalid boardName", async () => {
   {
@@ -122,18 +113,14 @@ Deno.test("v1/game/create:not user", async () => {
   assertEquals(res.data, errors.NOT_USER);
 });
 Deno.test("v1/game/create:already registed user", async () => {
-  const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid };
-  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
-  userData.id = userRes.data.id;
-
-  const res = await ac.gameCreate({
-    ...data,
-    playerIdentifiers: [userData.id, userData.id],
-    option: { dryRun: true },
+  await useUser(async (user) => {
+    const res = await ac.gameCreate({
+      ...data,
+      playerIdentifiers: [user.id, user.id],
+      option: { dryRun: true },
+    });
+    assertEquals(res.data, errors.ALREADY_REGISTERED_USER);
   });
-  assertEquals(res.data, errors.ALREADY_REGISTERED_USER);
-  await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
 });
 Deno.test("v1/game/create:invalid tournament id", async () => {
   const res = await ac.gameCreate({
@@ -144,19 +131,14 @@ Deno.test("v1/game/create:invalid tournament id", async () => {
   assertEquals(res.data, errors.INVALID_TOURNAMENT_ID);
 });
 Deno.test("v1/game/create with personal game:normal", async () => {
-  const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid };
-  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
-  userData.id = userRes.data.id;
-
-  const res = await ac.gameCreate({
-    ...data,
-    isMySelf: true,
-    option: { dryRun: true },
-  }, `Bearer ${userRes.data.bearerToken}`);
-  assertGame(res.data, data);
-
-  await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
+  await useUser(async (user) => {
+    const res = await ac.gameCreate({
+      ...data,
+      isMySelf: true,
+      option: { dryRun: true },
+    }, `Bearer ${user.bearerToken}`);
+    assertGame(res.data, data);
+  });
 });
 Deno.test("v1/game/create with personal game:invalid auth", async () => {
   const res = await ac.gameCreate({
