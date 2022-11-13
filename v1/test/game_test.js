@@ -45,7 +45,7 @@ const data = {
 // personal game通常、personal game auth invalid
 Deno.test("v1/game/create:normal", async () => {
   const res = await ac.gameCreate({ ...data, option: { dryRun: true } });
-  assertGameCreateRes(res, 200);
+  assertGameCreateRes(res.data, 200);
   assertGame(res.data, data);
 });
 Deno.test("v1/game/create:normal with playerIdentifiers", async () => {
@@ -55,7 +55,7 @@ Deno.test("v1/game/create:normal with playerIdentifiers", async () => {
       playerIdentifiers: [user.id],
       option: { dryRun: true },
     });
-    assertGameCreateRes(res, 200);
+    assertGameCreateRes(res.data, 200);
     assertGame(res.data, { ...data, reservedUsers: [user.id] });
   });
 });
@@ -128,7 +128,7 @@ Deno.test("v1/game/create with personal game:normal", async () => {
       isMySelf: true,
       option: { dryRun: true },
     }, `Bearer ${user.bearerToken}`);
-    assertGameCreateRes(res, 200);
+    assertGameCreateRes(res.data, 200);
     assertGame(res.data, data);
   });
 });
@@ -147,7 +147,7 @@ Deno.test("v1/game/create with personal game:invalid auth", async () => {
 Deno.test("v1/game/boards:normal", async () => {
   const res = await ac.getBoards();
   const isValid = validator.validate(
-    res,
+    res.data,
     openapi.paths["/game/boards"].get.responses["200"]
       .content["application/json"].schema,
   );

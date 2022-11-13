@@ -17,18 +17,7 @@ export const openapi = {
             content: {
               "application/json": {
                 schema: {
-                  allOf: [
-                    { $ref: "#/components/schemas/OKResponse" },
-                    {
-                      type: "object",
-                      required: ["data"],
-                      properties: {
-                        data: {
-                          $ref: "#/components/schemas/Game",
-                        },
-                      },
-                    },
-                  ],
+                  $ref: "#/components/schemas/Game",
                 },
               },
             },
@@ -44,21 +33,10 @@ export const openapi = {
             content: {
               "application/json": {
                 schema: {
-                  allOf: [
-                    { $ref: "#/components/schemas/OKResponse" },
-                    {
-                      type: "object",
-                      required: ["data"],
-                      properties: {
-                        data: {
-                          type: "array",
-                          items: {
-                            $ref: "#/components/schemas/Board",
-                          },
-                        },
-                      },
-                    },
-                  ],
+                  type: "array",
+                  items: {
+                    $ref: "#/components/schemas/Board",
+                  },
                 },
               },
             },
@@ -352,13 +330,23 @@ export const openapi = {
           },
         },
       },
-      OKResponse: {
-        type: "object",
-        required: ["success"],
-        properties: {
-          success: {
-            type: "boolean",
-            enum: [true],
+    },
+    responsed: {
+      Error: {
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              required: ["errorCode", "message"],
+              properties: {
+                errorCode: {
+                  type: "integer",
+                },
+                message: {
+                  type: "string",
+                },
+              },
+            },
           },
         },
       },
