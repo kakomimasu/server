@@ -12,10 +12,14 @@ const ac = new ApiClient();
 import { errors } from "../../core/error.ts";
 
 const assertGameCreateRes = (res, responseCode) => {
-  const isValid = validator.validate(
+  const isValid = validator.validateResponse(
     res,
-    openapi.paths["/game/create"].post.responses[String(responseCode)]
-      .content["application/json"].schema,
+    {
+      path: "/game/create",
+      method: "post",
+      statusCode: responseCode,
+      contentType: "application/json",
+    },
   );
   assert(isValid);
 };
@@ -66,6 +70,7 @@ Deno.test("v1/game/create:invalid boardName", async () => {
       boardName: "",
       option: { dryRun: true },
     });
+    assertGameCreateRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_BOARD_NAME);
   }
   {
@@ -74,6 +79,7 @@ Deno.test("v1/game/create:invalid boardName", async () => {
       boardName: undefined,
       option: { dryRun: true },
     });
+    assertGameCreateRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_BOARD_NAME);
   }
   {
@@ -82,6 +88,7 @@ Deno.test("v1/game/create:invalid boardName", async () => {
       boardName: null,
       option: { dryRun: true },
     });
+    assertGameCreateRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_BOARD_NAME);
   }
 });
@@ -92,6 +99,7 @@ Deno.test("v1/game/create:not exist board", async () => {
       boardName: "existboard",
       option: { dryRun: true },
     });
+    assertGameCreateRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_BOARD_NAME);
   }
 });
@@ -101,6 +109,7 @@ Deno.test("v1/game/create:not user", async () => {
     playerIdentifiers: [randomUUID()],
     option: { dryRun: true },
   });
+  assertGameCreateRes(res.data, 400);
   assertEquals(res.data, errors.NOT_USER);
 });
 Deno.test("v1/game/create:already registed user", async () => {
@@ -110,6 +119,7 @@ Deno.test("v1/game/create:already registed user", async () => {
       playerIdentifiers: [user.id, user.id],
       option: { dryRun: true },
     });
+    assertGameCreateRes(res.data, 400);
     assertEquals(res.data, errors.ALREADY_REGISTERED_USER);
   });
 });
@@ -119,6 +129,7 @@ Deno.test("v1/game/create:invalid tournament id", async () => {
     tournamentId: randomUUID(),
     option: { dryRun: true },
   });
+  assertGameCreateRes(res.data, 400);
   assertEquals(res.data, errors.INVALID_TOURNAMENT_ID);
 });
 Deno.test("v1/game/create with personal game:normal", async () => {
@@ -138,6 +149,7 @@ Deno.test("v1/game/create with personal game:invalid auth", async () => {
     isMySelf: true,
     option: { dryRun: true },
   });
+  assertGameCreateRes(res.data, 400);
   assertEquals(res.data, errors.UNAUTHORIZED);
 });
 

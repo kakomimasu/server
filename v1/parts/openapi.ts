@@ -22,6 +22,9 @@ export const openapi = {
               },
             },
           },
+          400: {
+            $ref: "#/components/responses/Error",
+          },
         },
       },
     },
@@ -331,7 +334,7 @@ export const openapi = {
         },
       },
     },
-    responsed: {
+    responses: {
       Error: {
         content: {
           "application/json": {

@@ -1,9 +1,21 @@
-import { OpenAPIObject, ReferenceObject, SchemaObject } from "../deps.ts";
+import {
+  OpenAPIObject,
+  ReferenceObject,
+  ResponseObject,
+  SchemaObject,
+} from "../deps.ts";
 import { SchemaType } from "./openapi-type.ts";
 
 type SchemasType = ReferenceObject | SchemaObject;
 
 export class OpenAPIValidatorError extends Error {}
+
+type ValidateResponseSchema = {
+  path: string;
+  method: "get" | "post";
+  contentType: string;
+  statusCode: number;
+};
 
 export class OpenAPIValidator<Base> {
   private openapi: OpenAPIObject;
@@ -27,6 +39,38 @@ export class OpenAPIValidator<Base> {
       }
     }
     return this.spreadSchema(newSchema);
+  }
+
+  private spreadResponse(
+    schema: ReferenceObject | ResponseObject,
+  ): ResponseObject {
+    if (!("$ref" in schema)) return schema;
+    const path = schema.$ref.split("/");
+    if (
+      path[0] !== "#" || path[1] !== "components" || path[2] !== "responses"
+    ) {
+      throw new OpenAPIValidatorError("Invalid $ref: " + schema.$ref);
+    }
+    const newSchema = this.openapi.components?.responses?.[path[3]];
+    if (!newSchema) {
+      throw new OpenAPIValidatorError("Invalid $ref: " + schema.$ref);
+    }
+    return this.spreadResponse(newSchema);
+  }
+
+  validateResponse(data: unknown, resType: ValidateResponseSchema) {
+    const rawSchema = this.spreadResponse(
+      this.openapi.paths[resType.path][resType.method]
+        .responses[String(resType.statusCode)],
+    ).content?.[resType.contentType]
+      .schema;
+    if (!rawSchema) {
+      throw new OpenAPIValidatorError(
+        `Invalid response schema : ${resType.method} ${resType.path} ${resType.statusCode} ${resType.contentType}`,
+      );
+    }
+    const schema = this.spreadSchema(rawSchema);
+    return this.validate(data, schema);
   }
 
   validate<U>(data: unknown, schema_: U): data is SchemaType<U, Base> {
