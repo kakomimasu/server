@@ -3,7 +3,7 @@ import { assert, assertEquals, v4 } from "../../deps-test.ts";
 import { randomUUID } from "../../core/util.ts";
 
 import { useUser } from "../../util/test/useUser.ts";
-import { openapi, validator } from "../openapi.ts";
+import { openapi, validator } from "../parts/openapi.ts";
 
 import ApiClient from "../../client/client.ts";
 
@@ -11,37 +11,26 @@ const ac = new ApiClient();
 
 import { errors } from "../../core/error.ts";
 
-const assertGame = (game_, sample_ = {}) => {
-  const game = structuredClone(game_);
-  const sample = structuredClone(sample_);
+const assertGameCreateRes = (res, responseCode) => {
+  const isValid = validator.validate(
+    res,
+    openapi.paths["/game/create"].post.responses[String(responseCode)]
+      .content["application/json"].schema,
+  );
+  assert(isValid);
+};
+
+const assertGame = (game, sample = {}) => {
   assert(v4.validate(game.id));
   assertEquals(game.gaming, false);
   assertEquals(game.ending, false);
   assertEquals(game.board, null);
   assertEquals(game.turn, 0);
   assertEquals(game.tiled, null);
-  assert(Array.isArray(game.players));
-  assert(Array.isArray(game.log));
   assertEquals(game.name, sample.name || "");
   assertEquals(game.startedAtUnixTime, null);
-  assertEquals(typeof game.operationSec, "number");
-  assertEquals(typeof game.transitionSec, "number");
-  assert(Array.isArray(game.reservedUsers));
 
   if (sample.reservedUsers) assert(game.reservedUsers, sample.reservedUsers);
-
-  const isValid = validator.validate(game_, openapi.components.schemas.Game);
-  assert(isValid);
-};
-
-const assertBoard = (board) => {
-  assertEquals(typeof board.name, "string");
-  assertEquals(typeof board.width, "number");
-  assertEquals(typeof board.height, "number");
-  assertEquals(typeof board.nTurn, "number");
-  assertEquals(typeof board.nAgent, "number");
-  assertEquals(typeof board.nSec, "number");
-  assert(Array.isArray(board.points));
 };
 
 const data = {
@@ -56,6 +45,7 @@ const data = {
 // personal game通常、personal game auth invalid
 Deno.test("v1/game/create:normal", async () => {
   const res = await ac.gameCreate({ ...data, option: { dryRun: true } });
+  assertGameCreateRes(res, 200);
   assertGame(res.data, data);
 });
 Deno.test("v1/game/create:normal with playerIdentifiers", async () => {
@@ -65,6 +55,7 @@ Deno.test("v1/game/create:normal with playerIdentifiers", async () => {
       playerIdentifiers: [user.id],
       option: { dryRun: true },
     });
+    assertGameCreateRes(res, 200);
     assertGame(res.data, { ...data, reservedUsers: [user.id] });
   });
 });
@@ -137,6 +128,7 @@ Deno.test("v1/game/create with personal game:normal", async () => {
       isMySelf: true,
       option: { dryRun: true },
     }, `Bearer ${user.bearerToken}`);
+    assertGameCreateRes(res, 200);
     assertGame(res.data, data);
   });
 });
@@ -154,5 +146,10 @@ Deno.test("v1/game/create with personal game:invalid auth", async () => {
 // 正常
 Deno.test("v1/game/boards:normal", async () => {
   const res = await ac.getBoards();
-  res.data.forEach((e) => assertBoard(e));
+  const isValid = validator.validate(
+    res,
+    openapi.paths["/game/boards"].get.responses["200"]
+      .content["application/json"].schema,
+  );
+  assert(isValid);
 });

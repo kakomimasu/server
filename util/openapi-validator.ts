@@ -14,42 +14,19 @@ export class OpenAPIValidator<Base> {
   /** Schemaオブジェクトの$refを展開したオブジェクトを取得 */
   private spreadSchema(schema: SchemasType): SchemaObject {
     // console.log(schema);
-    if ("$ref" in schema) {
-      if (!schema.$ref.startsWith("#")) {
-        throw new OpenAPIValidatorError("Invalid $ref: " + schema.$ref);
-      }
-      const path = schema.$ref.slice(2).split("/");
-      // deno-lint-ignore no-explicit-any
-      let newSchema: any = this.openapi;
-      for (const key of path) {
-        if (key in newSchema) {
-          newSchema = newSchema[key];
-        }
-      }
-      return this.spreadSchema(newSchema);
-    } else {
-      if (schema.properties) {
-        // console.log(schema.properties);
-        for (const [key, value] of Object.entries(schema.properties)) {
-          schema.properties[key] = this.spreadSchema(value);
-        }
-      }
-      const oneOf = schema.oneOf?.map((value) => this.spreadSchema(value));
-      schema.oneOf = oneOf;
-      return schema;
+    if (!("$ref" in schema)) return schema;
+    if (!schema.$ref.startsWith("#")) {
+      throw new OpenAPIValidatorError("Invalid $ref: " + schema.$ref);
     }
-  }
-
-  validateSchema(data: unknown, schemaName: string) {
-    const schema = this.openapi.components?.schemas?.[schemaName];
-    if (schema === undefined) {
-      throw new OpenAPIValidatorError("Invalid schemaName: " + schemaName);
+    const path = schema.$ref.slice(2).split("/");
+    // deno-lint-ignore no-explicit-any
+    let newSchema: any = this.openapi;
+    for (const key of path) {
+      if (key in newSchema) {
+        newSchema = newSchema[key];
+      }
     }
-
-    const schemaData = this.spreadSchema(schema);
-    // console.log(schemaData);
-
-    this.validate(data, schemaData);
+    return this.spreadSchema(newSchema);
   }
 
   validate<U>(data: unknown, schema_: U): data is SchemaType<U, Base> {
@@ -82,6 +59,11 @@ export class OpenAPIValidator<Base> {
           if (typeof data !== "boolean") {
             throw new OpenAPIValidatorError("Invalid(boolean) type: " + data);
           }
+          if (schema.enum && !schema.enum.includes(data)) {
+            throw new OpenAPIValidatorError(
+              `Invalid(boolean) enum(${schema.enum}): ` + data,
+            );
+          }
           break;
         case "object": {
           if (data === null || typeof data !== "object") {
@@ -104,7 +86,6 @@ export class OpenAPIValidator<Base> {
           if (schema.properties) {
             const data2 = data as Record<string, unknown>; // 型変換のためのキャスト
             for (const [key, value] of Object.entries(schema.properties)) {
-              if ("$ref" in value) continue; // ReferenceObjectは無視
               if (!(key in data2)) continue; // dataにないキーは無視
               // console.log("data2[key]", key, data2[key]);
               this.validate(data2[key], value);
@@ -117,7 +98,7 @@ export class OpenAPIValidator<Base> {
             throw new OpenAPIValidatorError("Invalid(array) type: " + data);
           }
           const items = schema.items;
-          if (items && !("$ref" in items)) {
+          if (items) {
             for (const value of data) {
               this.validate(value, items);
             }
@@ -148,6 +129,14 @@ export class OpenAPIValidator<Base> {
         throw new OpenAPIValidatorError("Invalid(oneOf) type: " + data);
       }
     }
+    this.validateAllOf(data, schema);
     return true;
+  }
+  private validateAllOf(data: unknown, schema: SchemaObject) {
+    if (schema.allOf) {
+      for (const value of schema.allOf) {
+        this.validate(data, value);
+      }
+    }
   }
 }

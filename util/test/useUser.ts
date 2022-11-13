@@ -9,7 +9,7 @@ import { firebaseInit } from "../../core/firebase.ts";
 
 import ApiClient, { User } from "../../client/client.ts";
 
-await firebaseInit({ auth: true });
+await firebaseInit();
 const auth = getAuth();
 
 const ac = new ApiClient();
