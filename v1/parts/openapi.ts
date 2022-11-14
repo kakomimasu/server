@@ -131,6 +131,96 @@ export const openapi = {
         },
       },
     },
+    "/tournament/create": {
+      post: {
+        responses: {
+          200: {
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/Tournament",
+                },
+              },
+            },
+          },
+          400: {
+            $ref: "#/components/responses/400",
+          },
+        },
+      },
+    },
+    "/tournament/get": {
+      get: {
+        responses: {
+          200: {
+            content: {
+              "application/json": {
+                schema: {
+                  type: "array",
+                  items: {
+                    $ref: "#/components/schemas/Tournament",
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    "/tournament/get?id=:tournamentId": {
+      get: {
+        responses: {
+          200: {
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/Tournament",
+                },
+              },
+            },
+          },
+          400: {
+            $ref: "#/components/responses/400",
+          },
+        },
+      },
+    },
+    "/tournament/add": {
+      post: {
+        responses: {
+          200: {
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/Tournament",
+                },
+              },
+            },
+          },
+          400: {
+            $ref: "#/components/responses/400",
+          },
+        },
+      },
+    },
+    "/tournament/delete": {
+      post: {
+        responses: {
+          200: {
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/Tournament",
+                },
+              },
+            },
+          },
+          400: {
+            $ref: "#/components/responses/400",
+          },
+        },
+      },
+    },
   },
   components: {
     schemas: {
@@ -399,6 +489,7 @@ export const openapi = {
           },
           type: {
             type: "string",
+            enum: ["round-robin", "knockout"],
           },
           remarks: {
             type: "string",
