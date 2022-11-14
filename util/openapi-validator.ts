@@ -62,8 +62,8 @@ export class OpenAPIValidator<Base> {
     const rawSchema = this.spreadResponse(
       this.openapi.paths[resType.path][resType.method]
         .responses[String(resType.statusCode)],
-    ).content?.[resType.contentType]
-      .schema;
+    ).content?.[resType.contentType].schema;
+
     if (!rawSchema) {
       throw new OpenAPIValidatorError(
         `Invalid response schema : ${resType.method} ${resType.path} ${resType.statusCode} ${resType.contentType}`,

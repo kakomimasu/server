@@ -9,6 +9,90 @@ export const openapi = {
     version: "0.1.0",
   },
   paths: {
+    "/match": {
+      operationId: "match",
+      post: {
+        responses: {
+          200: {
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  required: ["userId", "spec", "gameId", "index", "pic"],
+                  properties: {
+                    userId: {
+                      type: "string",
+                    },
+                    spec: {
+                      type: "string",
+                    },
+                    gameId: {
+                      type: "string",
+                    },
+                    index: {
+                      type: "integer",
+                    },
+                    pic: {
+                      type: "string",
+                    },
+                  },
+                },
+              },
+            },
+          },
+          400: {
+            $ref: "#/components/responses/400",
+          },
+        },
+      },
+    },
+    "/match/:gameId": {
+      operationId: "matchGameId",
+      get: {
+        responses: {
+          200: {
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/Game",
+                },
+              },
+            },
+          },
+          400: {
+            $ref: "#/components/responses/400",
+          },
+        },
+      },
+    },
+    "/match/:gameId/action": {
+      operationId: "matchGameIdAction",
+      post: {
+        responses: {
+          200: {
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  required: ["receptionUnixTime", "turn"],
+                  properties: {
+                    receptionUnixTime: {
+                      type: "integer",
+                    },
+                    turn: {
+                      type: "integer",
+                    },
+                  },
+                },
+              },
+            },
+          },
+          400: {
+            $ref: "#/components/responses/400",
+          },
+        },
+      },
+    },
     "/game/create": {
       operationId: "gameCreate",
       post: {
@@ -23,7 +107,7 @@ export const openapi = {
             },
           },
           400: {
-            $ref: "#/components/responses/Error",
+            $ref: "#/components/responses/400",
           },
         },
       },
@@ -335,7 +419,7 @@ export const openapi = {
       },
     },
     responses: {
-      Error: {
+      400: {
         content: {
           "application/json": {
             schema: {

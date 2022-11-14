@@ -7,9 +7,48 @@ import { errors } from "../../core/error.ts";
 
 import ApiClient from "../../client/client.ts";
 
-import { openapi, validator } from "../openapi.ts";
+import { openapi, validator } from "../parts/openapi.ts";
 
 const ac = new ApiClient();
+
+const assertMatchRes = (res, responseCode) => {
+  const isValid = validator.validateResponse(
+    res,
+    {
+      path: "/match",
+      method: "post",
+      statusCode: responseCode,
+      contentType: "application/json",
+    },
+  );
+  assert(isValid);
+};
+
+const assertGetMatchRes = (res, responseCode) => {
+  const isValid = validator.validateResponse(
+    res,
+    {
+      path: "/match/:gameId",
+      method: "get",
+      statusCode: responseCode,
+      contentType: "application/json",
+    },
+  );
+  assert(isValid);
+};
+
+const assertActionRes = (res, responseCode) => {
+  const isValid = validator.validateResponse(
+    res,
+    {
+      path: "/match/:gameId/action",
+      method: "post",
+      statusCode: responseCode,
+      contentType: "application/json",
+    },
+  );
+  assert(isValid);
+};
 
 const assertMatch = (match, sample = {}) => {
   const match_ = Object.assign({}, match);
@@ -62,6 +101,7 @@ const assertAction = (actionRes) => {
 Deno.test("v1/match:invalid bearerToken", async () => {
   const res = await ac.match({ option: { dryRun: true } });
   // console.log(res);
+  assertMatchRes(res.data, 400);
   assertEquals(res.data, errors.NOT_USER);
 });
 Deno.test("v1/match:can not find game", async () => {
@@ -72,6 +112,7 @@ Deno.test("v1/match:can not find game", async () => {
     };
     const res = await ac.match(data, "Bearer " + user.bearerToken);
 
+    assertMatchRes(res.data, 400);
     assertEquals(res.data, errors.NOT_GAME);
   });
 });
@@ -85,6 +126,7 @@ Deno.test("v1/match:can not find ai", async () => {
       option: { dryRun: true },
     };
     const res = await ac.match(data, "Bearer " + user.bearerToken);
+    assertMatchRes(res.data, 400);
     assertEquals(res.data, errors.NOT_AI);
   });
 });
@@ -92,6 +134,7 @@ Deno.test("v1/match:normal", async () => {
   await useUser(async (user) => {
     const res = await ac.match({}, "Bearer " + user.bearerToken);
 
+    assertMatchRes(res.data, 200);
     assertMatch(res.data, { userId: user.id });
   });
 });
@@ -105,6 +148,7 @@ Deno.test("v1/match:normal by selfGame", async () => {
     };
     const res = await ac.match(data, "Bearer " + user.bearerToken);
 
+    assertMatchRes(res.data, 200);
     assertMatch(res.data, { userId: user.id, gameId: gameRes.data.gameId });
   });
 });
@@ -118,6 +162,7 @@ Deno.test("v1/match:normal by useAi", async () => {
     };
     const res = await ac.match(data, "Bearer " + user.bearerToken);
 
+    assertMatchRes(res.data, 200);
     assertMatch(res.data, { userId: user.id });
   });
 });
@@ -133,6 +178,7 @@ Deno.test("v1/match:normal by guest", async () => {
   };
   const res = await ac.match(data);
   // console.log(res);
+  assertMatchRes(res.data, 200);
   assertMatch(res.data, { userId: "test" });
 });
 
@@ -147,11 +193,13 @@ Deno.test("v1/match/(gameId):normal", async () => {
   const res = await ac.getMatch(gameRes.data.id);
 
   // console.log(res.data);
+  assertGetMatchRes(res.data, 200);
   assertGame(res.data, { id: gameRes.data.id, name: gameData.name });
 });
 Deno.test("v1/match/(gameId):not find game", async () => {
   const res = await ac.getMatch(randomUUID());
 
+  assertGetMatchRes(res.data, 400);
   assertEquals(res.data, errors.NOT_GAME);
 });
 
@@ -179,6 +227,7 @@ Deno.test("v1/match/(gameId)/action:normal", async () => {
       matchRes.data.pic,
     );
 
+    assertActionRes(res.data, 200);
     assertAction(res.data);
   });
 });
@@ -200,6 +249,7 @@ Deno.test("v1/match/(gameId)/action:normal(actions is null)", async () => {
       matchRes.data.pic,
     );
     // console.log(res);
+    assertActionRes(res.data, 200);
     assertAction(res.data);
   });
 });
@@ -225,6 +275,7 @@ Deno.test("v1/match/(gameId)/action:invalid user", async () => {
       "0000000",
     );
 
+    assertActionRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_USER_AUTHORIZATION);
   });
 });

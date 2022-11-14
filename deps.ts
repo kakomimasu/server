@@ -53,5 +53,6 @@ export {
 export {
   type OpenAPIObject,
   type ReferenceObject,
+  type ResponseObject,
   type SchemaObject,
 } from "https://esm.sh/openapi3-ts@3.1.1";
