@@ -7,7 +7,7 @@ import { errors } from "../../core/error.ts";
 
 import ApiClient from "../../client/client.ts";
 
-import { openapi, validator } from "../parts/openapi.ts";
+import { validator } from "../parts/openapi.ts";
 
 const ac = new ApiClient();
 
@@ -51,22 +51,15 @@ const assertActionRes = (res, responseCode) => {
 };
 
 const assertMatch = (match, sample = {}) => {
-  const match_ = Object.assign({}, match);
-  const sample_ = Object.assign({}, sample);
-
-  //assert(v4.validate(match_.userId));
-  if (sample_.userId) assertEquals(match_.userId, sample_.userId);
-  assertEquals(match_.spec, sample_.spec || "");
-  assert(v4.validate(match_.gameId));
-  if (sample_.gameId) assertEquals(match_.gameId, sample_.gameId);
-  assertEquals(typeof match_.index, "number");
-  if (sample_.index) assertEquals(match_.index, sample_.index);
+  if (sample.userId) assertEquals(match.userId, sample.userId);
+  assertEquals(match.spec, sample.spec || "");
+  assert(v4.validate(match.gameId));
+  if (sample.gameId) assertEquals(match.gameId, sample.gameId);
+  if (sample.index) assertEquals(match.index, sample.index);
   assertEquals(match.pic.length, 6);
 };
 
-const assertGame = (game_, sample_ = {}) => {
-  const game = structuredClone(game_);
-  const sample = structuredClone(sample_);
+const assertGame = (game, sample = {}) => {
   assert(v4.validate(game.id));
   if (sample.id) assertEquals(game.id, sample.id);
   assertEquals(game.gaming, sample.gaming || false);
@@ -74,22 +67,9 @@ const assertGame = (game_, sample_ = {}) => {
   assertEquals(game.board, sample.board || null);
   assertEquals(game.turn, sample.turn || 0);
   assertEquals(game.tiled, sample.tiled || null);
-  assert(Array.isArray(game.players));
-  assert(Array.isArray(game.log));
   assertEquals(game.name, sample.name || "");
   assertEquals(game.startedAtUnixTime, null);
-  assertEquals(typeof game.operationSec, "number");
-  assertEquals(typeof game.transitionSec, "number");
-  assert(Array.isArray(game.reservedUsers));
   if (sample.reservedUsers) assert(game.reservedUsers, sample.reservedUsers);
-
-  const isValid = validator.validate(game_, openapi.components.schemas.Game);
-  assert(isValid);
-};
-
-const assertAction = (actionRes) => {
-  assertEquals(typeof actionRes.receptionUnixTime, "number");
-  assertEquals(typeof actionRes.turn, "number");
 };
 
 // /v1/match Test
@@ -228,7 +208,6 @@ Deno.test("v1/match/(gameId)/action:normal", async () => {
     );
 
     assertActionRes(res.data, 200);
-    assertAction(res.data);
   });
 });
 
@@ -250,7 +229,6 @@ Deno.test("v1/match/(gameId)/action:normal(actions is null)", async () => {
     );
     // console.log(res);
     assertActionRes(res.data, 200);
-    assertAction(res.data);
   });
 });
 
