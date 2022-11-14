@@ -7,6 +7,8 @@ import { errors } from "../../core/error.ts";
 import ApiClient, { Game } from "../../client/client.ts";
 import { diffTime, sleep } from "./client_util.ts";
 
+import { validator } from "../parts/openapi.ts";
+
 import createGameSample from "./sample/createGame_sample.json" assert {
   type: "json",
 };
@@ -41,6 +43,15 @@ Deno.test({
         if (res.success === false) {
           throw Error("Response Error. ErrorCode:" + res.data.errorCode);
         }
+        assert(validator.validateResponse(
+          res.data,
+          {
+            path: "/game/create",
+            method: "post",
+            statusCode: 200,
+            contentType: "application/json",
+          },
+        ));
         // Deno.writeTextFileSync(
         //   "./v1/test/sample/createGame_sample.json",
         //   JSON.stringify(res.data, null, 2),
@@ -64,11 +75,30 @@ Deno.test({
               res.data.message,
           );
         }
+        assert(validator.validateResponse(
+          res.data,
+          {
+            path: "/match",
+            method: "post",
+            statusCode: 200,
+            contentType: "application/json",
+          },
+        ));
         pic1 = res.data.pic;
+
         const res2 = await ac.match(
           { spec: testSpec, gameId: gameId },
           `Bearer ${bearerToken}`,
         );
+        assert(validator.validateResponse(
+          res.data,
+          {
+            path: "/match",
+            method: "post",
+            statusCode: 200,
+            contentType: "application/json",
+          },
+        ));
         pic2 = res2.success ? res2.data.pic : "";
         // Deno.writeTextFileSync(
         //   "./v1/test/sample/match_sample.json",
@@ -88,6 +118,15 @@ Deno.test({
         if (res.success === false) {
           throw Error("Response Error. ErrorCode:" + res.data.errorCode);
         }
+        assert(validator.validateResponse(
+          res.data,
+          {
+            path: "/match/:gameId",
+            method: "get",
+            statusCode: 200,
+            contentType: "application/json",
+          },
+        ));
         //console.log(JSON.stringify(res));
         // Deno.writeTextFileSync(
         //   "./v1/test/sample/matchGameInfo_sample.json",
@@ -113,6 +152,16 @@ Deno.test({
         if (res.success === false) {
           throw Error("Response Error. ErrorCode:" + res.data.errorCode);
         }
+        assert(validator.validateResponse(
+          res.data,
+          {
+            path: "/match/:gameId",
+            method: "get",
+            statusCode: 200,
+            contentType: "application/json",
+          },
+        ));
+
         let gameInfo = res.data;
         if (!gameInfo.startedAtUnixTime) {
           throw Error("startedAtUnixTime is null.");
@@ -123,18 +172,45 @@ Deno.test({
         await sleep(diffTime(nextTurnUnixTime) + 100);
         // issue131:同ターンで複数アクションを送信時に送信したagentIDのみが反映されるかのテストを含む
         // 2回アクションを送信しているが、どちらもagentIDが違うため両方反映される。
-        await ac.setAction(gameId, {
+        let actionRes = await ac.setAction(gameId, {
           actions: [{ agentId: 0, type: "PUT", x: 1, y: 1 }],
         }, pic1);
-        await ac.setAction(gameId, {
+        assert(validator.validateResponse(
+          actionRes.data,
+          {
+            path: "/match/:gameId/action",
+            method: "post",
+            statusCode: 200,
+            contentType: "application/json",
+          },
+        ));
+        actionRes = await ac.setAction(gameId, {
           actions: [{ agentId: 1, type: "NONE", x: 1, y: 2 }],
         }, pic1);
+        assert(validator.validateResponse(
+          actionRes.data,
+          {
+            path: "/match/:gameId/action",
+            method: "post",
+            statusCode: 200,
+            contentType: "application/json",
+          },
+        ));
         //console.log(reqJson);
 
         res = await ac.getMatch(gameId);
         if (res.success === false) {
           throw Error("Response Error. ErrorCode:" + res.data.errorCode);
         }
+        assert(validator.validateResponse(
+          res.data,
+          {
+            path: "/match/:gameId",
+            method: "get",
+            statusCode: 200,
+            contentType: "application/json",
+          },
+        ));
         gameInfo = res.data;
 
         nextTurnUnixTime += operationSec;
@@ -144,6 +220,15 @@ Deno.test({
       await t.step("invalid match(Turn 1) Transition Step", async () => {
         const res = await ac.getMatch(gameId);
         assert(res.success === false);
+        assert(validator.validateResponse(
+          res.data,
+          {
+            path: "/match/:gameId",
+            method: "get",
+            statusCode: 400,
+            contentType: "application/json",
+          },
+        ));
         assertEquals(res.data, errors.DURING_TRANSITION_STEP);
       });
       await t.step("invalid action(Turn 1) Transition Step", async () => {
@@ -151,6 +236,15 @@ Deno.test({
           actions: [{ agentId: 0, type: "PUT", x: 1, y: 1 }],
         }, pic1);
         assert(res.success === false);
+        assert(validator.validateResponse(
+          res.data,
+          {
+            path: "/match/:gameId/action",
+            method: "post",
+            statusCode: 400,
+            contentType: "application/json",
+          },
+        ));
         assertEquals(res.data, errors.DURING_TRANSITION_STEP);
 
         nextTurnUnixTime += transitionSec;
@@ -160,6 +254,15 @@ Deno.test({
       await t.step("check match(Turn 2) Operation Step", async () => {
         const res = await ac.getMatch(gameId);
         assert(res.success === true);
+        assert(validator.validateResponse(
+          res.data,
+          {
+            path: "/match/:gameId",
+            method: "get",
+            statusCode: 200,
+            contentType: "application/json",
+          },
+        ));
 
         // Deno.writeTextFileSync(
         //   "./v1/test/sample/afterAction_sample.json",
@@ -179,9 +282,18 @@ Deno.test({
       });
 
       await t.step("send action(Turn 2) Operation Step", async () => {
-        await ac.setAction(gameId, {
+        const res = await ac.setAction(gameId, {
           actions: [{ agentId: 0, type: "PUT", x: 1, y: 2 }],
         }, pic2);
+        assert(validator.validateResponse(
+          res.data,
+          {
+            path: "/match/:gameId/action",
+            method: "post",
+            statusCode: 200,
+            contentType: "application/json",
+          },
+        ));
         //console.log(reqJson);
 
         nextTurnUnixTime += operationSec;
@@ -191,6 +303,15 @@ Deno.test({
       await t.step("invalid match(Turn 2) Transition Step", async () => {
         const res = await ac.getMatch(gameId);
         assert(res.success === false);
+        assert(validator.validateResponse(
+          res.data,
+          {
+            path: "/match/:gameId",
+            method: "get",
+            statusCode: 400,
+            contentType: "application/json",
+          },
+        ));
         assertEquals(res.data, errors.DURING_TRANSITION_STEP);
       });
       await t.step("invalid action(Turn 2) Transition Step", async () => {
@@ -198,6 +319,15 @@ Deno.test({
           actions: [{ agentId: 0, type: "PUT", x: 1, y: 1 }],
         }, pic1);
         assert(res.success === false);
+        assert(validator.validateResponse(
+          res.data,
+          {
+            path: "/match/:gameId/action",
+            method: "post",
+            statusCode: 400,
+            contentType: "application/json",
+          },
+        ));
         assertEquals(res.data, errors.DURING_TRANSITION_STEP);
 
         nextTurnUnixTime += transitionSec;
@@ -209,7 +339,15 @@ Deno.test({
         if (res.success === false) {
           throw Error("Response Error. ErrorCode:" + res.data.errorCode);
         }
-
+        assert(validator.validateResponse(
+          res.data,
+          {
+            path: "/match/:gameId",
+            method: "get",
+            statusCode: 200,
+            contentType: "application/json",
+          },
+        ));
         // Deno.writeTextFileSync(
         //   "./v1/test/sample/afterAction_sample2.json",
         //   JSON.stringify(res.data, null, 2),

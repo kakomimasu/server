@@ -1,5 +1,8 @@
 import { assert, assertEquals, v4 } from "../../deps-test.ts";
+
 import ApiClient, { Game } from "../../client/client.ts";
+
+import { validator } from "../parts/openapi.ts";
 
 import { diffTime, sleep } from "./client_util.ts";
 
@@ -34,6 +37,16 @@ Deno.test("create game", async () => {
   //   "v1/test/sample_guest/createGame_sample.json",
   //   JSON.stringify(res.data, null, 2),
   // );
+  assert(validator.validateResponse(
+    res.data,
+    {
+      path: "/game/create",
+      method: "post",
+      statusCode: 200,
+      contentType: "application/json",
+    },
+  ));
+
   const sample = createGameSample;
 
   assert(v4.validate(res.data.id));
@@ -50,9 +63,28 @@ Deno.test("match", async () => {
         res.data.message,
     );
   }
+  assert(validator.validateResponse(
+    res.data,
+    {
+      path: "/match",
+      method: "post",
+      statusCode: 200,
+      contentType: "application/json",
+    },
+  ));
+
   pic1 = res.data.pic;
   const res2 = await ac.match({ gameId: gameId, guest: { name: "test2" } });
   pic2 = res2.success ? res2.data.pic : "";
+  assert(validator.validateResponse(
+    res2.data,
+    {
+      path: "/match",
+      method: "post",
+      statusCode: 200,
+      contentType: "application/json",
+    },
+  ));
   // Deno.writeTextFileSync(
   //   "v1/test/sample_guest/match_sample.json",
   //   JSON.stringify(res.data, null, 2),
@@ -70,6 +102,15 @@ Deno.test("get gameinfo", async () => {
   if (res.success === false) {
     throw Error("Response Error. ErrorCode:" + res.data.errorCode);
   }
+  assert(validator.validateResponse(
+    res.data,
+    {
+      path: "/match/:gameId",
+      method: "get",
+      statusCode: 200,
+      contentType: "application/json",
+    },
+  ));
   //console.log(JSON.stringify(res));
   // Deno.writeTextFileSync(
   //   "v1/test/sample_guest/matchGameInfo_sample.json",
@@ -95,19 +136,47 @@ Deno.test("send action(Turn 1)", async () => {
   if (res.success === false) {
     throw Error("Response Error. ErrorCode:" + res.data.errorCode);
   }
+  assert(validator.validateResponse(
+    res.data,
+    {
+      path: "/match/:gameId",
+      method: "get",
+      statusCode: 200,
+      contentType: "application/json",
+    },
+  ));
+
   let gameInfo = res.data;
   if (!gameInfo.startedAtUnixTime) throw Error("startedAtUnixTime is null.");
   nextTurnUnixTime = gameInfo.startedAtUnixTime;
   await sleep(diffTime(nextTurnUnixTime) + 100);
-  await ac.setAction(gameId, {
+  const actionRes = await ac.setAction(gameId, {
     actions: [{ agentId: 0, type: "PUT", x: 1, y: 1 }],
   }, pic1);
+  assert(validator.validateResponse(
+    actionRes.data,
+    {
+      path: "/match/:gameId/action",
+      method: "post",
+      statusCode: 200,
+      contentType: "application/json",
+    },
+  ));
   //console.log(reqJson);
 
   res = await ac.getMatch(gameId);
   if (res.success === false) {
     throw Error("Response Error. ErrorCode:" + res.data.errorCode);
   }
+  assert(validator.validateResponse(
+    res.data,
+    {
+      path: "/match/:gameId",
+      method: "get",
+      statusCode: 200,
+      contentType: "application/json",
+    },
+  ));
   gameInfo = res.data;
 
   nextTurnUnixTime += gameInfo.operationSec + gameInfo.transitionSec;
@@ -116,6 +185,15 @@ Deno.test("send action(Turn 1)", async () => {
   if (res.success === false) {
     throw Error("Response Error. ErrorCode:" + res.data.errorCode);
   }
+  assert(validator.validateResponse(
+    res.data,
+    {
+      path: "/match/:gameId",
+      method: "get",
+      statusCode: 200,
+      contentType: "application/json",
+    },
+  ));
   // Deno.writeTextFileSync(
   //   "v1/test/sample_guest/afterAction_sample.json",
   //   JSON.stringify(res.data, null, 2),
@@ -140,11 +218,30 @@ Deno.test("send action(Turn 2)", async () => {
   if (res.success === false) {
     throw Error("Response Error. ErrorCode:" + res.data.errorCode);
   }
+  assert(validator.validateResponse(
+    res.data,
+    {
+      path: "/match/:gameId",
+      method: "get",
+      statusCode: 200,
+      contentType: "application/json",
+    },
+  ));
+
   const gameInfo = res.data;
 
-  await ac.setAction(gameId, {
+  const actionRes = await ac.setAction(gameId, {
     actions: [{ agentId: 0, type: "PUT", x: 1, y: 2 }],
   }, pic2);
+  assert(validator.validateResponse(
+    actionRes.data,
+    {
+      path: "/match/:gameId/action",
+      method: "post",
+      statusCode: 200,
+      contentType: "application/json",
+    },
+  ));
   //console.log(reqJson);
 
   nextTurnUnixTime += gameInfo.operationSec + gameInfo.transitionSec;
@@ -153,6 +250,16 @@ Deno.test("send action(Turn 2)", async () => {
   if (res.success === false) {
     throw Error("Response Error. ErrorCode:" + res.data.errorCode);
   }
+  assert(validator.validateResponse(
+    res.data,
+    {
+      path: "/match/:gameId",
+      method: "get",
+      statusCode: 200,
+      contentType: "application/json",
+    },
+  ));
+
   // Deno.writeTextFileSync(
   //   "v1/test/sample_guest/afterAction_sample2.json",
   //   JSON.stringify(res.data),

@@ -221,6 +221,84 @@ export const openapi = {
         },
       },
     },
+    "/users/show/:userId": {
+      get: {
+        responses: {
+          200: {
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/User",
+                },
+              },
+            },
+          },
+          400: {
+            $ref: "#/components/responses/400",
+          },
+        },
+      },
+    },
+    "/users/delete": {
+      post: {
+        responses: {
+          200: {
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/User",
+                },
+              },
+            },
+          },
+          400: {
+            $ref: "#/components/responses/400",
+          },
+          401: {
+            $ref: "#/components/responses/400",
+          },
+        },
+      },
+    },
+    "/users/search": {
+      get: {
+        responses: {
+          200: {
+            content: {
+              "application/json": {
+                schema: {
+                  type: "array",
+                  items: {
+                    $ref: "#/components/schemas/User",
+                  },
+                },
+              },
+            },
+          },
+          400: {
+            $ref: "#/components/responses/400",
+          },
+        },
+      },
+    },
+    "/users/regist": {
+      post: {
+        responses: {
+          200: {
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/User",
+                },
+              },
+            },
+          },
+          400: {
+            $ref: "#/components/responses/400",
+          },
+        },
+      },
+    },
   },
   components: {
     schemas: {
@@ -231,7 +309,6 @@ export const openapi = {
           "board",
           "ending",
           "id",
-          "name",
           "gaming",
           "log",
           "operationSec",
@@ -270,32 +347,35 @@ export const openapi = {
               required: ["players"],
               properties: {
                 players: {
-                  type: "object",
-                  required: ["point", "actions"],
-                  properties: {
-                    point: {
-                      $ref: "#/components/schemas/Point",
-                    },
-                    actions: {
-                      type: "array",
-                      items: {
-                        type: "object",
-                        required: ["type", "agentId", "x", "y", "res"],
-                        properties: {
-                          type: {
-                            type: "integer",
-                          },
-                          agentId: {
-                            type: "integer",
-                          },
-                          x: {
-                            type: "integer",
-                          },
-                          y: {
-                            type: "integer",
-                          },
-                          res: {
-                            type: "integer",
+                  type: "array",
+                  items: {
+                    type: "object",
+                    required: ["point", "actions"],
+                    properties: {
+                      point: {
+                        $ref: "#/components/schemas/Point",
+                      },
+                      actions: {
+                        type: "array",
+                        items: {
+                          type: "object",
+                          required: ["type", "agentId", "x", "y", "res"],
+                          properties: {
+                            type: {
+                              type: "integer",
+                            },
+                            agentId: {
+                              type: "integer",
+                            },
+                            x: {
+                              type: "integer",
+                            },
+                            y: {
+                              type: "integer",
+                            },
+                            res: {
+                              type: "integer",
+                            },
                           },
                         },
                       },

@@ -10,8 +10,8 @@ type SchemasType = ReferenceObject | SchemaObject;
 
 export class OpenAPIValidatorError extends Error {}
 
-type ValidateResponseSchema = {
-  path: string;
+type ValidateResponseSchema<Base> = {
+  path: Base extends { paths: infer U } ? keyof U : never;
   method: "get" | "post";
   contentType: string;
   statusCode: number;
@@ -58,7 +58,7 @@ export class OpenAPIValidator<Base> {
     return this.spreadResponse(newSchema);
   }
 
-  validateResponse(data: unknown, resType: ValidateResponseSchema) {
+  validateResponse(data: unknown, resType: ValidateResponseSchema<Base>) {
     const rawSchema = this.spreadResponse(
       this.openapi.paths[resType.path][resType.method]
         .responses[String(resType.statusCode)],
