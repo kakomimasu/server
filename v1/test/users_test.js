@@ -13,12 +13,10 @@ const ac = new ApiClient();
 const assertUserRegistRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    {
-      path: "/users/regist",
-      method: "post",
-      statusCode: responseCode,
-      contentType: "application/json",
-    },
+    "/users/regist",
+    "post",
+    responseCode,
+    "application/json",
   );
   assert(isValid);
 };
@@ -26,12 +24,10 @@ const assertUserRegistRes = (res, responseCode) => {
 const assertUserShowRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    {
-      path: "/users/show/:userId",
-      method: "get",
-      statusCode: responseCode,
-      contentType: "application/json",
-    },
+    "/users/show/:userId",
+    "get",
+    responseCode,
+    "application/json",
   );
   assert(isValid);
 };
@@ -39,12 +35,10 @@ const assertUserShowRes = (res, responseCode) => {
 const assertUserSearchRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    {
-      path: "/users/search",
-      method: "get",
-      statusCode: responseCode,
-      contentType: "application/json",
-    },
+    "/users/search",
+    "get",
+    responseCode,
+    "application/json",
   );
   assert(isValid);
 };
@@ -52,12 +46,10 @@ const assertUserSearchRes = (res, responseCode) => {
 const assertUserDeleteRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    {
-      path: "/users/delete",
-      method: "post",
-      statusCode: responseCode,
-      contentType: "application/json",
-    },
+    "/users/delete",
+    "post",
+    responseCode,
+    "application/json",
   );
   assert(isValid);
 };

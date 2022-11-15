@@ -42,15 +42,15 @@ Deno.test({
           });
           const json = await res.json();
           assertEquals(res.status, 200);
-          assert(validator.validateResponse(
-            json,
-            {
-              path: "/matches",
-              method: "get",
-              statusCode: 200,
-              contentType: "application/json",
-            } as const,
-          ));
+          assert(
+            validator.validateResponse(
+              json,
+              "/matches",
+              "get",
+              "200",
+              "application/json",
+            ),
+          );
           // console.log(json);
 
           const match1 = json[0];
@@ -69,12 +69,10 @@ Deno.test({
           assertEquals(res.status, 401);
           assert(validator.validateResponse(
             json,
-            {
-              path: "/matches",
-              method: "get",
-              statusCode: 401,
-              contentType: "application/json",
-            } as const,
+            "/matches",
+            "get",
+            "401",
+            "application/json",
           ));
         });
       });
@@ -89,12 +87,10 @@ Deno.test({
           assertEquals(res.status, 400);
           assert(validator.validateResponse(
             json,
-            {
-              path: "/matches/{id}",
-              method: "get",
-              statusCode: 400,
-              contentType: "application/json",
-            } as const,
+            "/matches/{id}",
+            "get",
+            "400",
+            "application/json",
           ));
           assertEquals(json, {
             status: "InvalidMatches",
@@ -111,12 +107,10 @@ Deno.test({
           assertEquals(res.status, 401);
           assert(validator.validateResponse(
             json,
-            {
-              path: "/matches/{id}",
-              method: "get",
-              statusCode: 401,
-              contentType: "application/json",
-            } as const,
+            "/matches/{id}",
+            "get",
+            "401",
+            "application/json",
           ));
           assertEquals(json, { status: "InvalidToken" });
         });
@@ -136,12 +130,10 @@ Deno.test({
           assertEquals(res.status, 401);
           assert(validator.validateResponse(
             json,
-            {
-              path: "/matches/{id}/action",
-              method: "post",
-              statusCode: 401,
-              contentType: "application/json",
-            } as const,
+            "/matches/{id}/action",
+            "post",
+            "401",
+            "application/json",
           ));
         });
       });
@@ -160,12 +152,10 @@ Deno.test({
               assertEquals(res.status, 400);
               assert(validator.validateResponse(
                 json,
-                {
-                  path: "/matches/{id}/action",
-                  method: "post",
-                  statusCode: 400,
-                  contentType: "application/json",
-                } as const,
+                "/matches/{id}/action",
+                "post",
+                "400",
+                "application/json",
               ));
               assertEquals(json.status, "TooEarly");
               assert(json.startAtUnixTime === undefined);
@@ -190,12 +180,10 @@ Deno.test({
               assertEquals(res.status, 400);
               assert(validator.validateResponse(
                 json,
-                {
-                  path: "/matches/{id}/action",
-                  method: "post",
-                  statusCode: 400,
-                  contentType: "application/json",
-                } as const,
+                "/matches/{id}/action",
+                "post",
+                "400",
+                "application/json",
               ));
               assertEquals(json.status, "TooEarly");
               assert(json.startAtUnixTime === undefined);
@@ -217,12 +205,10 @@ Deno.test({
           assertEquals(res.status, 400);
           assert(validator.validateResponse(
             json,
-            {
-              path: "/matches/{id}",
-              method: "get",
-              statusCode: 400,
-              contentType: "application/json",
-            } as const,
+            "/matches/{id}",
+            "get",
+            "400",
+            "application/json",
           ));
           assertEquals(json.status, "TooEarly");
           assert(typeof json.startAtUnixTime === "number");
@@ -246,12 +232,10 @@ Deno.test({
           assertEquals(res.status, 400);
           assert(validator.validateResponse(
             json,
-            {
-              path: "/matches/{id}/action",
-              method: "post",
-              statusCode: 400,
-              contentType: "application/json",
-            } as const,
+            "/matches/{id}/action",
+            "post",
+            "400",
+            "application/json",
           ));
           assertEquals(json.status, "TooEarly");
           assertEquals(typeof json.startAtUnixTime, "number");
@@ -276,12 +260,10 @@ Deno.test({
         assertEquals(res.status, 201);
         assert(validator.validateResponse(
           json,
-          {
-            path: "/matches/{id}/action",
-            method: "post",
-            statusCode: 201,
-            contentType: "application/json",
-          } as const,
+          "/matches/{id}/action",
+          "post",
+          "201",
+          "application/json",
         ));
         // console.log(json);
 
@@ -307,12 +289,10 @@ Deno.test({
         assertEquals(res.status, 400);
         assert(validator.validateResponse(
           json,
-          {
-            path: "/matches/{id}/action",
-            method: "post",
-            statusCode: 400,
-            contentType: "application/json",
-          } as const,
+          "/matches/{id}/action",
+          "post",
+          "400",
+          "application/json",
         ));
         assertEquals(json.status, "UnacceptableTime");
         assertEquals(typeof json.startAtUnixTime, "number");
@@ -337,12 +317,10 @@ Deno.test({
         assertEquals(res.status, 201);
         assert(validator.validateResponse(
           json,
-          {
-            path: "/matches/{id}/action",
-            method: "post",
-            statusCode: 201,
-            contentType: "application/json",
-          } as const,
+          "/matches/{id}/action",
+          "post",
+          "201",
+          "application/json",
         ));
         assertEquals(json.actions[0], { ...tempAction, turn: 2 });
       });
@@ -357,12 +335,10 @@ Deno.test({
           assertEquals(res.status, 200);
           assert(validator.validateResponse(
             json,
-            {
-              path: "/matches/{id}",
-              method: "get",
-              statusCode: 200,
-              contentType: "application/json",
-            } as const,
+            "/matches/{id}",
+            "get",
+            "200",
+            "application/json",
           ));
           assertEquals(json.actions[0], { ...tempAction, turn: 1, apply: 1 });
         });

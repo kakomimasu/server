@@ -52,15 +52,25 @@ type InferSchemaType<T, Base = T> = InferNullable<
   InferType<T, Base> | InferOneOfType<T, Base> | InferAllOfType<T, Base>
 >;
 
-type InferReferenceType<T extends string, Base, Now = Base> = T extends
+export type InferReferenceType<T extends string, Base, Now = Base> = T extends
   `${infer U}/${infer V}`
   ? (Now extends { [_ in U]: infer W } ? InferReferenceType<V, Base, W>
-    : "never")
-  : (Now extends { [_ in T]: infer W } ? InferSchemaType<W, Base> : never);
+    : never)
+  : (Now extends { [_ in T]: infer W } ? W : never);
 
 export type SchemaType<T, Base = T> = T extends
-  { readonly $ref: `#/${infer U}` } ? InferReferenceType<U, Base>
+  { readonly $ref: `#/${infer U}` }
+  ? InferSchemaType<InferReferenceType<U, Base>, Base>
   : InferSchemaType<T, Base>;
+
+export type ResponseType<T, ContentType extends string, Base = T> =
+  (T extends { readonly $ref: `#/${infer U}` } ? InferReferenceType<U, Base>
+    : T) extends {
+    readonly content: {
+      [K in ContentType]: { schema: infer U };
+    };
+  } ? SchemaType<U, Base>
+    : never;
 
 type Merge<T> = {
   [K in keyof T]: T[K];

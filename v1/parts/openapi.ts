@@ -10,10 +10,9 @@ export const openapi = {
   },
   paths: {
     "/match": {
-      operationId: "match",
       post: {
         responses: {
-          200: {
+          "200": {
             content: {
               "application/json": {
                 schema: {
@@ -40,17 +39,16 @@ export const openapi = {
               },
             },
           },
-          400: {
+          "400": {
             $ref: "#/components/responses/400",
           },
         },
       },
     },
     "/match/:gameId": {
-      operationId: "matchGameId",
       get: {
         responses: {
-          200: {
+          "200": {
             content: {
               "application/json": {
                 schema: {
@@ -59,17 +57,16 @@ export const openapi = {
               },
             },
           },
-          400: {
+          "400": {
             $ref: "#/components/responses/400",
           },
         },
       },
     },
     "/match/:gameId/action": {
-      operationId: "matchGameIdAction",
       post: {
         responses: {
-          200: {
+          "200": {
             content: {
               "application/json": {
                 schema: {
@@ -87,17 +84,16 @@ export const openapi = {
               },
             },
           },
-          400: {
+          "400": {
             $ref: "#/components/responses/400",
           },
         },
       },
     },
     "/game/create": {
-      operationId: "gameCreate",
       post: {
         responses: {
-          200: {
+          "200": {
             content: {
               "application/json": {
                 schema: {
@@ -106,17 +102,16 @@ export const openapi = {
               },
             },
           },
-          400: {
+          "400": {
             $ref: "#/components/responses/400",
           },
         },
       },
     },
     "/game/boards": {
-      operationId: "gameBoards",
       get: {
         responses: {
-          200: {
+          "200": {
             content: {
               "application/json": {
                 schema: {
@@ -134,7 +129,7 @@ export const openapi = {
     "/tournament/create": {
       post: {
         responses: {
-          200: {
+          "200": {
             content: {
               "application/json": {
                 schema: {
@@ -143,7 +138,7 @@ export const openapi = {
               },
             },
           },
-          400: {
+          "400": {
             $ref: "#/components/responses/400",
           },
         },
@@ -152,7 +147,7 @@ export const openapi = {
     "/tournament/get": {
       get: {
         responses: {
-          200: {
+          "200": {
             content: {
               "application/json": {
                 schema: {
@@ -170,7 +165,7 @@ export const openapi = {
     "/tournament/get?id=:tournamentId": {
       get: {
         responses: {
-          200: {
+          "200": {
             content: {
               "application/json": {
                 schema: {
@@ -179,7 +174,7 @@ export const openapi = {
               },
             },
           },
-          400: {
+          "400": {
             $ref: "#/components/responses/400",
           },
         },
@@ -188,7 +183,7 @@ export const openapi = {
     "/tournament/add": {
       post: {
         responses: {
-          200: {
+          "200": {
             content: {
               "application/json": {
                 schema: {
@@ -197,7 +192,7 @@ export const openapi = {
               },
             },
           },
-          400: {
+          "400": {
             $ref: "#/components/responses/400",
           },
         },
@@ -206,7 +201,7 @@ export const openapi = {
     "/tournament/delete": {
       post: {
         responses: {
-          200: {
+          "200": {
             content: {
               "application/json": {
                 schema: {
@@ -215,7 +210,7 @@ export const openapi = {
               },
             },
           },
-          400: {
+          "400": {
             $ref: "#/components/responses/400",
           },
         },
@@ -224,7 +219,7 @@ export const openapi = {
     "/users/show/:userId": {
       get: {
         responses: {
-          200: {
+          "200": {
             content: {
               "application/json": {
                 schema: {
@@ -233,7 +228,7 @@ export const openapi = {
               },
             },
           },
-          400: {
+          "400": {
             $ref: "#/components/responses/400",
           },
         },
@@ -242,7 +237,7 @@ export const openapi = {
     "/users/delete": {
       post: {
         responses: {
-          200: {
+          "200": {
             content: {
               "application/json": {
                 schema: {
@@ -251,10 +246,10 @@ export const openapi = {
               },
             },
           },
-          400: {
+          "400": {
             $ref: "#/components/responses/400",
           },
-          401: {
+          "401": {
             $ref: "#/components/responses/400",
           },
         },
@@ -263,7 +258,7 @@ export const openapi = {
     "/users/search": {
       get: {
         responses: {
-          200: {
+          "200": {
             content: {
               "application/json": {
                 schema: {
@@ -275,7 +270,7 @@ export const openapi = {
               },
             },
           },
-          400: {
+          "400": {
             $ref: "#/components/responses/400",
           },
         },
@@ -284,7 +279,7 @@ export const openapi = {
     "/users/regist": {
       post: {
         responses: {
-          200: {
+          "200": {
             content: {
               "application/json": {
                 schema: {
@@ -293,7 +288,7 @@ export const openapi = {
               },
             },
           },
-          400: {
+          "400": {
             $ref: "#/components/responses/400",
           },
         },
@@ -590,7 +585,7 @@ export const openapi = {
       },
     },
     responses: {
-      400: {
+      "400": {
         content: {
           "application/json": {
             schema: {

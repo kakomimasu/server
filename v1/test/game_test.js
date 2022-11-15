@@ -14,12 +14,10 @@ import { errors } from "../../core/error.ts";
 const assertGameCreateRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    {
-      path: "/game/create",
-      method: "post",
-      statusCode: responseCode,
-      contentType: "application/json",
-    },
+    "/game/create",
+    "post",
+    responseCode,
+    "application/json",
   );
   assert(isValid);
 };

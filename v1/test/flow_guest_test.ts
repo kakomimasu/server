@@ -39,12 +39,10 @@ Deno.test("create game", async () => {
   // );
   assert(validator.validateResponse(
     res.data,
-    {
-      path: "/game/create",
-      method: "post",
-      statusCode: 200,
-      contentType: "application/json",
-    },
+    "/game/create",
+    "post",
+    "200",
+    "application/json",
   ));
 
   const sample = createGameSample;
@@ -52,7 +50,7 @@ Deno.test("create game", async () => {
   assert(v4.validate(res.data.id));
   gameId = res.data.id;
   res.data.id = sample.id = "";
-  assertEquals(sample, res.data);
+  assertEquals<Game>(sample, res.data);
 });
 
 Deno.test("match", async () => {
@@ -65,12 +63,10 @@ Deno.test("match", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    {
-      path: "/match",
-      method: "post",
-      statusCode: 200,
-      contentType: "application/json",
-    },
+    "/match",
+    "post",
+    "200",
+    "application/json",
   ));
 
   pic1 = res.data.pic;
@@ -78,12 +74,10 @@ Deno.test("match", async () => {
   pic2 = res2.success ? res2.data.pic : "";
   assert(validator.validateResponse(
     res2.data,
-    {
-      path: "/match",
-      method: "post",
-      statusCode: 200,
-      contentType: "application/json",
-    },
+    "/match",
+    "post",
+    "200",
+    "application/json",
   ));
   // Deno.writeTextFileSync(
   //   "v1/test/sample_guest/match_sample.json",
@@ -104,12 +98,10 @@ Deno.test("get gameinfo", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    {
-      path: "/match/:gameId",
-      method: "get",
-      statusCode: 200,
-      contentType: "application/json",
-    },
+    "/match/:gameId",
+    "get",
+    "200",
+    "application/json",
   ));
   //console.log(JSON.stringify(res));
   // Deno.writeTextFileSync(
@@ -138,12 +130,10 @@ Deno.test("send action(Turn 1)", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    {
-      path: "/match/:gameId",
-      method: "get",
-      statusCode: 200,
-      contentType: "application/json",
-    },
+    "/match/:gameId",
+    "get",
+    "200",
+    "application/json",
   ));
 
   let gameInfo = res.data;
@@ -155,12 +145,10 @@ Deno.test("send action(Turn 1)", async () => {
   }, pic1);
   assert(validator.validateResponse(
     actionRes.data,
-    {
-      path: "/match/:gameId/action",
-      method: "post",
-      statusCode: 200,
-      contentType: "application/json",
-    },
+    "/match/:gameId/action",
+    "post",
+    "200",
+    "application/json",
   ));
   //console.log(reqJson);
 
@@ -170,12 +158,10 @@ Deno.test("send action(Turn 1)", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    {
-      path: "/match/:gameId",
-      method: "get",
-      statusCode: 200,
-      contentType: "application/json",
-    },
+    "/match/:gameId",
+    "get",
+    "200",
+    "application/json",
   ));
   gameInfo = res.data;
 
@@ -187,12 +173,10 @@ Deno.test("send action(Turn 1)", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    {
-      path: "/match/:gameId",
-      method: "get",
-      statusCode: 200,
-      contentType: "application/json",
-    },
+    "/match/:gameId",
+    "get",
+    "200",
+    "application/json",
   ));
   // Deno.writeTextFileSync(
   //   "v1/test/sample_guest/afterAction_sample.json",
@@ -220,12 +204,10 @@ Deno.test("send action(Turn 2)", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    {
-      path: "/match/:gameId",
-      method: "get",
-      statusCode: 200,
-      contentType: "application/json",
-    },
+    "/match/:gameId",
+    "get",
+    "200",
+    "application/json",
   ));
 
   const gameInfo = res.data;
@@ -235,12 +217,10 @@ Deno.test("send action(Turn 2)", async () => {
   }, pic2);
   assert(validator.validateResponse(
     actionRes.data,
-    {
-      path: "/match/:gameId/action",
-      method: "post",
-      statusCode: 200,
-      contentType: "application/json",
-    },
+    "/match/:gameId/action",
+    "post",
+    "200",
+    "application/json",
   ));
   //console.log(reqJson);
 
@@ -252,12 +232,10 @@ Deno.test("send action(Turn 2)", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    {
-      path: "/match/:gameId",
-      method: "get",
-      statusCode: 200,
-      contentType: "application/json",
-    },
+    "/match/:gameId",
+    "get",
+    "200",
+    "application/json",
   ));
 
   // Deno.writeTextFileSync(

@@ -14,12 +14,10 @@ const ac = new ApiClient();
 const assertTournamentCreateRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    {
-      path: "/tournament/create",
-      method: "post",
-      statusCode: responseCode,
-      contentType: "application/json",
-    },
+    "/tournament/create",
+    "post",
+    responseCode,
+    "application/json",
   );
   assert(isValid);
 };
@@ -27,24 +25,20 @@ const assertTournamentCreateRes = (res, responseCode) => {
 const assertTournamentGetsRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    {
-      path: "/tournament/get",
-      method: "get",
-      statusCode: responseCode,
-      contentType: "application/json",
-    },
+    "/tournament/get",
+    "get",
+    responseCode,
+    "application/json",
   );
   assert(isValid);
 };
 const assertTournamentGetRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    {
-      path: "/tournament/get?id=:tournamentId",
-      method: "get",
-      statusCode: responseCode,
-      contentType: "application/json",
-    },
+    "/tournament/get?id=:tournamentId",
+    "get",
+    responseCode,
+    "application/json",
   );
   assert(isValid);
 };
@@ -52,12 +46,10 @@ const assertTournamentGetRes = (res, responseCode) => {
 const assertTournamentAddRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    {
-      path: "/tournament/add",
-      method: "post",
-      statusCode: responseCode,
-      contentType: "application/json",
-    },
+    "/tournament/add",
+    "post",
+    responseCode,
+    "application/json",
   );
   assert(isValid);
 };
@@ -65,12 +57,10 @@ const assertTournamentAddRes = (res, responseCode) => {
 const assertTournamentDeleteRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    {
-      path: "/tournament/delete",
-      method: "post",
-      statusCode: responseCode,
-      contentType: "application/json",
-    },
+    "/tournament/delete",
+    "post",
+    responseCode,
+    "application/json",
   );
   assert(isValid);
 };

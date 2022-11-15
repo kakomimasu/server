@@ -14,12 +14,10 @@ const ac = new ApiClient();
 const assertMatchRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    {
-      path: "/match",
-      method: "post",
-      statusCode: responseCode,
-      contentType: "application/json",
-    },
+    "/match",
+    "post",
+    responseCode,
+    "application/json",
   );
   assert(isValid);
 };
@@ -27,12 +25,10 @@ const assertMatchRes = (res, responseCode) => {
 const assertGetMatchRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    {
-      path: "/match/:gameId",
-      method: "get",
-      statusCode: responseCode,
-      contentType: "application/json",
-    },
+    "/match/:gameId",
+    "get",
+    responseCode,
+    "application/json",
   );
   assert(isValid);
 };
@@ -40,12 +36,10 @@ const assertGetMatchRes = (res, responseCode) => {
 const assertActionRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    {
-      path: "/match/:gameId/action",
-      method: "post",
-      statusCode: responseCode,
-      contentType: "application/json",
-    },
+    "/match/:gameId/action",
+    "post",
+    responseCode,
+    "application/json",
   );
   assert(isValid);
 };

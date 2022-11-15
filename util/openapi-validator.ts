@@ -4,18 +4,15 @@ import {
   ResponseObject,
   SchemaObject,
 } from "../deps.ts";
-import { SchemaType } from "./openapi-type.ts";
+import {
+  InferReferenceType,
+  ResponseType,
+  SchemaType,
+} from "./openapi-type.ts";
 
 type SchemasType = ReferenceObject | SchemaObject;
 
 export class OpenAPIValidatorError extends Error {}
-
-type ValidateResponseSchema<Base> = {
-  path: Base extends { paths: infer U } ? keyof U : never;
-  method: string;
-  contentType: string;
-  statusCode: number;
-};
 
 export class OpenAPIValidator<Base> {
   private openapi: OpenAPIObject;
@@ -59,34 +56,64 @@ export class OpenAPIValidator<Base> {
   }
 
   /** Responseのバリデーション。引数resTypeに渡すオブジェクトにas constを付けると引数dataの型が推定されます。 */
-  validateResponse<U extends ValidateResponseSchema<Base>>(
+  validateResponse<
+    Path extends (Base extends { paths: infer Paths } ? keyof Paths : never),
+    Method
+      extends (Base extends { paths: { [_ in Path]: infer Methods } }
+        ? keyof Methods
+        : never),
+    StatusCode extends (Base extends {
+      paths: {
+        [_ in Path]: {
+          [_ in Method]: { responses: infer Responses };
+        };
+      };
+    } ? keyof Responses
+      : never),
+    ContentType extends (Base extends {
+      paths: {
+        [_ in Path]: {
+          [_ in Method]: {
+            responses: {
+              [_ in StatusCode]: infer U;
+            };
+          };
+        };
+      };
+      // $refに対応
+    } ? (U extends { $ref: `#/${infer V}` } ? InferReferenceType<V, Base> : U)
+      : never) extends { content: infer ContentType } ? keyof ContentType
+      : never,
+  >(
     data: unknown,
-    resType: U,
-  ): data is SchemaType<
+    path: Path,
+    method: Method,
+    statusCode: StatusCode,
+    contentType: ContentType,
+  ): data is ResponseType<
     Base extends {
       paths: {
-        [_ in U["path"]]: {
-          [_ in U["method"]]: {
+        [_ in Path]: {
+          [_ in Method]: {
             responses: {
-              [_ in U["statusCode"]]: {
-                content: { [_ in U["contentType"]]: { schema: infer U } };
-              };
+              [_ in StatusCode]: infer U;
             };
           };
         };
       };
     } ? U
       : never,
+    ContentType,
     Base
   > {
     const rawSchema = this.spreadResponse(
-      this.openapi.paths[resType.path][resType.method]
-        .responses[String(resType.statusCode)],
-    ).content?.[resType.contentType].schema;
+      this.openapi.paths[path][method]
+        .responses[String(statusCode)],
+    ).content?.[contentType].schema;
 
     if (!rawSchema) {
       throw new OpenAPIValidatorError(
-        `Invalid response schema : ${resType.method} ${resType.path} ${resType.statusCode} ${resType.contentType}`,
+        `Invalid response schema : ${method} ${path} ${statusCode} ${contentType}`,
       );
     }
     const schema = this.spreadSchema(rawSchema);

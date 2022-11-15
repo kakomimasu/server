@@ -21,12 +21,10 @@ Deno.test({
           assertEquals(res.status, 200);
           assert(validator.validateResponse(
             json,
-            {
-              path: "/ping",
-              method: "get",
-              statusCode: 200,
-              contentType: "application/json",
-            } as const,
+            "/ping",
+            "get",
+            "200",
+            "application/json",
           ));
         });
         await t.step("401 Failure", async () => {
@@ -37,12 +35,10 @@ Deno.test({
           assertEquals(res.status, 401);
           assert(validator.validateResponse(
             json,
-            {
-              path: "/ping",
-              method: "get",
-              statusCode: 401,
-              contentType: "application/json",
-            } as const,
+            "/ping",
+            "get",
+            "401",
+            "application/json",
           ));
         });
       });
