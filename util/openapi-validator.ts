@@ -12,7 +12,7 @@ export class OpenAPIValidatorError extends Error {}
 
 type ValidateResponseSchema<Base> = {
   path: Base extends { paths: infer U } ? keyof U : never;
-  method: "get" | "post";
+  method: string;
   contentType: string;
   statusCode: number;
 };
@@ -58,7 +58,27 @@ export class OpenAPIValidator<Base> {
     return this.spreadResponse(newSchema);
   }
 
-  validateResponse(data: unknown, resType: ValidateResponseSchema<Base>) {
+  /** Responseのバリデーション。引数resTypeに渡すオブジェクトにas constを付けると引数dataの型が推定されます。 */
+  validateResponse<U extends ValidateResponseSchema<Base>>(
+    data: unknown,
+    resType: U,
+  ): data is SchemaType<
+    Base extends {
+      paths: {
+        [_ in U["path"]]: {
+          [_ in U["method"]]: {
+            responses: {
+              [_ in U["statusCode"]]: {
+                content: { [_ in U["contentType"]]: { schema: infer U } };
+              };
+            };
+          };
+        };
+      };
+    } ? U
+      : never,
+    Base
+  > {
     const rawSchema = this.spreadResponse(
       this.openapi.paths[resType.path][resType.method]
         .responses[String(resType.statusCode)],

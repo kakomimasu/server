@@ -1,6 +1,8 @@
-import { assertEquals } from "../../deps-test.ts";
+import { assert, assertEquals } from "../../deps-test.ts";
 
 import { useUser } from "../../util/test/useUser.ts";
+
+import { validator } from "../parts/openapi.ts";
 
 const baseUrl = "http://localhost:8880/miyakonojo";
 
@@ -17,9 +19,15 @@ Deno.test({
           });
           const json = await res.json();
           assertEquals(res.status, 200);
-          assertEquals(json, {
-            status: "OK",
-          });
+          assert(validator.validateResponse(
+            json,
+            {
+              path: "/ping",
+              method: "get",
+              statusCode: 200,
+              contentType: "application/json",
+            } as const,
+          ));
         });
         await t.step("401 Failure", async () => {
           const res = await fetch(baseUrl + "/ping", {
@@ -27,9 +35,15 @@ Deno.test({
           });
           const json = await res.json();
           assertEquals(res.status, 401);
-          assertEquals(json, {
-            status: "InvalidToken",
-          });
+          assert(validator.validateResponse(
+            json,
+            {
+              path: "/ping",
+              method: "get",
+              statusCode: 401,
+              contentType: "application/json",
+            } as const,
+          ));
         });
       });
     });

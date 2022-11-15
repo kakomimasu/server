@@ -60,6 +60,6 @@ export type PriorMatchesRes = PriorMatch[];
 export type MatchesRes = Match;
 
 export type UpdateActionReq = Action[];
-export type UpdateActionRes = (Action & { turn: number })[];
+export type UpdateActionRes = { actions: (Action & { turn: number })[] };
 
 export type PingRes = { status: "OK" };

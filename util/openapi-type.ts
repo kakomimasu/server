@@ -39,9 +39,17 @@ type InferOneOfType<T, Base = T> = T extends
   { readonly oneOf: readonly [...infer U] } ? MapForOneOfType<U, Base>
   : never;
 
+type MapForAllOfType<T, Base = T> = T extends [infer U, ...infer U2]
+  ? SchemaType<U, Base> & MapForAllOfType<U2, Base>
+  : Record<never, never>;
+
+type InferAllOfType<T, Base = T> = T extends
+  { readonly allOf: readonly [...infer U] } ? MapForAllOfType<U, Base>
+  : never;
+
 type InferSchemaType<T, Base = T> = InferNullable<
   T,
-  InferType<T, Base> | InferOneOfType<T, Base>
+  InferType<T, Base> | InferOneOfType<T, Base> | InferAllOfType<T, Base>
 >;
 
 type InferReferenceType<T extends string, Base, Now = Base> = T extends
