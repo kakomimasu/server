@@ -28,7 +28,7 @@ export const teamMatches: RouterMiddleware<
     return;
   }
 
-  const body: TeamsMatchesRes = getMatches(authedUser.id);
+  const body: TeamsMatchesRes = { matches: getMatches(authedUser.id) };
 
   ctx.response.status = 200;
   ctx.response.body = body;

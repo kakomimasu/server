@@ -16,8 +16,9 @@ import {
 export const priorMatches: Middleware<StateToken> = (ctx) => {
   const authedUser = ctx.state.user;
 
-  const body: PriorMatchesRes = getMatches(authedUser.id);
-
+  const body: PriorMatchesRes = {
+    matches: getMatches(authedUser.id),
+  };
   ctx.response.status = 200;
   ctx.response.body = body;
 };
@@ -140,7 +141,7 @@ export const updateAction: RouterMiddleware<
   const actions = ctx.state.data;
   const newActions = player.actions;
 
-  const body: UpdateActionRes = [];
+  const body: UpdateActionRes = { actions: [] };
   const nowTurn = game.turn;
   try {
     actions.map((action) => {
@@ -170,7 +171,7 @@ export const updateAction: RouterMiddleware<
         newActions[actionIdx] = newAction;
       }
 
-      body.push({
+      body.actions.push({
         ...action,
         turn: nowTurn,
       });

@@ -6,6 +6,8 @@ import { nowUnixTime } from "../../core/util.ts";
 
 import ApiClient, { MatchRes } from "../../client/client.ts";
 
+import { validator } from "../parts/openapi.ts";
+
 const baseUrl = "http://localhost:8880/tomakomai";
 const ac = new ApiClient();
 const tempAction = { agentID: 0, x: 0, y: 0, type: "put" };
@@ -42,23 +44,26 @@ Deno.test({
             headers: { "x-api-token": token },
           });
           const json = await res.json();
-          console.log(pic, json);
+          // console.log(pic, json);
           assertEquals(res.status, 200);
           checkXRequestId(res);
+          assert(validator.validateResponse(
+            json,
+            "/matches",
+            "get",
+            "200",
+            "application/json",
+          ));
 
-          assert(Array.isArray(json));
-          const match1 = json[0];
-          assertEquals(typeof match1.matchID, "string");
-          assertEquals(typeof match1.turns, "number");
+          const match1 = json.matches[0];
           assert(match1.operationMillis % 1000 === 0);
           assert(match1.transitionMillis % 1000 === 0);
-          assert(Array.isArray(match1.teams));
           const team = match1.teams[0];
-          assertEquals(typeof team.teamID, "number");
           assert(team.teamID !== 0); // picがきちんと設定されているか
-          assertEquals(typeof team.name, "string");
 
-          matchesRes = json.find((match) => match.teams[0].teamID == pic) ??
+          matchesRes = json.matches.find((match) =>
+            match.teams[0].teamID == parseInt(pic)
+          ) ??
             undefined;
         });
         await t.step("401 Failure", async () => {
@@ -216,10 +221,16 @@ Deno.test({
         checkXRequestId(res);
         const json = await res.json();
         assertEquals(res.status, 202);
+        assert(validator.validateResponse(
+          json,
+          "/matches/{matchID}/action",
+          "post",
+          "202",
+          "application/json",
+        ));
         // console.log(json);
 
-        assert(Array.isArray(json));
-        assertEquals(json[0], { ...tempAction, turn: 1 });
+        assertEquals(json.actions[0], { ...tempAction, turn: 1 });
       });
 
       nextUnixTime += matchesRes.operationMillis / 1000;
@@ -259,9 +270,14 @@ Deno.test({
         checkXRequestId(res);
         const json = await res.json();
         assertEquals(res.status, 202);
-
-        assert(Array.isArray(json));
-        assertEquals(json[0], { ...tempAction, turn: 2 });
+        assert(validator.validateResponse(
+          json,
+          "/matches/{matchID}/action",
+          "post",
+          "202",
+          "application/json",
+        ));
+        assertEquals(json.actions[0], { ...tempAction, turn: 2 });
       });
 
       await t.step("/matches/:id", async (t) => {
@@ -273,36 +289,14 @@ Deno.test({
           const json = await res.json();
           // console.log(json);
           assertEquals(res.status, 200);
+          assert(validator.validateResponse(
+            json,
+            "/matches/{matchID}",
+            "get",
+            "200",
+            "application/json",
+          ));
 
-          assertEquals(typeof json.turn, "number");
-          assertEquals(typeof json.startedAtUnixTime, "number");
-          assertEquals(typeof json.width, "number");
-          assertEquals(typeof json.height, "number");
-          assert(Array.isArray(json.teams));
-          const team = json.teams[0];
-          assertEquals(typeof team.teamID, "number");
-          assertEquals(typeof team.agent, "number");
-          assert(Array.isArray(team.agents));
-          const agent = team.agents[0];
-          assertEquals(typeof agent.agentID, "number");
-          assertEquals(typeof agent.x, "number");
-          assertEquals(typeof agent.y, "number");
-          assertEquals(typeof team.areaPoint, "number");
-          assertEquals(typeof team.wallPoint, "number");
-
-          assert(Array.isArray(json.walls));
-          assert(Array.isArray(json.walls[0]));
-          assertEquals(typeof json.walls[0][0], "number");
-
-          assert(Array.isArray(json.areas));
-          assert(Array.isArray(json.areas[0]));
-          assertEquals(typeof json.areas[0][0], "number");
-
-          assert(Array.isArray(json.points));
-          assert(Array.isArray(json.points[0]));
-          assertEquals(typeof json.points[0][0], "number");
-
-          assert(Array.isArray(json.actions));
           assertEquals(json.actions[0], { ...tempAction, turn: 1, apply: 1 });
         });
       });
@@ -316,9 +310,15 @@ Deno.test({
           const json = await res.json();
           assertEquals(res.status, 200);
           // console.log(json);
+          assert(validator.validateResponse(
+            json,
+            "/teams/me",
+            "get",
+            "200",
+            "application/json",
+          ));
 
           assertEquals(json.teamID, 0);
-          assertEquals(typeof json.name, "string");
         });
         await t.step("401 Failure", async () => {
           const res = await fetch(baseUrl + `/teams/me`, {
@@ -338,18 +338,18 @@ Deno.test({
           const json = await res.json();
           assertEquals(res.status, 200);
           // console.log(json);
-
-          assert(Array.isArray(json));
-          const match1 = json[0];
-          assertEquals(typeof match1.matchID, "string");
-          assertEquals(typeof match1.turns, "number");
+          assert(validator.validateResponse(
+            json,
+            "/teams/{teamID}/matches",
+            "get",
+            "200",
+            "application/json",
+          ));
+          const match1 = json.matches[0];
           assert(match1.operationMillis % 1000 === 0);
           assert(match1.transitionMillis % 1000 === 0);
-          assert(Array.isArray(match1.teams));
           const team = match1.teams[0];
-          assertEquals(typeof team.teamID, "number");
           assert(team.teamID !== 0); // picがきちんと設定されているか
-          assertEquals(typeof team.name, "string");
         });
         await t.step("401 Failure", async () => {
           const res = await fetch(baseUrl + `/teams/${userId}/matches`, {

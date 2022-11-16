@@ -57,8 +57,17 @@ export class OpenAPIValidator<Base> {
   validateResponse<
     Path extends (Base extends { paths: infer Paths } ? keyof Paths : never),
     Method
-      extends (Base extends { paths: { [_ in Path]: infer Methods } }
-        ? keyof Methods
+      extends (Base extends { paths: { [_ in Path]: infer Methods } } ? Extract<
+          keyof Methods,
+          | "get"
+          | "put"
+          | "post"
+          | "delete"
+          | "options"
+          | "head"
+          | "patch"
+          | "trase"
+        >
         : never),
     StatusCode extends (Base extends {
       paths: {

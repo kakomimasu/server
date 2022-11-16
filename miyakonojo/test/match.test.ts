@@ -57,7 +57,7 @@ Deno.test({
           assert(match1.intervalMillis % 1000 === 0);
           assert(match1.turnMillis % 1000 === 0);
 
-          matchesRes = json.find((match) => String(match.teamID) == pic) ??
+          matchesRes = json.find((match) => match.teamID == parseInt(pic)) ??
             undefined;
         });
         await t.step("401 Failure", async () => {

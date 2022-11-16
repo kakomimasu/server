@@ -52,12 +52,12 @@ export type Team = {
   name: string;
 };
 
-export type PriorMatchesRes = PriorMatch[];
+export type PriorMatchesRes = { matches: PriorMatch[] };
 
 export type MatchesRes = Match;
 
 export type UpdateActionReq = Action[];
-export type UpdateActionRes = (Action & { turn: number })[];
+export type UpdateActionRes = { actions: (Action & { turn: number })[] };
 
 export type TeamsMeRes = Team;
-export type TeamsMatchesRes = PriorMatch[];
+export type TeamsMatchesRes = { matches: PriorMatch[] };
