@@ -10,6 +10,7 @@ import { checkAuthPic, checkAuthToken, StatePic } from "./_util.ts";
 import { matches, priorMatches, updateAction } from "./_matches.ts";
 import { myTeam, teamMatches } from "./_teams.ts";
 import { UpdateActionReq } from "./types.ts";
+import { openapi } from "./parts/openapi.ts";
 
 export const router = new Router();
 
@@ -55,3 +56,6 @@ router.post<
 );
 router.get("/teams/me", checkAuthToken, myTeam);
 router.get("/teams/:id/matches", checkAuthToken, teamMatches);
+router.get("/openapi.json", (ctx) => {
+  ctx.response.body = openapi;
+});

@@ -26,7 +26,7 @@ if (import.meta.main) {
     router.use("/game", streamRoutes());
     router.use("/users", userRouter());
     router.use("/tournament", tournamentRouter());
-    router.use("/openapi", openapiRouter());
+    router.use("/openapi.json", openapiRouter());
 
     return router.routes();
   };

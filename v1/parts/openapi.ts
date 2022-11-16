@@ -13,11 +13,18 @@ export const openapi = {
       post: {
         responses: {
           "200": {
+            description: "Success",
             content: {
               "application/json": {
                 schema: {
                   type: "object",
-                  required: ["userId", "spec", "gameId", "index", "pic"],
+                  required: [
+                    "userId",
+                    "spec",
+                    "gameId",
+                    "index",
+                    "pic",
+                  ],
                   properties: {
                     userId: {
                       type: "string",
@@ -40,7 +47,7 @@ export const openapi = {
             },
           },
           "400": {
-            $ref: "#/components/responses/400",
+            "$ref": "#/components/responses/400",
           },
         },
       },
@@ -49,16 +56,17 @@ export const openapi = {
       get: {
         responses: {
           "200": {
+            description: "Success",
             content: {
               "application/json": {
                 schema: {
-                  $ref: "#/components/schemas/Game",
+                  "$ref": "#/components/schemas/Game",
                 },
               },
             },
           },
           "400": {
-            $ref: "#/components/responses/400",
+            "$ref": "#/components/responses/400",
           },
         },
       },
@@ -67,11 +75,15 @@ export const openapi = {
       post: {
         responses: {
           "200": {
+            description: "Success",
             content: {
               "application/json": {
                 schema: {
                   type: "object",
-                  required: ["receptionUnixTime", "turn"],
+                  required: [
+                    "receptionUnixTime",
+                    "turn",
+                  ],
                   properties: {
                     receptionUnixTime: {
                       type: "integer",
@@ -85,7 +97,7 @@ export const openapi = {
             },
           },
           "400": {
-            $ref: "#/components/responses/400",
+            "$ref": "#/components/responses/400",
           },
         },
       },
@@ -94,16 +106,17 @@ export const openapi = {
       post: {
         responses: {
           "200": {
+            description: "Success",
             content: {
               "application/json": {
                 schema: {
-                  $ref: "#/components/schemas/Game",
+                  "$ref": "#/components/schemas/Game",
                 },
               },
             },
           },
           "400": {
-            $ref: "#/components/responses/400",
+            "$ref": "#/components/responses/400",
           },
         },
       },
@@ -112,12 +125,13 @@ export const openapi = {
       get: {
         responses: {
           "200": {
+            description: "Success",
             content: {
               "application/json": {
                 schema: {
                   type: "array",
                   items: {
-                    $ref: "#/components/schemas/Board",
+                    "$ref": "#/components/schemas/Board",
                   },
                 },
               },
@@ -130,16 +144,17 @@ export const openapi = {
       post: {
         responses: {
           "200": {
+            description: "Success",
             content: {
               "application/json": {
                 schema: {
-                  $ref: "#/components/schemas/Tournament",
+                  "$ref": "#/components/schemas/Tournament",
                 },
               },
             },
           },
           "400": {
-            $ref: "#/components/responses/400",
+            "$ref": "#/components/responses/400",
           },
         },
       },
@@ -148,12 +163,13 @@ export const openapi = {
       get: {
         responses: {
           "200": {
+            description: "Success",
             content: {
               "application/json": {
                 schema: {
                   type: "array",
                   items: {
-                    $ref: "#/components/schemas/Tournament",
+                    "$ref": "#/components/schemas/Tournament",
                   },
                 },
               },
@@ -166,16 +182,17 @@ export const openapi = {
       get: {
         responses: {
           "200": {
+            description: "Success",
             content: {
               "application/json": {
                 schema: {
-                  $ref: "#/components/schemas/Tournament",
+                  "$ref": "#/components/schemas/Tournament",
                 },
               },
             },
           },
           "400": {
-            $ref: "#/components/responses/400",
+            "$ref": "#/components/responses/400",
           },
         },
       },
@@ -184,16 +201,17 @@ export const openapi = {
       post: {
         responses: {
           "200": {
+            description: "Success",
             content: {
               "application/json": {
                 schema: {
-                  $ref: "#/components/schemas/Tournament",
+                  "$ref": "#/components/schemas/Tournament",
                 },
               },
             },
           },
           "400": {
-            $ref: "#/components/responses/400",
+            "$ref": "#/components/responses/400",
           },
         },
       },
@@ -202,16 +220,17 @@ export const openapi = {
       post: {
         responses: {
           "200": {
+            description: "Success",
             content: {
               "application/json": {
                 schema: {
-                  $ref: "#/components/schemas/Tournament",
+                  "$ref": "#/components/schemas/Tournament",
                 },
               },
             },
           },
           "400": {
-            $ref: "#/components/responses/400",
+            "$ref": "#/components/responses/400",
           },
         },
       },
@@ -220,16 +239,17 @@ export const openapi = {
       get: {
         responses: {
           "200": {
+            description: "Success",
             content: {
               "application/json": {
                 schema: {
-                  $ref: "#/components/schemas/User",
+                  "$ref": "#/components/schemas/User",
                 },
               },
             },
           },
           "400": {
-            $ref: "#/components/responses/400",
+            "$ref": "#/components/responses/400",
           },
         },
       },
@@ -238,19 +258,20 @@ export const openapi = {
       post: {
         responses: {
           "200": {
+            description: "Success",
             content: {
               "application/json": {
                 schema: {
-                  $ref: "#/components/schemas/User",
+                  "$ref": "#/components/schemas/User",
                 },
               },
             },
           },
           "400": {
-            $ref: "#/components/responses/400",
+            "$ref": "#/components/responses/400",
           },
           "401": {
-            $ref: "#/components/responses/400",
+            "$ref": "#/components/responses/400",
           },
         },
       },
@@ -259,19 +280,20 @@ export const openapi = {
       get: {
         responses: {
           "200": {
+            description: "Success",
             content: {
               "application/json": {
                 schema: {
                   type: "array",
                   items: {
-                    $ref: "#/components/schemas/User",
+                    "$ref": "#/components/schemas/User",
                   },
                 },
               },
             },
           },
           "400": {
-            $ref: "#/components/responses/400",
+            "$ref": "#/components/responses/400",
           },
         },
       },
@@ -280,16 +302,17 @@ export const openapi = {
       post: {
         responses: {
           "200": {
+            description: "Success",
             content: {
               "application/json": {
                 schema: {
-                  $ref: "#/components/schemas/User",
+                  "$ref": "#/components/schemas/User",
                 },
               },
             },
           },
           "400": {
-            $ref: "#/components/responses/400",
+            "$ref": "#/components/responses/400",
           },
         },
       },
@@ -319,8 +342,12 @@ export const openapi = {
         properties: {
           board: {
             oneOf: [
-              { "$ref": "#/components/schemas/Board" },
-              { type: "null" },
+              {
+                "$ref": "#/components/schemas/Board",
+              },
+              {
+                type: "null",
+              },
             ],
           },
           ending: {
@@ -339,22 +366,33 @@ export const openapi = {
             type: "array",
             items: {
               type: "object",
-              required: ["players"],
+              required: [
+                "players",
+              ],
               properties: {
                 players: {
                   type: "array",
                   items: {
                     type: "object",
-                    required: ["point", "actions"],
+                    required: [
+                      "point",
+                      "actions",
+                    ],
                     properties: {
                       point: {
-                        $ref: "#/components/schemas/Point",
+                        "$ref": "#/components/schemas/Point",
                       },
                       actions: {
                         type: "array",
                         items: {
                           type: "object",
-                          required: ["type", "agentId", "x", "y", "res"],
+                          required: [
+                            "type",
+                            "agentId",
+                            "x",
+                            "y",
+                            "res",
+                          ],
                           properties: {
                             type: {
                               type: "integer",
@@ -387,7 +425,12 @@ export const openapi = {
             type: "array",
             items: {
               type: "object",
-              required: ["id", "agents", "point", "type"],
+              required: [
+                "id",
+                "agents",
+                "point",
+                "type",
+              ],
               properties: {
                 id: {
                   type: "string",
@@ -396,7 +439,10 @@ export const openapi = {
                   type: "array",
                   items: {
                     type: "object",
-                    required: ["x", "y"],
+                    required: [
+                      "x",
+                      "y",
+                    ],
                     properties: {
                       x: {
                         type: "integer",
@@ -408,11 +454,14 @@ export const openapi = {
                   },
                 },
                 point: {
-                  $ref: "#/components/schemas/Point",
+                  "$ref": "#/components/schemas/Point",
                 },
                 type: {
                   type: "string",
-                  enum: ["account", "guest"],
+                  enum: [
+                    "account",
+                    "guest",
+                  ],
                 },
               },
             },
@@ -433,7 +482,10 @@ export const openapi = {
                 type: "array",
                 items: {
                   type: "object",
-                  required: ["type", "player"],
+                  required: [
+                    "type",
+                    "player",
+                  ],
                   properties: {
                     type: {
                       type: "integer",
@@ -445,7 +497,9 @@ export const openapi = {
                   },
                 },
               },
-              { type: "null" },
+              {
+                type: "null",
+              },
             ],
           },
           totalTurn: {
@@ -459,7 +513,11 @@ export const openapi = {
           },
           type: {
             type: "string",
-            enum: ["normal", "self", "personal"],
+            enum: [
+              "normal",
+              "self",
+              "personal",
+            ],
           },
         },
       },
@@ -507,7 +565,10 @@ export const openapi = {
       },
       Point: {
         type: "object",
-        required: ["areaPoint", "wallPoint"],
+        required: [
+          "areaPoint",
+          "wallPoint",
+        ],
         properties: {
           areaPoint: {
             type: "integer",
@@ -519,7 +580,12 @@ export const openapi = {
       },
       User: {
         type: "object",
-        required: ["screenName", "name", "id", "gameIds"],
+        required: [
+          "screenName",
+          "name",
+          "id",
+          "gameIds",
+        ],
         properties: {
           screenName: {
             type: "string",
@@ -564,7 +630,10 @@ export const openapi = {
           },
           type: {
             type: "string",
-            enum: ["round-robin", "knockout"],
+            enum: [
+              "round-robin",
+              "knockout",
+            ],
           },
           remarks: {
             type: "string",
@@ -586,11 +655,15 @@ export const openapi = {
     },
     responses: {
       "400": {
+        description: "Failed",
         content: {
           "application/json": {
             schema: {
               type: "object",
-              required: ["errorCode", "message"],
+              required: [
+                "errorCode",
+                "message",
+              ],
               properties: {
                 errorCode: {
                   type: "integer",
