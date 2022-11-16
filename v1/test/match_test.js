@@ -25,7 +25,7 @@ const assertMatchRes = (res, responseCode) => {
 const assertGetMatchRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    "/match/:gameId",
+    "/match/{gameId}",
     "get",
     responseCode,
     "application/json",
@@ -36,7 +36,7 @@ const assertGetMatchRes = (res, responseCode) => {
 const assertActionRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    "/match/:gameId/action",
+    "/match/{gameId}/action",
     "post",
     responseCode,
     "application/json",

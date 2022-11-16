@@ -98,7 +98,7 @@ Deno.test("get gameinfo", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    "/match/:gameId",
+    "/match/{gameId}",
     "get",
     "200",
     "application/json",
@@ -130,7 +130,7 @@ Deno.test("send action(Turn 1)", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    "/match/:gameId",
+    "/match/{gameId}",
     "get",
     "200",
     "application/json",
@@ -145,7 +145,7 @@ Deno.test("send action(Turn 1)", async () => {
   }, pic1);
   assert(validator.validateResponse(
     actionRes.data,
-    "/match/:gameId/action",
+    "/match/{gameId}/action",
     "post",
     "200",
     "application/json",
@@ -158,7 +158,7 @@ Deno.test("send action(Turn 1)", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    "/match/:gameId",
+    "/match/{gameId}",
     "get",
     "200",
     "application/json",
@@ -173,7 +173,7 @@ Deno.test("send action(Turn 1)", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    "/match/:gameId",
+    "/match/{gameId}",
     "get",
     "200",
     "application/json",
@@ -204,7 +204,7 @@ Deno.test("send action(Turn 2)", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    "/match/:gameId",
+    "/match/{gameId}",
     "get",
     "200",
     "application/json",
@@ -217,7 +217,7 @@ Deno.test("send action(Turn 2)", async () => {
   }, pic2);
   assert(validator.validateResponse(
     actionRes.data,
-    "/match/:gameId/action",
+    "/match/{gameId}/action",
     "post",
     "200",
     "application/json",
@@ -232,7 +232,7 @@ Deno.test("send action(Turn 2)", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    "/match/:gameId",
+    "/match/{gameId}",
     "get",
     "200",
     "application/json",

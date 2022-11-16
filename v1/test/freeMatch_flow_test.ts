@@ -81,7 +81,7 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match/:gameId",
+          "/match/{gameId}",
           "get",
           "200",
           "application/json",
@@ -115,7 +115,7 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match/:gameId",
+          "/match/{gameId}",
           "get",
           "200",
           "application/json",
@@ -133,7 +133,7 @@ Deno.test({
         }, pic1);
         assert(validator.validateResponse(
           actionRes.data,
-          "/match/:gameId/action",
+          "/match/{gameId}/action",
           "post",
           "200",
           "application/json",
@@ -143,7 +143,7 @@ Deno.test({
         }, pic1);
         assert(validator.validateResponse(
           actionRes.data,
-          "/match/:gameId/action",
+          "/match/{gameId}/action",
           "post",
           "200",
           "application/json",
@@ -156,7 +156,7 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match/:gameId",
+          "/match/{gameId}",
           "get",
           "200",
           "application/json",
@@ -171,7 +171,7 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match/:gameId",
+          "/match/{gameId}",
           "get",
           "200",
           "application/json",
@@ -204,7 +204,7 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match/:gameId",
+          "/match/{gameId}",
           "get",
           "200",
           "application/json",
@@ -216,7 +216,7 @@ Deno.test({
         }, pic2);
         assert(validator.validateResponse(
           actionRes.data,
-          "/match/:gameId/action",
+          "/match/{gameId}/action",
           "post",
           "200",
           "application/json",
@@ -231,7 +231,7 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match/:gameId",
+          "/match/{gameId}",
           "get",
           "200",
           "application/json",

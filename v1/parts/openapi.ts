@@ -45,7 +45,7 @@ export const openapi = {
         },
       },
     },
-    "/match/:gameId": {
+    "/match/{gameId}": {
       get: {
         responses: {
           "200": {
@@ -63,7 +63,7 @@ export const openapi = {
         },
       },
     },
-    "/match/:gameId/action": {
+    "/match/{gameId}/action": {
       post: {
         responses: {
           "200": {
@@ -216,7 +216,7 @@ export const openapi = {
         },
       },
     },
-    "/users/show/:userId": {
+    "/users/show/{userId}": {
       get: {
         responses: {
           "200": {

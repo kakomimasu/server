@@ -24,7 +24,7 @@ const assertUserRegistRes = (res, responseCode) => {
 const assertUserShowRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    "/users/show/:userId",
+    "/users/show/{userId}",
     "get",
     responseCode,
     "application/json",
