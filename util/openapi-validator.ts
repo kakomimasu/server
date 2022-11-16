@@ -10,8 +10,6 @@ import {
   SchemaType,
 } from "./openapi-type.ts";
 
-type SchemasType = ReferenceObject | SchemaObject;
-
 export class OpenAPIValidatorError extends Error {}
 
 export class OpenAPIValidator<Base> {
@@ -21,7 +19,7 @@ export class OpenAPIValidator<Base> {
   }
 
   /** Schemaオブジェクトの$refを展開したオブジェクトを取得 */
-  private spreadSchema(schema: SchemasType): SchemaObject {
+  private spreadSchema(schema: ReferenceObject | SchemaObject): SchemaObject {
     // console.log(schema);
     if (!("$ref" in schema)) return schema;
     if (!schema.$ref.startsWith("#")) {
@@ -120,8 +118,11 @@ export class OpenAPIValidator<Base> {
     return this.validate(data, schema);
   }
 
-  validate<U>(data: unknown, schema_: U): data is SchemaType<U, Base> {
-    const schema = this.spreadSchema(schema_ as SchemasType);
+  validate<U extends (ReferenceObject | SchemaObject)>(
+    data: unknown,
+    schema_: U,
+  ): data is SchemaType<U, Base> {
+    const schema = this.spreadSchema(schema_);
     // console.log(data, schema);
     // console.log(JSON.stringify(schema, null, 2));
     if (schema.nullable && data === null) return true;
