@@ -1,4 +1,9 @@
-import { helpers, Router } from "../deps.ts";
+import {
+  helpers,
+  Router,
+  ServerSentEvent,
+  ServerSentEventTarget,
+} from "../deps.ts";
 
 import type { WsGameRes } from "./types.ts";
 import { auth } from "./middleware.ts";
@@ -13,7 +18,7 @@ type MapValue = {
   allowNewGame: boolean;
   keepAliveTimerId: number;
 };
-const clients = new Map<ReadableStreamDefaultController, MapValue>();
+const clients = new Map<ServerSentEventTarget, MapValue>();
 
 const analyzeStringSearchOption = (q: string) => {
   console.log("query", q);
@@ -28,10 +33,10 @@ const analyzeStringSearchOption = (q: string) => {
   return qs;
 };
 
-const setKeepAliveTimeout = (controller: ReadableStreamDefaultController) => {
+const setKeepAliveTimeout = (controller: ServerSentEventTarget) => {
   const timerId = setInterval(() => {
     try {
-      controller.enqueue("\r\n");
+      controller.dispatchComment("keep-alive");
     } catch (e) {
       if (e instanceof TypeError) {
         clearInterval(timerId);
@@ -115,7 +120,7 @@ export function sendGame(game: ExpGame) {
         };
       } else return;
     }
-    controller.enqueue(JSON.stringify(data) + "\n");
+    controller.dispatchMessage(JSON.stringify(data));
 
     clearTimeout(value.keepAliveTimerId);
     value.keepAliveTimerId = setKeepAliveTimeout(controller);
@@ -138,56 +143,48 @@ export const streamRoutes = () => {
       const allowNewGame = params.allowNewGame === "true";
       // console.log(q, sIdx, eIdx, allowNewGame);
 
-      let con: ReadableStreamDefaultController;
-      const rs = new ReadableStream({
-        start(controller) {
-          con = controller;
-          const searchOptions = analyzeStringSearchOption(q);
+      const target = ctx.sendEvents();
 
-          const client: MapValue = {
-            searchOptions,
-            gameIds: [],
-            authedUserId: ctx.state.authed_userId,
-            allowNewGame: allowNewGame ?? false,
-            keepAliveTimerId: setKeepAliveTimeout(controller),
-          };
+      const searchOptions = analyzeStringSearchOption(q);
 
-          const games = kkmm.getGames().filter((game) => {
-            return staticFilter(game, client) && dynamicFilter(game, client);
-          }).sort((a, b) => sortCompareFn(a, b, searchOptions));
+      const client: MapValue = {
+        searchOptions,
+        gameIds: [],
+        authedUserId: ctx.state.authed_userId,
+        allowNewGame: allowNewGame ?? false,
+        keepAliveTimerId: setKeepAliveTimeout(target),
+      };
 
-          const gamesNum = games.length;
-          const slicedGames = games.slice(sIdx, eIdx);
-          const gameIds = slicedGames.map((g) => g.uuid);
+      const games = kkmm.getGames().filter((game) => {
+        return staticFilter(game, client) && dynamicFilter(game, client);
+      }).sort((a, b) => sortCompareFn(a, b, searchOptions));
 
-          client.gameIds = gameIds;
+      const gamesNum = games.length;
+      const slicedGames = games.slice(sIdx, eIdx);
+      const gameIds = slicedGames.map((g) => g.uuid);
 
-          const initialData: WsGameRes = {
-            type: "initial",
-            q,
-            startIndex: sIdx,
-            endIndex: eIdx,
-            games: slicedGames.map((g) => g.toJSON()),
-            gamesNum,
-          };
+      client.gameIds = gameIds;
 
-          clients.set(controller, client);
+      const initialData: WsGameRes = {
+        type: "initial",
+        q,
+        startIndex: sIdx,
+        endIndex: eIdx,
+        games: slicedGames.map((g) => g.toJSON()),
+        gamesNum,
+      };
 
-          controller.enqueue(JSON.stringify(initialData));
-        },
-        cancel: () => {
-          // console.log("cancel", con);
-          if (con) {
-            // con.close();
-            const value = clients.get(con);
-            clearTimeout(value?.keepAliveTimerId);
-            // console.log(value);
-            clients.delete(con);
-            con.close();
-          }
-        },
+      clients.set(target, client);
+
+      const initialEvent = new ServerSentEvent("message", initialData);
+      target.dispatchEvent(initialEvent);
+
+      target.addEventListener("close", () => {
+        const value = clients.get(target);
+        clearTimeout(value?.keepAliveTimerId);
+        // console.log(value);
+        clients.delete(target);
       });
-      ctx.response.body = rs;
     },
   );
 
