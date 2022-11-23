@@ -10,19 +10,6 @@ import { getPayload } from "./parts/jwt.ts";
 export const userRouter = () => {
   const router = new Router();
 
-  router.get("/verify", async (ctx) => {
-    const jwt = ctx.request.headers.get("Authorization");
-    if (!jwt) return;
-    const payload = await getPayload(jwt);
-    if (!payload) return;
-    //console.log(payload);
-    const isUser = accounts.getUsers().some((user) =>
-      user.id === payload.user_id
-    );
-    if (!isUser) throw new ServerError(errors.NOT_USER);
-    ctx.response.status = 200;
-  });
-
   // ユーザ登録
   router.post(
     "/regist",
