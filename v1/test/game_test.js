@@ -1,7 +1,9 @@
-import { getAuth, signInWithEmailAndPassword } from "../../deps.ts";
 import { assert, assertEquals, v4 } from "../../deps-test.ts";
 
 import { randomUUID } from "../../core/util.ts";
+
+import { useUser } from "../../util/test/useUser.ts";
+import { openapi, validator } from "../parts/openapi.ts";
 
 import ApiClient from "../../client/client.ts";
 
@@ -9,43 +11,28 @@ const ac = new ApiClient();
 
 import { errors } from "../../core/error.ts";
 
-import "../../core/firestore.ts";
+const assertGameCreateRes = (res, responseCode) => {
+  const isValid = validator.validateResponse(
+    res,
+    "/game/create",
+    "post",
+    responseCode,
+    "application/json",
+  );
+  assert(isValid);
+};
 
-const auth = getAuth();
-const u = await signInWithEmailAndPassword(
-  auth,
-  "client@example.com",
-  "test-client",
-);
-
-const assertGame = (game_, sample_ = {}) => {
-  const game = structuredClone(game_);
-  const sample = structuredClone(sample_);
+const assertGame = (game, sample = {}) => {
   assert(v4.validate(game.id));
   assertEquals(game.gaming, false);
   assertEquals(game.ending, false);
   assertEquals(game.board, null);
   assertEquals(game.turn, 0);
   assertEquals(game.tiled, null);
-  assert(Array.isArray(game.players));
-  assert(Array.isArray(game.log));
   assertEquals(game.name, sample.name || "");
   assertEquals(game.startedAtUnixTime, null);
-  assertEquals(typeof game.operationSec, "number");
-  assertEquals(typeof game.transitionSec, "number");
-  assert(Array.isArray(game.reservedUsers));
 
   if (sample.reservedUsers) assert(game.reservedUsers, sample.reservedUsers);
-};
-
-const assertBoard = (board) => {
-  assertEquals(typeof board.name, "string");
-  assertEquals(typeof board.width, "number");
-  assertEquals(typeof board.height, "number");
-  assertEquals(typeof board.nTurn, "number");
-  assertEquals(typeof board.nAgent, "number");
-  assertEquals(typeof board.nSec, "number");
-  assert(Array.isArray(board.points));
 };
 
 const data = {
@@ -60,22 +47,19 @@ const data = {
 // personal game通常、personal game auth invalid
 Deno.test("v1/game/create:normal", async () => {
   const res = await ac.gameCreate({ ...data, option: { dryRun: true } });
+  assertGameCreateRes(res.data, 200);
   assertGame(res.data, data);
 });
 Deno.test("v1/game/create:normal with playerIdentifiers", async () => {
-  const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid };
-  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
-  userData.id = userRes.data.id;
-
-  const res = await ac.gameCreate({
-    ...data,
-    playerIdentifiers: [userData.id],
-    option: { dryRun: true },
+  await useUser(async (user) => {
+    const res = await ac.gameCreate({
+      ...data,
+      playerIdentifiers: [user.id],
+      option: { dryRun: true },
+    });
+    assertGameCreateRes(res.data, 200);
+    assertGame(res.data, { ...data, reservedUsers: [user.id] });
   });
-
-  assertGame(res.data, { ...data, reservedUsers: [userData.id] });
-  await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
 });
 Deno.test("v1/game/create:invalid boardName", async () => {
   {
@@ -84,6 +68,7 @@ Deno.test("v1/game/create:invalid boardName", async () => {
       boardName: "",
       option: { dryRun: true },
     });
+    assertGameCreateRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_BOARD_NAME);
   }
   {
@@ -92,6 +77,7 @@ Deno.test("v1/game/create:invalid boardName", async () => {
       boardName: undefined,
       option: { dryRun: true },
     });
+    assertGameCreateRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_BOARD_NAME);
   }
   {
@@ -100,6 +86,7 @@ Deno.test("v1/game/create:invalid boardName", async () => {
       boardName: null,
       option: { dryRun: true },
     });
+    assertGameCreateRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_BOARD_NAME);
   }
 });
@@ -110,6 +97,7 @@ Deno.test("v1/game/create:not exist board", async () => {
       boardName: "existboard",
       option: { dryRun: true },
     });
+    assertGameCreateRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_BOARD_NAME);
   }
 });
@@ -119,21 +107,19 @@ Deno.test("v1/game/create:not user", async () => {
     playerIdentifiers: [randomUUID()],
     option: { dryRun: true },
   });
+  assertGameCreateRes(res.data, 400);
   assertEquals(res.data, errors.NOT_USER);
 });
 Deno.test("v1/game/create:already registed user", async () => {
-  const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid };
-  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
-  userData.id = userRes.data.id;
-
-  const res = await ac.gameCreate({
-    ...data,
-    playerIdentifiers: [userData.id, userData.id],
-    option: { dryRun: true },
+  await useUser(async (user) => {
+    const res = await ac.gameCreate({
+      ...data,
+      playerIdentifiers: [user.id, user.id],
+      option: { dryRun: true },
+    });
+    assertGameCreateRes(res.data, 400);
+    assertEquals(res.data, errors.ALREADY_REGISTERED_USER);
   });
-  assertEquals(res.data, errors.ALREADY_REGISTERED_USER);
-  await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
 });
 Deno.test("v1/game/create:invalid tournament id", async () => {
   const res = await ac.gameCreate({
@@ -141,22 +127,19 @@ Deno.test("v1/game/create:invalid tournament id", async () => {
     tournamentId: randomUUID(),
     option: { dryRun: true },
   });
+  assertGameCreateRes(res.data, 400);
   assertEquals(res.data, errors.INVALID_TOURNAMENT_ID);
 });
 Deno.test("v1/game/create with personal game:normal", async () => {
-  const uuid = randomUUID();
-  const userData = { screenName: uuid, name: uuid };
-  const userRes = await ac.usersRegist(userData, await u.user.getIdToken());
-  userData.id = userRes.data.id;
-
-  const res = await ac.gameCreate({
-    ...data,
-    isMySelf: true,
-    option: { dryRun: true },
-  }, `Bearer ${userRes.data.bearerToken}`);
-  assertGame(res.data, data);
-
-  await ac.usersDelete({}, `Bearer ${userRes.data.bearerToken}`);
+  await useUser(async (user) => {
+    const res = await ac.gameCreate({
+      ...data,
+      isMySelf: true,
+      option: { dryRun: true },
+    }, `Bearer ${user.bearerToken}`);
+    assertGameCreateRes(res.data, 200);
+    assertGame(res.data, data);
+  });
 });
 Deno.test("v1/game/create with personal game:invalid auth", async () => {
   const res = await ac.gameCreate({
@@ -164,6 +147,7 @@ Deno.test("v1/game/create with personal game:invalid auth", async () => {
     isMySelf: true,
     option: { dryRun: true },
   });
+  assertGameCreateRes(res.data, 400);
   assertEquals(res.data, errors.UNAUTHORIZED);
 });
 
@@ -172,5 +156,10 @@ Deno.test("v1/game/create with personal game:invalid auth", async () => {
 // 正常
 Deno.test("v1/game/boards:normal", async () => {
   const res = await ac.getBoards();
-  res.data.forEach((e) => assertBoard(e));
+  const isValid = validator.validate(
+    res.data,
+    openapi.paths["/game/boards"].get.responses["200"]
+      .content["application/json"].schema,
+  );
+  assert(isValid);
 });

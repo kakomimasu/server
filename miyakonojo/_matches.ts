@@ -171,7 +171,7 @@ export const updateAction: RouterMiddleware<
   const actions = ctx.state.data;
   const newActions = player.actions;
 
-  const body: UpdateActionRes = [];
+  const resActions: UpdateActionRes["actions"] = [];
   const nowTurn = game.turn;
 
   actions.map((action) => {
@@ -205,14 +205,14 @@ export const updateAction: RouterMiddleware<
       newActions[actionIdx] = newAction;
     }
 
-    body.push({
+    resActions.push({
       ...action,
       turn: nowTurn,
     });
   });
 
   ctx.response.status = 201;
-  ctx.response.body = body;
+  ctx.response.body = { actions: resActions };
 };
 
 function getActions(game: ExpGame) {

@@ -1,21 +1,9 @@
-import { getAuth, signInWithEmailAndPassword } from "../../deps.ts";
 import { assertEquals } from "../../deps-test.ts";
 
+import { useUser } from "../../util/test/useUser.ts";
+
 import { randomUUID } from "../../core/util.ts";
-
-import ApiClient from "../../client/client.ts";
 import { errors } from "../../core/error.ts";
-
-const ac = new ApiClient();
-
-import "../../core/firestore.ts";
-
-const auth = getAuth();
-const u = await signInWithEmailAndPassword(
-  auth,
-  "client@example.com",
-  "test-client",
-);
 
 const urls = [
   `game/create`,
@@ -43,22 +31,17 @@ urls.forEach((url) => {
 // fetch all urls by invalid json
 for await (const url of urls) {
   Deno.test(`${url} with invalid json`, async () => {
-    const uuid = randomUUID();
-    const data = { screenName: uuid, name: uuid };
-    const userRes = await ac.usersRegist(data, await u.user.getIdToken());
-    if (!userRes.success) throw Error("Could not create user");
-
-    const res = await fetch("http://localhost:8880/v1/" + url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + userRes.data.bearerToken,
-      },
-      body: "{",
+    await useUser(async (user) => {
+      const res = await fetch("http://localhost:8880/v1/" + url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + user.bearerToken,
+        },
+        body: "{",
+      });
+      const body = await res.json();
+      assertEquals(body, errors.INVALID_SYNTAX);
     });
-    const body = await res.json();
-    assertEquals(body, errors.INVALID_SYNTAX);
-
-    await ac.usersDelete({}, "Bearer " + userRes.data.bearerToken);
   });
 }

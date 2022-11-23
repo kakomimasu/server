@@ -1,61 +1,47 @@
-import { getAuth, signInWithEmailAndPassword } from "../../deps.ts";
-import { assertEquals } from "../../deps-test.ts";
+import { assert, assertEquals } from "../../deps-test.ts";
 
-import "../../core/firestore.ts";
+import { useUser } from "../../util/test/useUser.ts";
 
-import ApiClient from "../../client/client.ts";
+import { validator } from "../parts/openapi.ts";
 
 const baseUrl = "http://localhost:8880/miyakonojo";
-
-const ac = new ApiClient();
-const auth = getAuth();
-const u = await signInWithEmailAndPassword(
-  auth,
-  "client@example.com",
-  "test-client",
-);
 
 Deno.test({
   name: "miyakonojo API",
   fn: async (t) => {
-    let token: string;
-    const registedUser = await ac.usersRegist({
-      screenName: "test",
-      name: "test",
-    }, await u.user.getIdToken());
-    if (registedUser.success) token = registedUser.data.bearerToken;
-    else {
-      const registedUser = await ac.usersShow(
-        "test",
-        await u.user.getIdToken(),
-      );
-      if (!registedUser.success) throw Error("user get failed");
-      token = registedUser.data.bearerToken ?? "";
-    }
+    await useUser(async (user) => {
+      const token = user.bearerToken;
 
-    await t.step("/ping", async (t) => {
-      await t.step("200 Success", async () => {
-        const res = await fetch(baseUrl + "/ping", {
-          headers: { "Authorization": token },
+      await t.step("/ping", async (t) => {
+        await t.step("200 Success", async () => {
+          const res = await fetch(baseUrl + "/ping", {
+            headers: { "Authorization": token },
+          });
+          const json = await res.json();
+          assertEquals(res.status, 200);
+          assert(validator.validateResponse(
+            json,
+            "/ping",
+            "get",
+            "200",
+            "application/json",
+          ));
         });
-        const json = await res.json();
-        assertEquals(res.status, 200);
-        assertEquals(json, {
-          status: "OK",
-        });
-      });
-      await t.step("401 Failure", async () => {
-        const res = await fetch(baseUrl + "/ping", {
-          headers: { "Authorization": "" },
-        });
-        const json = await res.json();
-        assertEquals(res.status, 401);
-        assertEquals(json, {
-          status: "InvalidToken",
+        await t.step("401 Failure", async () => {
+          const res = await fetch(baseUrl + "/ping", {
+            headers: { "Authorization": "" },
+          });
+          const json = await res.json();
+          assertEquals(res.status, 401);
+          assert(validator.validateResponse(
+            json,
+            "/ping",
+            "get",
+            "401",
+            "application/json",
+          ));
         });
       });
     });
-
-    await ac.usersDelete({}, `Bearer ${token}`);
   },
 });

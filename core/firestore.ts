@@ -1,12 +1,8 @@
 import {
-  connectAuthEmulator,
-  connectDatabaseEmulator,
   Core,
-  FirebaseOptions,
   get,
   getAuth,
   getDatabase,
-  initializeApp,
   ref,
   set,
   signInWithEmailAndPassword,
@@ -15,6 +11,7 @@ import {
 import { reqEnv } from "./env.ts";
 import type { ExpGame } from "./expKakomimasu.ts";
 import type { Tournament, User } from "./datas.ts";
+import { firebaseInit } from "./firebase.ts";
 
 export interface FUser {
   screenName: string;
@@ -33,25 +30,9 @@ export interface FTournament {
   gameIds: string[] | null;
 }
 
-const firebaseConfig: FirebaseOptions = {
-  apiKey: "AIzaSyBOas3O1fmIrl51n7I_hC09YCG0EEe7tlc",
-  authDomain: "kakomimasu.firebaseapp.com",
-  databaseURL: "https://kakomimasu-default-rtdb.firebaseio.com",
-  projectId: "kakomimasu",
-  storageBucket: "kakomimasu.appspot.com",
-  messagingSenderId: "883142143351",
-  appId: "1:883142143351:web:dc6ddc1158aa54ada74572",
-  measurementId: "G-L43FT511YW",
-};
-
-initializeApp(firebaseConfig);
+firebaseInit();
 const auth = getAuth();
 const db = getDatabase();
-
-if (reqEnv.FIREBASE_TEST) {
-  connectAuthEmulator(auth, `http://${reqEnv.FIREBASE_EMULATOR_HOST}:9099`);
-  connectDatabaseEmulator(db, reqEnv.FIREBASE_EMULATOR_HOST, 9000);
-}
 
 /** 管理ユーザでログイン */
 await signInWithEmailAndPassword(

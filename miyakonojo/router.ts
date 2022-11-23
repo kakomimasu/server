@@ -9,6 +9,7 @@ import { checkAuthPic, checkAuthToken, StatePic } from "./_util.ts";
 import { ping } from "./_ping.ts";
 import { matches, priorMatches, updateAction } from "./_matches.ts";
 import { UpdateActionReq } from "./types.ts";
+import { openapi } from "./parts/openapi.ts";
 
 export const router = new Router();
 
@@ -25,3 +26,6 @@ router.post<
   jsonParse(),
   updateAction,
 );
+router.get("/openapi.json", (ctx) => {
+  ctx.response.body = openapi;
+});

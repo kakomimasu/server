@@ -9,6 +9,7 @@ import { gameRouter } from "./v1/game.ts";
 import { matchRouter } from "./v1/match.ts";
 import { wsRoutes } from "./v1/ws.ts";
 import { streamRoutes } from "./v1/gameStream.ts";
+import { openapiRouter } from "./v1/openapi.ts";
 import { nonReqEnv, reqEnv } from "./core/env.ts";
 
 import { router as miyakonojoRouter } from "./miyakonojo/router.ts";
@@ -25,6 +26,8 @@ if (import.meta.main) {
     router.use("/game", streamRoutes());
     router.use("/users", userRouter());
     router.use("/tournament", tournamentRouter());
+    router.use("/openapi.json", openapiRouter());
+
     return router.routes();
   };
 
