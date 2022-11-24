@@ -135,18 +135,29 @@ export default class ApiClient {
   }
 
   async tournamentsCreate(data: TournamentCreateReq): ApiRes<TournamentRes> {
-    const res = await this._fetchNotGetJson("/v1/tournament/create", data);
-    return { success: res.status === 200, data: await res.json(), res };
-  }
-  async tournamentsGet(id: string): ApiRes<TournamentRes>;
-  async tournamentsGet(): ApiRes<TournamentRes[]>;
-  async tournamentsGet(id = ""): ApiRes<TournamentRes | TournamentRes[]> {
-    const res = await this._fetch(`/v1/tournament/get?id=${id}`);
+    const res = await this._fetchNotGetJson("/v1/tournaments", data);
     return { success: res.status === 200, data: await res.json(), res };
   }
 
-  async tournamentsDelete(data: TournamentDeleteReq): ApiRes<TournamentRes> {
-    const res = await this._fetchNotGetJson("/v1/tournament/delete", data);
+  async tournamentsGetAll(): ApiRes<TournamentRes[]> {
+    const res = await this._fetch(`/v1/tournaments`);
+    return { success: res.status === 200, data: await res.json(), res };
+  }
+  async tournamentsGet(id: string): ApiRes<TournamentRes> {
+    const res = await this._fetch(`/v1/tournaments/${id}`);
+    return { success: res.status === 200, data: await res.json(), res };
+  }
+
+  async tournamentsDelete(
+    tournamentId: string,
+    data: TournamentDeleteReq = {},
+  ): ApiRes<TournamentRes> {
+    const res = await this._fetchNotGetJson(
+      `/v1/tournaments/${tournamentId}`,
+      data,
+      undefined,
+      "DELETE",
+    );
     return { success: res.status === 200, data: await res.json(), res };
   }
   async tournamentsAddUser(
@@ -154,7 +165,7 @@ export default class ApiClient {
     data: TournamentAddUserReq,
   ): ApiRes<TournamentRes> {
     const res = await this._fetchNotGetJson(
-      `/v1/tournament/add?id=${tournamentId}`,
+      `/v1/tournaments/${tournamentId}/users`,
       data,
     );
     return { success: res.status === 200, data: await res.json(), res };

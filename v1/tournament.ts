@@ -21,7 +21,7 @@ export const tournamentRouter = () => {
 
   // 大会登録
   router.post(
-    "/create",
+    "/",
     contentTypeFilter("application/json"),
     jsonParse(),
     (ctx) => {
@@ -43,17 +43,17 @@ export const tournamentRouter = () => {
   );
 
   // 大会削除
-  router.post(
-    "/delete",
+  router.delete(
+    "/:id",
     contentTypeFilter("application/json"),
     jsonParse(),
     (ctx) => {
-      const data = ctx.state.data as TournamentDeleteReq;
-      if (!data.id) throw new ServerError(errors.INVALID_TOURNAMENT_ID);
+      const id = ctx.params.id;
 
-      const tournament = tournaments.get(data.id);
+      const tournament = tournaments.get(id);
       if (!tournament) throw new ServerError(errors.NOTHING_TOURNAMENT_ID);
 
+      const data = ctx.state.data as TournamentDeleteReq;
       if (data.option?.dryRun !== true) {
         tournaments.delete(tournament);
       }
@@ -64,26 +64,26 @@ export const tournamentRouter = () => {
   );
 
   // 大会取得
-  router.get("/get", (ctx) => {
-    const query = ctx.request.url.searchParams;
-    const id = query.get("id");
-    const resData = id ? tournaments.get(id) : tournaments.getAll();
+  router.get("/", (ctx) => {
+    const body: TournamentRes[] = tournaments.getAll();
+    ctx.response.body = body;
+  });
+  router.get("/:id", (ctx) => {
+    const id = ctx.params.id;
+    const resData = tournaments.get(id);
     if (!resData) throw new ServerError(errors.NOTHING_TOURNAMENT_ID);
 
-    const body: TournamentRes | TournamentRes[] = resData;
+    const body: TournamentRes = resData;
     ctx.response.body = body;
   });
 
   // 参加者追加
   router.post(
-    "/add",
+    "/:id/users",
     contentTypeFilter("application/json"),
     jsonParse(),
     (ctx) => {
-      const query = ctx.request.url.searchParams;
-      const tournamentId = query.get("id");
-      //console.log(tournamentId);
-      if (!tournamentId) throw new ServerError(errors.INVALID_TOURNAMENT_ID);
+      const tournamentId = ctx.params.id;
       let tournament = tournaments.get(tournamentId);
       if (!tournament) throw new ServerError(errors.INVALID_TOURNAMENT_ID);
 

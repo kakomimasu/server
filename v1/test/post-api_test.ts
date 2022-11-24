@@ -9,9 +9,9 @@ const urls = [
   `POST game/create`,
   `POST match`,
   `POST match/${randomUUID()}/action`,
-  `POST tournament/create`,
-  `POST tournament/delete`,
-  `POST tournament/add`,
+  `POST tournaments`,
+  `DELETE tournaments/${randomUUID()}`,
+  `POST tournaments/${randomUUID()}/users`,
   `POST users`,
   `DELETE users`,
 ];

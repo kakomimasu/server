@@ -29,9 +29,7 @@ export interface TournamentCreateReq extends TournamentBasic, ApiOption {
   participants?: string[];
 }
 
-export interface TournamentDeleteReq extends ApiOption {
-  id: string;
-}
+export type TournamentDeleteReq = ApiOption;
 
 export interface GameCreateReq extends ApiOption {
   name?: string;

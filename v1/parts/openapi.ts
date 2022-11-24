@@ -140,26 +140,7 @@ export const openapi = {
         },
       },
     },
-    "/tournament/create": {
-      post: {
-        responses: {
-          "200": {
-            description: "Success",
-            content: {
-              "application/json": {
-                schema: {
-                  "$ref": "#/components/schemas/Tournament",
-                },
-              },
-            },
-          },
-          "400": {
-            "$ref": "#/components/responses/400",
-          },
-        },
-      },
-    },
-    "/tournament/get": {
+    "/tournaments": {
       get: {
         responses: {
           "200": {
@@ -177,27 +158,6 @@ export const openapi = {
           },
         },
       },
-    },
-    "/tournament/get?id=:tournamentId": {
-      get: {
-        responses: {
-          "200": {
-            description: "Success",
-            content: {
-              "application/json": {
-                schema: {
-                  "$ref": "#/components/schemas/Tournament",
-                },
-              },
-            },
-          },
-          "400": {
-            "$ref": "#/components/responses/400",
-          },
-        },
-      },
-    },
-    "/tournament/add": {
       post: {
         responses: {
           "200": {
@@ -216,7 +176,43 @@ export const openapi = {
         },
       },
     },
-    "/tournament/delete": {
+    "/tournaments/{tournamentId}": {
+      get: {
+        responses: {
+          "200": {
+            description: "Success",
+            content: {
+              "application/json": {
+                schema: {
+                  "$ref": "#/components/schemas/Tournament",
+                },
+              },
+            },
+          },
+          "400": {
+            "$ref": "#/components/responses/400",
+          },
+        },
+      },
+      delete: {
+        responses: {
+          "200": {
+            description: "Success",
+            content: {
+              "application/json": {
+                schema: {
+                  "$ref": "#/components/schemas/Tournament",
+                },
+              },
+            },
+          },
+          "400": {
+            "$ref": "#/components/responses/400",
+          },
+        },
+      },
+    },
+    "/tournaments/{tournamentId}/users": {
       post: {
         responses: {
           "200": {
