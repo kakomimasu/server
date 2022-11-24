@@ -55,8 +55,13 @@ export default class ApiClient {
     this.baseUrl = new URL("", host);
   }
 
-  // deno-lint-ignore ban-types
-  async _fetchPostJson(path: string, data: object, auth?: string) {
+  async _fetchNotGetJson(
+    path: string,
+    // deno-lint-ignore ban-types
+    data: object,
+    auth?: string,
+    method?: string,
+  ) {
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
     if (auth) headers.append("Authorization", auth);
@@ -64,7 +69,7 @@ export default class ApiClient {
       const res = await fetch(
         new URL(path, this.baseUrl).href,
         {
-          method: "POST",
+          method: method ?? "POST",
           headers,
           body: JSON.stringify(data),
         },
@@ -77,19 +82,16 @@ export default class ApiClient {
     }
   }
 
-  async _fetch(path: string, auth?: string) {
+  async _fetch(path: string, auth?: string, option?: RequestInit) {
     // console.log(new URL(path, this.baseUrl).href);
+    let init: RequestInit = {};
+    if (auth) init.headers = new Headers({ Authorization: auth });
+    if (option) {
+      init = { ...init, ...option };
+    }
+
     try {
-      const res = await fetch(
-        new URL(path, this.baseUrl).href,
-        auth
-          ? {
-            headers: new Headers({
-              Authorization: auth,
-            }),
-          }
-          : {},
-      );
+      const res = await fetch(new URL(path, this.baseUrl).href, init);
       return res;
     } catch (e) {
       const error: Error = { errorCode: -1, message: e.message };
@@ -113,27 +115,27 @@ export default class ApiClient {
     data: UserRegistReq,
     auth?: string,
   ): ApiRes<Required<User>> {
-    const res = await this._fetchPostJson("/v1/users/regist", data, auth);
+    const res = await this._fetchNotGetJson("/v1/users", data, auth);
     return { success: res.status === 200, data: await res.json(), res };
   }
 
   async usersDelete(data: UserDeleteReq, auth: string): ApiRes<User> {
-    const res = await this._fetchPostJson("/v1/users/delete", data, auth);
+    const res = await this._fetchNotGetJson("/v1/users", data, auth, "DELETE");
     return { success: res.status === 200, data: await res.json(), res };
   }
 
   async usersShow(identifier: string, idToken?: string): ApiRes<User> {
-    const res = await this._fetch(`/v1/users/show/${identifier}`, idToken);
+    const res = await this._fetch(`/v1/users/${identifier}`, idToken);
     return { success: res.status === 200, data: await res.json(), res };
   }
 
   async usersSearch(searchText: string): ApiRes<User[]> {
-    const res = await this._fetch(`/v1/users/search?q=${searchText}`);
+    const res = await this._fetch(`/v1/users?q=${searchText}`);
     return { success: res.status === 200, data: await res.json(), res };
   }
 
   async tournamentsCreate(data: TournamentCreateReq): ApiRes<TournamentRes> {
-    const res = await this._fetchPostJson("/v1/tournament/create", data);
+    const res = await this._fetchNotGetJson("/v1/tournament/create", data);
     return { success: res.status === 200, data: await res.json(), res };
   }
   async tournamentsGet(id: string): ApiRes<TournamentRes>;
@@ -144,14 +146,14 @@ export default class ApiClient {
   }
 
   async tournamentsDelete(data: TournamentDeleteReq): ApiRes<TournamentRes> {
-    const res = await this._fetchPostJson("/v1/tournament/delete", data);
+    const res = await this._fetchNotGetJson("/v1/tournament/delete", data);
     return { success: res.status === 200, data: await res.json(), res };
   }
   async tournamentsAddUser(
     tournamentId: string,
     data: TournamentAddUserReq,
   ): ApiRes<TournamentRes> {
-    const res = await this._fetchPostJson(
+    const res = await this._fetchNotGetJson(
       `/v1/tournament/add?id=${tournamentId}`,
       data,
     );
@@ -159,7 +161,7 @@ export default class ApiClient {
   }
 
   async gameCreate(data: GameCreateReq, auth?: string): ApiRes<Game> {
-    const res = await this._fetchPostJson("/v1/game/create", data, auth);
+    const res = await this._fetchNotGetJson("/v1/game/create", data, auth);
     return { success: res.status === 200, data: await res.json(), res };
   }
 
@@ -169,7 +171,7 @@ export default class ApiClient {
   }
 
   async match(data: MatchReq, auth?: string): ApiRes<MatchRes> {
-    const res = await this._fetchPostJson("/v1/match", data, auth);
+    const res = await this._fetchNotGetJson("/v1/match", data, auth);
     return { success: res.status === 200, data: await res.json(), res };
   }
 
@@ -183,7 +185,7 @@ export default class ApiClient {
     data: ActionReq,
     auth: string,
   ): ApiRes<ActionRes> {
-    const res = await this._fetchPostJson(
+    const res = await this._fetchNotGetJson(
       `/v1/match/${gameId}/action`,
       data,
       auth,

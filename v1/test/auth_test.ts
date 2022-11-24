@@ -1,17 +1,18 @@
 import { assert } from "../../deps-test.ts";
 
 const bearerAuthRequiredUrlList = [
-  `users/delete`,
+  `DELETE users`,
 ];
 const jwtAuthRequiredUrlList = [
-  `users/regist`,
+  `POST users`,
 ];
 
 // fetch all urls by no Authorization header
 bearerAuthRequiredUrlList.forEach((url) => {
+  const [method, path] = url.split(" ");
   Deno.test(`${url} nothing Authorization header`, async () => {
-    const res = await fetch("http://localhost:8880/v1/" + url, {
-      method: "POST",
+    const res = await fetch("http://localhost:8880/v1/" + path, {
+      method,
       headers: {
         "Content-Type": "application/json",
       },
@@ -26,9 +27,10 @@ bearerAuthRequiredUrlList.forEach((url) => {
 });
 
 jwtAuthRequiredUrlList.forEach((url) => {
+  const [method, path] = url.split(" ");
   Deno.test(`${url} nothing Authorization header`, async () => {
-    const res = await fetch("http://localhost:8880/v1/" + url, {
-      method: "POST",
+    const res = await fetch("http://localhost:8880/v1/" + path, {
+      method,
       headers: {
         "Content-Type": "application/json",
       },

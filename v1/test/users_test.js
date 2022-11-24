@@ -13,7 +13,7 @@ const ac = new ApiClient();
 const assertUserRegistRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    "/users/regist",
+    "/users",
     "post",
     responseCode,
     "application/json",
@@ -24,7 +24,7 @@ const assertUserRegistRes = (res, responseCode) => {
 const assertUserShowRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    "/users/show/{userId}",
+    "/users/{userId}",
     "get",
     responseCode,
     "application/json",
@@ -35,7 +35,7 @@ const assertUserShowRes = (res, responseCode) => {
 const assertUserSearchRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    "/users/search",
+    "/users",
     "get",
     responseCode,
     "application/json",
@@ -46,8 +46,8 @@ const assertUserSearchRes = (res, responseCode) => {
 const assertUserDeleteRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    "/users/delete",
-    "post",
+    "/users",
+    "delete",
     responseCode,
     "application/json",
   );
@@ -211,7 +211,7 @@ Deno.test("users search:no query", async (t) => {
   await t.step({
     name: "no query",
     fn: async () => {
-      const res = await ac._fetch(`/v1/users/search`);
+      const res = await ac._fetch(`/v1/users`);
       const json = await res.json();
       assertUserSearchRes(json, 400);
       assertEquals(json, errors.NOTHING_SEARCH_QUERY);

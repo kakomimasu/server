@@ -35,7 +35,7 @@ if (import.meta.main) {
   const app = new Application();
   app.use(oakCors({
     origin: "*",
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "DELETE"],
   }));
 
   app.addEventListener("listen", ({ hostname, port, secure }) => {

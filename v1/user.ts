@@ -12,7 +12,7 @@ export const userRouter = () => {
 
   // ユーザ登録
   router.post(
-    "/regist",
+    "/",
     contentTypeFilter("application/json"),
     jsonParse(),
     async (ctx) => {
@@ -67,7 +67,7 @@ export const userRouter = () => {
 
   // ユーザ情報取得
   router.get(
-    "/show/:identifier",
+    "/:identifier",
     auth({ jwt: true, required: false }),
     (ctx) => {
       const identifier = ctx.params.identifier;
@@ -84,8 +84,8 @@ export const userRouter = () => {
   );
 
   // ユーザ削除
-  router.post(
-    "/delete",
+  router.delete(
+    "/",
     contentTypeFilter("application/json"),
     auth({ bearer: true, jwt: true }),
     jsonParse(),
@@ -103,7 +103,7 @@ export const userRouter = () => {
   );
 
   // ユーザ検索
-  router.get("/search", (ctx) => {
+  router.get("/", (ctx) => {
     const query = ctx.request.url.searchParams;
     const q = query.get("q");
     if (!q) {
