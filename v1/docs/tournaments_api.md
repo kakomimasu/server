@@ -7,7 +7,7 @@
 ### URL
 
 ```
-POST /v1/tournament/create
+POST /v1/tournaments
 ```
 
 ### パラメータJSON
@@ -48,14 +48,28 @@ POST /v1/tournament/create
 
 ## 大会情報取得
 
-大会の情報を取得することができます。idクエリを使うと特定の大会の情報が得られます。クエリがない場合には全ての大会情報を取得できます。
+全大会の情報を取得することができます。
 
 ### URL
 
 ```
-GET /v1/tournament/get
-or
-GET /v1/tournament/get?id=(大会ID)
+GET /v1/tournaments
+```
+
+### レスポンス
+
+レスポンスのBodyに[Tournamentオブジェクト](./data.md#Tournament)の配列が返ってきます。
+
+---
+
+## 大会情報取得（ID指定）
+
+特定の大会の情報を取得することができます。
+
+### URL
+
+```
+GET /v1/tournaments/(大会ID)
 ```
 
 ### レスポンス
@@ -77,7 +91,7 @@ GET /v1/tournament/get?id=(大会ID)
 ### URL
 
 ```
-POST /v1/tournament/delete
+DELETE /v1/tournaments/(大会ID)
 ```
 
 ### パラメータJSON
@@ -115,7 +129,7 @@ POST /v1/tournament/delete
 ### URL
 
 ```
-POST /v1/tournament/add?id=(大会ID)
+POST /v1/tournaments/(大会ID)/users
 ```
 
 ### パラメータJSON

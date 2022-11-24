@@ -7,7 +7,7 @@
 ### URL
 
 ```
-GET /v1/users/show/(ユーザのname又はID)
+GET /v1/users/(ユーザのname又はID)
 ```
 
 ### レスポンス
@@ -29,7 +29,7 @@ GET /v1/users/show/(ユーザのname又はID)
 ### URL
 
 ```
-POST /v1/users/delete
+DELETE /v1/users/(ユーザのname又はID)
 ```
 
 ### Authorizationヘッダ
@@ -59,7 +59,7 @@ bodyに含める情報はありません。
 ### URL
 
 ```
-GET /v1/users/search
+GET /v1/users
 ```
 
 ### クエリパラメータ
@@ -93,7 +93,7 @@ GET /v1/users/search
 ### URL
 
 ```
-POST /v1/users/regist
+POST /v1/users
 ```
 
 ### Authorizationヘッダ
