@@ -231,7 +231,7 @@ export const openapi = {
         },
       },
     },
-    "/users/{userId}": {
+    "/users/{userIdOrName}": {
       get: {
         responses: {
           "200": {
@@ -245,6 +245,26 @@ export const openapi = {
             },
           },
           "400": {
+            "$ref": "#/components/responses/400",
+          },
+        },
+      },
+      delete: {
+        responses: {
+          "200": {
+            description: "Success",
+            content: {
+              "application/json": {
+                schema: {
+                  "$ref": "#/components/schemas/User",
+                },
+              },
+            },
+          },
+          "400": {
+            "$ref": "#/components/responses/400",
+          },
+          "401": {
             "$ref": "#/components/responses/400",
           },
         },
@@ -284,26 +304,6 @@ export const openapi = {
             },
           },
           "400": {
-            "$ref": "#/components/responses/400",
-          },
-        },
-      },
-      delete: {
-        responses: {
-          "200": {
-            description: "Success",
-            content: {
-              "application/json": {
-                schema: {
-                  "$ref": "#/components/schemas/User",
-                },
-              },
-            },
-          },
-          "400": {
-            "$ref": "#/components/responses/400",
-          },
-          "401": {
             "$ref": "#/components/responses/400",
           },
         },

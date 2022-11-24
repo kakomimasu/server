@@ -43,6 +43,6 @@ export async function useUser(
     throw e;
   } finally {
     // テスト成功時も失敗時もユーザ削除
-    await ac.usersDelete({}, await u.user.getIdToken());
+    await ac.usersDelete(user.data.id, {}, await u.user.getIdToken());
   }
 }

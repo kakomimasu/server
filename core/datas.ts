@@ -65,20 +65,15 @@ class Users {
 
   getUsers = () => this.users;
 
-  deleteUser(userId: string, dryRun = false) {
-    const index = this.users.findIndex((u) => u.id === userId);
-    if (index === -1) throw new ServerError(errors.NOT_USER);
-
-    if (dryRun !== true) {
-      this.users.splice(index, 1);
-      this.save();
-    }
+  deleteUser(index: number) {
+    this.users.splice(index, 1);
+    this.save();
   }
 
-  showUser(identifier: string) {
+  showUser(idOrName: string) {
     const user = this.users.find((
       e,
-    ) => (e.id === identifier || e.name === identifier));
+    ) => (e.id === idOrName || e.name === idOrName));
     if (user === undefined) throw new ServerError(errors.NOT_USER);
     return user;
   }

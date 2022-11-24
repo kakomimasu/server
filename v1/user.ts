@@ -67,12 +67,12 @@ export const userRouter = () => {
 
   // ユーザ情報取得
   router.get(
-    "/:identifier",
+    "/:idOrName",
     auth({ jwt: true, required: false }),
     (ctx) => {
-      const identifier = ctx.params.identifier;
+      const idOrName = ctx.params.idOrName;
 
-      const user = accounts.showUser(identifier);
+      const user = accounts.showUser(idOrName);
 
       // 認証済みユーザかの確認
       const authedUserId = ctx.state.authed_userId as string;
@@ -85,18 +85,25 @@ export const userRouter = () => {
 
   // ユーザ削除
   router.delete(
-    "/",
+    "/:idOrName",
     contentTypeFilter("application/json"),
     auth({ bearer: true, jwt: true }),
     jsonParse(),
     (ctx) => {
+      const idOrName = ctx.params.idOrName;
       const reqData = ctx.state.data as UserDeleteReq;
       const authedUserId = ctx.state.authed_userId as string;
 
-      let user = accounts.getUsers().find((e) => e.id === authedUserId);
-      if (!user) throw new ServerError(errors.NOT_USER);
-      user = new User(user);
-      accounts.deleteUser(user.id, reqData.option?.dryRun);
+      const index = accounts.getUsers().findIndex((u) =>
+        u.id === authedUserId &&
+        (u.id === idOrName || u.name === idOrName)
+      );
+      if (index === -1) throw new ServerError(errors.NOT_USER);
+
+      const user = accounts.getUsers()[index];
+      if (reqData.option?.dryRun !== true) {
+        accounts.deleteUser(index);
+      }
       const body: IUser = user.toJSON();
       ctx.response.body = body;
     },

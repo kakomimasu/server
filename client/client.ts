@@ -119,8 +119,17 @@ export default class ApiClient {
     return { success: res.status === 200, data: await res.json(), res };
   }
 
-  async usersDelete(data: UserDeleteReq, auth: string): ApiRes<User> {
-    const res = await this._fetchNotGetJson("/v1/users", data, auth, "DELETE");
+  async usersDelete(
+    identifier: string,
+    data: UserDeleteReq,
+    auth: string,
+  ): ApiRes<User> {
+    const res = await this._fetchNotGetJson(
+      `/v1/users/${identifier}`,
+      data,
+      auth,
+      "DELETE",
+    );
     return { success: res.status === 200, data: await res.json(), res };
   }
 
