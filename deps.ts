@@ -1,6 +1,6 @@
 // Standard Library
-export { parse as yamlParse } from "https://deno.land/std@0.156.0/encoding/yaml.ts";
-export * as Colors from "https://deno.land/std@0.156.0/fmt/colors.ts";
+export { parse as yamlParse } from "https://deno.land/std@0.166.0/encoding/yaml.ts";
+export * as Colors from "https://deno.land/std@0.166.0/fmt/colors.ts";
 
 // Third Party Modules
 export * from "https://deno.land/x/dotenv@v3.2.0/mod.ts";
@@ -57,4 +57,4 @@ export {
   type ReferenceObject,
   type ResponseObject,
   type SchemaObject,
-} from "https://esm.sh/openapi3-ts@3.1.1";
+} from "https://esm.sh/openapi3-ts@3.1.2/";
