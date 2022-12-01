@@ -24,7 +24,7 @@ const assertUserRegistRes = (res, responseCode) => {
 const assertUserShowRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    "/users/{userId}",
+    "/users/{userIdOrName}",
     "get",
     responseCode,
     "application/json",
@@ -46,7 +46,7 @@ const assertUserSearchRes = (res, responseCode) => {
 const assertUserDeleteRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    "/users/{userId}",
+    "/users/{userIdOrName}",
     "delete",
     responseCode,
     "application/json",

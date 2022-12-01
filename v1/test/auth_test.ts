@@ -1,7 +1,7 @@
 import { assert } from "../../deps-test.ts";
 
 const bearerAuthRequiredUrlList = [
-  `DELETE users`,
+  `DELETE users/${crypto.randomUUID()}`,
 ];
 const jwtAuthRequiredUrlList = [
   `POST users`,
@@ -18,6 +18,7 @@ bearerAuthRequiredUrlList.forEach((url) => {
       },
       body: "{}",
     });
+    console.log(res);
     // console.log(res.headers);
     const wwwAuthentiate = res.headers.get("WWW-Authenticate");
     assert(wwwAuthentiate !== null);
