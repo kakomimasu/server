@@ -6,6 +6,8 @@ import { gameRouter } from "./game.ts";
 import { matchRouter } from "./match.ts";
 import { wsRoutes } from "./ws.ts";
 import { streamRoutes } from "./gameStream.ts";
+import { router as boardsRouter } from "./_boards.ts";
+
 import { openapi } from "./parts/openapi.ts";
 
 export const router = new Router();
@@ -16,6 +18,7 @@ router.use("/game", gameRouter());
 router.use("/game", streamRoutes());
 router.use("/users", userRouter());
 router.use("/tournaments", tournamentRouter());
+router.use("/boards", boardsRouter.routes());
 router.get("/openapi.json", (ctx) => {
   ctx.response.body = openapi;
 });

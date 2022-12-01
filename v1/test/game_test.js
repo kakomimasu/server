@@ -3,7 +3,7 @@ import { assert, assertEquals, v4 } from "../../deps-test.ts";
 import { randomUUID } from "../../core/util.ts";
 
 import { useUser } from "../../util/test/useUser.ts";
-import { openapi, validator } from "../parts/openapi.ts";
+import { validator } from "../parts/openapi.ts";
 
 import ApiClient from "../../client/client.ts";
 
@@ -149,17 +149,4 @@ Deno.test("v1/game/create with personal game:invalid auth", async () => {
   });
   assertGameCreateRes(res.data, 400);
   assertEquals(res.data, errors.UNAUTHORIZED);
-});
-
-// /v1/game/boards Test
-// テスト項目
-// 正常
-Deno.test("v1/game/boards:normal", async () => {
-  const res = await ac.getBoards();
-  const isValid = validator.validate(
-    res.data,
-    openapi.paths["/game/boards"].get.responses["200"]
-      .content["application/json"].schema,
-  );
-  assert(isValid);
 });

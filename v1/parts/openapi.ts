@@ -121,7 +121,7 @@ export const openapi = {
         },
       },
     },
-    "/game/boards": {
+    "/boards": {
       get: {
         responses: {
           "200": {

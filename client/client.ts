@@ -186,7 +186,7 @@ export default class ApiClient {
   }
 
   async getBoards(): ApiRes<Board[]> {
-    const res = await this._fetch("/v1/game/boards");
+    const res = await this._fetch("/v1/boards");
     return { success: res.status === 200, data: await res.json(), res };
   }
 

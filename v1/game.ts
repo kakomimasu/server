@@ -5,7 +5,7 @@ import { accounts, kkmm, tournaments } from "../core/datas.ts";
 import { errors, ServerError } from "../core/error.ts";
 import { Game as IGame, GameCreateReq } from "./types.ts";
 import { auth } from "./middleware.ts";
-import { getAllBoards, getBoard } from "../core/firestore.ts";
+import { getBoard } from "../core/firestore.ts";
 import { ExpGame } from "../core/expKakomimasu.ts";
 
 export const gameRouter = () => {
@@ -71,11 +71,6 @@ export const gameRouter = () => {
       //console.log(kkmm_self);
     },
   );
-  router.get("/boards", async (ctx) => {
-    const boards = await getAllBoards();
-    //console.log(boards);
-    ctx.response.body = boards;
-  });
 
   return router.routes();
 };
