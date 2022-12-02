@@ -39,7 +39,7 @@ Deno.test("create game", async () => {
   // );
   assert(validator.validateResponse(
     res.data,
-    "/game/create",
+    "/matches",
     "post",
     "200",
     "application/json",
@@ -54,7 +54,7 @@ Deno.test("create game", async () => {
 });
 
 Deno.test("match", async () => {
-  const res = await ac.match({ gameId, guest: { name: "test1" } });
+  const res = await ac.matchesGameIdPlayers(gameId, { guestName: "test1" });
   if (res.success === false) {
     throw Error(
       "Response Error. ErrorCode:" + res.data.errorCode + " " +
@@ -63,18 +63,18 @@ Deno.test("match", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    "/match",
+    "/matches/{gameId}/players",
     "post",
     "200",
     "application/json",
   ));
 
   pic1 = res.data.pic;
-  const res2 = await ac.match({ gameId: gameId, guest: { name: "test2" } });
+  const res2 = await ac.matchesGameIdPlayers(gameId, { guestName: "test2" });
   pic2 = res2.success ? res2.data.pic : "";
   assert(validator.validateResponse(
     res2.data,
-    "/match",
+    "/matches/{gameId}/players",
     "post",
     "200",
     "application/json",
@@ -98,7 +98,7 @@ Deno.test("get gameinfo", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    "/match/{gameId}",
+    "/matches/{gameId}",
     "get",
     "200",
     "application/json",
@@ -130,7 +130,7 @@ Deno.test("send action(Turn 1)", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    "/match/{gameId}",
+    "/matches/{gameId}",
     "get",
     "200",
     "application/json",
@@ -145,7 +145,7 @@ Deno.test("send action(Turn 1)", async () => {
   }, pic1);
   assert(validator.validateResponse(
     actionRes.data,
-    "/match/{gameId}/action",
+    "/matches/{gameId}/actions",
     "post",
     "200",
     "application/json",
@@ -158,7 +158,7 @@ Deno.test("send action(Turn 1)", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    "/match/{gameId}",
+    "/matches/{gameId}",
     "get",
     "200",
     "application/json",
@@ -173,7 +173,7 @@ Deno.test("send action(Turn 1)", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    "/match/{gameId}",
+    "/matches/{gameId}",
     "get",
     "200",
     "application/json",
@@ -204,7 +204,7 @@ Deno.test("send action(Turn 2)", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    "/match/{gameId}",
+    "/matches/{gameId}",
     "get",
     "200",
     "application/json",
@@ -217,7 +217,7 @@ Deno.test("send action(Turn 2)", async () => {
   }, pic2);
   assert(validator.validateResponse(
     actionRes.data,
-    "/match/{gameId}/action",
+    "/matches/{gameId}/actions",
     "post",
     "200",
     "application/json",
@@ -232,7 +232,7 @@ Deno.test("send action(Turn 2)", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    "/match/{gameId}",
+    "/matches/{gameId}",
     "get",
     "200",
     "application/json",

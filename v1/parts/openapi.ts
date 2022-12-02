@@ -9,7 +9,93 @@ export const openapi = {
     version: "0.1.0",
   },
   paths: {
-    "/match": {
+    "/matches/{gameId}/players": {
+      post: {
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: {
+                allOf: [
+                  { "$ref": "#/components/schemas/MatchesRequestBase" },
+                  { "$ref": "#/components/schemas/DryRunRequest" },
+                ],
+              },
+            },
+          },
+        },
+        responses: {
+          "200": {
+            "$ref": "#/components/responses/MatchesJoin",
+          },
+          "400": {
+            "$ref": "#/components/responses/400",
+          },
+        },
+      },
+    },
+    "/matches/free/players": {
+      post: {
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: {
+                allOf: [
+                  { "$ref": "#/components/schemas/MatchesRequestBase" },
+                  { "$ref": "#/components/schemas/DryRunRequest" },
+                ],
+              },
+            },
+          },
+        },
+        responses: {
+          "200": {
+            "$ref": "#/components/responses/MatchesJoin",
+          },
+          "400": {
+            "$ref": "#/components/responses/400",
+          },
+        },
+      },
+    },
+    "/matches/ai/players": {
+      post: {
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: {
+                allOf: [
+                  {
+                    allOf: [{
+                      "$ref": "#/components/schemas/MatchesRequestBase",
+                    }, {
+                      type: "object",
+                      properties: {
+                        aiName: {
+                          type: "string",
+                        },
+                        boardName: {
+                          type: "string",
+                        },
+                      },
+                    }],
+                  },
+                  { "$ref": "#/components/schemas/DryRunRequest" },
+                ],
+              },
+            },
+          },
+        },
+        responses: {
+          "200": {
+            "$ref": "#/components/responses/MatchesJoin",
+          },
+          "400": {
+            "$ref": "#/components/responses/400",
+          },
+        },
+      },
+    },
+    "/matches": {
       post: {
         responses: {
           "200": {
@@ -17,31 +103,7 @@ export const openapi = {
             content: {
               "application/json": {
                 schema: {
-                  type: "object",
-                  required: [
-                    "userId",
-                    "spec",
-                    "gameId",
-                    "index",
-                    "pic",
-                  ],
-                  properties: {
-                    userId: {
-                      type: "string",
-                    },
-                    spec: {
-                      type: "string",
-                    },
-                    gameId: {
-                      type: "string",
-                    },
-                    index: {
-                      type: "integer",
-                    },
-                    pic: {
-                      type: "string",
-                    },
-                  },
+                  "$ref": "#/components/schemas/Game",
                 },
               },
             },
@@ -52,7 +114,7 @@ export const openapi = {
         },
       },
     },
-    "/match/{gameId}": {
+    "/matches/{gameId}": {
       get: {
         responses: {
           "200": {
@@ -71,7 +133,7 @@ export const openapi = {
         },
       },
     },
-    "/match/{gameId}/action": {
+    "/matches/{gameId}/actions": {
       post: {
         responses: {
           "200": {
@@ -92,25 +154,6 @@ export const openapi = {
                       type: "integer",
                     },
                   },
-                },
-              },
-            },
-          },
-          "400": {
-            "$ref": "#/components/responses/400",
-          },
-        },
-      },
-    },
-    "/game/create": {
-      post: {
-        responses: {
-          "200": {
-            description: "Success",
-            content: {
-              "application/json": {
-                schema: {
-                  "$ref": "#/components/schemas/Game",
                 },
               },
             },
@@ -644,6 +687,25 @@ export const openapi = {
           },
         },
       },
+      MatchesRequestBase: {
+        type: "object",
+        properties: {
+          spec: {
+            type: "string",
+          },
+          guestName: {
+            type: "string",
+          },
+        },
+      },
+      DryRunRequest: {
+        type: "object",
+        properties: {
+          dryRun: {
+            type: "boolean",
+          },
+        },
+      },
     },
     responses: {
       "400": {
@@ -661,6 +723,40 @@ export const openapi = {
                   type: "integer",
                 },
                 message: {
+                  type: "string",
+                },
+              },
+            },
+          },
+        },
+      },
+      MatchesJoin: {
+        description: "Success",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              required: [
+                "userId",
+                "spec",
+                "gameId",
+                "index",
+                "pic",
+              ],
+              properties: {
+                userId: {
+                  type: "string",
+                },
+                spec: {
+                  type: "string",
+                },
+                gameId: {
+                  type: "string",
+                },
+                index: {
+                  type: "integer",
+                },
+                pic: {
                   type: "string",
                 },
               },

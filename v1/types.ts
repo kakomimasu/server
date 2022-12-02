@@ -1,3 +1,6 @@
+import { RequestBodyType } from "../util/openapi-type.ts";
+import { openapi } from "../v1/parts/openapi.ts";
+
 export interface ApiOption {
   option?: {
     dryRun?: boolean;
@@ -40,18 +43,21 @@ export interface GameCreateReq extends ApiOption {
   isMySelf?: boolean;
 }
 
-export interface MatchReq extends ApiOption {
-  spec?: string;
-  gameId?: string;
-  useAi?: boolean;
-  aiOption?: {
-    aiName: string;
-    boardName?: string;
-  };
-  guest?: {
-    name: string;
-  };
-}
+export type MatchesGameIdPlayersReq = RequestBodyType<
+  typeof openapi.paths["/matches/{gameId}/players"]["post"]["requestBody"],
+  "application/json",
+  typeof openapi
+>;
+export type MatchesFreePlayersReq = RequestBodyType<
+  typeof openapi.paths["/matches/free/players"]["post"]["requestBody"],
+  "application/json",
+  typeof openapi
+>;
+export type MatchesAiPlayersReq = RequestBodyType<
+  typeof openapi.paths["/matches/ai/players"]["post"]["requestBody"],
+  "application/json",
+  typeof openapi
+>;
 
 export interface MatchRes {
   userId: string;

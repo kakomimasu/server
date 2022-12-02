@@ -21,7 +21,10 @@ Deno.test({
 
       let matchRes: MatchRes;
       while (true) {
-        const res = await ac.match({ spec: "" }, `Bearer ${token}`);
+        const res = await ac.matchesFreePlayers(
+          { spec: "" },
+          `Bearer ${token}`,
+        );
         if (res.success === false) {
           throw Error(
             "Response Error. ErrorCode:" + res.data.errorCode + " " +
@@ -166,7 +169,7 @@ Deno.test({
         },
       );
 
-      await ac.match({ spec: "" }, `Bearer ${token}`);
+      await ac.matchesFreePlayers({ spec: "" }, `Bearer ${token}`);
 
       let nextUnixTime = 0;
       await t.step("425 Failure (Too Early)", async (t) => {

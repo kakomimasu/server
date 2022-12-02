@@ -45,7 +45,7 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/game/create",
+          "/matches",
           "post",
           "200",
           "application/json",
@@ -63,8 +63,9 @@ Deno.test({
       });
 
       await t.step("match", async () => {
-        const res = await ac.match(
-          { spec: testSpec, gameId },
+        const res = await ac.matchesGameIdPlayers(
+          gameId,
+          { spec: testSpec },
           `Bearer ${bearerToken}`,
         );
         if (res.success === false) {
@@ -75,20 +76,21 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match",
+          "/matches/{gameId}/players",
           "post",
           "200",
           "application/json",
         ));
         pic1 = res.data.pic;
 
-        const res2 = await ac.match(
-          { spec: testSpec, gameId: gameId },
+        const res2 = await ac.matchesGameIdPlayers(
+          gameId,
+          { spec: testSpec },
           `Bearer ${bearerToken}`,
         );
         assert(validator.validateResponse(
           res.data,
-          "/match",
+          "/matches/{gameId}/players",
           "post",
           "200",
           "application/json",
@@ -114,7 +116,7 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}",
+          "/matches/{gameId}",
           "get",
           "200",
           "application/json",
@@ -146,7 +148,7 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}",
+          "/matches/{gameId}",
           "get",
           "200",
           "application/json",
@@ -167,7 +169,7 @@ Deno.test({
         }, pic1);
         assert(validator.validateResponse(
           actionRes.data,
-          "/match/{gameId}/action",
+          "/matches/{gameId}/actions",
           "post",
           "200",
           "application/json",
@@ -177,7 +179,7 @@ Deno.test({
         }, pic1);
         assert(validator.validateResponse(
           actionRes.data,
-          "/match/{gameId}/action",
+          "/matches/{gameId}/actions",
           "post",
           "200",
           "application/json",
@@ -190,7 +192,7 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}",
+          "/matches/{gameId}",
           "get",
           "200",
           "application/json",
@@ -206,7 +208,7 @@ Deno.test({
         assert(res.success === false);
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}",
+          "/matches/{gameId}",
           "get",
           "400",
           "application/json",
@@ -220,7 +222,7 @@ Deno.test({
         assert(res.success === false);
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}/action",
+          "/matches/{gameId}/actions",
           "post",
           "400",
           "application/json",
@@ -236,7 +238,7 @@ Deno.test({
         assert(res.success === true);
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}",
+          "/matches/{gameId}",
           "get",
           "200",
           "application/json",
@@ -265,7 +267,7 @@ Deno.test({
         }, pic2);
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}/action",
+          "/matches/{gameId}/actions",
           "post",
           "200",
           "application/json",
@@ -281,7 +283,7 @@ Deno.test({
         assert(res.success === false);
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}",
+          "/matches/{gameId}",
           "get",
           "400",
           "application/json",
@@ -295,7 +297,7 @@ Deno.test({
         assert(res.success === false);
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}/action",
+          "/matches/{gameId}/actions",
           "post",
           "400",
           "application/json",
@@ -313,7 +315,7 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}",
+          "/matches/{gameId}",
           "get",
           "200",
           "application/json",

@@ -6,9 +6,11 @@ import { randomUUID } from "../../core/util.ts";
 import { errors } from "../../core/error.ts";
 
 const urls = [
-  `POST game/create`,
-  `POST match`,
-  `POST match/${randomUUID()}/action`,
+  `POST matches`,
+  `POST matches/${randomUUID()}/players`,
+  `POST matches/free/players`,
+  `POST matches/ai/players`,
+  `POST matches/${randomUUID()}/actions`,
   `POST tournaments`,
   `DELETE tournaments/${randomUUID()}`,
   `POST tournaments/${randomUUID()}/users`,

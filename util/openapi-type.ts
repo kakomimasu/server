@@ -11,9 +11,11 @@ type InferObjectNonRequired<T, Base = T> = T extends
   ? { [K in Exclude<keyof V, U[number]>]?: SchemaType<V[K], Base> }
   : never;
 
-type InferObject<T, Base = T> = Merge<
-  InferObjectRequired<T, Base> & InferObjectNonRequired<T, Base>
->;
+type InferObject<T, Base = T> = T extends { readonly required: unknown }
+  ? Merge<InferObjectRequired<T, Base> & InferObjectNonRequired<T, Base>>
+  : T extends { readonly properties: infer V }
+    ? { [K in keyof V]?: SchemaType<V[K], Base> }
+  : never;
 
 type InferArray<T, Base = T> = T extends { readonly items: infer U }
   ? SchemaType<U, Base>[]
@@ -71,6 +73,9 @@ export type ResponseType<T, ContentType extends string, Base = T> =
     };
   } ? SchemaType<U, Base>
     : never;
+
+export type RequestBodyType<T, ContentType extends string, Base = T> =
+  ResponseType<T, ContentType, Base>;
 
 type Merge<T> = {
   [K in keyof T]: T[K];

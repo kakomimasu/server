@@ -6,7 +6,9 @@ import {
   Board,
   Game,
   GameCreateReq,
-  MatchReq,
+  MatchesAiPlayersReq,
+  MatchesFreePlayersReq,
+  MatchesGameIdPlayersReq,
   MatchRes,
   TournamentAddUserReq,
   TournamentCreateReq,
@@ -181,7 +183,7 @@ export default class ApiClient {
   }
 
   async gameCreate(data: GameCreateReq, auth?: string): ApiRes<Game> {
-    const res = await this._fetchNotGetJson("/v1/game/create", data, auth);
+    const res = await this._fetchNotGetJson("/v1/matches", data, auth);
     return { success: res.status === 200, data: await res.json(), res };
   }
 
@@ -190,13 +192,43 @@ export default class ApiClient {
     return { success: res.status === 200, data: await res.json(), res };
   }
 
-  async match(data: MatchReq, auth?: string): ApiRes<MatchRes> {
-    const res = await this._fetchNotGetJson("/v1/match", data, auth);
+  async matchesGameIdPlayers(
+    gameId: string,
+    data: MatchesGameIdPlayersReq,
+    auth?: string,
+  ): ApiRes<MatchRes> {
+    const res = await this._fetchNotGetJson(
+      `/v1/matches/${gameId}/players`,
+      data,
+      auth,
+    );
+    return { success: res.status === 200, data: await res.json(), res };
+  }
+  async matchesFreePlayers(
+    data: MatchesFreePlayersReq,
+    auth?: string,
+  ): ApiRes<MatchRes> {
+    const res = await this._fetchNotGetJson(
+      `/v1/matches/free/players`,
+      data,
+      auth,
+    );
+    return { success: res.status === 200, data: await res.json(), res };
+  }
+  async matchesAiPlayers(
+    data: MatchesAiPlayersReq,
+    auth?: string,
+  ): ApiRes<MatchRes> {
+    const res = await this._fetchNotGetJson(
+      `/v1/matches/ai/players`,
+      data,
+      auth,
+    );
     return { success: res.status === 200, data: await res.json(), res };
   }
 
   async getMatch(gameId: string): ApiRes<Game> {
-    const res = await this._fetch(`/v1/match/${gameId}`);
+    const res = await this._fetch(`/v1/matches/${gameId}`);
     return { success: res.status === 200, data: await res.json(), res };
   }
 
@@ -206,7 +238,7 @@ export default class ApiClient {
     auth: string,
   ): ApiRes<ActionRes> {
     const res = await this._fetchNotGetJson(
-      `/v1/match/${gameId}/action`,
+      `/v1/matches/${gameId}/actions`,
       data,
       auth,
     );

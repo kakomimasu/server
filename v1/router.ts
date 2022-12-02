@@ -2,8 +2,7 @@ import { Router } from "../deps.ts";
 
 import { tournamentRouter } from "./tournament.ts";
 import { userRouter } from "./user.ts";
-import { gameRouter } from "./game.ts";
-import { matchRouter } from "./match.ts";
+import { router as matchesRouter } from "./_matches.ts";
 import { wsRoutes } from "./ws.ts";
 import { streamRoutes } from "./gameStream.ts";
 import { router as boardsRouter } from "./_boards.ts";
@@ -13,8 +12,7 @@ import { openapi } from "./parts/openapi.ts";
 export const router = new Router();
 
 router.use("/ws", wsRoutes());
-router.use("/match", matchRouter());
-router.use("/game", gameRouter());
+router.use("/matches", matchesRouter.routes());
 router.use("/game", streamRoutes());
 router.use("/users", userRouter());
 router.use("/tournaments", tournamentRouter());
