@@ -2,10 +2,11 @@ import { Router } from "../deps.ts";
 
 import { contentTypeFilter, jsonParse } from "./util.ts";
 import { errorCodeResponse, errors, ServerError } from "../core/error.ts";
-import { User as IUser, UserDeleteReq, UserRegistReq } from "./types.ts";
+import { User as IUser } from "./types.ts";
 import { auth } from "./middleware.ts";
 import { accounts, User } from "../core/datas.ts";
 import { getPayload } from "./parts/jwt.ts";
+import { validator } from "./parts/openapi.ts";
 
 export const userRouter = () => {
   const router = new Router();
@@ -16,8 +17,6 @@ export const userRouter = () => {
     contentTypeFilter("application/json"),
     jsonParse(),
     async (ctx) => {
-      const reqData = ctx.state.data as Partial<UserRegistReq>;
-      //console.log(reqData);
       const idToken = ctx.request.headers.get("Authorization");
 
       if (!idToken) {
@@ -33,12 +32,17 @@ export const userRouter = () => {
         return;
       }
 
-      if (!reqData.screenName) {
-        throw new ServerError(errors.INVALID_SCREEN_NAME);
-      }
+      const reqData = ctx.state.data;
+      const isValid = validator.validateRequestBody(
+        reqData,
+        "/users",
+        "post" as const,
+        "application/json",
+      );
+      if (!isValid) throw new ServerError(errors.INVALID_REQUEST);
+      //console.log(reqData);
 
-      if (!reqData.name) throw new ServerError(errors.INVALID_USER_NAME);
-      else if (accounts.getUsers().some((e) => e.name === reqData.name)) {
+      if (accounts.getUsers().some((e) => e.name === reqData.name)) {
         throw new ServerError(errors.ALREADY_REGISTERED_NAME);
       }
 
@@ -55,7 +59,7 @@ export const userRouter = () => {
         id,
       });
 
-      if (reqData.option?.dryRun !== true) {
+      if (reqData.dryRun !== true) {
         accounts.getUsers().push(user);
         accounts.save();
       }
@@ -91,7 +95,14 @@ export const userRouter = () => {
     jsonParse(),
     (ctx) => {
       const idOrName = ctx.params.idOrName;
-      const reqData = ctx.state.data as UserDeleteReq;
+      const reqData = ctx.state.data;
+      const isValid = validator.validateRequestBody(
+        reqData,
+        "/users/{userIdOrName}",
+        "delete" as const,
+        "application/json",
+      );
+      if (!isValid) throw new ServerError(errors.INVALID_REQUEST);
       const authedUserId = ctx.state.authed_userId as string;
 
       const index = accounts.getUsers().findIndex((u) =>
@@ -101,7 +112,7 @@ export const userRouter = () => {
       if (index === -1) throw new ServerError(errors.NOT_USER);
 
       const user = accounts.getUsers()[index];
-      if (reqData.option?.dryRun !== true) {
+      if (reqData.dryRun !== true) {
         accounts.deleteUser(index);
       }
       const body: IUser = user.toJSON();

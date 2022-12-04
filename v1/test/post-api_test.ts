@@ -10,7 +10,7 @@ const urls = [
   `POST matches/${randomUUID()}/players`,
   `POST matches/free/players`,
   `POST matches/ai/players`,
-  `POST matches/${randomUUID()}/actions`,
+  `PATCH matches/${randomUUID()}/actions`,
   `POST tournaments`,
   `DELETE tournaments/${randomUUID()}`,
   `POST tournaments/${randomUUID()}/users`,

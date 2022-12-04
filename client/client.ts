@@ -241,6 +241,7 @@ export default class ApiClient {
       `/v1/matches/${gameId}/actions`,
       data,
       auth,
+      "PATCH",
     );
     return { success: res.status === 200, data: await res.json(), res };
   }

@@ -159,8 +159,9 @@ export const openapi = {
       },
     },
     "/matches/{gameId}/actions": {
-      post: {
-        description: "エージェントの行動を送信することができます。",
+      patch: {
+        description:
+          "エージェントの行動を送信することができます。<br>同ターンに複数回送信した場合、そのエージェントIDの情報のみ書き変わり、その他のエージェントには影響しません。<br>そのため、一度送った行動情報を取り消したい場合には、そのエージェントに対してNONEを設定する必要があります。",
         summary: "ゲーム行動送信",
         tags: ["Matches API"],
         security: [{ PIC: [] }],
@@ -178,60 +179,62 @@ export const openapi = {
           content: {
             "application/json": {
               schema: {
-                type: "object",
-                required: ["actions"],
-                properties: {
-                  actions: {
-                    type: "array",
-                    description: "行動情報の配列",
-                    items: {
-                      oneOf: [{
-                        type: "object",
-                        required: ["agentId", "type", "x", "y"],
-                        properties: {
-                          agentId: {
-                            type: "integer",
-                            description:
-                              "エージェントID<br>`players[].agents`配列のインデックス",
+                allOf: [{
+                  type: "object",
+                  required: ["actions"],
+                  properties: {
+                    actions: {
+                      type: "array",
+                      description: "行動情報の配列",
+                      items: {
+                        oneOf: [{
+                          type: "object",
+                          required: ["agentId", "type", "x", "y"],
+                          properties: {
+                            agentId: {
+                              type: "integer",
+                              description:
+                                "エージェントID<br>`players[].agents`配列のインデックス",
+                            },
+                            type: {
+                              type: "string",
+                              description: "行動種類",
+                              enum: ["PUT", "MOVE", "REMOVE"],
+                            },
+                            x: {
+                              type: "integer",
+                              description: "x座標",
+                            },
+                            y: {
+                              type: "integer",
+                            },
                           },
-                          type: {
-                            type: "string",
-                            description: "行動種類",
-                            enum: ["PUT", "MOVE", "REMOVE"],
+                        }, {
+                          type: "object",
+                          required: ["agentId", "type"],
+                          properties: {
+                            agentId: {
+                              type: "integer",
+                              description:
+                                "エージェントID<br>`players[].agents`配列のインデックス",
+                            },
+                            type: {
+                              type: "string",
+                              description: "行動種類",
+                              enum: ["NONE"],
+                            },
                           },
-                          x: {
-                            type: "integer",
-                            description: "x座標",
-                          },
-                          y: {
-                            type: "integer",
-                          },
-                        },
-                      }, {
-                        type: "object",
-                        required: ["agentId", "type"],
-                        properties: {
-                          agentId: {
-                            type: "integer",
-                            description:
-                              "エージェントID<br>`players[].agents`配列のインデックス",
-                          },
-                          type: {
-                            type: "string",
-                            description: "行動種類",
-                            enum: ["NONE"],
-                          },
-                        },
-                      }],
+                        }],
+                      },
                     },
                   },
-                },
-                example: {
-                  "actions": [
-                    { "agentId": 0, "type": "PUT", "x": 5, "y": 6 },
-                    { "agentId": 1, "type": "NONE" },
-                  ],
-                },
+                  example: {
+                    "actions": [
+                      { "agentId": 0, "type": "PUT", "x": 5, "y": 6 },
+                      { "agentId": 1, "type": "NONE" },
+                    ],
+                  },
+                }, { "$ref": "#/components/schemas/DryRunRequest" }],
               },
             },
           },
@@ -280,39 +283,48 @@ export const openapi = {
           content: {
             "application/json": {
               schema: {
-                type: "object",
-                required: ["boardName", "nPlayer"],
-                properties: {
-                  name: {
-                    type: "string",
-                    description: "ゲーム名",
-                  },
-                  boardName: {
-                    type: "string",
-                    description:
-                      "使用するボード名<br>使用できるボード名は[ボード情報取得API](#operation/getBoards)にて取得できます。",
-                  },
-                  nPlayer: {
-                    type: "integer",
-                    description: "参加人数（2~4、デフォルトは2人）。",
-                  },
-                  playerIdentifiers: {
-                    type: "array",
-                    description:
-                      "ゲームに参加できるユーザを制限できます。<br>配列にはユーザネーム or ユーザIDを入れてください。",
-                    items: {
+                allOf: [{
+                  type: "object",
+                  required: ["name", "boardName"],
+                  properties: {
+                    name: {
                       type: "string",
+                      description: "ゲーム名",
+                      pattern: ".+",
+                    },
+                    boardName: {
+                      type: "string",
+                      description:
+                        "使用するボード名<br>使用できるボード名は[ボード情報取得API](#operation/getBoards)にて取得できます。",
+                      pattern: ".+",
+                    },
+                    nPlayer: {
+                      type: "integer",
+                      description: "参加人数（2~4、デフォルトは2人）。",
+                    },
+                    playerIdentifiers: {
+                      type: "array",
+                      description:
+                        "ゲームに参加できるユーザを制限できます。<br>配列にはユーザネーム or ユーザIDを入れてください。",
+                      items: {
+                        type: "string",
+                      },
+                    },
+                    tournamentId: {
+                      type: "string",
+                      description: "ゲームが所属する大会のID",
+                    },
+                    isPersonal: {
+                      type: "boolean",
+                      description:
+                        "`true`に設定するとゲーム一覧には表示されずマイページからしか見れないプライベートなゲームを作成できます。",
                     },
                   },
-                  tournamentId: {
-                    type: "string",
-                    description: "ゲームが所属する大会のID",
+                  example: {
+                    "name": "〇〇vs△△",
+                    "boardName": "A-1",
                   },
-                },
-                example: {
-                  "name": "〇〇vs△△",
-                  "boardName": "A-1",
-                },
+                }, { "$ref": "#/components/schemas/DryRunRequest" }],
               },
             },
           },
@@ -386,41 +398,44 @@ export const openapi = {
           content: {
             "application/json": {
               schema: {
-                type: "object",
-                required: ["name", "type"],
-                properties: {
-                  name: {
-                    type: "string",
-                    description: "大会名",
-                  },
-                  type: {
-                    type: "string",
-                    description: "対戦種別",
-                    enum: ["round-robin", "knockout"],
-                  },
-                  organizer: {
-                    type: "string",
-                    description: "主催者名",
-                  },
-                  remarks: {
-                    type: "string",
-                    description: "備考",
-                  },
-                  participants: {
-                    type: "array",
-                    description: "参加者の配列<br>配列にはユーザネーム or ユーザIDを入れてください。",
-                    items: {
+                allOf: [{
+                  type: "object",
+                  required: ["name", "type"],
+                  properties: {
+                    name: {
                       type: "string",
+                      description: "大会名",
+                      pattern: ".+",
+                    },
+                    type: {
+                      type: "string",
+                      description: "対戦種別",
+                      enum: ["round-robin", "knockout"],
+                    },
+                    organizer: {
+                      type: "string",
+                      description: "主催者名",
+                    },
+                    remarks: {
+                      type: "string",
+                      description: "備考",
+                    },
+                    participants: {
+                      type: "array",
+                      description: "参加者の配列<br>配列にはユーザネーム or ユーザIDを入れてください。",
+                      items: {
+                        type: "string",
+                      },
                     },
                   },
-                },
-                example: {
-                  "name": "囲みマス公式大会",
-                  "type": "rount-robin",
-                  "organizer": "Code for KOSEN",
-                  "remarks": "2021年1月1日 13:00開始",
-                  "participants": ["3c78387b-eb63-4b9a-b364-a7699c78e195"],
-                },
+                  example: {
+                    "name": "囲みマス公式大会",
+                    "type": "rount-robin",
+                    "organizer": "Code for KOSEN",
+                    "remarks": "2021年1月1日 13:00開始",
+                    "participants": ["3c78387b-eb63-4b9a-b364-a7699c78e195"],
+                  },
+                }, { "$ref": "#/components/schemas/DryRunRequest" }],
               },
             },
           },
@@ -487,6 +502,13 @@ export const openapi = {
             },
           },
         ],
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: { "$ref": "#/components/schemas/DryRunRequest" },
+            },
+          },
+        },
         responses: {
           "200": {
             description: "Success",
@@ -523,17 +545,20 @@ export const openapi = {
           content: {
             "application/json": {
               schema: {
-                type: "object",
-                required: ["user"],
-                properties: {
-                  user: {
-                    type: "string",
-                    description: "追加するユーザのユーザネーム or ユーザID",
+                allOf: [{
+                  type: "object",
+                  required: ["user"],
+                  properties: {
+                    user: {
+                      type: "string",
+                      description: "追加するユーザのユーザネーム or ユーザID",
+                      pattern: ".+",
+                    },
                   },
-                },
-                example: {
-                  "user": "3c78387b-eb63-4b9a-b364-a7699c78e195",
-                },
+                  example: {
+                    "user": "3c78387b-eb63-4b9a-b364-a7699c78e195",
+                  },
+                }, { "$ref": "#/components/schemas/DryRunRequest" }],
               },
             },
           },
@@ -603,6 +628,13 @@ export const openapi = {
             },
           },
         ],
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: { "$ref": "#/components/schemas/DryRunRequest" },
+            },
+          },
+        },
         responses: {
           "200": {
             description: "Success",
@@ -667,22 +699,26 @@ export const openapi = {
           content: {
             "application/json": {
               schema: {
-                type: "object",
-                required: ["screenName", "name"],
-                properties: {
-                  screenName: {
-                    type: "string",
-                    description: "表示名",
+                allOf: [{
+                  type: "object",
+                  required: ["screenName", "name"],
+                  properties: {
+                    screenName: {
+                      type: "string",
+                      description: "表示名",
+                      pattern: ".+",
+                    },
+                    name: {
+                      type: "string",
+                      description: "ユーザネーム",
+                      pattern: ".+",
+                    },
                   },
-                  name: {
-                    type: "string",
-                    description: "ユーザネーム",
+                  example: {
+                    "screenName": "A-1",
+                    "name": "a1",
                   },
-                },
-                example: {
-                  "screenName": "A-1",
-                  "name": "a1",
-                },
+                }, { "$ref": "#/components/schemas/DryRunRequest" }],
               },
             },
           },

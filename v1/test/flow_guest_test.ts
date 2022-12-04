@@ -146,7 +146,7 @@ Deno.test("send action(Turn 1)", async () => {
   assert(validator.validateResponse(
     actionRes.data,
     "/matches/{gameId}/actions",
-    "post",
+    "patch",
     "200",
     "application/json",
   ));
@@ -218,7 +218,7 @@ Deno.test("send action(Turn 2)", async () => {
   assert(validator.validateResponse(
     actionRes.data,
     "/matches/{gameId}/actions",
-    "post",
+    "patch",
     "200",
     "application/json",
   ));

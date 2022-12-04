@@ -3,18 +3,8 @@ import { Router } from "../deps.ts";
 import { contentTypeFilter, jsonParse } from "./util.ts";
 import { Tournament, tournaments } from "../core/datas.ts";
 import { errors, ServerError } from "../core/error.ts";
-import {
-  TournamentAddUserReq,
-  TournamentCreateReq,
-  TournamentDeleteReq,
-  TournamentRes,
-} from "./types.ts";
-
-const checkType = (type: string): boolean => {
-  if (type === "round-robin") return true;
-  if (type === "knockout") return true;
-  return false;
-};
+import { TournamentRes } from "./types.ts";
+import { validator } from "./parts/openapi.ts";
 
 export const tournamentRouter = () => {
   const router = new Router();
@@ -25,16 +15,19 @@ export const tournamentRouter = () => {
     contentTypeFilter("application/json"),
     jsonParse(),
     (ctx) => {
-      const data = ctx.state.data as TournamentCreateReq;
-      if (!data.name) throw new ServerError(errors.INVALID_TOURNAMENT_NAME);
-      if (!data.type || !checkType(data.type)) {
-        throw new ServerError(errors.INVALID_TYPE);
-      }
+      const data = ctx.state.data;
+      const isValid = validator.validateRequestBody(
+        data,
+        "/tournaments",
+        "post" as const,
+        "application/json",
+      );
+      if (!isValid) throw new ServerError(errors.INVALID_REQUEST);
       const tournament = Tournament.create(data);
       if (data.participants) {
         data.participants.forEach((e) => tournament.addUser(e));
       }
-      if (data.option?.dryRun !== true) {
+      if (data.dryRun !== true) {
         tournaments.add(tournament);
       }
       const body: TournamentRes = tournament;
@@ -53,8 +46,15 @@ export const tournamentRouter = () => {
       const tournament = tournaments.get(id);
       if (!tournament) throw new ServerError(errors.NOTHING_TOURNAMENT_ID);
 
-      const data = ctx.state.data as TournamentDeleteReq;
-      if (data.option?.dryRun !== true) {
+      const data = ctx.state.data;
+      const isValid = validator.validateRequestBody(
+        data,
+        "/tournaments/{tournamentId}",
+        "delete" as const,
+        "application/json",
+      );
+      if (!isValid) throw new ServerError(errors.INVALID_REQUEST);
+      if (data.dryRun !== true) {
         tournaments.delete(tournament);
       }
 
@@ -87,11 +87,17 @@ export const tournamentRouter = () => {
       let tournament = tournaments.get(tournamentId);
       if (!tournament) throw new ServerError(errors.INVALID_TOURNAMENT_ID);
 
-      const body = ctx.state.data as TournamentAddUserReq;
+      const body = ctx.state.data;
+      const isValid = validator.validateRequestBody(
+        body,
+        "/tournaments/{tournamentId}/users",
+        "post" as const,
+        "application/json",
+      );
+      if (!isValid) throw new ServerError(errors.INVALID_REQUEST);
       const identifier = body.user;
-      if (!identifier) throw new ServerError(errors.INVALID_USER_IDENTIFIER);
 
-      if (body.option?.dryRun !== true) {
+      if (body.dryRun !== true) {
         tournament = tournaments.addUser(tournamentId, identifier);
       } else {
         tournament = new Tournament(tournament);

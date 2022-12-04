@@ -204,7 +204,12 @@ export class OpenAPIValidator<Base> {
       );
     }
     const schema = this.spreadSchema(rawSchema);
-    return this.validate(data, schema);
+    try {
+      return this.validate(data, schema);
+    } catch (_e) {
+      // console.error(e);
+      return false;
+    }
   }
 
   validate<U extends (ReferenceObject | SchemaObject)>(
@@ -234,6 +239,14 @@ export class OpenAPIValidator<Base> {
           }
           if (schema.enum && !schema.enum.includes(data)) {
             throw new OpenAPIValidatorError("Invalid(string) enum: " + data);
+          }
+          if (schema.pattern) {
+            const regex = new RegExp(schema.pattern);
+            if (!regex.test(data)) {
+              throw new OpenAPIValidatorError(
+                `Invalid(string) pattern(${schema.pattern}): ` + data,
+              );
+            }
           }
           break;
         case "boolean":

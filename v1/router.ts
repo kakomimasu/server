@@ -1,11 +1,11 @@
 import { Router } from "../deps.ts";
 
-import { tournamentRouter } from "./tournament.ts";
-import { userRouter } from "./user.ts";
+import { tournamentRouter } from "./_tournaments.ts";
+import { userRouter } from "./_users.ts";
 import { router as matchesRouter } from "./_matches.ts";
+import { router as boardsRouter } from "./_boards.ts";
 import { wsRoutes } from "./ws.ts";
 import { streamRoutes } from "./gameStream.ts";
-import { router as boardsRouter } from "./_boards.ts";
 
 import { openapi } from "./parts/openapi.ts";
 

@@ -9,14 +9,7 @@ import { nonReqEnv } from "../core/env.ts";
 import { aiList } from "./parts/ai-list.ts";
 
 import { contentTypeFilter, jsonParse } from "./util.ts";
-import {
-  ActionPost as IActionPost,
-  ActionReq,
-  ActionRes,
-  Game as IGame,
-  GameCreateReq,
-  MatchRes,
-} from "./types.ts";
+import { ActionRes, Game as IGame, MatchRes } from "./types.ts";
 import { auth } from "./middleware.ts";
 import { validator } from "./parts/openapi.ts";
 
@@ -25,15 +18,6 @@ const boardname = nonReqEnv.boardname; // || "E-1"; // "F-1" "A-1"
 const getRandomBoard = async () => {
   const list = await getAllBoards(); //Deno.readDir(resolve("./board"));
   return list[Math.floor(Math.random() * list.length)];
-};
-
-const isEnableActionPost = (a: IActionPost) => {
-  if (
-    a.agentId === undefined || a.type === undefined || a.x === undefined ||
-    a.y === undefined
-  ) {
-    return false;
-  } else return true;
 };
 
 const createPlayer = (
@@ -62,22 +46,27 @@ router.post(
   auth({ bearer: true, required: false }),
   jsonParse(),
   async (ctx) => {
-    const reqJson = ctx.state.data as GameCreateReq;
-    if (!reqJson.boardName) {
-      throw new ServerError(errors.INVALID_BOARD_NAME);
-    }
+    const reqJson = ctx.state.data;
+    const isValid = validator.validateRequestBody(
+      reqJson,
+      "/matches",
+      "post",
+      "application/json",
+    );
+    if (!isValid) throw new ServerError(errors.INVALID_REQUEST);
+
     const board = await getBoard(reqJson.boardName);
     if (!board) throw new ServerError(errors.INVALID_BOARD_NAME);
     board.nplayer = reqJson.nPlayer || 2;
 
     let game: ExpGame;
-    if (!reqJson.option?.dryRun) {
+    if (!reqJson.dryRun) {
       game = new ExpGame(board, reqJson.name);
       kkmm.addGame(game);
       game.wsSend();
     } else game = new ExpGame(board, reqJson.name);
 
-    if (reqJson.isMySelf) {
+    if (reqJson.isPersonal) {
       const authedUserId = ctx.state.authed_userId as string;
       console.log(authedUserId);
       if (authedUserId) game.setType("personal", authedUserId);
@@ -87,26 +76,22 @@ router.post(
     } else game.setType("self");
 
     if (reqJson.playerIdentifiers) {
-      if (reqJson.playerIdentifiers.map) {
-        const userIds = reqJson.playerIdentifiers.map((e) => {
-          const id = accounts.find(e)?.id;
-          if (!id) throw new ServerError(errors.NOT_USER);
-          return id;
-        });
-        userIds.forEach((userId) => {
-          if (!game.addReservedUser(userId)) {
-            throw new ServerError(errors.ALREADY_REGISTERED_USER);
-          }
-        });
-      } else {
-        throw new ServerError(errors.INVALID_PLAYER_IDENTIFIERS);
-      }
+      const userIds = reqJson.playerIdentifiers.map((e) => {
+        const id = accounts.find(e)?.id;
+        if (!id) throw new ServerError(errors.NOT_USER);
+        return id;
+      });
+      userIds.forEach((userId) => {
+        if (!game.addReservedUser(userId)) {
+          throw new ServerError(errors.ALREADY_REGISTERED_USER);
+        }
+      });
     }
     if (reqJson.tournamentId) {
       const tournament = tournaments.get(reqJson.tournamentId);
       if (!tournament) throw new ServerError(errors.INVALID_TOURNAMENT_ID);
 
-      if (!reqJson.option?.dryRun) {
+      if (!reqJson.dryRun) {
         tournaments.addGame(reqJson.tournamentId, game.uuid);
       }
     }
@@ -129,7 +114,7 @@ router.get("/:id", (ctx) => {
   ctx.response.body = body;
 });
 
-router.post(
+router.patch(
   "/:gameId/actions",
   contentTypeFilter("application/json"),
   jsonParse(),
@@ -148,16 +133,18 @@ router.post(
       throw new ServerError(errors.DURING_TRANSITION_STEP);
     }
 
-    const actionData = ctx.state.data as ActionReq;
+    const actionData = ctx.state.data;
+    const isValid = validator.validateRequestBody(
+      actionData,
+      "/matches/{gameId}/actions",
+      "patch",
+      "application/json",
+    );
+    if (!isValid) throw new ServerError(errors.INVALID_REQUEST);
 
     const pic = ctx.request.headers.get("Authorization");
     const player = game.players.find((player) => player.pic === pic);
     if (!player) throw new ServerError(errors.INVALID_USER_AUTHORIZATION);
-
-    if (!actionData.actions) actionData.actions = [];
-    if (actionData.actions.some((a) => !isEnableActionPost(a))) {
-      throw new ServerError(errors.INVALID_ACTION);
-    }
 
     const getType = (type: string) => {
       if (type === "PUT") return Core.Action.PUT;
@@ -172,8 +159,8 @@ router.post(
       const newAction = new Core.Action(
         action.agentId,
         getType(action.type),
-        action.x,
-        action.y,
+        ("x" in action) ? action.x : 0,
+        ("y" in action) ? action.y : 0,
       );
       const actionIdx = newActions.findIndex((a) =>
         a.agentid === action.agentId
@@ -186,7 +173,7 @@ router.post(
     });
 
     let nowTurn;
-    if (!actionData.option?.dryRun) {
+    if (!actionData.dryRun) {
       nowTurn = player.setActions(newActions);
     } else {
       nowTurn = game.turn;
@@ -285,7 +272,6 @@ router.post(
       //accounts.addGame(user.userId, game.uuid);
 
       const aiClient = new ai.client();
-      console.log("server new client");
       const aiPlayer = new Player(ai.name, "");
       game.ai = aiClient;
       game.attachPlayer(aiPlayer);

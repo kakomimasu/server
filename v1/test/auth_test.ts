@@ -18,7 +18,7 @@ bearerAuthRequiredUrlList.forEach((url) => {
       },
       body: "{}",
     });
-    console.log(res);
+    // console.log(res);
     // console.log(res.headers);
     const wwwAuthentiate = res.headers.get("WWW-Authenticate");
     assert(wwwAuthentiate !== null);

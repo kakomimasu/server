@@ -170,7 +170,7 @@ Deno.test({
         assert(validator.validateResponse(
           actionRes.data,
           "/matches/{gameId}/actions",
-          "post",
+          "patch",
           "200",
           "application/json",
         ));
@@ -180,7 +180,7 @@ Deno.test({
         assert(validator.validateResponse(
           actionRes.data,
           "/matches/{gameId}/actions",
-          "post",
+          "patch",
           "200",
           "application/json",
         ));
@@ -223,7 +223,7 @@ Deno.test({
         assert(validator.validateResponse(
           res.data,
           "/matches/{gameId}/actions",
-          "post",
+          "patch",
           "400",
           "application/json",
         ));
@@ -268,7 +268,7 @@ Deno.test({
         assert(validator.validateResponse(
           res.data,
           "/matches/{gameId}/actions",
-          "post",
+          "patch",
           "200",
           "application/json",
         ));
@@ -298,7 +298,7 @@ Deno.test({
         assert(validator.validateResponse(
           res.data,
           "/matches/{gameId}/actions",
-          "post",
+          "patch",
           "400",
           "application/json",
         ));
