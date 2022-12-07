@@ -1,6 +1,6 @@
 import { assert, assertEquals, v4 } from "../../deps-test.ts";
 
-import ApiClient, { Game } from "../../client/client.ts";
+import ApiClient from "../../client/client.ts";
 
 import { validator } from "../parts/openapi.ts";
 
@@ -45,12 +45,12 @@ Deno.test("create game", async () => {
     "application/json",
   ));
 
-  const sample = createGameSample;
+  const sample = createGameSample as typeof res.data;
 
   assert(v4.validate(res.data.id));
   gameId = res.data.id;
   res.data.id = sample.id = "";
-  assertEquals<Game>(sample, res.data);
+  assertEquals(sample, res.data);
 });
 
 Deno.test("match", async () => {
@@ -109,7 +109,7 @@ Deno.test("get gameinfo", async () => {
   //   JSON.stringify(res.data, null, 2),
   // );
 
-  const sample = matchGameInfoSample as Game;
+  const sample = matchGameInfoSample as typeof res.data;
   assert(v4.validate(res.data.id));
   assertEquals(res.data.players[0].id, "test1");
   assertEquals(res.data.players[1].id, "test2");

@@ -142,7 +142,7 @@ Deno.test({
           "application/json",
         ));
         actionRes = await ac.setAction(gameId, {
-          actions: [{ agentId: 1, type: "NONE", x: 1, y: 2 }],
+          actions: [{ agentId: 1, type: "NONE" }],
         }, pic1);
         assert(validator.validateResponse(
           actionRes.data,

@@ -7,8 +7,12 @@ import {
 } from "../deps.ts";
 import {
   InferReferenceType,
+  Methods,
+  Paths,
   RequestBodyType,
+  ResponseContentType,
   ResponseType,
+  ResposeStatusCode,
   SchemaType,
 } from "./openapi-type.ts";
 
@@ -74,64 +78,17 @@ export class OpenAPIValidator<Base> {
 
   /** Responseのバリデーション。 */
   validateResponse<
-    Path extends (Base extends { paths: infer Paths } ? keyof Paths : never),
-    Method
-      extends (Base extends { paths: { [_ in Path]: infer Methods } } ? Extract<
-          keyof Methods,
-          | "get"
-          | "put"
-          | "post"
-          | "delete"
-          | "options"
-          | "head"
-          | "patch"
-          | "trase"
-        >
-        : never),
-    StatusCode extends (Base extends {
-      paths: {
-        [_ in Path]: {
-          [_ in Method]: { responses: infer Responses };
-        };
-      };
-    } ? keyof Responses
-      : never),
-    ContentType extends (Base extends {
-      paths: {
-        [_ in Path]: {
-          [_ in Method]: {
-            responses: {
-              [_ in StatusCode]: infer U;
-            };
-          };
-        };
-      };
-      // $refに対応
-    } ? (U extends { $ref: `#/${infer V}` } ? InferReferenceType<V, Base> : U)
-      : never) extends { content: infer ContentType } ? keyof ContentType
-      : never,
+    Path extends Paths<Base>,
+    Method extends Methods<Path, Base>,
+    StatusCode extends ResposeStatusCode<Path, Method, Base>,
+    ContentType extends ResponseContentType<Path, Method, StatusCode, Base>,
   >(
     data: unknown,
     path: Path,
     method: Method,
     statusCode: StatusCode,
     contentType: ContentType,
-  ): data is ResponseType<
-    Base extends {
-      paths: {
-        [_ in Path]: {
-          [_ in Method]: {
-            responses: {
-              [_ in StatusCode]: infer U;
-            };
-          };
-        };
-      };
-    } ? U
-      : never,
-    ContentType,
-    Base
-  > {
+  ): data is ResponseType<Path, Method, StatusCode, ContentType, Base> {
     const rawSchema = this.spreadResponse(
       this.openapi.paths[path][method]
         .responses[String(statusCode)],
@@ -148,20 +105,8 @@ export class OpenAPIValidator<Base> {
 
   /** Request Bodyのバリデーション。 */
   validateRequestBody<
-    Path extends (Base extends { paths: infer Paths } ? keyof Paths : never),
-    Method
-      extends (Base extends { paths: { [_ in Path]: infer Methods } } ? Extract<
-          keyof Methods,
-          | "get"
-          | "put"
-          | "post"
-          | "delete"
-          | "options"
-          | "head"
-          | "patch"
-          | "trase"
-        >
-        : never),
+    Path extends Paths<Base>,
+    Method extends Methods<Path, Base>,
     ContentType extends (Base extends {
       paths: {
         [_ in Path]: {
@@ -179,20 +124,7 @@ export class OpenAPIValidator<Base> {
     path: Path,
     method: Method,
     contentType: ContentType,
-  ): data is RequestBodyType<
-    Base extends {
-      paths: {
-        [_ in Path]: {
-          [_ in Method]: {
-            requestBody: infer U;
-          };
-        };
-      };
-    } ? U
-      : never,
-    ContentType,
-    Base
-  > {
+  ): data is RequestBodyType<Path, Method, ContentType, Base> {
     const rawSchema = this.spreadRequestBody(
       this.openapi.paths[path][method]
         .requestBody,

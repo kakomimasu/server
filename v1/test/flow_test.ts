@@ -4,7 +4,7 @@ import { useUser } from "../../util/test/useUser.ts";
 
 import { errors } from "../../core/error.ts";
 
-import ApiClient, { Game } from "../../client/client.ts";
+import ApiClient from "../../client/client.ts";
 import { diffTime, sleep } from "./client_util.ts";
 
 import { validator } from "../parts/openapi.ts";
@@ -54,12 +54,12 @@ Deno.test({
         //   "./v1/test/sample/createGame_sample.json",
         //   JSON.stringify(res.data, null, 2),
         // );
-        const sample = createGameSample;
+        const sample = createGameSample as typeof res.data;
 
         assert(v4.validate(res.data.id));
         gameId = res.data.id;
         res.data.id = sample.id = "";
-        assertEquals<Game>(sample, res.data);
+        assertEquals(sample, res.data);
       });
 
       await t.step("match", async () => {
@@ -127,7 +127,7 @@ Deno.test({
         //   JSON.stringify(res.data, null, 2),
         // );
 
-        const sample = matchGameInfoSample as Game;
+        const sample = matchGameInfoSample as typeof res.data;
         assert(v4.validate(res.data.id));
         sample.id = res.data.id = "";
         sample.players[0].id = res.data.players[0].id = "";
@@ -175,7 +175,7 @@ Deno.test({
           "application/json",
         ));
         actionRes = await ac.setAction(gameId, {
-          actions: [{ agentId: 1, type: "NONE", x: 1, y: 2 }],
+          actions: [{ agentId: 1, type: "NONE" }],
         }, pic1);
         assert(validator.validateResponse(
           actionRes.data,

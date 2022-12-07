@@ -147,7 +147,7 @@ export const openapi = {
             content: {
               "application/json": {
                 schema: {
-                  "$ref": "#/components/schemas/Game",
+                  "$ref": "#/components/schemas/Match",
                 },
               },
             },
@@ -285,7 +285,7 @@ export const openapi = {
               schema: {
                 allOf: [{
                   type: "object",
-                  required: ["name", "boardName"],
+                  required: ["boardName"],
                   properties: {
                     name: {
                       type: "string",
@@ -335,7 +335,7 @@ export const openapi = {
             content: {
               "application/json": {
                 schema: {
-                  "$ref": "#/components/schemas/Game",
+                  "$ref": "#/components/schemas/Match",
                 },
               },
             },
@@ -637,14 +637,7 @@ export const openapi = {
         },
         responses: {
           "200": {
-            description: "Success",
-            content: {
-              "application/json": {
-                schema: {
-                  "$ref": "#/components/schemas/User",
-                },
-              },
-            },
+            "$ref": "#/components/responses/AuthedUser",
           },
           "400": {
             "$ref": "#/components/responses/400",
@@ -725,14 +718,7 @@ export const openapi = {
         },
         responses: {
           "200": {
-            description: "Success",
-            content: {
-              "application/json": {
-                schema: {
-                  "$ref": "#/components/schemas/User",
-                },
-              },
-            },
+            "$ref": "#/components/responses/AuthedUser",
           },
           "400": {
             "$ref": "#/components/responses/400",
@@ -746,7 +732,7 @@ export const openapi = {
   },
   components: {
     schemas: {
-      Game: {
+      Match: {
         type: "object",
         readOnly: true,
         required: [
@@ -831,6 +817,7 @@ export const openapi = {
                               type: "integer",
                               description:
                                 "行動タイプ<br>各数字が以下のように対応<br>1: PUT, 2: NONE, 3: MOVE, 4: REMOVE",
+                              enum: [1, 2, 3, 4],
                             },
                             agentId: {
                               type: "integer",
@@ -849,6 +836,7 @@ export const openapi = {
                               type: "integer",
                               description:
                                 "行動結果<br>各数字が以下のように対応<br>0: 成功, 1: 競合, 2: 無効, 3: 同じターンに複数の行動指示, 4: 存在しないエージェントへの指示, 5: 存在しない行動の指示",
+                              enum: [0, 1, 2, 3, 4, 5],
                             },
                           },
                         },
@@ -942,6 +930,7 @@ export const openapi = {
                       type: "integer",
                       description:
                         "マスのタイプ。ただし`player`がnullの場合は値に関係なく空白マス。<br>各数字が以下のように対応<br>0: 陣地, 1: 壁",
+                      enum: [0, 1],
                     },
                     player: {
                       type: "integer",
@@ -1146,7 +1135,7 @@ export const openapi = {
           },
         },
       },
-      User: {
+      UserBase: {
         type: "object",
         required: [
           "screenName",
@@ -1174,18 +1163,30 @@ export const openapi = {
               type: "string",
             },
           },
-          bearerToken: {
-            type: "string",
-            description: "Bearerトークン<br>認証されたユーザのみ取得できます。",
-          },
         },
         example: {
           "screenName": "A-1",
           "name": "a1",
           "id": "a92070bf-7f78-4c64-953b-189ddb44c159",
           "gameIds": [],
-          "bearerToken": "",
         },
+      },
+      User: {
+        allOf: [
+          { $ref: "#/components/schemas/UserBase" },
+          {
+            type: "object",
+            properties: {
+              bearerToken: {
+                type: "string",
+                description: "BearerToken<br>認証されたユーザのみ取得できます。",
+              },
+            },
+            example: {
+              "bearerToken": "",
+            },
+          },
+        ],
       },
       Tournament: {
         type: "object",
@@ -1375,6 +1376,28 @@ export const openapi = {
                 "index": 0,
                 "pic": "012345",
               },
+            },
+          },
+        },
+      },
+      AuthedUser: {
+        description: "Success",
+        content: {
+          "application/json": {
+            schema: {
+              allOf: [{ "$ref": "#/components/schemas/UserBase" }, {
+                type: "object",
+                required: ["bearerToken"],
+                properties: {
+                  bearerToken: {
+                    type: "string",
+                    description: "BearerToken",
+                  },
+                },
+                example: {
+                  "bearerToken": "a92070bf-7f78-4c64-953b-189ddb44c159",
+                },
+              }],
             },
           },
         },

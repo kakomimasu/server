@@ -1,23 +1,6 @@
 import { VersionRes } from "../types.ts";
 import { Error } from "../core/types.ts";
-import {
-  ActionReq,
-  ActionRes,
-  Board,
-  Game,
-  GameCreateReq,
-  MatchesAiPlayersReq,
-  MatchesFreePlayersReq,
-  MatchesGameIdPlayersReq,
-  MatchRes,
-  TournamentAddUserReq,
-  TournamentCreateReq,
-  TournamentDeleteReq,
-  TournamentRes,
-  User,
-  UserDeleteReq,
-  UserRegistReq,
-} from "../v1/types.ts";
+import * as T from "./types.ts";
 
 export * from "../types.ts";
 export * from "../core/types.ts";
@@ -114,18 +97,18 @@ export default class ApiClient {
     return { success, data, res };
   }
   async usersRegist(
-    data: UserRegistReq,
+    data: T.CreateUserReq,
     auth?: string,
-  ): ApiRes<Required<User>> {
+  ): ApiRes<T.CreateUserRes> {
     const res = await this._fetchNotGetJson("/v1/users", data, auth);
     return { success: res.status === 200, data: await res.json(), res };
   }
 
   async usersDelete(
     identifier: string,
-    data: UserDeleteReq,
+    data: T.DeleteUserReq,
     auth: string,
-  ): ApiRes<User> {
+  ): ApiRes<T.DeleteUserRes> {
     const res = await this._fetchNotGetJson(
       `/v1/users/${identifier}`,
       data,
@@ -135,34 +118,36 @@ export default class ApiClient {
     return { success: res.status === 200, data: await res.json(), res };
   }
 
-  async usersShow(identifier: string, idToken?: string): ApiRes<User> {
+  async usersShow(identifier: string, idToken?: string): ApiRes<T.GetUserRes> {
     const res = await this._fetch(`/v1/users/${identifier}`, idToken);
     return { success: res.status === 200, data: await res.json(), res };
   }
 
-  async usersSearch(searchText: string): ApiRes<User[]> {
+  async usersSearch(searchText: string): ApiRes<T.GetUsersRes> {
     const res = await this._fetch(`/v1/users?q=${searchText}`);
     return { success: res.status === 200, data: await res.json(), res };
   }
 
-  async tournamentsCreate(data: TournamentCreateReq): ApiRes<TournamentRes> {
+  async tournamentsCreate(
+    data: T.CreateTournamentReq,
+  ): ApiRes<T.CreateTournamentRes> {
     const res = await this._fetchNotGetJson("/v1/tournaments", data);
     return { success: res.status === 200, data: await res.json(), res };
   }
 
-  async tournamentsGetAll(): ApiRes<TournamentRes[]> {
+  async tournamentsGetAll(): ApiRes<T.GetTournamentsRes> {
     const res = await this._fetch(`/v1/tournaments`);
     return { success: res.status === 200, data: await res.json(), res };
   }
-  async tournamentsGet(id: string): ApiRes<TournamentRes> {
+  async tournamentsGet(id: string): ApiRes<T.GetTournamentRes> {
     const res = await this._fetch(`/v1/tournaments/${id}`);
     return { success: res.status === 200, data: await res.json(), res };
   }
 
   async tournamentsDelete(
     tournamentId: string,
-    data: TournamentDeleteReq = {},
-  ): ApiRes<TournamentRes> {
+    data: T.DeleteTournamentReq = {},
+  ): ApiRes<T.DeleteTournamentRes> {
     const res = await this._fetchNotGetJson(
       `/v1/tournaments/${tournamentId}`,
       data,
@@ -173,8 +158,8 @@ export default class ApiClient {
   }
   async tournamentsAddUser(
     tournamentId: string,
-    data: TournamentAddUserReq,
-  ): ApiRes<TournamentRes> {
+    data: T.AddTournamentUserReq,
+  ): ApiRes<T.AddTournamentUserRes> {
     const res = await this._fetchNotGetJson(
       `/v1/tournaments/${tournamentId}/users`,
       data,
@@ -182,21 +167,24 @@ export default class ApiClient {
     return { success: res.status === 200, data: await res.json(), res };
   }
 
-  async gameCreate(data: GameCreateReq, auth?: string): ApiRes<Game> {
+  async gameCreate(
+    data: T.CreateMatchReq,
+    auth?: string,
+  ): ApiRes<T.CreateMatchRes> {
     const res = await this._fetchNotGetJson("/v1/matches", data, auth);
     return { success: res.status === 200, data: await res.json(), res };
   }
 
-  async getBoards(): ApiRes<Board[]> {
+  async getBoards(): ApiRes<T.GetBoardsRes> {
     const res = await this._fetch("/v1/boards");
     return { success: res.status === 200, data: await res.json(), res };
   }
 
   async matchesGameIdPlayers(
     gameId: string,
-    data: MatchesGameIdPlayersReq,
+    data: T.JoinGameIdMatchReq,
     auth?: string,
-  ): ApiRes<MatchRes> {
+  ): ApiRes<T.JoinGameIdMatchRes> {
     const res = await this._fetchNotGetJson(
       `/v1/matches/${gameId}/players`,
       data,
@@ -205,9 +193,9 @@ export default class ApiClient {
     return { success: res.status === 200, data: await res.json(), res };
   }
   async matchesFreePlayers(
-    data: MatchesFreePlayersReq,
+    data: T.JoinFreeMatchReq,
     auth?: string,
-  ): ApiRes<MatchRes> {
+  ): ApiRes<T.JoinFreeMatchRes> {
     const res = await this._fetchNotGetJson(
       `/v1/matches/free/players`,
       data,
@@ -216,9 +204,9 @@ export default class ApiClient {
     return { success: res.status === 200, data: await res.json(), res };
   }
   async matchesAiPlayers(
-    data: MatchesAiPlayersReq,
+    data: T.JoinAiMatchReq,
     auth?: string,
-  ): ApiRes<MatchRes> {
+  ): ApiRes<T.JoinAiMatchRes> {
     const res = await this._fetchNotGetJson(
       `/v1/matches/ai/players`,
       data,
@@ -227,16 +215,16 @@ export default class ApiClient {
     return { success: res.status === 200, data: await res.json(), res };
   }
 
-  async getMatch(gameId: string): ApiRes<Game> {
+  async getMatch(gameId: string): ApiRes<T.GetMatchRes> {
     const res = await this._fetch(`/v1/matches/${gameId}`);
     return { success: res.status === 200, data: await res.json(), res };
   }
 
   async setAction(
     gameId: string,
-    data: ActionReq,
+    data: T.ActionMatchReq,
     auth: string,
-  ): ApiRes<ActionRes> {
+  ): ApiRes<T.ActionMatchRes> {
     const res = await this._fetchNotGetJson(
       `/v1/matches/${gameId}/actions`,
       data,

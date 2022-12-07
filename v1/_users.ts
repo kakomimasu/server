@@ -115,7 +115,7 @@ export const userRouter = () => {
       if (reqData.dryRun !== true) {
         accounts.deleteUser(index);
       }
-      const body: IUser = user.toJSON();
+      const body: IUser = user.noSafe();
       ctx.response.body = body;
     },
   );
