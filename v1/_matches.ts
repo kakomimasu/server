@@ -42,7 +42,7 @@ type GameIdMatchRes = ResponseType<
   typeof openapi
 >;
 type IGame = SchemaType<
-  typeof openapi["components"]["schemas"]["Match"],
+  typeof openapi["components"]["schemas"]["Game"],
   typeof openapi
 >;
 

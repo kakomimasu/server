@@ -52,7 +52,7 @@ export type JoinAiMatchReq = JoinMatchReq & {
 } & DryRunOption;
 export type JoinAiMatchRes = JoinMatchRes;
 
-export type GetMatchRes = Match;
+export type GetMatchRes = Game;
 
 export type ActionMatchReq = {
   actions: ({
@@ -75,18 +75,18 @@ export type CreateMatchReq = {
   tournamentId?: string;
   isPersonal?: boolean;
 } & DryRunOption;
-export type CreateMatchRes = Match;
+export type CreateMatchRes = Game;
 
 export type StreamMatchesInitialRes = {
   type: "initial";
   q: string;
   startIndex?: number;
   endIndex?: number;
-  games: Match[];
+  games: Game[];
   gamesNum: number;
 };
-export type StreamMatchesUpdateRes = { type: "update"; game: Match };
-export type StreamMatchesAddRes = { type: "add"; game: Match };
+export type StreamMatchesUpdateRes = { type: "update"; game: Game };
+export type StreamMatchesAddRes = { type: "add"; game: Game };
 export type StreamMatchesRemoveRes = { type: "remove"; gameId: string };
 export type StreamMatchesRes =
   | StreamMatchesInitialRes
@@ -128,7 +128,7 @@ export type CreateUserReq = {
 } & DryRunOption;
 export type CreateUserRes = AuthedUser;
 
-export type Match = {
+export type Game = {
   id: string;
   gaming: boolean;
   ending: boolean;

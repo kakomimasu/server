@@ -147,7 +147,7 @@ export const openapi = {
             content: {
               "application/json": {
                 schema: {
-                  "$ref": "#/components/schemas/Match",
+                  "$ref": "#/components/schemas/Game",
                 },
               },
             },
@@ -335,7 +335,7 @@ export const openapi = {
             content: {
               "application/json": {
                 schema: {
-                  "$ref": "#/components/schemas/Match",
+                  "$ref": "#/components/schemas/Game",
                 },
               },
             },
@@ -391,7 +391,7 @@ export const openapi = {
                         type: { type: "string", enum: ["initial"] },
                         games: {
                           type: "array",
-                          items: { "$ref": "#/components/schemas/Match" },
+                          items: { "$ref": "#/components/schemas/Game" },
                         },
                         q: { type: "string" },
                         gamesNum: { type: "integer" },
@@ -404,7 +404,7 @@ export const openapi = {
                       required: ["type", "game"],
                       properties: {
                         type: { type: "string", enum: ["update"] },
-                        game: { "$ref": "#/components/schemas/Match" },
+                        game: { "$ref": "#/components/schemas/Game" },
                       },
                     },
                     {
@@ -412,7 +412,7 @@ export const openapi = {
                       required: ["type", "game"],
                       properties: {
                         type: { type: "string", enum: ["add"] },
-                        game: { "$ref": "#/components/schemas/Match" },
+                        game: { "$ref": "#/components/schemas/Game" },
                       },
                     },
                     {
@@ -817,7 +817,7 @@ export const openapi = {
   },
   components: {
     schemas: {
-      Match: {
+      Game: {
         type: "object",
         readOnly: true,
         required: [
