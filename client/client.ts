@@ -2,9 +2,7 @@ import { VersionRes } from "../types.ts";
 import { Error } from "../core/types.ts";
 import * as T from "./types.ts";
 
-export * from "../types.ts";
-export * from "../core/types.ts";
-export * from "../v1/types.ts";
+export * from "./types.ts";
 
 export type ApiRes<T> = Promise<
   { success: true; data: T; res: Response } | {
@@ -14,25 +12,6 @@ export type ApiRes<T> = Promise<
   }
 >;
 
-export const ActionType = {
-  PUT: 1,
-  NONE: 2,
-  MOVE: 3,
-  REMOVE: 4,
-} as const;
-export const ActionResult = {
-  SUCCESS: 0,
-  CONFLICT: 1,
-  REVERT: 2,
-  ERR_ONLY_ONE_TURN: 3,
-  ERR_ILLEGAL_AGENT: 4,
-  ERR_ILLEGAL_ACTION: 5,
-} as const;
-export const TileType = {
-  AREA: 0,
-  WALL: 1,
-};
-
 export default class ApiClient {
   public baseUrl: URL;
 
@@ -40,68 +19,46 @@ export default class ApiClient {
     this.baseUrl = new URL("", host);
   }
 
-  async _fetchNotGetJson(
+  async #fetch(
     path: string,
-    // deno-lint-ignore ban-types
-    data: object,
-    auth?: string,
-    method?: string,
+    init: {
+      auth?: string;
+      method?: "POST" | "PATCH" | "DELETE";
+      // deno-lint-ignore ban-types
+      data: object;
+    } | { auth?: string; method?: "GET" } = {},
   ) {
     const headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    if (auth) headers.append("Authorization", auth);
+    if (init.auth) headers.append("Authorization", init.auth);
+    if (init.method !== "GET") {
+      headers.append("Content-Type", "application/json");
+    }
     try {
       const res = await fetch(
-        new URL(path, this.baseUrl).href,
+        new URL(path, this.baseUrl),
         {
-          method: method ?? "POST",
+          method: init.method,
           headers,
-          body: JSON.stringify(data),
+          body: "data" in init ? JSON.stringify(init.data) : undefined,
         },
       );
-      return res;
+      return { success: res.status === 200, data: await res.json(), res };
     } catch (e) {
-      const error: Error = { errorCode: -1, message: e.message };
-      const res = new Response(JSON.stringify(error), { status: 404 });
-      return res;
-    }
-  }
-
-  async _fetch(path: string, auth?: string, option?: RequestInit) {
-    // console.log(new URL(path, this.baseUrl).href);
-    let init: RequestInit = {};
-    if (auth) init.headers = new Headers({ Authorization: auth });
-    if (option) {
-      init = { ...init, ...option };
-    }
-
-    try {
-      const res = await fetch(new URL(path, this.baseUrl).href, init);
-      return res;
-    } catch (e) {
-      const error: Error = { errorCode: -1, message: e.message };
-      const res = new Response(JSON.stringify(error), { status: 404 });
-      return res;
+      const data: Error = { errorCode: -1, message: e.message };
+      const res = new Response(JSON.stringify(data), { status: 404 });
+      return { success: false, data, res };
     }
   }
 
   async getVersion(): ApiRes<VersionRes> {
-    const res = await this._fetch("/version");
-    return { success: res.status === 200, data: await res.json(), res };
+    return await this.#fetch("/version");
   }
 
-  async usersVerify(idToken: string): ApiRes<undefined> {
-    const res = await this._fetch("/v1/users/verify", idToken);
-    const success = res.status === 200;
-    const data = success ? undefined : await res.json();
-    return { success, data, res };
-  }
   async usersRegist(
     data: T.CreateUserReq,
     auth?: string,
   ): ApiRes<T.CreateUserRes> {
-    const res = await this._fetchNotGetJson("/v1/users", data, auth);
-    return { success: res.status === 200, data: await res.json(), res };
+    return await this.#fetch("/v1/users", { method: "POST", data, auth });
   }
 
   async usersDelete(
@@ -109,75 +66,61 @@ export default class ApiClient {
     data: T.DeleteUserReq,
     auth: string,
   ): ApiRes<T.DeleteUserRes> {
-    const res = await this._fetchNotGetJson(
+    return await this.#fetch(
       `/v1/users/${identifier}`,
-      data,
-      auth,
-      "DELETE",
+      { data, auth, method: "DELETE" },
     );
-    return { success: res.status === 200, data: await res.json(), res };
   }
 
   async usersShow(identifier: string, idToken?: string): ApiRes<T.GetUserRes> {
-    const res = await this._fetch(`/v1/users/${identifier}`, idToken);
-    return { success: res.status === 200, data: await res.json(), res };
+    return await this.#fetch(`/v1/users/${identifier}`, { auth: idToken });
   }
 
   async usersSearch(searchText: string): ApiRes<T.GetUsersRes> {
-    const res = await this._fetch(`/v1/users?q=${searchText}`);
-    return { success: res.status === 200, data: await res.json(), res };
+    return await this.#fetch(`/v1/users?q=${searchText}`);
   }
 
   async tournamentsCreate(
     data: T.CreateTournamentReq,
   ): ApiRes<T.CreateTournamentRes> {
-    const res = await this._fetchNotGetJson("/v1/tournaments", data);
-    return { success: res.status === 200, data: await res.json(), res };
+    return await this.#fetch("/v1/tournaments", { data, method: "POST" });
   }
 
   async tournamentsGetAll(): ApiRes<T.GetTournamentsRes> {
-    const res = await this._fetch(`/v1/tournaments`);
-    return { success: res.status === 200, data: await res.json(), res };
+    return await this.#fetch(`/v1/tournaments`);
   }
   async tournamentsGet(id: string): ApiRes<T.GetTournamentRes> {
-    const res = await this._fetch(`/v1/tournaments/${id}`);
-    return { success: res.status === 200, data: await res.json(), res };
+    return await this.#fetch(`/v1/tournaments/${id}`);
   }
 
   async tournamentsDelete(
     tournamentId: string,
     data: T.DeleteTournamentReq = {},
   ): ApiRes<T.DeleteTournamentRes> {
-    const res = await this._fetchNotGetJson(
+    return await this.#fetch(
       `/v1/tournaments/${tournamentId}`,
-      data,
-      undefined,
-      "DELETE",
+      { data, method: "DELETE" },
     );
-    return { success: res.status === 200, data: await res.json(), res };
   }
   async tournamentsAddUser(
     tournamentId: string,
     data: T.AddTournamentUserReq,
   ): ApiRes<T.AddTournamentUserRes> {
-    const res = await this._fetchNotGetJson(
+    return await this.#fetch(
       `/v1/tournaments/${tournamentId}/users`,
-      data,
+      { data, method: "POST" },
     );
-    return { success: res.status === 200, data: await res.json(), res };
   }
 
   async gameCreate(
     data: T.CreateMatchReq,
     auth?: string,
   ): ApiRes<T.CreateMatchRes> {
-    const res = await this._fetchNotGetJson("/v1/matches", data, auth);
-    return { success: res.status === 200, data: await res.json(), res };
+    return await this.#fetch("/v1/matches", { data, auth, method: "POST" });
   }
 
   async getBoards(): ApiRes<T.GetBoardsRes> {
-    const res = await this._fetch("/v1/boards");
-    return { success: res.status === 200, data: await res.json(), res };
+    return await this.#fetch("/v1/boards");
   }
 
   async matchesGameIdPlayers(
@@ -185,39 +128,32 @@ export default class ApiClient {
     data: T.JoinGameIdMatchReq,
     auth?: string,
   ): ApiRes<T.JoinGameIdMatchRes> {
-    const res = await this._fetchNotGetJson(
+    return await this.#fetch(
       `/v1/matches/${gameId}/players`,
-      data,
-      auth,
+      { data, auth, method: "POST" },
     );
-    return { success: res.status === 200, data: await res.json(), res };
   }
   async matchesFreePlayers(
     data: T.JoinFreeMatchReq,
     auth?: string,
   ): ApiRes<T.JoinFreeMatchRes> {
-    const res = await this._fetchNotGetJson(
+    return await this.#fetch(
       `/v1/matches/free/players`,
-      data,
-      auth,
+      { data, auth, method: "POST" },
     );
-    return { success: res.status === 200, data: await res.json(), res };
   }
   async matchesAiPlayers(
     data: T.JoinAiMatchReq,
     auth?: string,
   ): ApiRes<T.JoinAiMatchRes> {
-    const res = await this._fetchNotGetJson(
+    return await this.#fetch(
       `/v1/matches/ai/players`,
-      data,
-      auth,
+      { data, auth, method: "POST" },
     );
-    return { success: res.status === 200, data: await res.json(), res };
   }
 
   async getMatch(gameId: string): ApiRes<T.GetMatchRes> {
-    const res = await this._fetch(`/v1/matches/${gameId}`);
-    return { success: res.status === 200, data: await res.json(), res };
+    return await this.#fetch(`/v1/matches/${gameId}`);
   }
 
   async setAction(
@@ -225,12 +161,9 @@ export default class ApiClient {
     data: T.ActionMatchReq,
     auth: string,
   ): ApiRes<T.ActionMatchRes> {
-    const res = await this._fetchNotGetJson(
+    return await this.#fetch(
       `/v1/matches/${gameId}/actions`,
-      data,
-      auth,
-      "PATCH",
+      { data, auth, method: "PATCH" },
     );
-    return { success: res.status === 200, data: await res.json(), res };
   }
 }

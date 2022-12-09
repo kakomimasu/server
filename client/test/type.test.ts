@@ -3,6 +3,8 @@
 
 import { RequestBodyType, ResponseAllType } from "../../util/openapi-type.ts";
 import { openapi } from "../../v1/parts/openapi.ts";
+import * as Root from "../../types.ts";
+import * as Core from "../../core/types.ts";
 
 import * as T from "../types.ts";
 
@@ -35,6 +37,12 @@ type _DeepHalfEquals<A, B extends A, K extends keyof A> = (
 ) extends never ? true
   : false;
 
+const _eres: Equals<T.ErrorRes, Core.Error> = true;
+
+// GET /version
+const _vres: Equals<T.VersionRes, Root.VersionRes> = true;
+
+// POST /matches/{gameId}/players
 type PostMatchesGameIdPlayersReq = RequestBodyType<
   "/matches/{gameId}/players",
   "post",
@@ -132,6 +140,15 @@ type PostMatchesRes = ResponseAllType<
   typeof openapi
 >;
 const _cmres: Equals<T.CreateMatchRes | T.ErrorRes, PostMatchesRes> = true;
+
+// GET /matches/stream
+type GetMatchesStreamRes = ResponseAllType<
+  "/matches/stream",
+  "get",
+  "text/event-stream",
+  typeof openapi
+>;
+const _gmsres: Equals<T.StreamMatchesRes, GetMatchesStreamRes> = true;
 
 // GET /boards
 type GetBoardsRes = ResponseAllType<
@@ -245,8 +262,10 @@ type DeleteUsersUserIdOrNameRes = ResponseAllType<
   "application/json",
   typeof openapi
 >;
-const _dures: Equals<T.DeleteUserRes | T.ErrorRes, DeleteUsersUserIdOrNameRes> =
-  true;
+const _dures: Equals<
+  T.DeleteUserRes | T.ErrorRes,
+  DeleteUsersUserIdOrNameRes
+> = true;
 
 // GET /users
 type GetUsersRes = ResponseAllType<

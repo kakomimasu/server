@@ -346,6 +346,91 @@ export const openapi = {
         },
       },
     },
+    "/matches/stream": {
+      get: {
+        description: "試合情報をServer-Sent Eventsにてリアルタイムで取得できます。",
+        tags: ["Matches API"],
+        parameters: [
+          {
+            in: "query",
+            name: "q",
+            description: "検索クエリ",
+            schema: { type: "string" },
+          },
+          {
+            in: "query",
+            name: "startIndex",
+            description: "検索クエリに一致するゲーム配列の取得開始インデックス",
+            schema: { type: "integer" },
+          },
+          {
+            in: "query",
+            name: "endIndex",
+            description: "検索クエリに一致するゲーム配列の取得終了インデックス",
+            schema: { type: "integer" },
+          },
+          {
+            in: "query",
+            name: "allowNewGame",
+            description: "検索クエリに一致する新しいゲームが作成された時に通知するか",
+            schema: { type: "boolean" },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Success",
+            content: {
+              "text/event-stream": {
+                schema: {
+                  type: "object",
+                  oneOf: [
+                    {
+                      type: "object",
+                      required: ["type", "games", "q", "gamesNum"],
+                      properties: {
+                        type: { type: "string", enum: ["initial"] },
+                        games: {
+                          type: "array",
+                          items: { "$ref": "#/components/schemas/Match" },
+                        },
+                        q: { type: "string" },
+                        gamesNum: { type: "integer" },
+                        startIndex: { type: "integer" },
+                        endIndex: { type: "integer" },
+                      },
+                    },
+                    {
+                      type: "object",
+                      required: ["type", "game"],
+                      properties: {
+                        type: { type: "string", enum: ["update"] },
+                        game: { "$ref": "#/components/schemas/Match" },
+                      },
+                    },
+                    {
+                      type: "object",
+                      required: ["type", "game"],
+                      properties: {
+                        type: { type: "string", enum: ["add"] },
+                        game: { "$ref": "#/components/schemas/Match" },
+                      },
+                    },
+                    {
+                      type: "object",
+                      required: ["type", "gameId"],
+                      properties: {
+                        type: { type: "string", enum: ["remove"] },
+                        gameId: { type: "string" },
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      },
+    },
     "/boards": {
       get: {
         operationId: "getBoards",

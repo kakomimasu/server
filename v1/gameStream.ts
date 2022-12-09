@@ -5,10 +5,20 @@ import {
   ServerSentEventTarget,
 } from "../deps.ts";
 
-import type { WsGameRes } from "./types.ts";
+import { ResponseType } from "../util/openapi-type.ts";
+
 import { auth } from "./middleware.ts";
+import { openapi,validator } from "./parts/openapi.ts";
 import { kkmm } from "../core/datas.ts";
 import { addSendGameFn, ExpGame } from "../core/expKakomimasu.ts";
+
+type StreamRes = ResponseType<
+  "/matches/stream",
+  "get",
+  "200",
+  "text/event-stream",
+  typeof openapi
+>;
 
 type SearchOptions = { op: string; value: string }[];
 type MapValue = {
@@ -94,7 +104,7 @@ const dynamicFilter = (game: ExpGame, { searchOptions }: MapValue) => {
 
 export function sendGame(game: ExpGame) {
   clients.forEach((value, controller) => {
-    let data: WsGameRes;
+    let data: StreamRes;
 
     if (value.gameIds.some((id) => id === game.uuid)) {
       if (dynamicFilter(game, value)) {
@@ -165,7 +175,7 @@ export const streamRoutes = () => {
 
       client.gameIds = gameIds;
 
-      const initialData: WsGameRes = {
+      const initialData: StreamRes = {
         type: "initial",
         q,
         startIndex: sIdx,

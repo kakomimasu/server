@@ -1,3 +1,24 @@
+export const ActionType = {
+  PUT: 1,
+  NONE: 2,
+  MOVE: 3,
+  REMOVE: 4,
+} as const;
+export const ActionResult = {
+  SUCCESS: 0,
+  CONFLICT: 1,
+  REVERT: 2,
+  ERR_ONLY_ONE_TURN: 3,
+  ERR_ILLEGAL_AGENT: 4,
+  ERR_ILLEGAL_ACTION: 5,
+} as const;
+export const TileType = {
+  AREA: 0,
+  WALL: 1,
+} as const;
+
+export type VersionRes = { version: string };
+
 export type DryRunOption = {
   dryRun?: boolean;
 };
@@ -56,6 +77,23 @@ export type CreateMatchReq = {
 } & DryRunOption;
 export type CreateMatchRes = Match;
 
+export type StreamMatchesInitialRes = {
+  type: "initial";
+  q: string;
+  startIndex?: number;
+  endIndex?: number;
+  games: Match[];
+  gamesNum: number;
+};
+export type StreamMatchesUpdateRes = { type: "update"; game: Match };
+export type StreamMatchesAddRes = { type: "add"; game: Match };
+export type StreamMatchesRemoveRes = { type: "remove"; gameId: string };
+export type StreamMatchesRes =
+  | StreamMatchesInitialRes
+  | StreamMatchesUpdateRes
+  | StreamMatchesAddRes
+  | StreamMatchesRemoveRes;
+
 export type GetBoardsRes = Board[];
 
 export type GetTournamentsRes = Tournament[];
@@ -97,17 +135,20 @@ export type Match = {
   board: Board | null;
   turn: number;
   totalTurn: number;
-  tiled: { type: 0 | 1; player: number | null }[] | null;
+  tiled: {
+    type: typeof TileType[keyof typeof TileType];
+    player: number | null;
+  }[] | null;
   players: Player[];
   log: {
     players: {
       point: Point;
       actions: {
         agentId: number;
-        type: 1 | 2 | 3 | 4;
+        type: typeof ActionType[keyof typeof ActionType];
         x: number;
         y: number;
-        res: 0 | 1 | 2 | 3 | 4 | 5;
+        res: typeof ActionResult[keyof typeof ActionResult];
       }[];
     }[];
   }[];

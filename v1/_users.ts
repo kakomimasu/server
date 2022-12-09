@@ -2,11 +2,11 @@ import { Router } from "../deps.ts";
 
 import { contentTypeFilter, jsonParse } from "./util.ts";
 import { errorCodeResponse, errors, ServerError } from "../core/error.ts";
-import { User as IUser } from "./types.ts";
 import { auth } from "./middleware.ts";
 import { accounts, User } from "../core/datas.ts";
+import { ResponseType } from "../util/openapi-type.ts";
 import { getPayload } from "./parts/jwt.ts";
-import { validator } from "./parts/openapi.ts";
+import { openapi, validator } from "./parts/openapi.ts";
 
 export const userRouter = () => {
   const router = new Router();
@@ -64,7 +64,13 @@ export const userRouter = () => {
         accounts.save();
       }
 
-      const body: Required<IUser> = user.noSafe();
+      const body: ResponseType<
+        "/users",
+        "post",
+        "200",
+        "application/json",
+        typeof openapi
+      > = user.noSafe();
       ctx.response.body = body;
     },
   );
@@ -82,7 +88,13 @@ export const userRouter = () => {
       const authedUserId = ctx.state.authed_userId as string;
       const bodyUser = user.id === authedUserId ? user.noSafe() : user.toJSON();
 
-      const body: IUser = bodyUser;
+      const body: ResponseType<
+        "/users/{userIdOrName}",
+        "get",
+        "200",
+        "application/json",
+        typeof openapi
+      > = bodyUser;
       ctx.response.body = body;
     },
   );
@@ -115,7 +127,13 @@ export const userRouter = () => {
       if (reqData.dryRun !== true) {
         accounts.deleteUser(index);
       }
-      const body: IUser = user.noSafe();
+      const body: ResponseType<
+        "/users/{userIdOrName}",
+        "delete",
+        "200",
+        "application/json",
+        typeof openapi
+      > = user.noSafe();
       ctx.response.body = body;
     },
   );
@@ -132,7 +150,13 @@ export const userRouter = () => {
     const matchId = accounts.getUsers().filter((e) => e.id.startsWith(q));
     const users = [...new Set([...matchName, ...matchId])];
 
-    const body: IUser[] = users.map((u) => u.toJSON());
+    const body: ResponseType<
+      "/users",
+      "get",
+      "200",
+      "application/json",
+      typeof openapi
+    > = users.map((u) => u.toJSON());
     ctx.response.body = body;
   });
 

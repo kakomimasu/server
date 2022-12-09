@@ -6,12 +6,45 @@ import { errors, ServerError } from "../core/error.ts";
 import { getAllBoards, getBoard } from "../core/firestore.ts";
 import { ExpGame, Player } from "../core/expKakomimasu.ts";
 import { nonReqEnv } from "../core/env.ts";
+import { ResponseType, SchemaType } from "../util/openapi-type.ts";
 import { aiList } from "./parts/ai-list.ts";
 
 import { contentTypeFilter, jsonParse } from "./util.ts";
-import { ActionRes, Game as IGame, MatchRes } from "./types.ts";
 import { auth } from "./middleware.ts";
-import { validator } from "./parts/openapi.ts";
+import { openapi, validator } from "./parts/openapi.ts";
+
+type ActionRes = ResponseType<
+  "/matches/{gameId}/actions",
+  "patch",
+  "200",
+  "application/json",
+  typeof openapi
+>;
+type AiMatchRes = ResponseType<
+  "/matches/ai/players",
+  "post",
+  "200",
+  "application/json",
+  typeof openapi
+>;
+type FreeMatchRes = ResponseType<
+  "/matches/free/players",
+  "post",
+  "200",
+  "application/json",
+  typeof openapi
+>;
+type GameIdMatchRes = ResponseType<
+  "/matches/{gameId}/players",
+  "post",
+  "200",
+  "application/json",
+  typeof openapi
+>;
+type IGame = SchemaType<
+  typeof openapi["components"]["schemas"]["Match"],
+  typeof openapi
+>;
 
 const boardname = nonReqEnv.boardname; // || "E-1"; // "F-1" "A-1"
 
@@ -224,7 +257,10 @@ router.post(
     }
 
     const { gameId, ...rawRes } = player.getJSON();
-    const res: MatchRes = { ...rawRes, gameId: gameId ?? crypto.randomUUID() }; // dry-runようにgameIdを設定
+    const res: FreeMatchRes = {
+      ...rawRes,
+      gameId: gameId ?? crypto.randomUUID(),
+    }; // dry-run用にgameIdを設定
     ctx.response.body = res;
   },
 );
@@ -278,7 +314,10 @@ router.post(
     }
 
     const { gameId, ...rawRes } = player.getJSON();
-    const res: MatchRes = { ...rawRes, gameId: gameId ?? crypto.randomUUID() }; // dry-runようにgameIdを設定
+    const res: AiMatchRes = {
+      ...rawRes,
+      gameId: gameId ?? crypto.randomUUID(),
+    }; // dry-run用にgameIdを設定
     ctx.response.body = res;
   },
 );
@@ -315,7 +354,10 @@ router.post(
     //accounts.addGame(user.userId, game.uuid);
 
     const { gameId: pGameId, ...rawRes } = player.getJSON();
-    const res: MatchRes = { ...rawRes, gameId: pGameId ?? crypto.randomUUID() }; // dry-runようにgameIdを設定
+    const res: GameIdMatchRes = {
+      ...rawRes,
+      gameId: pGameId ?? crypto.randomUUID(),
+    }; // dry-run用にgameIdを設定
     ctx.response.body = res;
   },
 );

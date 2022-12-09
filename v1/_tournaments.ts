@@ -3,8 +3,10 @@ import { Router } from "../deps.ts";
 import { contentTypeFilter, jsonParse } from "./util.ts";
 import { Tournament, tournaments } from "../core/datas.ts";
 import { errors, ServerError } from "../core/error.ts";
-import { TournamentRes } from "./types.ts";
-import { validator } from "./parts/openapi.ts";
+import { ResponseType } from "../util/openapi-type.ts";
+import { openapi, validator } from "./parts/openapi.ts";
+
+// type TournamentRes = ResponseType<"/tournaments","post",""
 
 export const tournamentRouter = () => {
   const router = new Router();
@@ -30,7 +32,13 @@ export const tournamentRouter = () => {
       if (data.dryRun !== true) {
         tournaments.add(tournament);
       }
-      const body: TournamentRes = tournament;
+      const body: ResponseType<
+        "/tournaments",
+        "post",
+        "200",
+        "application/json",
+        typeof openapi
+      > = tournament;
       ctx.response.body = body;
     },
   );
@@ -58,14 +66,26 @@ export const tournamentRouter = () => {
         tournaments.delete(tournament);
       }
 
-      const body: TournamentRes = tournament;
+      const body: ResponseType<
+        "/tournaments/{tournamentId}",
+        "delete",
+        "200",
+        "application/json",
+        typeof openapi
+      > = tournament;
       ctx.response.body = body;
     },
   );
 
   // 大会取得
   router.get("/", (ctx) => {
-    const body: TournamentRes[] = tournaments.getAll();
+    const body: ResponseType<
+      "/tournaments",
+      "get",
+      "200",
+      "application/json",
+      typeof openapi
+    > = tournaments.getAll();
     ctx.response.body = body;
   });
   router.get("/:id", (ctx) => {
@@ -73,7 +93,13 @@ export const tournamentRouter = () => {
     const resData = tournaments.get(id);
     if (!resData) throw new ServerError(errors.NOTHING_TOURNAMENT_ID);
 
-    const body: TournamentRes = resData;
+    const body: ResponseType<
+      "/tournaments/{tournamentId}",
+      "get",
+      "200",
+      "application/json",
+      typeof openapi
+    > = resData;
     ctx.response.body = body;
   });
 
@@ -104,7 +130,13 @@ export const tournamentRouter = () => {
         tournament.addUser(identifier);
       }
 
-      const resBody: TournamentRes = tournament;
+      const resBody: ResponseType<
+        "/tournaments/{tournamentId}/users",
+        "post",
+        "200",
+        "application/json",
+        typeof openapi
+      > = tournament;
       ctx.response.body = resBody;
     },
   );

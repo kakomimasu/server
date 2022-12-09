@@ -4,7 +4,7 @@ import { useUser } from "../../util/test/useUser.ts";
 
 import { nowUnixTime } from "../../core/util.ts";
 
-import ApiClient, { MatchRes } from "../../client/client.ts";
+import ApiClient, { JoinFreeMatchRes } from "../../client/client.ts";
 
 import { validator } from "../parts/openapi.ts";
 
@@ -19,7 +19,7 @@ Deno.test({
       const token = user.bearerToken;
       const userId = user.id;
 
-      let matchRes: MatchRes;
+      let matchRes: JoinFreeMatchRes;
       while (true) {
         const res = await ac.matchesFreePlayers(
           { spec: "" },

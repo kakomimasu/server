@@ -2,7 +2,7 @@ import { assert, assertEquals } from "../../deps-test.ts";
 
 import { useUser } from "../../util/test/useUser.ts";
 
-import ApiClient, { MatchRes } from "../../client/client.ts";
+import ApiClient, { JoinFreeMatchRes } from "../../client/client.ts";
 
 import { validator } from "../parts/openapi.ts";
 
@@ -16,7 +16,7 @@ Deno.test({
     await useUser(async (user) => {
       const token = user.bearerToken;
 
-      let matchRes: MatchRes;
+      let matchRes: JoinFreeMatchRes;
       while (true) {
         const res = await ac.matchesFreePlayers(
           { spec: "" },
