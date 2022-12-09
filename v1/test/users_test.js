@@ -210,7 +210,7 @@ Deno.test("GET /v1/users:no query", async (t) => {
   await t.step({
     name: "no query",
     fn: async () => {
-      const res = await ac._fetch(`/v1/users`);
+      const res = await fetch(`http://localhost:8880/v1/users`);
       const json = await res.json();
       assertUserSearchRes(json, 400);
       assertEquals(json, errors.NOTHING_SEARCH_QUERY);
