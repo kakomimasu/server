@@ -1,5 +1,3 @@
-import { VersionRes } from "../types.ts";
-import { Error } from "../core/types.ts";
 import * as T from "./types.ts";
 
 export * from "./types.ts";
@@ -7,7 +5,7 @@ export * from "./types.ts";
 export type ApiRes<T> = Promise<
   { success: true; data: T; res: Response } | {
     success: false;
-    data: Error;
+    data: T.ErrorRes;
     res: Response;
   }
 >;
@@ -42,15 +40,20 @@ export default class ApiClient {
           body: "data" in init ? JSON.stringify(init.data) : undefined,
         },
       );
-      return { success: res.status === 200, data: await res.json(), res };
+      return {
+        success: res.status === 200,
+        // deno-lint-ignore no-explicit-any
+        data: await res.json() as any,
+        res,
+      };
     } catch (e) {
-      const data: Error = { errorCode: -1, message: e.message };
+      const data: T.ErrorRes = { errorCode: -1, message: e.message };
       const res = new Response(JSON.stringify(data), { status: 404 });
       return { success: false, data, res };
     }
   }
 
-  async getVersion(): ApiRes<VersionRes> {
+  async getVersion(): ApiRes<T.VersionRes> {
     return await this.#fetch("/version");
   }
 
