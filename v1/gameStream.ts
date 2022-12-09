@@ -8,7 +8,7 @@ import {
 import { ResponseType } from "../util/openapi-type.ts";
 
 import { auth } from "./middleware.ts";
-import { openapi,validator } from "./parts/openapi.ts";
+import { openapi } from "./parts/openapi.ts";
 import { kkmm } from "../core/datas.ts";
 import { addSendGameFn, ExpGame } from "../core/expKakomimasu.ts";
 
