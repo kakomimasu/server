@@ -55,13 +55,6 @@ export default class ApiClient {
     return await this.#fetch<T.VersionRes>("/version");
   }
 
-  /** @deprecated Move to `createUser`*/
-  async usersRegist(data: T.CreateUserReq, auth?: string) {
-    return await this.#fetch<T.CreateUserRes>(
-      "/v1/users",
-      { method: "POST", data, auth },
-    );
-  }
   async createUser(data: T.CreateUserReq, auth?: string) {
     return await this.#fetch<T.CreateUserRes>(
       "/v1/users",
@@ -69,13 +62,6 @@ export default class ApiClient {
     );
   }
 
-  /** @deprecated Move to `deleteUser`*/
-  async usersDelete(identifier: string, data: T.DeleteUserReq, auth: string) {
-    return await this.#fetch<T.DeleteUserRes>(
-      `/v1/users/${identifier}`,
-      { data, auth, method: "DELETE" },
-    );
-  }
   async deleteUser(idOrName: string, data: T.DeleteUserReq, auth: string) {
     return await this.#fetch<T.DeleteUserRes>(
       `/v1/users/${idOrName}`,
@@ -83,13 +69,6 @@ export default class ApiClient {
     );
   }
 
-  /** @deprecated Move to `getUser`*/
-  async usersShow(identifier: string, idToken?: string) {
-    return await this.#fetch<T.GetUserRes>(
-      `/v1/users/${identifier}`,
-      { auth: idToken },
-    );
-  }
   async getUser(idOrName: string, auth?: string) {
     return await this.#fetch<T.GetUserRes>(
       `/v1/users/${idOrName}`,
@@ -97,21 +76,10 @@ export default class ApiClient {
     );
   }
 
-  /** @deprecated Move to `getUsers` */
-  async usersSearch(searchText: string) {
-    return await this.#fetch<T.GetUsersRes>(`/v1/users?q=${searchText}`);
-  }
   async getUsers(query: string) {
     return await this.#fetch<T.GetUsersRes>(`/v1/users?q=${query}`);
   }
 
-  /** @deprecated Move to `createTournament`*/
-  async tournamentsCreate(data: T.CreateTournamentReq) {
-    return await this.#fetch<T.CreateTournamentRes>(
-      "/v1/tournaments",
-      { data, method: "POST" },
-    );
-  }
   async createTournament(data: T.CreateTournamentReq) {
     return await this.#fetch<T.CreateTournamentRes>(
       "/v1/tournaments",
@@ -119,29 +87,14 @@ export default class ApiClient {
     );
   }
 
-  /** @deprecated Move to `getTournaments`*/
-  async tournamentsGetAll() {
-    return await this.#fetch<T.GetTournamentsRes>(`/v1/tournaments`);
-  }
   async getTournaments() {
     return await this.#fetch<T.GetTournamentsRes>(`/v1/tournaments`);
   }
 
-  /** @deprecated Move to `getTournament`*/
-  async tournamentsGet(id: string) {
-    return await this.#fetch<T.GetTournamentRes>(`/v1/tournaments/${id}`);
-  }
   async getTournament(id: string) {
     return await this.#fetch<T.GetTournamentRes>(`/v1/tournaments/${id}`);
   }
 
-  /** @deprecated Move to `deleteTournament`*/
-  async tournamentsDelete(tournamentId: string, data: T.DeleteTournamentReq) {
-    return await this.#fetch<T.DeleteTournamentRes>(
-      `/v1/tournaments/${tournamentId}`,
-      { data, method: "DELETE" },
-    );
-  }
   async deleteTournament(tournamentId: string, data?: T.DeleteTournamentReq) {
     return await this.#fetch<T.DeleteTournamentRes>(
       `/v1/tournaments/${tournamentId}`,
@@ -149,13 +102,6 @@ export default class ApiClient {
     );
   }
 
-  /** @deprecated Move to `addTournamentUser`*/
-  async tournamentsAddUser(tournamentId: string, data: T.AddTournamentUserReq) {
-    return await this.#fetch<T.AddTournamentUserRes>(
-      `/v1/tournaments/${tournamentId}/users`,
-      { data, method: "POST" },
-    );
-  }
   async addTournamentUser(id: string, data: T.AddTournamentUserReq) {
     return await this.#fetch<T.AddTournamentUserRes>(
       `/v1/tournaments/${id}/users`,
@@ -163,13 +109,6 @@ export default class ApiClient {
     );
   }
 
-  /** @deprecated Move to `createMatch`*/
-  async gameCreate(data: T.CreateMatchReq, auth?: string) {
-    return await this.#fetch<T.CreateMatchRes>(
-      "/v1/matches",
-      { data, auth, method: "POST" },
-    );
-  }
   async createMatch(data: T.CreateMatchReq, auth?: string) {
     return await this.#fetch<T.CreateMatchRes>(
       "/v1/matches",
@@ -181,17 +120,6 @@ export default class ApiClient {
     return await this.#fetch<T.GetBoardsRes>("/v1/boards");
   }
 
-  /** @deprecated Move to `joinGameIdMatch`*/
-  async matchesGameIdPlayers(
-    gameId: string,
-    data: T.JoinGameIdMatchReq,
-    auth?: string,
-  ) {
-    return await this.#fetch<T.JoinGameIdMatchRes>(
-      `/v1/matches/${gameId}/players`,
-      { data, auth, method: "POST" },
-    );
-  }
   async joinGameIdMatch(
     id: string,
     data: T.JoinGameIdMatchReq,
@@ -203,13 +131,6 @@ export default class ApiClient {
     );
   }
 
-  /** @deprecated Move to `JoinFreeMatch`*/
-  async matchesFreePlayers(data: T.JoinFreeMatchReq, auth?: string) {
-    return await this.#fetch<T.JoinFreeMatchRes>(
-      `/v1/matches/free/players`,
-      { data, auth, method: "POST" },
-    );
-  }
   async joinFreeMatch(data: T.JoinFreeMatchReq, auth?: string) {
     return await this.#fetch<T.JoinFreeMatchRes>(
       `/v1/matches/free/players`,
@@ -217,13 +138,6 @@ export default class ApiClient {
     );
   }
 
-  /** @deprecated Move to `joinAiMatch`*/
-  async matchesAiPlayers(data: T.JoinAiMatchReq, auth?: string) {
-    return await this.#fetch<T.JoinAiMatchRes>(
-      `/v1/matches/ai/players`,
-      { data, auth, method: "POST" },
-    );
-  }
   async joinAiMatch(data: T.JoinAiMatchReq, auth?: string) {
     return await this.#fetch<T.JoinAiMatchRes>(
       `/v1/matches/ai/players`,
