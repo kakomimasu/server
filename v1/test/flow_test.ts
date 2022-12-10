@@ -39,7 +39,7 @@ Deno.test({
       let pic2: string;
 
       await t.step("create game", async () => {
-        const res = await ac.gameCreate({ name: "test", boardName: "A-1" });
+        const res = await ac.createMatch({ name: "test", boardName: "A-1" });
         if (res.success === false) {
           throw Error("Response Error. ErrorCode:" + res.data.errorCode);
         }
@@ -63,7 +63,7 @@ Deno.test({
       });
 
       await t.step("match", async () => {
-        const res = await ac.matchesGameIdPlayers(
+        const res = await ac.joinGameIdMatch(
           gameId,
           { spec: testSpec },
           `Bearer ${bearerToken}`,
@@ -83,7 +83,7 @@ Deno.test({
         ));
         pic1 = res.data.pic;
 
-        const res2 = await ac.matchesGameIdPlayers(
+        const res2 = await ac.joinGameIdMatch(
           gameId,
           { spec: testSpec },
           `Bearer ${bearerToken}`,

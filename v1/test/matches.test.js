@@ -24,7 +24,7 @@ const assertGame = (game, sample = {}) => {
   if (sample.reservedUsers) assert(game.reservedUsers, sample.reservedUsers);
 };
 
-const assertGameCreateRes = (res, responseCode) => {
+const assertcreateMatchRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
     "/matches",
@@ -57,7 +57,7 @@ const assertActionRes = (res, responseCode) => {
   assert(isValid);
 };
 
-const assertMatchesGameIdPlayersRes = (res, responseCode) => {
+const assertjoinGameIdMatchRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
     "/matches/{gameId}/players",
@@ -67,7 +67,7 @@ const assertMatchesGameIdPlayersRes = (res, responseCode) => {
   );
   assert(isValid);
 };
-const assertMatchesFreePlayersRes = (res, responseCode) => {
+const assertjoinFreeMatchRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
     "/matches/free/players",
@@ -108,81 +108,81 @@ const data = {
 // 存在しないトーナメントID
 // personal game通常、personal game auth invalid
 Deno.test("POST v1/matches:normal", async () => {
-  const res = await ac.gameCreate({ ...data, dryRun: true });
-  assertGameCreateRes(res.data, 200);
+  const res = await ac.createMatch({ ...data, dryRun: true });
+  assertcreateMatchRes(res.data, 200);
   assertGame(res.data, data);
 });
 Deno.test("POST v1/matches:normal with playerIdentifiers", async () => {
   await useUser(async (user) => {
-    const res = await ac.gameCreate({
+    const res = await ac.createMatch({
       ...data,
       playerIdentifiers: [user.id],
       dryRun: true,
     });
-    assertGameCreateRes(res.data, 200);
+    assertcreateMatchRes(res.data, 200);
     assertGame(res.data, { ...data, reservedUsers: [user.id] });
   });
 });
 Deno.test("POST v1/matches:invalid boardName", async () => {
   {
-    const res = await ac.gameCreate({ ...data, boardName: "" });
-    assertGameCreateRes(res.data, 400);
+    const res = await ac.createMatch({ ...data, boardName: "" });
+    assertcreateMatchRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_REQUEST);
   }
   {
-    const res = await ac.gameCreate({ ...data, boardName: undefined });
-    assertGameCreateRes(res.data, 400);
+    const res = await ac.createMatch({ ...data, boardName: undefined });
+    assertcreateMatchRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_REQUEST);
   }
   {
-    const res = await ac.gameCreate({ ...data, boardName: null });
-    assertGameCreateRes(res.data, 400);
+    const res = await ac.createMatch({ ...data, boardName: null });
+    assertcreateMatchRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_REQUEST);
   }
 });
 Deno.test("POST v1/matches:not exist board", async () => {
   {
-    const res = await ac.gameCreate({ ...data, boardName: "existboard" });
-    assertGameCreateRes(res.data, 400);
+    const res = await ac.createMatch({ ...data, boardName: "existboard" });
+    assertcreateMatchRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_BOARD_NAME);
   }
 });
 Deno.test("POST v1/matches:not user", async () => {
-  const res = await ac.gameCreate({
+  const res = await ac.createMatch({
     ...data,
     playerIdentifiers: [randomUUID()],
   });
-  assertGameCreateRes(res.data, 400);
+  assertcreateMatchRes(res.data, 400);
   assertEquals(res.data, errors.NOT_USER);
 });
 Deno.test("POST v1/matches:already registed user", async () => {
   await useUser(async (user) => {
-    const res = await ac.gameCreate({
+    const res = await ac.createMatch({
       ...data,
       playerIdentifiers: [user.id, user.id],
     });
-    assertGameCreateRes(res.data, 400);
+    assertcreateMatchRes(res.data, 400);
     assertEquals(res.data, errors.ALREADY_REGISTERED_USER);
   });
 });
 Deno.test("POST v1/matches:invalid tournament id", async () => {
-  const res = await ac.gameCreate({ ...data, tournamentId: randomUUID() });
-  assertGameCreateRes(res.data, 400);
+  const res = await ac.createMatch({ ...data, tournamentId: randomUUID() });
+  assertcreateMatchRes(res.data, 400);
   assertEquals(res.data, errors.INVALID_TOURNAMENT_ID);
 });
 Deno.test("POST v1/matches with personal game:normal", async () => {
   await useUser(async (user) => {
-    const res = await ac.gameCreate(
+    const res = await ac.createMatch(
       { ...data, isMySelf: true, dryRun: true },
       `Bearer ${user.bearerToken}`,
     );
-    assertGameCreateRes(res.data, 200);
+    assertcreateMatchRes(res.data, 200);
     assertGame(res.data, data);
   });
 });
 Deno.test("POST v1/matches with personal game:invalid auth", async () => {
-  const res = await ac.gameCreate({ ...data, isPersonal: true });
-  assertGameCreateRes(res.data, 400);
+  const res = await ac.createMatch({ ...data, isPersonal: true });
+  assertcreateMatchRes(res.data, 400);
   assertEquals(res.data, errors.UNAUTHORIZED);
 });
 
@@ -191,7 +191,7 @@ Deno.test("POST v1/matches with personal game:invalid auth", async () => {
 // 正常、ゲーム無し
 Deno.test("GET v1/matches/(gameId):normal", async () => {
   const gameData = { name: "テスト", boardName: "A-1" };
-  const gameRes = await ac.gameCreate(gameData);
+  const gameRes = await ac.createMatch(gameData);
   // console.log("gameRes", gameRes);
 
   const res = await ac.getMatch(gameRes.data.id);
@@ -213,7 +213,7 @@ Deno.test("GET v1/matches/(gameId):not find game", async () => {
 Deno.test("POST v1/matches/(gameId)/actions:normal", async () => {
   await useUser(async (user) => {
     const data = { aiName: "a1" };
-    const matchRes = await ac.matchesAiPlayers(
+    const matchRes = await ac.joinAiMatch(
       data,
       "Bearer " + user.bearerToken,
     );
@@ -235,7 +235,7 @@ Deno.test("POST v1/matches/(gameId)/actions:normal", async () => {
 Deno.test("POST v1/matches/(gameId)/action:invalid user", async () => {
   await useUser(async (user) => {
     const data = { aiName: "a1" };
-    const matchRes = await ac.matchesAiPlayers(
+    const matchRes = await ac.joinAiMatch(
       data,
       "Bearer " + user.bearerToken,
     );
@@ -260,27 +260,27 @@ Deno.test("POST v1/matches/(gameId)/action:invalid user", async () => {
 // テスト項目
 // BearerToken無効、成功、ゲスト参加
 Deno.test("POST v1/matches/free/players:invalid bearerToken", async () => {
-  const res = await ac.matchesFreePlayers({ dryRun: true });
+  const res = await ac.joinFreeMatch({ dryRun: true });
   // console.log(res);
-  assertMatchesFreePlayersRes(res.data, 400);
+  assertjoinFreeMatchRes(res.data, 400);
   assertEquals(res.data, errors.NOT_USER);
 });
 Deno.test("POST v1/matches/free/players:normal", async () => {
   await useUser(async (user) => {
-    const res = await ac.matchesFreePlayers(
+    const res = await ac.joinFreeMatch(
       { dryRun: true },
       "Bearer " + user.bearerToken,
     );
 
-    assertMatchesFreePlayersRes(res.data, 200);
+    assertjoinFreeMatchRes(res.data, 200);
     assertMatch(res.data, { userId: user.id });
   });
 });
 Deno.test("POST v1/matches/free/players:normal by guest", async () => {
   const data = { guestName: "test", dryRun: true };
-  const res = await ac.matchesFreePlayers(data);
+  const res = await ac.joinFreeMatch(data);
   // console.log(res);
-  assertMatchesFreePlayersRes(res.data, 200);
+  assertjoinFreeMatchRes(res.data, 200);
   assertMatch(res.data, { userId: "test" });
 });
 
@@ -288,33 +288,33 @@ Deno.test("POST v1/matches/free/players:normal by guest", async () => {
 // テスト項目
 // BearerToken無効、成功、ゲスト参加、名無し、存在しないゲーム
 Deno.test("POST v1/matches/{gameId}/players:invalid bearerToken", async () => {
-  const res = await ac.matchesGameIdPlayers(crypto.randomUUID(), {
+  const res = await ac.joinGameIdMatch(crypto.randomUUID(), {
     dryRun: true,
   });
   // console.log(res);
-  assertMatchesGameIdPlayersRes(res.data, 400);
+  assertjoinGameIdMatchRes(res.data, 400);
   assertEquals(res.data, errors.NOT_USER);
 });
 Deno.test("POST v1/matches/{gameId}/players:normal", async () => {
   await useUser(async (user) => {
     const gameData = { name: "テスト", boardName: "A-1" };
-    const gameRes = await ac.gameCreate(gameData);
+    const gameRes = await ac.createMatch(gameData);
 
-    const res = await ac.matchesGameIdPlayers(gameRes.data.id, {
+    const res = await ac.joinGameIdMatch(gameRes.data.id, {
       dryRun: true,
     }, "Bearer " + user.bearerToken);
 
-    assertMatchesGameIdPlayersRes(res.data, 200);
+    assertjoinGameIdMatchRes(res.data, 200);
     assertMatch(res.data, { userId: user.id });
   });
 });
 Deno.test("POST v1/matches/{gameId}/players:normal by guest", async () => {
   const gameData = { name: "テスト", boardName: "A-1" };
-  const gameRes = await ac.gameCreate(gameData);
+  const gameRes = await ac.createMatch(gameData);
   const data = { guestName: "test", dryRun: true };
-  const res = await ac.matchesGameIdPlayers(gameRes.data.id, data);
+  const res = await ac.joinGameIdMatch(gameRes.data.id, data);
   // console.log(res);
-  assertMatchesGameIdPlayersRes(res.data, 200);
+  assertjoinGameIdMatchRes(res.data, 200);
   assertMatch(res.data, { userId: "test" });
 });
 
@@ -322,14 +322,14 @@ Deno.test("POST v1/matches/{gameId}/players:normal by guest", async () => {
 // テスト項目
 // BearerToken無効、成功、ゲスト参加、名無し、存在しないAI
 Deno.test("POST v1/matches/ai/players:invalid bearerToken", async () => {
-  const res = await ac.matchesAiPlayers({ aiName: "a1", dryRun: true });
+  const res = await ac.joinAiMatch({ aiName: "a1", dryRun: true });
   // console.log(res);
   assertMatchesAiPlayersRes(res.data, 400);
   assertEquals(res.data, errors.NOT_USER);
 });
 Deno.test("POST v1/matches/ai/players:normal", async () => {
   await useUser(async (user) => {
-    const res = await ac.matchesAiPlayers(
+    const res = await ac.joinAiMatch(
       { aiName: "a1", dryRun: true },
       "Bearer " + user.bearerToken,
     );
@@ -340,7 +340,7 @@ Deno.test("POST v1/matches/ai/players:normal", async () => {
 });
 Deno.test("POST v1/matches/ai/players:normal by guest", async () => {
   const data = { aiName: "a1", guestName: "test", dryRun: true };
-  const res = await ac.matchesAiPlayers(data);
+  const res = await ac.joinAiMatch(data);
   // console.log(res);
   assertMatchesAiPlayersRes(res.data, 200);
   assertMatch(res.data, { userId: "test" });
@@ -349,7 +349,7 @@ Deno.test("POST v1/matches/ai/players:normal by guest", async () => {
 Deno.test("POST v1/matches/ai/players:can not find ai", async () => {
   await useUser(async (user) => {
     const data = { aiName: "", dryRun: true };
-    const res = await ac.matchesAiPlayers(data, "Bearer " + user.bearerToken);
+    const res = await ac.joinAiMatch(data, "Bearer " + user.bearerToken);
     assertMatchesAiPlayersRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_REQUEST);
   });

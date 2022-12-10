@@ -81,7 +81,7 @@ Deno.test("POST /v1/users:normal", async () => {
     screenName: "john doe",
     name: crypto.randomUUID(),
   };
-  const res = await ac.usersRegist(
+  const res = await ac.createUser(
     { ...data, dryRun: true },
     await u.user.getIdToken(),
   );
@@ -95,7 +95,7 @@ Deno.test("POST /v1/users:invalid screenName", async (t) => {
       name: `screenName is "${screenName}"`,
       fn: async () => {
         const u = await createFirebaseUser();
-        const res = await ac.usersRegist({
+        const res = await ac.createUser({
           name: "johndoe",
           screenName,
           dryRun: true,
@@ -113,7 +113,7 @@ Deno.test("POST /v1/users:invalid name", async (t) => {
       name: `name is "${name}"`,
       fn: async () => {
         const u = await createFirebaseUser();
-        const res = await ac.usersRegist({
+        const res = await ac.createUser({
           name,
           screenName: "john doe",
           dryRun: true,
@@ -126,7 +126,7 @@ Deno.test("POST /v1/users:invalid name", async (t) => {
 });
 Deno.test("POST /v1/users:already registered name", async () => {
   await useUser(async (user) => {
-    const res = await ac.usersRegist({
+    const res = await ac.createUser({
       name: user.name,
       screenName: user.screenName,
     }, user.bearerToken);
@@ -143,7 +143,7 @@ Deno.test("GET /v1/users/{idOrName}:normal", async (t) => {
     await t.step({
       name: "by name",
       fn: async () => {
-        const res = await ac.usersShow(user.name);
+        const res = await ac.getUser(user.name);
         assertUserShowRes(res.data, 200);
         assertUser(res.data, user);
       },
@@ -151,7 +151,7 @@ Deno.test("GET /v1/users/{idOrName}:normal", async (t) => {
     await t.step({
       name: "by id",
       fn: async () => {
-        const res = await ac.usersShow(user.id);
+        const res = await ac.getUser(user.id);
         assertUserShowRes(res.data, 200);
         assertUser(res.data, user);
       },
@@ -159,7 +159,7 @@ Deno.test("GET /v1/users/{idOrName}:normal", async (t) => {
     await t.step({
       name: "by jwt",
       fn: async () => {
-        const res = await ac.usersShow(
+        const res = await ac.getUser(
           user.name,
           await firebaseUser.user.getIdToken(),
         );
@@ -170,7 +170,7 @@ Deno.test("GET /v1/users/{idOrName}:normal", async (t) => {
   });
 });
 Deno.test("GET /v1/users/{idOrName}:not user", async () => {
-  const res = await ac.usersShow(crypto.randomUUID());
+  const res = await ac.getUser(crypto.randomUUID());
   assertUserShowRes(res.data, 400);
   assertEquals(res.data, errors.NOT_USER);
 });
@@ -183,7 +183,7 @@ Deno.test("GET /v1/users:normal", async (t) => {
     await t.step({
       name: "by name",
       fn: async () => {
-        const res = await ac.usersSearch(user.name);
+        const res = await ac.getUsers(user.name);
         assertUserSearchRes(res.data, 200);
         assertUser(res.data[0], user);
       },
@@ -191,7 +191,7 @@ Deno.test("GET /v1/users:normal", async (t) => {
     await t.step({
       name: "by id",
       fn: async () => {
-        const res = await ac.usersSearch(user.id);
+        const res = await ac.getUsers(user.id);
         assertUserSearchRes(res.data, 200);
         assertUser(res.data[0], user);
       },
@@ -202,7 +202,7 @@ Deno.test("GET /v1/users:no query", async (t) => {
   await t.step({
     name: `query is ""`,
     fn: async () => {
-      const res = await ac.usersSearch("");
+      const res = await ac.getUsers("");
       assertUserSearchRes(res.data, 400);
       assertEquals(res.data, errors.NOTHING_SEARCH_QUERY);
     },
@@ -223,7 +223,7 @@ Deno.test("GET /v1/users:no query", async (t) => {
 // 正常(名前で削除・IDで削除)・パスワード無し・ユーザ無し
 Deno.test("DELETE /v1/users/{idOrName}:normal by id", async () => {
   await useUser(async (user) => {
-    const res = await ac.usersDelete(
+    const res = await ac.deleteUser(
       user.id,
       { dryRun: true },
       `Bearer ${user.bearerToken}`,
@@ -234,7 +234,7 @@ Deno.test("DELETE /v1/users/{idOrName}:normal by id", async () => {
 });
 Deno.test("DELETE /v1/users/{idOrName}:normal by name", async () => {
   await useUser(async (user) => {
-    const res = await ac.usersDelete(
+    const res = await ac.deleteUser(
       user.name,
       { dryRun: true },
       `Bearer ${user.bearerToken}`,
@@ -244,13 +244,13 @@ Deno.test("DELETE /v1/users/{idOrName}:normal by name", async () => {
   });
 });
 Deno.test("DELETE /v1/users/{idOrName}:invalid bearerToken", async () => {
-  const res = await ac.usersDelete(crypto.randomUUID(), {}, "");
+  const res = await ac.deleteUser(crypto.randomUUID(), {}, "");
   assertEquals(res.res.status, 401);
   assertUserDeleteRes(res.data, 401);
   assertEquals(res.data, errors.UNAUTHORIZED);
 });
 Deno.test("DELETE /v1/users/{idOrName}:not user", async () => {
-  const res = await ac.usersDelete(
+  const res = await ac.deleteUser(
     crypto.randomUUID(),
     {},
     `Bearer ${crypto.randomUUID()}`,
@@ -261,7 +261,7 @@ Deno.test("DELETE /v1/users/{idOrName}:not user", async () => {
 });
 Deno.test("DELETE /v1/users/{idOrName}:invalid id", async () => {
   await useUser(async (user) => {
-    const res = await ac.usersDelete(
+    const res = await ac.deleteUser(
       crypto.randomUUID(),
       {},
       `Bearer ${user.bearerToken}`,

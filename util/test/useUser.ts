@@ -30,7 +30,7 @@ export async function useUser(
   const u = await createFirebaseUser();
 
   // 新規囲みマス ユーザ作成
-  const user = await ac.usersRegist({
+  const user = await ac.createUser({
     screenName: `test:${u.user.uid}`,
     name: crypto.randomUUID(),
   }, await u.user.getIdToken());
@@ -43,6 +43,6 @@ export async function useUser(
     throw e;
   } finally {
     // テスト成功時も失敗時もユーザ削除
-    await ac.usersDelete(user.data.id, {}, await u.user.getIdToken());
+    await ac.deleteUser(user.data.id, {}, await u.user.getIdToken());
   }
 }

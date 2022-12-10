@@ -21,7 +21,7 @@ Deno.test({
 
       let matchRes: JoinFreeMatchRes;
       while (true) {
-        const res = await ac.matchesFreePlayers(
+        const res = await ac.joinFreeMatch(
           { spec: "" },
           `Bearer ${token}`,
         );
@@ -169,7 +169,7 @@ Deno.test({
         },
       );
 
-      await ac.matchesFreePlayers({ spec: "" }, `Bearer ${token}`);
+      await ac.joinFreeMatch({ spec: "" }, `Bearer ${token}`);
 
       let nextUnixTime = 0;
       await t.step("425 Failure (Too Early)", async (t) => {
@@ -370,7 +370,7 @@ Deno.test({
         });
       });
 
-      // await ac.usersDelete({}, `Bearer ${token}`);
+      // await ac.deleteUser({}, `Bearer ${token}`);
     });
   },
 });

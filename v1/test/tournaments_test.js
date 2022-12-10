@@ -92,55 +92,55 @@ const data = {
 // テスト項目
 // 正常(round-robin・knockout)・大会名無し・大会種別無し
 Deno.test("POST v1/tournaments:normal", async () => {
-  let res = await ac.tournamentsCreate({ ...data, dryRun: true });
+  let res = await ac.createTournament({ ...data, dryRun: true });
   assertTournamentCreateRes(res.data, 200);
   assertTournament(res.data, data);
 
-  res = await ac.tournamentsCreate({ ...data, type: "knockout", dryRun: true });
+  res = await ac.createTournament({ ...data, type: "knockout", dryRun: true });
   assertTournamentCreateRes(res.data, 200);
   assertTournament(res.data, { ...data, type: "knockout" });
 });
 Deno.test("POST v1/tournaments:invalid tournament name", async () => {
   {
-    const res = await ac.tournamentsCreate({ ...data, name: "" });
+    const res = await ac.createTournament({ ...data, name: "" });
     assertTournamentCreateRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_REQUEST);
   }
   {
-    const res = await ac.tournamentsCreate({ ...data, name: undefined });
+    const res = await ac.createTournament({ ...data, name: undefined });
     assertTournamentCreateRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_REQUEST);
   }
   {
-    const res = await ac.tournamentsCreate({ ...data, name: null });
+    const res = await ac.createTournament({ ...data, name: null });
     assertTournamentCreateRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_REQUEST);
   }
 });
 Deno.test("POST v1/tournaments:invalid tournament type", async () => {
   {
-    const res = await ac.tournamentsCreate({ ...data, type: "" });
+    const res = await ac.createTournament({ ...data, type: "" });
     assertTournamentCreateRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_REQUEST);
   }
   {
-    const res = await ac.tournamentsCreate({ ...data, type: undefined });
+    const res = await ac.createTournament({ ...data, type: undefined });
     assertTournamentCreateRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_REQUEST);
   }
   {
-    const res = await ac.tournamentsCreate({ ...data, type: null });
+    const res = await ac.createTournament({ ...data, type: null });
     assertTournamentCreateRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_REQUEST);
   }
   {
-    const res = await ac.tournamentsCreate({ ...data, type: "round-robins" });
+    const res = await ac.createTournament({ ...data, type: "round-robins" });
     assertTournamentCreateRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_REQUEST);
   }
 });
 Deno.test("POST v1/tournaments:normal by no dryRun", async () => {
-  const res = await ac.tournamentsCreate(data);
+  const res = await ac.createTournament(data);
   assertTournamentCreateRes(res.data, 200);
   assertTournament(res.data, data);
 
@@ -151,7 +151,7 @@ Deno.test("POST v1/tournaments:normal by no dryRun", async () => {
 // テスト項目
 // 正常（1大会・全大会）・ID無し
 Deno.test("GET v1/tournaments:normal by all", async () => {
-  const res = await ac.tournamentsGetAll();
+  const res = await ac.getTournaments();
   if (res.success === false) assert(false);
   assertTournamentGetAllRes(res.data, 200);
   res.data.forEach((e) => assertTournament(e));
@@ -161,12 +161,12 @@ Deno.test("GET v1/tournaments:normal by all", async () => {
 // テスト項目
 // 正常（1大会・全大会）・ID無し
 Deno.test("GET v1/tournaments/{id}:normal by single", async () => {
-  const res = await ac.tournamentsGet(data.id);
+  const res = await ac.getTournament(data.id);
   assertTournamentGetRes(res.data, 200);
   assertTournament(res.data, data);
 });
 Deno.test("GET v1/tournaments/{id}:nothing tournament id", async () => {
-  const res = await ac.tournamentsGet(randomUUID());
+  const res = await ac.getTournament(randomUUID());
   assertTournamentGetRes(res.data, 400);
   assertEquals(res.data, errors.NOTHING_TOURNAMENT_ID);
 });
@@ -176,7 +176,7 @@ Deno.test("GET v1/tournaments/{id}:nothing tournament id", async () => {
 // 正常、user無し、存在しない大会ID、存在しないユーザ、登録済みのユーザ
 Deno.test("POST v1/tournaments/{id}/users:normal", async () => {
   await useUser(async (user) => {
-    const res = await ac.tournamentsAddUser(data.id, {
+    const res = await ac.addTournamentUser(data.id, {
       user: user.id,
       dryRun: true,
     });
@@ -187,39 +187,39 @@ Deno.test("POST v1/tournaments/{id}/users:normal", async () => {
 });
 Deno.test("POST v1/tournaments/{id}/users:tournament that do not exist", async () => {
   {
-    const res = await ac.tournamentsAddUser(randomUUID(), {});
+    const res = await ac.addTournamentUser(randomUUID(), {});
     assertTournamentAddRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_TOURNAMENT_ID);
   }
 });
 Deno.test("POST v1/tournaments/{id}/users:nothing user", async () => {
   {
-    const res = await ac.tournamentsAddUser(data.id, { user: "" });
+    const res = await ac.addTournamentUser(data.id, { user: "" });
     assertTournamentAddRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_REQUEST);
   }
   {
-    const res = await ac.tournamentsAddUser(data.id, { user: undefined });
+    const res = await ac.addTournamentUser(data.id, { user: undefined });
     assertTournamentAddRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_REQUEST);
   }
   {
-    const res = await ac.tournamentsAddUser(data.id, { user: null });
+    const res = await ac.addTournamentUser(data.id, { user: null });
     assertTournamentAddRes(res.data, 400);
     assertEquals(res.data, errors.INVALID_REQUEST);
   }
 });
 Deno.test("POST v1/tournaments/{id}/users:user that do not exist", async () => {
   {
-    const res = await ac.tournamentsAddUser(data.id, { user: randomUUID() });
+    const res = await ac.addTournamentUser(data.id, { user: randomUUID() });
     assertTournamentAddRes(res.data, 400);
     assertEquals(res.data, errors.NOT_USER);
   }
 });
 Deno.test("POST v1/tournaments/{id}/users:already registed user", async () => {
   await useUser(async (user) => {
-    await ac.tournamentsAddUser(data.id, { user: user.id });
-    const res = await ac.tournamentsAddUser(data.id, { user: user.id });
+    await ac.addTournamentUser(data.id, { user: user.id });
+    const res = await ac.addTournamentUser(data.id, { user: user.id });
 
     assertTournamentAddRes(res.data, 400);
     assertEquals(res.data, errors.ALREADY_REGISTERED_USER);
@@ -230,17 +230,17 @@ Deno.test("POST v1/tournaments/{id}/users:already registed user", async () => {
 // テスト項目
 // 正常・ID無し
 Deno.test("DELETE v1/tournaments/{id}:normal", async () => {
-  const res = await ac.tournamentsDelete(data.id, { dryRun: true });
+  const res = await ac.deleteTournament(data.id, { dryRun: true });
   assertTournamentDeleteRes(res.data, 200);
   assertTournament(res.data, data);
 });
 Deno.test("DELETE v1/tournaments/{id}:nothing tournament id", async () => {
-  const res = await ac.tournamentsDelete(randomUUID());
+  const res = await ac.deleteTournament(randomUUID());
   assertTournamentDeleteRes(res.data, 400);
   assertEquals(res.data, errors.NOTHING_TOURNAMENT_ID);
 });
 Deno.test("DELETE v1/tournaments/{id}:normal by no dryRun", async () => {
-  const res = await ac.tournamentsDelete(data.id);
+  const res = await ac.deleteTournament(data.id);
   assertTournamentDeleteRes(res.data, 200);
   assertTournament(res.data, data);
 });

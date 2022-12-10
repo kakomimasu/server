@@ -21,7 +21,7 @@ const methods = {
   "CONNECT": false,
   "OPTIONS": false,
   "TRACE": false,
-  "PATCH": false,
+  "PATCH": true,
 };
 
 for (const [key, _value] of Object.entries(methods)) {
@@ -34,7 +34,7 @@ for (const [key, _value] of Object.entries(methods)) {
     assertEquals(res.headers.get("Access-Control-Allow-Origin"), "*");
     assertEquals(
       res.headers.get("Access-Control-Allow-Methods"),
-      "GET,POST,DELETE",
+      "GET,POST,DELETE,PATCH",
     );
     assertEquals(res.headers.get("Access-Control-Allow-Headers"), null);
   });
@@ -53,7 +53,7 @@ Deno.test(`cors header check(header:authorization)`, async () => {
   assertEquals(res.headers.get("Access-Control-Allow-Origin"), "*");
   assertEquals(
     res.headers.get("Access-Control-Allow-Methods"),
-    "GET,POST,DELETE",
+    "GET,POST,DELETE,PATCH",
   );
   assertEquals(
     res.headers.get("Access-Control-Allow-Headers"),
@@ -74,7 +74,7 @@ Deno.test(`cors header check(header:content-type)`, async () => {
   assertEquals(res.headers.get("Access-Control-Allow-Origin"), "*");
   assertEquals(
     res.headers.get("Access-Control-Allow-Methods"),
-    "GET,POST,DELETE",
+    "GET,POST,DELETE,PATCH",
   );
   assertEquals(
     res.headers.get("Access-Control-Allow-Headers"),

@@ -36,7 +36,7 @@ Deno.test({
       await t.step("match", async () => {
         let res1;
         while (true) {
-          res1 = await ac.matchesFreePlayers(
+          res1 = await ac.joinFreeMatch(
             { spec: testSpec },
             `Bearer ${bearerToken}`,
           );
@@ -50,7 +50,7 @@ Deno.test({
           if (res1.data.index === 0) break;
         }
 
-        const res2 = await ac.matchesFreePlayers(
+        const res2 = await ac.joinFreeMatch(
           { spec: testSpec },
           `Bearer ${bearerToken}`,
         );

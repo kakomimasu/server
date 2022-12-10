@@ -29,7 +29,7 @@ let pic1: string;
 let pic2: string;
 
 Deno.test("create game", async () => {
-  const res = await ac.gameCreate({ name: "test", boardName: "A-1" });
+  const res = await ac.createMatch({ name: "test", boardName: "A-1" });
   if (res.success === false) {
     throw Error("Response Error. ErrorCode:" + res.data.errorCode);
   }
@@ -54,7 +54,7 @@ Deno.test("create game", async () => {
 });
 
 Deno.test("match", async () => {
-  const res = await ac.matchesGameIdPlayers(gameId, { guestName: "test1" });
+  const res = await ac.joinGameIdMatch(gameId, { guestName: "test1" });
   if (res.success === false) {
     throw Error(
       "Response Error. ErrorCode:" + res.data.errorCode + " " +
@@ -70,7 +70,9 @@ Deno.test("match", async () => {
   ));
 
   pic1 = res.data.pic;
-  const res2 = await ac.matchesGameIdPlayers(gameId, { guestName: "test2" });
+  const res2 = await ac.joinGameIdMatch(gameId, {
+    guestName: "test2",
+  });
   pic2 = res2.success ? res2.data.pic : "";
   assert(validator.validateResponse(
     res2.data,
