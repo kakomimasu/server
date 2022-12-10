@@ -26,16 +26,18 @@ export default class ApiClient {
   ): Promise<ApiRes<T>> {
     const headers = new Headers();
     if (init.auth) headers.append("Authorization", init.auth);
-    if (init.method !== "GET") {
+    const method = init.method ?? "GET";
+    if (method !== "GET") {
       headers.append("Content-Type", "application/json");
     }
+    const body = ("data" in init && init.data) ? init.data : {};
     try {
       const res = await fetch(
         new URL(path, this.baseUrl).href,
         {
-          method: init.method,
+          method: method,
           headers,
-          body: "data" in init ? JSON.stringify(init.data) : undefined,
+          body: method !== "GET" ? JSON.stringify(body) : undefined,
         },
       );
       return {
