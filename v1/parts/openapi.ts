@@ -348,6 +348,7 @@ export const openapi = {
     },
     "/matches/stream": {
       get: {
+        summary: "ゲーム詳細取得(SSE)",
         description: "試合情報をServer-Sent Eventsにてリアルタイムで取得できます。",
         tags: ["Matches API"],
         parameters: [

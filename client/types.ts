@@ -28,11 +28,11 @@ export type ErrorRes = {
   message: string;
 };
 
-type JoinMatchReq = {
+export type JoinMatchReqBase = {
   spec?: string;
   guestName?: string;
 };
-type JoinMatchRes = {
+export type JoinMatchRes = {
   userId: string;
   spec: string;
   gameId: string;
@@ -40,13 +40,13 @@ type JoinMatchRes = {
   pic: string;
 };
 
-export type JoinGameIdMatchReq = JoinMatchReq & DryRunOption;
+export type JoinGameIdMatchReq = JoinMatchReqBase & DryRunOption;
 export type JoinGameIdMatchRes = JoinMatchRes;
 
-export type JoinFreeMatchReq = JoinMatchReq & DryRunOption;
+export type JoinFreeMatchReq = JoinMatchReqBase & DryRunOption;
 export type JoinFreeMatchRes = JoinMatchRes;
 
-export type JoinAiMatchReq = JoinMatchReq & {
+export type JoinAiMatchReq = JoinMatchReqBase & {
   aiName: "none" | "a1" | "a2" | "a3" | "a4" | "a5";
   boardName?: string;
 } & DryRunOption;
