@@ -10,8 +10,8 @@ import { openapi } from "./parts/openapi.ts";
 
 export const router = new Router();
 
-router.use("/matches", matchesRouter.routes());
 router.use("/matches", streamRoutes());
+router.use("/matches", matchesRouter.routes());
 router.use("/users", userRouter());
 router.use("/tournaments", tournamentRouter());
 router.use("/boards", boardsRouter.routes());
