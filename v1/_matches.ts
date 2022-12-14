@@ -73,6 +73,30 @@ const createPlayer = (
 
 export const router = new Router();
 
+router.get("/", (ctx) => {
+  const sp = ctx.request.url.searchParams;
+
+  let limit: number | undefined = undefined;
+  if (sp.has("limit")) {
+    limit = Number(sp.get("limit"));
+  }
+
+  let sortFn: (a: ExpGame, b: ExpGame) => number = (_a, _b) => 0;
+  if (sp.has("sort")) {
+    const name = sp.get("sort");
+    if (name === "startedAtUnixTime") {
+      sortFn = (a, b) =>
+        (b.startedAtUnixTime ?? Number.MAX_VALUE) -
+        (a.startedAtUnixTime ?? Number.MAX_VALUE);
+    }
+  }
+
+  let games = [...kkmm.getGames()];
+  games.sort(sortFn);
+  games = games.slice(0, limit);
+  ctx.response.body = games;
+});
+
 router.post(
   "/",
   contentTypeFilter("application/json"),
