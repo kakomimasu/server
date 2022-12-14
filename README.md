@@ -23,7 +23,7 @@ deno task start
 
 ユーザ・試合などに関するAPIを提供しています。 仕様についてはAPIドキュメントをご覧ください
 
-[API Document](./v1/docs/index.md)
+[API Document](https://kakomimasu.com/docs/api/v1)
 
 ### ビューア
 

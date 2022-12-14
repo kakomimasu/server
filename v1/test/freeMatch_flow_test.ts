@@ -36,7 +36,10 @@ Deno.test({
       await t.step("match", async () => {
         let res1;
         while (true) {
-          res1 = await ac.match({ spec: testSpec }, `Bearer ${bearerToken}`);
+          res1 = await ac.joinFreeMatch(
+            { spec: testSpec },
+            `Bearer ${bearerToken}`,
+          );
           if (res1.success === false) {
             throw Error(
               "Response Error. ErrorCode:" + res1.data.errorCode + " " +
@@ -47,13 +50,13 @@ Deno.test({
           if (res1.data.index === 0) break;
         }
 
-        const res2 = await ac.match(
+        const res2 = await ac.joinFreeMatch(
           { spec: testSpec },
           `Bearer ${bearerToken}`,
         );
         assert(validator.validateResponse(
           res2.data,
-          "/match",
+          "/matches/free/players",
           "post",
           "200",
           "application/json",
@@ -81,7 +84,7 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}",
+          "/matches/{gameId}",
           "get",
           "200",
           "application/json",
@@ -115,7 +118,7 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}",
+          "/matches/{gameId}",
           "get",
           "200",
           "application/json",
@@ -133,18 +136,18 @@ Deno.test({
         }, pic1);
         assert(validator.validateResponse(
           actionRes.data,
-          "/match/{gameId}/action",
-          "post",
+          "/matches/{gameId}/actions",
+          "patch",
           "200",
           "application/json",
         ));
         actionRes = await ac.setAction(gameId, {
-          actions: [{ agentId: 1, type: "NONE", x: 1, y: 2 }],
+          actions: [{ agentId: 1, type: "NONE" }],
         }, pic1);
         assert(validator.validateResponse(
           actionRes.data,
-          "/match/{gameId}/action",
-          "post",
+          "/matches/{gameId}/actions",
+          "patch",
           "200",
           "application/json",
         ));
@@ -156,7 +159,7 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}",
+          "/matches/{gameId}",
           "get",
           "200",
           "application/json",
@@ -171,7 +174,7 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}",
+          "/matches/{gameId}",
           "get",
           "200",
           "application/json",
@@ -204,7 +207,7 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}",
+          "/matches/{gameId}",
           "get",
           "200",
           "application/json",
@@ -216,8 +219,8 @@ Deno.test({
         }, pic2);
         assert(validator.validateResponse(
           actionRes.data,
-          "/match/{gameId}/action",
-          "post",
+          "/matches/{gameId}/actions",
+          "patch",
           "200",
           "application/json",
         ));
@@ -231,7 +234,7 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}",
+          "/matches/{gameId}",
           "get",
           "200",
           "application/json",

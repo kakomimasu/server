@@ -7,9 +7,5 @@
   },
   "fmt": {
     "files": { "exclude": ["firebase-emulator/"] }
-  },
-  "compilerOptions": {
-    "noUnusedLocals": true,
-    "noUnusedParameters": true
   }
 }

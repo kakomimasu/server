@@ -2,35 +2,21 @@ import { Router } from "../deps.ts";
 
 import { contentTypeFilter, jsonParse } from "./util.ts";
 import { errorCodeResponse, errors, ServerError } from "../core/error.ts";
-import { User as IUser, UserDeleteReq, UserRegistReq } from "./types.ts";
 import { auth } from "./middleware.ts";
 import { accounts, User } from "../core/datas.ts";
+import { ResponseType } from "../util/openapi-type.ts";
 import { getPayload } from "./parts/jwt.ts";
+import { openapi, validator } from "./parts/openapi.ts";
 
 export const userRouter = () => {
   const router = new Router();
 
-  router.get("/verify", async (ctx) => {
-    const jwt = ctx.request.headers.get("Authorization");
-    if (!jwt) return;
-    const payload = await getPayload(jwt);
-    if (!payload) return;
-    //console.log(payload);
-    const isUser = accounts.getUsers().some((user) =>
-      user.id === payload.user_id
-    );
-    if (!isUser) throw new ServerError(errors.NOT_USER);
-    ctx.response.status = 200;
-  });
-
   // ユーザ登録
   router.post(
-    "/regist",
+    "/",
     contentTypeFilter("application/json"),
     jsonParse(),
     async (ctx) => {
-      const reqData = ctx.state.data as Partial<UserRegistReq>;
-      //console.log(reqData);
       const idToken = ctx.request.headers.get("Authorization");
 
       if (!idToken) {
@@ -46,12 +32,17 @@ export const userRouter = () => {
         return;
       }
 
-      if (!reqData.screenName) {
-        throw new ServerError(errors.INVALID_SCREEN_NAME);
-      }
+      const reqData = ctx.state.data;
+      const isValid = validator.validateRequestBody(
+        reqData,
+        "/users",
+        "post" as const,
+        "application/json",
+      );
+      if (!isValid) throw new ServerError(errors.INVALID_REQUEST);
+      //console.log(reqData);
 
-      if (!reqData.name) throw new ServerError(errors.INVALID_USER_NAME);
-      else if (accounts.getUsers().some((e) => e.name === reqData.name)) {
+      if (accounts.getUsers().some((e) => e.name === reqData.name)) {
         throw new ServerError(errors.ALREADY_REGISTERED_NAME);
       }
 
@@ -68,55 +59,87 @@ export const userRouter = () => {
         id,
       });
 
-      if (reqData.option?.dryRun !== true) {
+      if (reqData.dryRun !== true) {
         accounts.getUsers().push(user);
         accounts.save();
       }
 
-      const body: Required<IUser> = user.noSafe();
+      const body: ResponseType<
+        "/users",
+        "post",
+        "200",
+        "application/json",
+        typeof openapi
+      > = user.noSafe();
       ctx.response.body = body;
     },
   );
 
   // ユーザ情報取得
   router.get(
-    "/show/:identifier",
+    "/:idOrName",
     auth({ jwt: true, required: false }),
     (ctx) => {
-      const identifier = ctx.params.identifier;
+      const idOrName = ctx.params.idOrName;
 
-      const user = accounts.showUser(identifier);
+      const user = accounts.showUser(idOrName);
 
       // 認証済みユーザかの確認
       const authedUserId = ctx.state.authed_userId as string;
       const bodyUser = user.id === authedUserId ? user.noSafe() : user.toJSON();
 
-      const body: IUser = bodyUser;
+      const body: ResponseType<
+        "/users/{userIdOrName}",
+        "get",
+        "200",
+        "application/json",
+        typeof openapi
+      > = bodyUser;
       ctx.response.body = body;
     },
   );
 
   // ユーザ削除
-  router.post(
-    "/delete",
+  router.delete(
+    "/:idOrName",
     contentTypeFilter("application/json"),
     auth({ bearer: true, jwt: true }),
     jsonParse(),
     (ctx) => {
-      const reqData = ctx.state.data as UserDeleteReq;
+      const idOrName = ctx.params.idOrName;
+      const reqData = ctx.state.data;
+      const isValid = validator.validateRequestBody(
+        reqData,
+        "/users/{userIdOrName}",
+        "delete" as const,
+        "application/json",
+      );
+      if (!isValid) throw new ServerError(errors.INVALID_REQUEST);
       const authedUserId = ctx.state.authed_userId as string;
 
-      let user = accounts.getUsers().find((e) => e.id === authedUserId);
-      if (!user) throw new ServerError(errors.NOT_USER);
-      user = new User(user);
-      accounts.deleteUser(user.id, reqData.option?.dryRun);
-      const body: IUser = user.toJSON();
+      const index = accounts.getUsers().findIndex((u) =>
+        u.id === authedUserId &&
+        (u.id === idOrName || u.name === idOrName)
+      );
+      if (index === -1) throw new ServerError(errors.NOT_USER);
+
+      const user = accounts.getUsers()[index];
+      if (reqData.dryRun !== true) {
+        accounts.deleteUser(index);
+      }
+      const body: ResponseType<
+        "/users/{userIdOrName}",
+        "delete",
+        "200",
+        "application/json",
+        typeof openapi
+      > = user.noSafe();
       ctx.response.body = body;
     },
   );
 
   // ユーザ検索
-  router.get("/search", (ctx) => {
+  router.get("/", (ctx) => {
     const query = ctx.request.url.searchParams;
     const q = query.get("q");
     if (!q) {
@@ -127,7 +150,13 @@ export const userRouter = () => {
     const matchId = accounts.getUsers().filter((e) => e.id.startsWith(q));
     const users = [...new Set([...matchName, ...matchId])];
 
-    const body: IUser[] = users.map((u) => u.toJSON());
+    const body: ResponseType<
+      "/users",
+      "get",
+      "200",
+      "application/json",
+      typeof openapi
+    > = users.map((u) => u.toJSON());
     ctx.response.body = body;
   });
 

@@ -4,7 +4,7 @@ import { useUser } from "../../util/test/useUser.ts";
 
 import { nowUnixTime } from "../../core/util.ts";
 
-import ApiClient, { MatchRes } from "../../client/client.ts";
+import ApiClient, { JoinFreeMatchRes } from "../../client/client.ts";
 
 import { validator } from "../parts/openapi.ts";
 
@@ -19,9 +19,12 @@ Deno.test({
       const token = user.bearerToken;
       const userId = user.id;
 
-      let matchRes: MatchRes;
+      let matchRes: JoinFreeMatchRes;
       while (true) {
-        const res = await ac.match({ spec: "" }, `Bearer ${token}`);
+        const res = await ac.joinFreeMatch(
+          { spec: "" },
+          `Bearer ${token}`,
+        );
         if (res.success === false) {
           throw Error(
             "Response Error. ErrorCode:" + res.data.errorCode + " " +
@@ -166,7 +169,7 @@ Deno.test({
         },
       );
 
-      await ac.match({ spec: "" }, `Bearer ${token}`);
+      await ac.joinFreeMatch({ spec: "" }, `Bearer ${token}`);
 
       let nextUnixTime = 0;
       await t.step("425 Failure (Too Early)", async (t) => {
@@ -367,7 +370,7 @@ Deno.test({
         });
       });
 
-      // await ac.usersDelete({}, `Bearer ${token}`);
+      // await ac.deleteUser({}, `Bearer ${token}`);
     });
   },
 });

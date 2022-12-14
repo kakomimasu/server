@@ -13,7 +13,7 @@ const ac = new ApiClient();
 const assertUserRegistRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    "/users/regist",
+    "/users",
     "post",
     responseCode,
     "application/json",
@@ -24,7 +24,7 @@ const assertUserRegistRes = (res, responseCode) => {
 const assertUserShowRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    "/users/show/{userId}",
+    "/users/{userIdOrName}",
     "get",
     responseCode,
     "application/json",
@@ -35,7 +35,7 @@ const assertUserShowRes = (res, responseCode) => {
 const assertUserSearchRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    "/users/search",
+    "/users",
     "get",
     responseCode,
     "application/json",
@@ -46,8 +46,8 @@ const assertUserSearchRes = (res, responseCode) => {
 const assertUserDeleteRes = (res, responseCode) => {
   const isValid = validator.validateResponse(
     res,
-    "/users/delete",
-    "post",
+    "/users/{userIdOrName}",
+    "delete",
     responseCode,
     "application/json",
   );
@@ -72,79 +72,78 @@ const assertUser = (
   assertEquals(user_, sample_);
 };
 
-// /v1/users/regist Test
+// POST /v1/users Test
 // テスト項目
 // 正常・表示名無し・名前無し・登録済みのユーザ
-Deno.test("users regist:normal", async () => {
+Deno.test("POST /v1/users:normal", async () => {
   const u = await createFirebaseUser();
   const data = {
     screenName: "john doe",
     name: crypto.randomUUID(),
   };
-  const res = await ac.usersRegist({
-    ...data,
-    option: { dryRun: true },
-  }, await u.user.getIdToken());
+  const res = await ac.createUser(
+    { ...data, dryRun: true },
+    await u.user.getIdToken(),
+  );
   assertUserRegistRes(res.data, 200);
   assertUser(res.data, data, true);
 });
-Deno.test("users regist:invalid screenName", async (t) => {
+Deno.test("POST /v1/users:invalid screenName", async (t) => {
   const screenNames = [undefined, null, ""];
   for await (const screenName of screenNames) {
     await t.step({
       name: `screenName is "${screenName}"`,
       fn: async () => {
         const u = await createFirebaseUser();
-        const res = await ac.usersRegist({
+        const res = await ac.createUser({
           name: "johndoe",
           screenName,
-          option: { dryRun: true },
+          dryRun: true,
         }, await u.user.getIdToken());
         assertUserRegistRes(res.data, 400);
-        assertEquals(res.data, errors.INVALID_SCREEN_NAME);
+        assertEquals(res.data, errors.INVALID_REQUEST);
       },
     });
   }
 });
-Deno.test("users regist:invalid name", async (t) => {
+Deno.test("POST /v1/users:invalid name", async (t) => {
   const names = [undefined, null, ""];
   for await (const name of names) {
     await t.step({
       name: `name is "${name}"`,
       fn: async () => {
         const u = await createFirebaseUser();
-        const res = await ac.usersRegist({
+        const res = await ac.createUser({
           name,
           screenName: "john doe",
-          option: { dryRun: true },
+          dryRun: true,
         }, await u.user.getIdToken());
         assertUserRegistRes(res.data, 400);
-        assertEquals(res.data, errors.INVALID_USER_NAME);
+        assertEquals(res.data, errors.INVALID_REQUEST);
       },
     });
   }
 });
-Deno.test("users regist:already registered name", async () => {
+Deno.test("POST /v1/users:already registered name", async () => {
   await useUser(async (user) => {
-    const res = await ac.usersRegist({
+    const res = await ac.createUser({
       name: user.name,
       screenName: user.screenName,
-      option: { dryRun: true },
     }, user.bearerToken);
     assertUserRegistRes(res.data, 400);
     assertEquals(res.data, errors.ALREADY_REGISTERED_NAME);
   });
 });
 
-// /v1/users/show Test
+// GET /v1/users/{idOrName} Test
 // テスト項目
 // 正常(名前・ID)・ユーザ無し・認証済み(名前・ID)
-Deno.test("users show:normal", async (t) => {
+Deno.test("GET /v1/users/{idOrName}:normal", async (t) => {
   await useUser(async (user, firebaseUser) => {
     await t.step({
       name: "by name",
       fn: async () => {
-        const res = await ac.usersShow(user.name);
+        const res = await ac.getUser(user.name);
         assertUserShowRes(res.data, 200);
         assertUser(res.data, user);
       },
@@ -152,7 +151,7 @@ Deno.test("users show:normal", async (t) => {
     await t.step({
       name: "by id",
       fn: async () => {
-        const res = await ac.usersShow(user.id);
+        const res = await ac.getUser(user.id);
         assertUserShowRes(res.data, 200);
         assertUser(res.data, user);
       },
@@ -160,7 +159,7 @@ Deno.test("users show:normal", async (t) => {
     await t.step({
       name: "by jwt",
       fn: async () => {
-        const res = await ac.usersShow(
+        const res = await ac.getUser(
           user.name,
           await firebaseUser.user.getIdToken(),
         );
@@ -170,21 +169,21 @@ Deno.test("users show:normal", async (t) => {
     });
   });
 });
-Deno.test("users show:not user", async () => {
-  const res = await ac.usersShow(crypto.randomUUID());
+Deno.test("GET /v1/users/{idOrName}:not user", async () => {
+  const res = await ac.getUser(crypto.randomUUID());
   assertUserShowRes(res.data, 400);
   assertEquals(res.data, errors.NOT_USER);
 });
 
-// /v1/users/search Test
+// GET /v1/users Test
 // テスト項目
 // 正常(名前・ID)・クエリ無し
-Deno.test("users search:normal", async (t) => {
+Deno.test("GET /v1/users:normal", async (t) => {
   await useUser(async (user) => {
     await t.step({
       name: "by name",
       fn: async () => {
-        const res = await ac.usersSearch(user.name);
+        const res = await ac.getUsers(user.name);
         assertUserSearchRes(res.data, 200);
         assertUser(res.data[0], user);
       },
@@ -192,18 +191,18 @@ Deno.test("users search:normal", async (t) => {
     await t.step({
       name: "by id",
       fn: async () => {
-        const res = await ac.usersSearch(user.id);
+        const res = await ac.getUsers(user.id);
         assertUserSearchRes(res.data, 200);
         assertUser(res.data[0], user);
       },
     });
   });
 });
-Deno.test("users search:no query", async (t) => {
+Deno.test("GET /v1/users:no query", async (t) => {
   await t.step({
     name: `query is ""`,
     fn: async () => {
-      const res = await ac.usersSearch("");
+      const res = await ac.getUsers("");
       assertUserSearchRes(res.data, 400);
       assertEquals(res.data, errors.NOTHING_SEARCH_QUERY);
     },
@@ -211,7 +210,7 @@ Deno.test("users search:no query", async (t) => {
   await t.step({
     name: "no query",
     fn: async () => {
-      const res = await ac._fetch(`/v1/users/search`);
+      const res = await fetch(`http://localhost:8880/v1/users`);
       const json = await res.json();
       assertUserSearchRes(json, 400);
       assertEquals(json, errors.NOTHING_SEARCH_QUERY);
@@ -219,31 +218,56 @@ Deno.test("users search:no query", async (t) => {
   });
 });
 
-// /v1/users/delete Test
+// DELETE /v1/users/{idOrName} Test
 // テスト項目
 // 正常(名前で削除・IDで削除)・パスワード無し・ユーザ無し
-Deno.test("users delete:normal by bearerToken", async () => {
+Deno.test("DELETE /v1/users/{idOrName}:normal by id", async () => {
   await useUser(async (user) => {
-    const res = await ac.usersDelete({
-      option: { dryRun: true },
-    }, `Bearer ${user.bearerToken}`);
+    const res = await ac.deleteUser(
+      user.id,
+      { dryRun: true },
+      `Bearer ${user.bearerToken}`,
+    );
     assertUserDeleteRes(res.data, 200);
     assertUser(res.data, user);
   });
 });
-Deno.test("users delete:invalid bearerToken", async () => {
-  const res = await ac.usersDelete({ option: { dryRun: true } }, "");
+Deno.test("DELETE /v1/users/{idOrName}:normal by name", async () => {
+  await useUser(async (user) => {
+    const res = await ac.deleteUser(
+      user.name,
+      { dryRun: true },
+      `Bearer ${user.bearerToken}`,
+    );
+    assertUserDeleteRes(res.data, 200);
+    assertUser(res.data, user);
+  });
+});
+Deno.test("DELETE /v1/users/{idOrName}:invalid bearerToken", async () => {
+  const res = await ac.deleteUser(crypto.randomUUID(), {}, "");
   assertEquals(res.res.status, 401);
   assertUserDeleteRes(res.data, 401);
   assertEquals(res.data, errors.UNAUTHORIZED);
 });
-
-Deno.test("users delete:not user", async () => {
-  const res = await ac.usersDelete(
-    { option: { dryRun: true } },
+Deno.test("DELETE /v1/users/{idOrName}:not user", async () => {
+  const res = await ac.deleteUser(
+    crypto.randomUUID(),
+    {},
     `Bearer ${crypto.randomUUID()}`,
   );
   assertEquals(res.res.status, 401);
   assertUserDeleteRes(res.data, 401);
   assertEquals(res.data, errors.UNAUTHORIZED);
+});
+Deno.test("DELETE /v1/users/{idOrName}:invalid id", async () => {
+  await useUser(async (user) => {
+    const res = await ac.deleteUser(
+      crypto.randomUUID(),
+      {},
+      `Bearer ${user.bearerToken}`,
+    );
+    assertEquals(res.res.status, 400);
+    assertUserDeleteRes(res.data, 400);
+    assertEquals(res.data, errors.NOT_USER);
+  });
 });

@@ -1,12 +1,18 @@
 import {
   OpenAPIObject,
   ReferenceObject,
+  RequestBodyObject,
   ResponseObject,
   SchemaObject,
 } from "../deps.ts";
 import {
   InferReferenceType,
+  Methods,
+  Paths,
+  RequestBodyType,
+  ResponseContentType,
   ResponseType,
+  ResposeStatusCode,
   SchemaType,
 } from "./openapi-type.ts";
 
@@ -53,66 +59,36 @@ export class OpenAPIValidator<Base> {
     return this.spreadResponse(newSchema);
   }
 
-  /** Responseのバリデーション。引数resTypeに渡すオブジェクトにas constを付けると引数dataの型が推定されます。 */
+  private spreadRequestBody(
+    schema: ReferenceObject | RequestBodyObject,
+  ): RequestBodyObject {
+    if (!("$ref" in schema)) return schema;
+    const path = schema.$ref.split("/");
+    if (
+      path[0] !== "#" || path[1] !== "components" || path[2] !== "requestBodies"
+    ) {
+      throw new OpenAPIValidatorError("Invalid $ref: " + schema.$ref);
+    }
+    const newSchema = this.openapi.components?.requestBodies?.[path[3]];
+    if (!newSchema) {
+      throw new OpenAPIValidatorError("Invalid $ref: " + schema.$ref);
+    }
+    return this.spreadRequestBody(newSchema);
+  }
+
+  /** Responseのバリデーション。 */
   validateResponse<
-    Path extends (Base extends { paths: infer Paths } ? keyof Paths : never),
-    Method
-      extends (Base extends { paths: { [_ in Path]: infer Methods } } ? Extract<
-          keyof Methods,
-          | "get"
-          | "put"
-          | "post"
-          | "delete"
-          | "options"
-          | "head"
-          | "patch"
-          | "trase"
-        >
-        : never),
-    StatusCode extends (Base extends {
-      paths: {
-        [_ in Path]: {
-          [_ in Method]: { responses: infer Responses };
-        };
-      };
-    } ? keyof Responses
-      : never),
-    ContentType extends (Base extends {
-      paths: {
-        [_ in Path]: {
-          [_ in Method]: {
-            responses: {
-              [_ in StatusCode]: infer U;
-            };
-          };
-        };
-      };
-      // $refに対応
-    } ? (U extends { $ref: `#/${infer V}` } ? InferReferenceType<V, Base> : U)
-      : never) extends { content: infer ContentType } ? keyof ContentType
-      : never,
+    Path extends Paths<Base>,
+    Method extends Methods<Path, Base>,
+    StatusCode extends ResposeStatusCode<Path, Method, Base>,
+    ContentType extends ResponseContentType<Path, Method, StatusCode, Base>,
   >(
     data: unknown,
     path: Path,
     method: Method,
     statusCode: StatusCode,
     contentType: ContentType,
-  ): data is ResponseType<
-    Base extends {
-      paths: {
-        [_ in Path]: {
-          [_ in Method]: {
-            responses: {
-              [_ in StatusCode]: infer U;
-            };
-          };
-        };
-      };
-    } ? U
-      : never,
-    ContentType,
-    Base
-  > {
+  ): data is ResponseType<Path, Method, StatusCode, ContentType, Base> {
     const rawSchema = this.spreadResponse(
       this.openapi.paths[path][method]
         .responses[String(statusCode)],
@@ -125,6 +101,47 @@ export class OpenAPIValidator<Base> {
     }
     const schema = this.spreadSchema(rawSchema);
     return this.validate(data, schema);
+  }
+
+  /** Request Bodyのバリデーション。 */
+  validateRequestBody<
+    Path extends Paths<Base>,
+    Method extends Methods<Path, Base>,
+    ContentType extends (Base extends {
+      paths: {
+        [_ in Path]: {
+          [_ in Method]: {
+            requestBody: infer U;
+          };
+        };
+      };
+      // $refに対応
+    } ? (U extends { $ref: `#/${infer V}` } ? InferReferenceType<V, Base> : U)
+      : never) extends { content: infer ContentType } ? keyof ContentType
+      : never,
+  >(
+    data: unknown,
+    path: Path,
+    method: Method,
+    contentType: ContentType,
+  ): data is RequestBodyType<Path, Method, ContentType, Base> {
+    const rawSchema = this.spreadRequestBody(
+      this.openapi.paths[path][method]
+        .requestBody,
+    ).content?.[contentType].schema;
+
+    if (!rawSchema) {
+      throw new OpenAPIValidatorError(
+        `Invalid response schema : ${method} ${path} ${contentType}`,
+      );
+    }
+    const schema = this.spreadSchema(rawSchema);
+    try {
+      return this.validate(data, schema);
+    } catch (_e) {
+      // console.error(e);
+      return false;
+    }
   }
 
   validate<U extends (ReferenceObject | SchemaObject)>(
@@ -154,6 +171,14 @@ export class OpenAPIValidator<Base> {
           }
           if (schema.enum && !schema.enum.includes(data)) {
             throw new OpenAPIValidatorError("Invalid(string) enum: " + data);
+          }
+          if (schema.pattern) {
+            const regex = new RegExp(schema.pattern);
+            if (!regex.test(data)) {
+              throw new OpenAPIValidatorError(
+                `Invalid(string) pattern(${schema.pattern}): ` + data,
+              );
+            }
           }
           break;
         case "boolean":

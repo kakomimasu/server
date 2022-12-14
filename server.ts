@@ -3,39 +3,20 @@ import { Application, Context, oakCors, Router } from "./deps.ts";
 import { VersionRes } from "./types.ts";
 
 import { errorCodeResponse, errors, ServerError } from "./core/error.ts";
-import { tournamentRouter } from "./v1/tournament.ts";
-import { userRouter } from "./v1/user.ts";
-import { gameRouter } from "./v1/game.ts";
-import { matchRouter } from "./v1/match.ts";
-import { wsRoutes } from "./v1/ws.ts";
-import { streamRoutes } from "./v1/gameStream.ts";
-import { openapiRouter } from "./v1/openapi.ts";
 import { nonReqEnv, reqEnv } from "./core/env.ts";
 
 import { router as miyakonojoRouter } from "./miyakonojo/router.ts";
 import { router as tomakomaiRouter } from "./tomakomai/router.ts";
+import { router as v1Router } from "./v1/router.ts";
 
 const port = parseInt(reqEnv.PORT);
 
 if (import.meta.main) {
-  const apiRoutes = () => {
-    const router = new Router();
-    router.use("/ws", wsRoutes());
-    router.use("/match", matchRouter());
-    router.use("/game", gameRouter());
-    router.use("/game", streamRoutes());
-    router.use("/users", userRouter());
-    router.use("/tournament", tournamentRouter());
-    router.use("/openapi.json", openapiRouter());
-
-    return router.routes();
-  };
-
   // Port Listen
   const app = new Application();
   app.use(oakCors({
     origin: "*",
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "DELETE", "PATCH"],
   }));
 
   app.addEventListener("listen", ({ hostname, port, secure }) => {
@@ -93,7 +74,7 @@ URL: ${ctx.request.url}
     }
   });
 
-  router.use("/v1", apiRoutes());
+  router.use("/v1", v1Router.routes());
   router.use("/miyakonojo", miyakonojoRouter.routes());
   router.use("/tomakomai", tomakomaiRouter.routes());
   app.use(router.routes());

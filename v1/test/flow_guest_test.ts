@@ -1,6 +1,6 @@
 import { assert, assertEquals, v4 } from "../../deps-test.ts";
 
-import ApiClient, { Game } from "../../client/client.ts";
+import ApiClient from "../../client/client.ts";
 
 import { validator } from "../parts/openapi.ts";
 
@@ -29,7 +29,7 @@ let pic1: string;
 let pic2: string;
 
 Deno.test("create game", async () => {
-  const res = await ac.gameCreate({ name: "test", boardName: "A-1" });
+  const res = await ac.createMatch({ name: "test", boardName: "A-1" });
   if (res.success === false) {
     throw Error("Response Error. ErrorCode:" + res.data.errorCode);
   }
@@ -39,22 +39,22 @@ Deno.test("create game", async () => {
   // );
   assert(validator.validateResponse(
     res.data,
-    "/game/create",
+    "/matches",
     "post",
     "200",
     "application/json",
   ));
 
-  const sample = createGameSample;
+  const sample = createGameSample as typeof res.data;
 
   assert(v4.validate(res.data.id));
   gameId = res.data.id;
   res.data.id = sample.id = "";
-  assertEquals<Game>(sample, res.data);
+  assertEquals(sample, res.data);
 });
 
 Deno.test("match", async () => {
-  const res = await ac.match({ gameId, guest: { name: "test1" } });
+  const res = await ac.joinGameIdMatch(gameId, { guestName: "test1" });
   if (res.success === false) {
     throw Error(
       "Response Error. ErrorCode:" + res.data.errorCode + " " +
@@ -63,18 +63,20 @@ Deno.test("match", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    "/match",
+    "/matches/{gameId}/players",
     "post",
     "200",
     "application/json",
   ));
 
   pic1 = res.data.pic;
-  const res2 = await ac.match({ gameId: gameId, guest: { name: "test2" } });
+  const res2 = await ac.joinGameIdMatch(gameId, {
+    guestName: "test2",
+  });
   pic2 = res2.success ? res2.data.pic : "";
   assert(validator.validateResponse(
     res2.data,
-    "/match",
+    "/matches/{gameId}/players",
     "post",
     "200",
     "application/json",
@@ -98,7 +100,7 @@ Deno.test("get gameinfo", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    "/match/{gameId}",
+    "/matches/{gameId}",
     "get",
     "200",
     "application/json",
@@ -109,7 +111,7 @@ Deno.test("get gameinfo", async () => {
   //   JSON.stringify(res.data, null, 2),
   // );
 
-  const sample = matchGameInfoSample as Game;
+  const sample = matchGameInfoSample as typeof res.data;
   assert(v4.validate(res.data.id));
   assertEquals(res.data.players[0].id, "test1");
   assertEquals(res.data.players[1].id, "test2");
@@ -130,7 +132,7 @@ Deno.test("send action(Turn 1)", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    "/match/{gameId}",
+    "/matches/{gameId}",
     "get",
     "200",
     "application/json",
@@ -145,8 +147,8 @@ Deno.test("send action(Turn 1)", async () => {
   }, pic1);
   assert(validator.validateResponse(
     actionRes.data,
-    "/match/{gameId}/action",
-    "post",
+    "/matches/{gameId}/actions",
+    "patch",
     "200",
     "application/json",
   ));
@@ -158,7 +160,7 @@ Deno.test("send action(Turn 1)", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    "/match/{gameId}",
+    "/matches/{gameId}",
     "get",
     "200",
     "application/json",
@@ -173,7 +175,7 @@ Deno.test("send action(Turn 1)", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    "/match/{gameId}",
+    "/matches/{gameId}",
     "get",
     "200",
     "application/json",
@@ -204,7 +206,7 @@ Deno.test("send action(Turn 2)", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    "/match/{gameId}",
+    "/matches/{gameId}",
     "get",
     "200",
     "application/json",
@@ -217,8 +219,8 @@ Deno.test("send action(Turn 2)", async () => {
   }, pic2);
   assert(validator.validateResponse(
     actionRes.data,
-    "/match/{gameId}/action",
-    "post",
+    "/matches/{gameId}/actions",
+    "patch",
     "200",
     "application/json",
   ));
@@ -232,7 +234,7 @@ Deno.test("send action(Turn 2)", async () => {
   }
   assert(validator.validateResponse(
     res.data,
-    "/match/{gameId}",
+    "/matches/{gameId}",
     "get",
     "200",
     "application/json",

@@ -4,7 +4,7 @@ import { useUser } from "../../util/test/useUser.ts";
 
 import { errors } from "../../core/error.ts";
 
-import ApiClient, { Game } from "../../client/client.ts";
+import ApiClient from "../../client/client.ts";
 import { diffTime, sleep } from "./client_util.ts";
 
 import { validator } from "../parts/openapi.ts";
@@ -39,13 +39,13 @@ Deno.test({
       let pic2: string;
 
       await t.step("create game", async () => {
-        const res = await ac.gameCreate({ name: "test", boardName: "A-1" });
+        const res = await ac.createMatch({ name: "test", boardName: "A-1" });
         if (res.success === false) {
           throw Error("Response Error. ErrorCode:" + res.data.errorCode);
         }
         assert(validator.validateResponse(
           res.data,
-          "/game/create",
+          "/matches",
           "post",
           "200",
           "application/json",
@@ -54,17 +54,18 @@ Deno.test({
         //   "./v1/test/sample/createGame_sample.json",
         //   JSON.stringify(res.data, null, 2),
         // );
-        const sample = createGameSample;
+        const sample = createGameSample as typeof res.data;
 
         assert(v4.validate(res.data.id));
         gameId = res.data.id;
         res.data.id = sample.id = "";
-        assertEquals<Game>(sample, res.data);
+        assertEquals(sample, res.data);
       });
 
       await t.step("match", async () => {
-        const res = await ac.match(
-          { spec: testSpec, gameId },
+        const res = await ac.joinGameIdMatch(
+          gameId,
+          { spec: testSpec },
           `Bearer ${bearerToken}`,
         );
         if (res.success === false) {
@@ -75,20 +76,21 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match",
+          "/matches/{gameId}/players",
           "post",
           "200",
           "application/json",
         ));
         pic1 = res.data.pic;
 
-        const res2 = await ac.match(
-          { spec: testSpec, gameId: gameId },
+        const res2 = await ac.joinGameIdMatch(
+          gameId,
+          { spec: testSpec },
           `Bearer ${bearerToken}`,
         );
         assert(validator.validateResponse(
           res.data,
-          "/match",
+          "/matches/{gameId}/players",
           "post",
           "200",
           "application/json",
@@ -114,7 +116,7 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}",
+          "/matches/{gameId}",
           "get",
           "200",
           "application/json",
@@ -125,7 +127,7 @@ Deno.test({
         //   JSON.stringify(res.data, null, 2),
         // );
 
-        const sample = matchGameInfoSample as Game;
+        const sample = matchGameInfoSample as typeof res.data;
         assert(v4.validate(res.data.id));
         sample.id = res.data.id = "";
         sample.players[0].id = res.data.players[0].id = "";
@@ -146,7 +148,7 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}",
+          "/matches/{gameId}",
           "get",
           "200",
           "application/json",
@@ -167,18 +169,18 @@ Deno.test({
         }, pic1);
         assert(validator.validateResponse(
           actionRes.data,
-          "/match/{gameId}/action",
-          "post",
+          "/matches/{gameId}/actions",
+          "patch",
           "200",
           "application/json",
         ));
         actionRes = await ac.setAction(gameId, {
-          actions: [{ agentId: 1, type: "NONE", x: 1, y: 2 }],
+          actions: [{ agentId: 1, type: "NONE" }],
         }, pic1);
         assert(validator.validateResponse(
           actionRes.data,
-          "/match/{gameId}/action",
-          "post",
+          "/matches/{gameId}/actions",
+          "patch",
           "200",
           "application/json",
         ));
@@ -190,7 +192,7 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}",
+          "/matches/{gameId}",
           "get",
           "200",
           "application/json",
@@ -206,7 +208,7 @@ Deno.test({
         assert(res.success === false);
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}",
+          "/matches/{gameId}",
           "get",
           "400",
           "application/json",
@@ -220,8 +222,8 @@ Deno.test({
         assert(res.success === false);
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}/action",
-          "post",
+          "/matches/{gameId}/actions",
+          "patch",
           "400",
           "application/json",
         ));
@@ -236,7 +238,7 @@ Deno.test({
         assert(res.success === true);
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}",
+          "/matches/{gameId}",
           "get",
           "200",
           "application/json",
@@ -265,8 +267,8 @@ Deno.test({
         }, pic2);
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}/action",
-          "post",
+          "/matches/{gameId}/actions",
+          "patch",
           "200",
           "application/json",
         ));
@@ -281,7 +283,7 @@ Deno.test({
         assert(res.success === false);
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}",
+          "/matches/{gameId}",
           "get",
           "400",
           "application/json",
@@ -295,8 +297,8 @@ Deno.test({
         assert(res.success === false);
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}/action",
-          "post",
+          "/matches/{gameId}/actions",
+          "patch",
           "400",
           "application/json",
         ));
@@ -313,7 +315,7 @@ Deno.test({
         }
         assert(validator.validateResponse(
           res.data,
-          "/match/{gameId}",
+          "/matches/{gameId}",
           "get",
           "200",
           "application/json",
