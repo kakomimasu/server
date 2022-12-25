@@ -137,6 +137,31 @@ export const userRouter = () => {
       ctx.response.body = body;
     },
   );
+  // ユーザトークン再生成
+  router.get(
+    "/:idOrName/token",
+    auth({ jwt: true, required: true }),
+    (ctx) => {
+      const idOrName = ctx.params.idOrName;
+      const user = accounts.showUser(idOrName);
+
+      // 認証済みユーザかの確認
+      const authedUserId = ctx.state.authed_userId as string;
+      if (user.id !== authedUserId) throw new ServerError(errors.NOT_USER);
+
+      user.regenerateToken();
+      accounts.save();
+
+      const body: ResponseType<
+        "/users/{userIdOrName}/token",
+        "get",
+        "200",
+        "application/json",
+        typeof openapi
+      > = user.noSafe();
+      ctx.response.body = body;
+    },
+  );
 
   // ユーザ検索
   router.get("/", (ctx) => {

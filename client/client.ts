@@ -64,6 +64,13 @@ export default class ApiClient {
     );
   }
 
+  async regenerateUserToken(idOrName: string, auth: string) {
+    return await this.#fetch<T.RegenerateUserTokenRes>(
+      `/v1/users/${idOrName}/token`,
+      { auth },
+    );
+  }
+
   async deleteUser(idOrName: string, data: T.DeleteUserReq, auth: string) {
     return await this.#fetch<T.DeleteUserRes>(
       `/v1/users/${idOrName}`,

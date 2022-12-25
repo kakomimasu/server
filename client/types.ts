@@ -127,6 +127,7 @@ export type CreateUserReq = {
   name: string;
 } & DryRunOption;
 export type CreateUserRes = AuthedUser;
+export type RegenerateUserTokenRes = AuthedUser;
 
 export type Game = {
   id: string;
