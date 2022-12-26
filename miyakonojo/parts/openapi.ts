@@ -267,7 +267,8 @@ export const openapi = {
                       },
                     },
                     tiled: {
-                      description: "フィールドの現在の状況(空きマス: 0, プレイヤー青: 1 プレイヤー赤: 2",
+                      description:
+                        "フィールドの現在の状況(空きマス: 0, プレイヤー青: 1 プレイヤー赤: 2",
                       type: "array",
                       items: {
                         type: "array",
@@ -387,11 +388,13 @@ export const openapi = {
                           type: "integer",
                         },
                         dx: {
-                          description: "行動をするx方向の向き (typeがputならばX座標)",
+                          description:
+                            "行動をするx方向の向き (typeがputならばX座標)",
                           type: "integer",
                         },
                         dy: {
-                          description: "行動をするy方向の向き (typeがputならばY座標)",
+                          description:
+                            "行動をするy方向の向き (typeがputならばY座標)",
                           type: "integer",
                         },
                         type: {
