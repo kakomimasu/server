@@ -15,7 +15,7 @@ class User implements FUser {
   public screenName: string;
   public name: string;
   public readonly id: string;
-  public readonly bearerToken: string;
+  public bearerToken: string;
 
   constructor(data: FUser) {
     this.screenName = data.screenName;
@@ -41,6 +41,10 @@ class User implements FUser {
         (b.startedAtUnixTime ?? Infinity);
     }).map((game) => game.uuid);
     return gameIds;
+  }
+
+  public regenerateToken() {
+    this.bearerToken = randomUUID();
   }
 
   // シリアライズする際にBearerTokenを返さないように

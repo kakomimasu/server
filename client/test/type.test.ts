@@ -267,6 +267,18 @@ const _dures: Equals<
   DeleteUsersUserIdOrNameRes
 > = true;
 
+// GET /users/{usersIdOrName}/token
+type GetUsersUserIdOrNameTokenRes = ResponseAllType<
+  "/users/{userIdOrName}/token",
+  "get",
+  "application/json",
+  typeof openapi
+>;
+const _dutres: Equals<
+  T.RegenerateUserTokenRes | T.ErrorRes,
+  GetUsersUserIdOrNameTokenRes
+> = true;
+
 // GET /users
 type GetUsersRes = ResponseAllType<
   "/users",

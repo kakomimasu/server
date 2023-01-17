@@ -270,11 +270,13 @@ export const openapi = {
   components: {
     schemas: {
       ActionPosX: {
-        description: "行動の対象となるX座標(左から1とする), 行動種別が停留の場合のみ0が許容される",
+        description:
+          "行動の対象となるX座標(左から1とする), 行動種別が停留の場合のみ0が許容される",
         type: "integer",
       },
       ActionPosY: {
-        description: "行動の対象となるY座標(上から1とする), 行動種別が停留の場合のみ0が許容される",
+        description:
+          "行動の対象となるY座標(上から1とする), 行動種別が停留の場合のみ0が許容される",
         type: "integer",
       },
       ActionResult: {
@@ -287,7 +289,8 @@ export const openapi = {
         ],
       },
       ActionType: {
-        description: "行動種別(配置: put, 停留: stay, 移動: move, 除去: remove)",
+        description:
+          "行動種別(配置: put, 停留: stay, 移動: move, 除去: remove)",
         type: "string",
         enum: [
           "put",
@@ -297,11 +300,13 @@ export const openapi = {
         ],
       },
       AgentPosX: {
-        description: "エージェントの現在のX座標(左から1とする), 未配置の場合は0",
+        description:
+          "エージェントの現在のX座標(左から1とする), 未配置の場合は0",
         type: "integer",
       },
       AgentPosY: {
-        description: "エージェントの現在のY座標(上から1とする), 未配置の場合は0",
+        description:
+          "エージェントの現在のY座標(上から1とする), 未配置の場合は0",
         type: "integer",
       },
       GetMatchResponseOK: {
@@ -387,7 +392,8 @@ export const openapi = {
         type: "object",
         properties: {
           teamID: {
-            description: "チーム（ユーザ）のPIC\n\n相手チームは「0」で固定されます。",
+            description:
+              "チーム（ユーザ）のPIC\n\n相手チームは「0」で固定されます。",
             type: "number",
           },
           agent: {
@@ -494,7 +500,8 @@ export const openapi = {
             type: "string",
           },
           teams: {
-            description: "試合に参加するチームの情報\n1番目が自チーム, 2番目以降が相手チームとなる\n",
+            description:
+              "試合に参加するチームの情報\n1番目が自チーム, 2番目以降が相手チームとなる\n",
             type: "array",
             items: {
               "$ref": "#/components/schemas/TeamInfo",
@@ -613,7 +620,8 @@ export const openapi = {
         ],
         properties: {
           teamID: {
-            description: "チーム（ユーザ）のゲーム別PIC\n\n相手チームやチーム情報取得APIでは「0」になります。",
+            description:
+              "チーム（ユーザ）のゲーム別PIC\n\n相手チームやチーム情報取得APIでは「0」になります。",
             type: "integer",
           },
           name: {
@@ -639,7 +647,8 @@ export const openapi = {
     },
     responses: {
       NotFound: {
-        description: "* 参加していない試合に対するリクエスト, また存在しない試合IDの場合",
+        description:
+          "* 参加していない試合に対するリクエスト, また存在しない試合IDの場合",
         headers: {
           "x-request-id": {
             schema: {
@@ -665,7 +674,8 @@ export const openapi = {
         },
       },
       Unauthorized: {
-        description: "* リクエストにAPIトークンが含まれていない, または不正な場合",
+        description:
+          "* リクエストにAPIトークンが含まれていない, または不正な場合",
       },
       UnprocessableEntity: {
         description: "* リクエストがフォーマットに則ってない場合",

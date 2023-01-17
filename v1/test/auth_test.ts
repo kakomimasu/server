@@ -5,6 +5,7 @@ const bearerAuthRequiredUrlList = [
 ];
 const jwtAuthRequiredUrlList = [
   `POST users`,
+  `GET users/${crypto.randomUUID()}/token`,
 ];
 
 // fetch all urls by no Authorization header
@@ -35,7 +36,7 @@ jwtAuthRequiredUrlList.forEach((url) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: "{}",
+      body: method !== "GET" ? "{}" : undefined,
     });
     // console.log(res.headers);
     const wwwAuthentiate = res.headers.get("WWW-Authenticate");

@@ -349,7 +349,8 @@ export const openapi = {
     "/matches/stream": {
       get: {
         summary: "ゲーム詳細取得(SSE)",
-        description: "試合情報をServer-Sent Eventsにてリアルタイムで取得できます。",
+        description:
+          "試合情報をServer-Sent Eventsにてリアルタイムで取得できます。",
         tags: ["Matches API"],
         parameters: [
           {
@@ -373,7 +374,8 @@ export const openapi = {
           {
             in: "query",
             name: "allowNewGame",
-            description: "検索クエリに一致する新しいゲームが作成された時に通知するか",
+            description:
+              "検索クエリに一致する新しいゲームが作成された時に通知するか",
             schema: { type: "boolean" },
           },
         ],
@@ -508,7 +510,8 @@ export const openapi = {
                     },
                     participants: {
                       type: "array",
-                      description: "参加者の配列<br>配列にはユーザネーム or ユーザIDを入れてください。",
+                      description:
+                        "参加者の配列<br>配列にはユーザネーム or ユーザIDを入れてください。",
                       items: {
                         type: "string",
                       },
@@ -703,6 +706,7 @@ export const openapi = {
         description: "ユーザを削除することができます。",
         summary: "ユーザ削除",
         tags: ["Users API"],
+        security: [{ Bearer: [] }, { JWT: [] }],
         parameters: [
           {
             in: "path",
@@ -734,16 +738,38 @@ export const openapi = {
         },
       },
     },
+    "/users/{userIdOrName}/token": {
+      get: {
+        description:
+          "ユーザのBearerTokenを再生成することができます。<br>⚠再生成が行われると、既存のBearerTokenは無効になります。また、現在は公式サイトのみでの再生成が可能です。",
+        summary: "ユーザトークン再生成",
+        tags: ["Users API"],
+        security: [{ JWT: [] }],
+        responses: {
+          "200": {
+            "$ref": "#/components/responses/AuthedUser",
+          },
+          "400": {
+            "$ref": "#/components/responses/400",
+          },
+          "401": {
+            "$ref": "#/components/responses/401",
+          },
+        },
+      },
+    },
     "/users": {
       get: {
-        description: "ユーザ一覧を取得できます。<br>現在はクエリパラメータを用いた検索機能のみ実装",
+        description:
+          "ユーザ一覧を取得できます。<br>現在はクエリパラメータを用いた検索機能のみ実装",
         summary: "ユーザ一覧取得",
         tags: ["Users API"],
         parameters: [
           {
             in: "query",
             name: "q",
-            description: "検索クエリ<br>ユーザネームまたはユーザIDによる前方一致検索",
+            description:
+              "検索クエリ<br>ユーザネームまたはユーザIDによる前方一致検索",
             schema: {
               type: "string",
             },
@@ -847,7 +873,8 @@ export const openapi = {
                 type: "null",
               },
             ],
-            description: "ゲームで使用されているボード情報<br>開始前は非公開(`null`)です。",
+            description:
+              "ゲームで使用されているボード情報<br>開始前は非公開(`null`)です。",
           },
           ending: {
             type: "boolean",
@@ -859,7 +886,8 @@ export const openapi = {
           },
           name: {
             type: "string",
-            description: "ゲーム名<br>フリー対戦など指定がない場合には空文字になります。",
+            description:
+              "ゲーム名<br>フリー対戦など指定がない場合には空文字になります。",
           },
           gaming: {
             type: "boolean",
@@ -989,7 +1017,8 @@ export const openapi = {
           },
           reservedUsers: {
             type: "array",
-            description: "ゲーム入出可能なユーザIDのリスト<br>空の場合は誰でも入室可",
+            description:
+              "ゲーム入出可能なユーザIDのリスト<br>空の場合は誰でも入室可",
             items: {
               type: "string",
             },
@@ -1265,7 +1294,8 @@ export const openapi = {
             properties: {
               bearerToken: {
                 type: "string",
-                description: "BearerToken<br>認証されたユーザのみ取得できます。",
+                description:
+                  "BearerToken<br>認証されたユーザのみ取得できます。",
               },
             },
             example: {
@@ -1344,7 +1374,8 @@ export const openapi = {
           },
           guestName: {
             type: "string",
-            description: "アカウントを作成せずに参加する際のプレイヤー名<br>認証情報がある場合、そちらが優先されます。",
+            description:
+              "アカウントを作成せずに参加する際のプレイヤー名<br>認証情報がある場合、そちらが優先されます。",
           },
         },
         example: {
@@ -1452,7 +1483,8 @@ export const openapi = {
                 },
                 pic: {
                   type: "string",
-                  description: "行動送信時に必要となるトークン(プレイヤー識別コード)",
+                  description:
+                    "行動送信時に必要となるトークン(プレイヤー識別コード)",
                 },
               },
               example: {
@@ -1500,7 +1532,8 @@ export const openapi = {
         type: "apiKey",
         in: "header",
         name: "Authorization",
-        description: "ゲーム参加時のレスポンスで得られるPIC(プレイヤー識別コード)を使用します。",
+        description:
+          "ゲーム参加時のレスポンスで得られるPIC(プレイヤー識別コード)を使用します。",
       },
       JWT: {
         type: "http",

@@ -1,4 +1,4 @@
-import { assert, assertEquals, v4 } from "../../deps-test.ts";
+import { assert, assertEquals, assertNotEquals, v4 } from "../../deps-test.ts";
 
 import { createFirebaseUser, useUser } from "../../util/test/useUser.ts";
 
@@ -48,6 +48,16 @@ const assertUserDeleteRes = (res, responseCode) => {
     res,
     "/users/{userIdOrName}",
     "delete",
+    responseCode,
+    "application/json",
+  );
+  assert(isValid);
+};
+const assertUserRegenerateTokenRes = (res, responseCode) => {
+  const isValid = validator.validateResponse(
+    res,
+    "/users/{userIdOrName}/token",
+    "get",
     responseCode,
     "application/json",
   );
@@ -268,6 +278,50 @@ Deno.test("DELETE /v1/users/{idOrName}:invalid id", async () => {
     );
     assertEquals(res.res.status, 400);
     assertUserDeleteRes(res.data, 400);
+    assertEquals(res.data, errors.NOT_USER);
+  });
+});
+
+// GET /v1/users/{idOrName}/token Test
+// テスト項目
+// 正常(id・name)・Token不正・ユーザ無し
+Deno.test("GET /v1/users/{idOrName}/token:normal by id", async () => {
+  await useUser(async (user, firebaseUser) => {
+    const res = await ac.regenerateUserToken(
+      user.id,
+      await firebaseUser.user.getIdToken(),
+    );
+    assertUserRegenerateTokenRes(res.data, 200);
+    assertNotEquals(res.data.bearerToken, user.bearerToken);
+    assertUser(res.data, user);
+  });
+});
+Deno.test("GET /v1/users/{idOrName}/token:normal by name", async () => {
+  await useUser(async (user, firebaseUser) => {
+    const res = await ac.regenerateUserToken(
+      user.name,
+      await firebaseUser.user.getIdToken(),
+    );
+    assertUserRegenerateTokenRes(res.data, 200);
+    assertNotEquals(res.data.bearerToken, user.bearerToken);
+    assertUser(res.data, user);
+  });
+});
+Deno.test("GET /v1/users/{idOrName}/token:invalid jwt", async () => {
+  await useUser(async (user) => {
+    const res = await ac.regenerateUserToken(user.id, "");
+    assertUserRegenerateTokenRes(res.data, 401);
+    assertEquals(res.data, errors.UNAUTHORIZED);
+  });
+});
+Deno.test("GET /v1/users/{idOrName}/token:not user", async () => {
+  await useUser(async (_user, firebaseUser) => {
+    const res = await ac.regenerateUserToken(
+      crypto.randomUUID(),
+      await firebaseUser.user.getIdToken(),
+    );
+    assertEquals(res.res.status, 400);
+    assertUserRegenerateTokenRes(res.data, 400);
     assertEquals(res.data, errors.NOT_USER);
   });
 });
