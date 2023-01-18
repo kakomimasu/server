@@ -1143,11 +1143,13 @@ export const openapi = {
           "players": [
             {
               "id": "bc7b10ae-c19f-4a6b-a7b9-d256f41c2583",
+              "type": "account",
               "agents": [{ "x": 1, "y": 0 }, { "x": 0, "y": 1 }],
               "point": { "areaPoint": 0, "wallPoint": -1 },
             },
             {
-              "id": "fdc9c2e0-1feb-4334-ad44-9268cde6d488",
+              "id": "guest-user",
+              "type": "guest",
               "agents": [{ "x": 0, "y": 2 }, { "x": -1, "y": -1 }],
               "point": { "areaPoint": 0, "wallPoint": 1 },
             },
