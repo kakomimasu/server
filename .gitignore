@@ -1,5 +1,13 @@
-v1/log/
-v1/data/
+# deno lock
+deno.lock
+
+# Environment File
 .env
-*.log
+
+# Firebase
 firebase-emulator/firebase
+firebase-emulator/*.log
+
+# Coverage
+coverage
+coverage-html
