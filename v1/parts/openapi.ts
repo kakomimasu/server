@@ -356,7 +356,19 @@ export const openapi = {
           {
             in: "query",
             name: "q",
-            description: "検索クエリ",
+            description: [
+              "検索クエリ。`{key}:{value}`の形式で指定します。複数ある場合は半角スペースで区切ってください。",
+              "例↓",
+              "```",
+              "sort:startAtUnixTime-ask is:wating type:normal",
+              "```",
+              "|key|value|",
+              "|---|---|",
+              "|`id`|ゲームIDを指定して取得できます。複数設定も可能です。|",
+              "|`sort`|`startAtUnixTime-ask`, `startAtUnixTime-desc` : ゲーム開始時間によりソート|",
+              "|`is`|`wating` : 開始待機中のゲームを取得。<br> `gaming` : 試合中のゲームを取得。<br>`ending` : 終了したゲームを取得|",
+              "|`type`|`self` : カスタム対戦のゲームを取得。<br>`normal` : フリー対戦のゲームを取得。<br>`personal` : プライベートゲームを取得（Authorization ヘッダによる認証が必要）|",
+            ].join("\n"),
             schema: { type: "string" },
           },
           {
@@ -391,39 +403,82 @@ export const openapi = {
                       type: "object",
                       required: ["type", "games", "q", "gamesNum"],
                       properties: {
-                        type: { type: "string", enum: ["initial"] },
+                        type: {
+                          type: "string",
+                          enum: ["initial"],
+                          description: "API接続後、一番最初に来るレスポンス。",
+                        },
                         games: {
                           type: "array",
+                          description:
+                            "リクエストにマッチするゲームがソート済みの配列で得られます。",
                           items: { "$ref": "#/components/schemas/Game" },
                         },
-                        q: { type: "string" },
-                        gamesNum: { type: "integer" },
-                        startIndex: { type: "integer" },
-                        endIndex: { type: "integer" },
+                        q: {
+                          type: "string",
+                          description: "検索クエリ",
+                        },
+                        gamesNum: {
+                          type: "integer",
+                          description:
+                            "検索クエリにマッチするゲームの総数。（startIndex,endIndexの影響は受けません。）",
+                        },
+                        startIndex: {
+                          type: "integer",
+                          description: "開始インデックス",
+                        },
+                        endIndex: {
+                          type: "integer",
+                          description: "終了インデックス",
+                        },
                       },
                     },
                     {
                       type: "object",
                       required: ["type", "game"],
                       properties: {
-                        type: { type: "string", enum: ["update"] },
-                        game: { "$ref": "#/components/schemas/Game" },
+                        type: {
+                          type: "string",
+                          enum: ["update"],
+                          description:
+                            "条件にマッチしているゲームが更新された場合に来るレスポンス。",
+                        },
+                        game: {
+                          "$ref": "#/components/schemas/Game",
+                          description: "更新されたゲームの詳細",
+                        },
                       },
                     },
                     {
                       type: "object",
                       required: ["type", "game"],
                       properties: {
-                        type: { type: "string", enum: ["add"] },
-                        game: { "$ref": "#/components/schemas/Game" },
+                        type: {
+                          type: "string",
+                          enum: ["add"],
+                          description:
+                            "条件に新たにマッチしたゲームがある場合に来るレスポンス。",
+                        },
+                        game: {
+                          "$ref": "#/components/schemas/Game",
+                          description: "追加されるゲームの詳細",
+                        },
                       },
                     },
                     {
                       type: "object",
                       required: ["type", "gameId"],
                       properties: {
-                        type: { type: "string", enum: ["remove"] },
-                        gameId: { type: "string" },
+                        type: {
+                          type: "string",
+                          enum: ["remove"],
+                          description:
+                            "`initial`や`add`で受信したゲームが条件を満たさなくなった場合に来るレスポンス。",
+                        },
+                        gameId: {
+                          type: "string",
+                          description: "削除されたゲームのID",
+                        },
                       },
                     },
                   ],
