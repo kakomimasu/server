@@ -12,23 +12,27 @@ import "./server.ts";
 const port = reqEnv.PORT;
 await fetch(`http://localhost:${port}/version`);
 
-Deno.test("run test", async () => {
-  // Run tests
-  const cmd = new Deno.Command(Deno.execPath(), {
-    args: [
-      "test",
-      "--allow-read",
-      "--allow-env",
-      "--allow-net",
-      ...Deno.args,
-    ],
-    stdout: "piped",
-    stderr: "piped",
-  });
-  const child = cmd.spawn();
-  child.stdout.pipeTo(Deno.stdout.writable);
-  child.stderr.pipeTo(Deno.stderr.writable);
+Deno.test({
+  name: "Test",
+  sanitizeOps: false,
+  sanitizeResources: false,
+  fn: async () => {
+    const cmd = new Deno.Command(Deno.execPath(), {
+      args: [
+        "test",
+        "--allow-read",
+        "--allow-env",
+        "--allow-net",
+        ...Deno.args,
+      ],
+      stdout: "piped",
+      stderr: "piped",
+    });
+    const child = cmd.spawn();
+    child.stdout.pipeTo(Deno.stdout.writable);
+    child.stderr.pipeTo(Deno.stderr.writable);
 
-  const status = await child.status;
-  assert(status.success);
+    const status = await child.status;
+    assert(status.success);
+  },
 });
