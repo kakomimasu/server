@@ -1,9 +1,9 @@
 // Standard Library
-export { parse as yamlParse } from "https://deno.land/std@0.166.0/encoding/yaml.ts";
-export * as Colors from "https://deno.land/std@0.166.0/fmt/colors.ts";
+export { parse as yamlParse } from "https://deno.land/std@0.180.0/yaml/mod.ts";
+export * as Colors from "https://deno.land/std@0.180.0/fmt/colors.ts";
+export { loadSync as loadEnv } from "https://deno.land/std@0.180.0/dotenv/mod.ts";
 
 // Third Party Modules
-export * from "https://deno.land/x/dotenv@v3.2.0/mod.ts";
 export {
   Application,
   Context,
@@ -14,7 +14,7 @@ export {
   type RouterMiddleware,
   ServerSentEvent,
   type ServerSentEventTarget,
-} from "https://deno.land/x/oak@v11.1.0/mod.ts";
+} from "https://deno.land/x/oak@v12.1.0/mod.ts";
 export { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 export * from "https://deno.land/x/djwt@v2.3/mod.ts";
 
@@ -28,29 +28,29 @@ export * from "https://raw.githubusercontent.com/kakomimasu/client-deno/v1.0.0-b
 export * from "https://raw.githubusercontent.com/kakomimasu/client-deno/v1.0.0-beta.1/client_a5.js";
 export * from "https://raw.githubusercontent.com/kakomimasu/client-deno/v1.0.0-beta.1/client_none.js";
 
-// @deno-types="https://cdn.esm.sh/v61/firebase@9.6.0/app/dist/app/index.d.ts"
+// @deno-types="https://cdn.esm.sh/v61/firebase@9.18.0/app/dist/app/index.d.ts"
 export {
   type FirebaseOptions,
   initializeApp,
-} from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
+} from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
 
-// @deno-types="https://cdn.esm.sh/v61/firebase@9.6.0/app/dist/auth/index.d.ts"
+// @deno-types="https://cdn.esm.sh/v61/firebase@9.18.0/app/dist/auth/index.d.ts"
 export {
   connectAuthEmulator,
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
   type UserCredential,
-} from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
 
-// @deno-types="https://cdn.esm.sh/v61/firebase@9.6.0/app/dist/database/index.d.ts"
+// @deno-types="https://cdn.esm.sh/v61/firebase@9.18.0/app/dist/database/index.d.ts"
 export {
   connectDatabaseEmulator,
   get,
   getDatabase,
   ref,
   set,
-} from "https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js";
+} from "https://www.gstatic.com/firebasejs/9.18.0/firebase-database.js";
 
 export {
   type OpenAPIObject,
@@ -58,4 +58,4 @@ export {
   type RequestBodyObject,
   type ResponseObject,
   type SchemaObject,
-} from "https://esm.sh/openapi3-ts@3.1.2/";
+} from "https://esm.sh/openapi3-ts@3.2.0/";
