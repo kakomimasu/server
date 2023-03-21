@@ -1,18 +1,14 @@
 {
   "deno.enable": true,
+  "deno.enablePaths": ["./"],
   "deno.lint": true,
   "deno.unstable": false,
-  "deno.config": "./deno.json",
   "[json]": {
     "editor.defaultFormatter": "denoland.vscode-deno"
   },
   "[jsonc]": {
     "editor.defaultFormatter": "denoland.vscode-deno"
   },
-  "json.schemas": [{
-    "fileMatch": ["/deno.json"],
-    "url": "https://cdn.deno.land/deno/versions/v1.14.0/raw/cli/schemas/config-file.v1.json"
-  }],
   "[typescript]": {
     "editor.defaultFormatter": "denoland.vscode-deno"
   },
@@ -22,13 +18,7 @@
   "[markdown]": {
     "editor.defaultFormatter": "denoland.vscode-deno"
   },
-  "deno.suggest.imports.hosts": {
-    "https://raw.githubusercontent.com": false
-  },
   "editor.formatOnSave": true,
-  "files.exclude": {
-    "public/app.bundle.js": true
-  },
   "files.eol": "\n",
   "deno.codeLens.referencesAllFunctions": true,
   "deno.codeLens.implementations": true,
