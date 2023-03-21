@@ -2,10 +2,20 @@
   "tasks": {
     "cache": "deno cache server.ts",
     "start": "deno run --allow-read --allow-env --allow-net server.ts",
-    "test": "deno test --allow-read --allow-env --allow-net",
-    "firebase-emu": "cd firebase-emulator && firebase emulators:start --import ./data/"
+    "test": "rm -rf coverage && deno test --allow-read --allow-env --allow-net --allow-run --coverage=coverage test.ts",
+    "coverage": "deno coverage coverage --lcov --output=coverage/coverage.lcov",
+    "coverage:report": "genhtml -o coverage-html coverage/coverage.lcov",
+    "firebase:emu": "cd firebase-emulator && firebase emulators:start --import ./data/",
+    "ci:test": "cd firebase-emulator && firebase emulators:exec --import ./data/ 'deno task test'"
   },
+  "lock": false,
   "fmt": {
     "files": { "exclude": ["firebase-emulator/"] }
+  },
+  "test": {
+    "files": {
+      "include": [""],
+      "exclude": ["test.ts"]
+    }
   }
 }
