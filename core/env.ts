@@ -1,4 +1,4 @@
-import { Colors, config, yamlParse } from "../deps.ts";
+import { Colors, loadEnv, yamlParse } from "../deps.ts";
 
 type Config = Record<string, {
   require: boolean;
@@ -19,10 +19,7 @@ function getConfigStr() {
 }
 
 // Read dotenv file
-config({
-  path: "./.env",
-  export: true,
-});
+loadEnv({ export: true });
 
 // Check env
 export const reqEnv: Record<string, string> = {};
