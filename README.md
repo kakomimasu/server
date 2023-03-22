@@ -2,94 +2,78 @@
 
 ## 概要
 
-[Kakomimasu Core](https://github.com/codeforkosen/Kakomimasu)を使用した、囲みマスをオンラインで対戦するためのサーバです。実行には[Deno](https://deno.land/)(v1.20以降)がインストールされている必要があります。
+[Kakomimasu Core](https://github.com/codeforkosen/Kakomimasu)を使用した、囲みマスをオンラインで対戦するためのサーバです。
 
-## サーバ起動方法
+https://api.kakomimasu.com
+
+## 環境変数
+
+| 変数                         | 説明                                                         | デフォルト    |
+| ---------------------------- | ------------------------------------------------------------ | ------------- |
+| PORT                         | リクエストを受信するポート                                   | `"8880"`      |
+| BOARDNAME                    | フリーマッチで使われるボード<br>指定なしでランダムに選ばれる |               |
+| DISCORD_WEBHOOK_URL          | 予期しないエラー発生時のDiscordチャンネルWebHook URL         |               |
+| FIREBASE_TEST                | Firebase Emulatorを使用するかどうか                          | `"false"`     |
+| FIREBASE_EMULATOR_HOST       | Firebase Emulatorのホストを設定                              | `"localhost"` |
+| FIREBASE_USERNAME `required` | Firebaseの管理ユーザ名                                       |               |
+| FIREBASE_PASSWORD `required` | Firebaseの管理者パスワード                                   |               |
+| VERSION                      | 現在のバージョン名<br> `/version`アクセス時に使用される      | `"local"`     |
+
+※ `.env`ファイルが使用できます。([dotenv](https://deno.land/std/dotenv/mod.ts))
+
+## 開発者向け
+
+### サーバ起動
 
 ```console
 deno task start
 ```
 
-## 環境変数
+### Firebase Emulator起動
 
-環境変数はサーバ起動時にシステム変数と`.env`ファイルの両方から読み込みます。
-使用可能な環境変数については[envconfig.yml](envconfig.yml)をご覧ください。
+1. Firebase CLIをインストール（https://firebase.google.com/docs/cli）
+1. エミュレータ起動
 
-## 機能
+```
+deno task firebase:emu
+```
 
-- [APIサーバ](#apiサーバ)
+### API定義
 
-### APIサーバ
+OpenAPIにて定義されています。
 
-ユーザ・試合などに関するAPIを提供しています。
-仕様についてはAPIドキュメントをご覧ください
-
-[API Document](https://kakomimasu.com/docs/api/v1)
-
-### ビューア
-
-ビューア機能の提供はv1.0.0-beta.1にて終了し、[kakomimasu/viewer - Github](https://github.com/kakomimasu/viewer)に移行しました。
+| API Version  | OpenAPI file                                | Document                                   |
+| ------------ | ------------------------------------------- | ------------------------------------------ |
+| `miyakonojo` | [openapi.ts](./miyakonojo/parts/openapi.ts) | https://kakomimasu.com/docs/api/miyakonojo |
+| `tomakomai`  | [openapi.ts](./tomakomai/parts/openapi.ts)  | https://kakomimasu.com/docs/api/tomakomai  |
+| `v1`         | [openapi.ts](./v1/parts/openapi.ts)         | https://kakomimasu.com/docs/api/v1         |
 
 ## 使用フィールド
 
 [#procon30の公開フィールド](http://www.procon.gr.jp/?p=76585)他、独自フィールドが搭載されています。
 
-## ポート番号の変更方法
-
-デフォルトでは`8880`番でサーバが起動します。変更するには`server.ts`と同じ場所に`.env`ファイルを作成し、以下のように内容を記述してください。
-
-```sh
-PORT=8881 # 任意のポート番号を指定
-```
-
 ## テスト
 
-テスト時にはFirebase
-Emulatorとserverが立ち上がっている必要があります。以下の2種類の方法で行うことができます。
+### 1. 環境変数を設定する
 
-### ローカルでサーバを立てる方法(actを使わない方法)
-
-#### 1. Firebase emulatorをDockerで起動する
-
-```console
-$ docker pull ghcr.io/kakomimasu/firebase-emulator:latest
-$ docker run -p 4000:4000 -p 8080:8080 -p 9000:9000 -p 9099:9099 -d --name firebase-emu firebase-emu:latest
+```
+FIREBASE_TEST=true
+FIREBASE_USERNAME=test@example.com
+FIREBASE_PASSWORD=server-admin
 ```
 
-#### 2. server起動
+### 2a. `test`
 
-```console
-$ deno task start
+```
+deno task test
 ```
 
-#### 3. テスト
+※Firebase Emulatorがすでに起動している必要あり
 
-```console
-$ deno task test
+### 2b. `ci:test`
+
+```
+deno task ci:test
 ```
 
-### [act](https://github.com/nektos/act)を用いた方法
-
-事前に[act](https://github.com/nektos/act)をインストールしておく必要があります。
-
-#### 1. Firebase emulatorをDockerで起動する
-
-```console
-$ docker pull ghcr.io/kakomimasu/firebase-emulator:latest
-$ docker run -p 4000:4000 -p 8080:8080 -p 9000:9000 -p 9099:9099 -d --name firebase-emu firebase-emu:latest
-```
-
-#### 2. act実行
-
-```console
-$ act
-```
-
-# メモ
-
-ここからは開発者用のメモです。
-
-## リリース時
-
-- CHANGELOG.mdの変更
-- CHANGELOG.mdに追記した文をReleaseにも追加
+Firebase Emulatorの起動とテスト実行の両方を一括で行います。

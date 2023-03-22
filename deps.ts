@@ -1,5 +1,4 @@
 // Standard Library
-export { parse as yamlParse } from "https://deno.land/std@0.180.0/yaml/mod.ts";
 export * as Colors from "https://deno.land/std@0.180.0/fmt/colors.ts";
 export { loadSync as loadEnv } from "https://deno.land/std@0.180.0/dotenv/mod.ts";
 
