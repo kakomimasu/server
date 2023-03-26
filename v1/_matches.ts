@@ -5,7 +5,7 @@ import { accounts, kkmm, tournaments } from "../core/datas.ts";
 import { errors, ServerError } from "../core/error.ts";
 import { getAllBoards, getBoard } from "../core/firestore.ts";
 import { ExpGame, Player } from "../core/expKakomimasu.ts";
-import { nonReqEnv } from "../core/env.ts";
+import { env } from "../core/env.ts";
 import { ResponseType, SchemaType } from "../util/openapi-type.ts";
 import { aiList } from "./parts/ai-list.ts";
 
@@ -46,7 +46,7 @@ type IGame = SchemaType<
   typeof openapi
 >;
 
-const boardname = nonReqEnv.boardname; // || "E-1"; // "F-1" "A-1"
+const boardname = env.BOARDNAME; // || "E-1"; // "F-1" "A-1"
 
 const getRandomBoard = async () => {
   const list = await getAllBoards(); //Deno.readDir(resolve("./board"));

@@ -1,7 +1,5 @@
 import { decode } from "../../deps.ts";
-import { reqEnv } from "../../core/env.ts";
-
-const isTest = reqEnv.FIREBASE_TEST;
+import { isTest } from "../../core/firebase.ts";
 
 export async function getPayload(jwt: string) {
   const [header, payload] = decode(jwt);

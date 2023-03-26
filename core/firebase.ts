@@ -7,7 +7,7 @@ import {
   initializeApp,
 } from "../deps.ts";
 
-import { reqEnv } from "./env.ts";
+import { env } from "./env.ts";
 
 import { sleep } from "../v1/test/client_util.ts";
 
@@ -22,17 +22,19 @@ const firebaseConfig: FirebaseOptions = {
   measurementId: "G-L43FT511YW",
 };
 
+export const isTest = env.FIREBASE_TEST.toLowerCase() === "true";
+
 let app: ReturnType<typeof initializeApp>;
 export async function firebaseInit() {
   if (app !== undefined) return;
   app = initializeApp(firebaseConfig);
 
-  if (reqEnv.FIREBASE_TEST) {
+  if (isTest) {
     const auth = getAuth();
-    connectAuthEmulator(auth, `http://${reqEnv.FIREBASE_EMULATOR_HOST}:9099`);
+    connectAuthEmulator(auth, `http://${env.FIREBASE_EMULATOR_HOST}:9099`);
 
     const db = getDatabase();
-    connectDatabaseEmulator(db, reqEnv.FIREBASE_EMULATOR_HOST, 9000);
+    connectDatabaseEmulator(db, env.FIREBASE_EMULATOR_HOST, 9000);
 
     // connectAuthEmulatorの接続待ち(テスト時にleaking opsが発生するため)
     await sleep(1000);

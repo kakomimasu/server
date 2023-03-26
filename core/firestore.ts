@@ -8,7 +8,7 @@ import {
   signInWithEmailAndPassword,
 } from "../deps.ts";
 
-import { reqEnv } from "./env.ts";
+import { env } from "./env.ts";
 import type { ExpGame } from "./expKakomimasu.ts";
 import type { Tournament, User } from "./datas.ts";
 import { firebaseInit } from "./firebase.ts";
@@ -37,8 +37,8 @@ const db = getDatabase();
 /** 管理ユーザでログイン */
 await signInWithEmailAndPassword(
   auth,
-  reqEnv.FIREBASE_USERNAME,
-  reqEnv.FIREBASE_PASSWORD,
+  env.FIREBASE_USERNAME,
+  env.FIREBASE_PASSWORD,
 );
 
 /** 全ユーザ保存 */

@@ -1,5 +1,5 @@
 import { assert } from "https://deno.land/std@0.180.0/testing/asserts.ts";
-import { reqEnv } from "./core/env.ts";
+import { env } from "./core/env.ts";
 
 // Disable server logs
 console.log = (_) => {};
@@ -9,7 +9,7 @@ console.error = (_) => {};
 import "./server.ts";
 
 // Wait for server to start
-const port = reqEnv.PORT;
+const port = env.PORT;
 await fetch(`http://localhost:${port}/version`);
 
 Deno.test({

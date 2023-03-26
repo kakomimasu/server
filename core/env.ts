@@ -1,42 +1,33 @@
-import { Colors, loadEnv, yamlParse } from "../deps.ts";
+import { Colors, loadEnv } from "../deps.ts";
 
-type Config = Record<string, {
-  require: boolean;
-  default?: string;
-}>;
+import { config } from "../env.config.ts";
+
+type Env<T = typeof config> =
+  | {
+    [key in keyof T]: T[key] extends
+      { readonly require: false; readonly default: string } ? string
+      : T[key] extends { readonly require: true } ? string
+      : string | undefined;
+  }
+  | never;
 
 console.log(Colors.yellow("[env]\tCheck environment"));
-
-// Read config file
-const envConfig = yamlParse(getConfigStr()) as Config;
-//console.log(envConfig);
-function getConfigStr() {
-  try {
-    return Deno.readTextFileSync("./envconfig.yml");
-  } catch (_) {
-    throw Error("There is no envconfig.yml");
-  }
-}
 
 // Read dotenv file
 loadEnv({ export: true });
 
 // Check env
-export const reqEnv: Record<string, string> = {};
-export const nonReqEnv: Record<string, string | undefined> = {};
-Object.entries(envConfig).forEach(([key, { require, default: def }]) => {
+export const env = {} as Env;
+Object.entries(config).forEach(([key, data]) => {
   const value = Deno.env.get(key);
-  if (require) {
-    if (value) reqEnv[key] = value;
-    else {
-      throw Error(
-        `The following variables are not defined in the environment or '.env' : ${key}`,
-      );
-    }
-  } else {
-    if (def !== undefined) reqEnv[key] = value || def;
-    else nonReqEnv[key] = value;
+  if (data.require && value === undefined) {
+    throw Error(
+      `The following variables are not defined in the environment or '.env' : ${key}`,
+    );
   }
+
+  // @ts-ignore configがas constのため
+  env[key] = value ?? data.default;
 });
 
 // Deno.envを使った時にエラーを吐くようにする
@@ -46,7 +37,7 @@ const oldEnvToObject = Deno.env.toObject;
 const oldEnvDelete = Deno.env.delete;
 const deprecatedConsoleLog = (funcName: string) =>
   console.warn(
-    Colors.red(`${funcName} is deprecated. Use 'v1/parts/env.ts' instead.`),
+    Colors.red(`${funcName} is deprecated. Use 'core/env.ts' instead.`),
   );
 Deno.env.get = (key) => {
   deprecatedConsoleLog("Deno.env.get");
@@ -65,5 +56,5 @@ Deno.env.toObject = () => {
   return oldEnvToObject();
 };
 
-//console.log(reqEnv, nonReqEnv);
+// console.log(env);
 console.log(Colors.green("[env]\tChecked environment"));

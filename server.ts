@@ -3,13 +3,13 @@ import { Application, Context, oakCors, Router } from "./deps.ts";
 import { VersionRes } from "./types.ts";
 
 import { errorCodeResponse, errors, ServerError } from "./core/error.ts";
-import { nonReqEnv, reqEnv } from "./core/env.ts";
+import { env } from "./core/env.ts";
 
 import { router as miyakonojoRouter } from "./miyakonojo/router.ts";
 import { router as tomakomaiRouter } from "./tomakomai/router.ts";
 import { router as v1Router } from "./v1/router.ts";
 
-const port = parseInt(reqEnv.PORT);
+const port = parseInt(env.PORT);
 
 // Port Listen
 const app = new Application();
@@ -52,12 +52,12 @@ router.use(async (ctx, next) => {
     await next();
   } catch (err) {
     if (!(err instanceof ServerError)) {
-      if (nonReqEnv.DISCORD_WEBHOOK_URL) {
+      if (env.DISCORD_WEBHOOK_URL) {
         const content = `kakomimasu/serverで予期しないエラーを検出しました。
 Date: ${new Date().toLocaleString("ja-JP")}
 URL: ${ctx.request.url}
 \`\`\`console\n${err.stack}\n\`\`\``;
-        fetch(nonReqEnv.DISCORD_WEBHOOK_URL, {
+        fetch(env.DISCORD_WEBHOOK_URL, {
           method: "POST",
           headers: new Headers({ "content-type": "application/json" }),
           body: JSON.stringify({ content, username: "500 ERROR!" }),
@@ -80,9 +80,7 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 
 router.get("/version", (ctx) => {
-  const data: VersionRes = {
-    version: reqEnv.HEROKU_RELEASE_VERSION,
-  };
+  const data: VersionRes = { version: env.VERSION };
   ctx.response.body = data;
 });
 
