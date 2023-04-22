@@ -24,6 +24,8 @@ import afterActionSample2 from "./sample_guest/afterAction_sample2.json" assert 
   type: "json",
 };
 
+const update = false;
+
 let gameId: string;
 let pic1: string;
 let pic2: string;
@@ -33,10 +35,12 @@ Deno.test("create game", async () => {
   if (res.success === false) {
     throw Error("Response Error. ErrorCode:" + res.data.errorCode);
   }
-  // Deno.writeTextFileSync(
-  //   "v1/test/sample_guest/createGame_sample.json",
-  //   JSON.stringify(res.data, null, 2),
-  // );
+  if (update) {
+    Deno.writeTextFileSync(
+      "v1/test/sample_guest/createGame_sample.json",
+      JSON.stringify(res.data, null, 2),
+    );
+  }
   assert(validator.validateResponse(
     res.data,
     "/matches",
@@ -81,10 +85,12 @@ Deno.test("match", async () => {
     "200",
     "application/json",
   ));
-  // Deno.writeTextFileSync(
-  //   "v1/test/sample_guest/match_sample.json",
-  //   JSON.stringify(res.data, null, 2),
-  // );
+  if (update) {
+    Deno.writeTextFileSync(
+      "v1/test/sample_guest/match_sample.json",
+      JSON.stringify(res.data, null, 2),
+    );
+  }
 
   const sample = matchSample;
   assert(v4.validate(res.data.gameId));
@@ -106,10 +112,12 @@ Deno.test("get gameinfo", async () => {
     "application/json",
   ));
   //console.log(JSON.stringify(res));
-  // Deno.writeTextFileSync(
-  //   "v1/test/sample_guest/matchGameInfo_sample.json",
-  //   JSON.stringify(res.data, null, 2),
-  // );
+  if (update) {
+    Deno.writeTextFileSync(
+      "v1/test/sample_guest/matchGameInfo_sample.json",
+      JSON.stringify(res.data, null, 2),
+    );
+  }
 
   const sample = matchGameInfoSample as typeof res.data;
   assert(v4.validate(res.data.id));
@@ -180,10 +188,12 @@ Deno.test("send action(Turn 1)", async () => {
     "200",
     "application/json",
   ));
-  // Deno.writeTextFileSync(
-  //   "v1/test/sample_guest/afterAction_sample.json",
-  //   JSON.stringify(res.data, null, 2),
-  // );
+  if (update) {
+    Deno.writeTextFileSync(
+      "v1/test/sample_guest/afterAction_sample.json",
+      JSON.stringify(res.data, null, 2),
+    );
+  }
 
   //console.log(res);
   //console.log(JSON.stringify(reqJson, null, 2));
@@ -240,10 +250,12 @@ Deno.test("send action(Turn 2)", async () => {
     "application/json",
   ));
 
-  // Deno.writeTextFileSync(
-  //   "v1/test/sample_guest/afterAction_sample2.json",
-  //   JSON.stringify(res.data),
-  // );
+  if (update) {
+    Deno.writeTextFileSync(
+      "v1/test/sample_guest/afterAction_sample2.json",
+      JSON.stringify(res.data, null, 2),
+    );
+  }
 
   //console.log(res);
   //console.log(JSON.stringify(reqJson, null, 2));

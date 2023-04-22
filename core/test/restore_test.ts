@@ -15,17 +15,16 @@ function firebaseSave(obj: any) {
 Deno.test({
   name: "restore ExpGame class",
   fn() {
-    const board = new Core.Board({
-      w: 2,
-      h: 2,
+    const game = new ExpGame({
+      width: 2,
+      height: 2,
       points: [1, 2, 3, 4],
-      nagent: 1,
-      nturn: 10,
-      nsec: 1,
-      nplayer: 2,
+      nAgent: 1,
+      totalTurn: 10,
+      operationSec: 1,
+      nPlayer: 2,
     });
-    const game = new ExpGame(board);
-    const restoredGame = ExpGame.restore(game.toLogJSON());
+    const restoredGame = ExpGame.fromJSON(game.toLogJSON());
     assertEquals(game, restoredGame);
   },
   sanitizeOps: false,
@@ -34,16 +33,15 @@ Deno.test({
 Deno.test({
   name: "restore ExpGame class",
   async fn() {
-    const board = new Core.Board({
-      w: 2,
-      h: 2,
+    const game = new ExpGame({
+      width: 2,
+      height: 2,
       points: [1, 2, 3, 4],
-      nagent: 1,
-      nturn: 10,
-      nsec: 1,
-      nplayer: 2,
+      nAgent: 1,
+      totalTurn: 10,
+      operationSec: 1,
+      nPlayer: 2,
     });
-    const game = new ExpGame(board);
     const p1 = new Player("p1");
     const p2 = new Player("p2");
     game.attachPlayer(p1);
@@ -54,10 +52,13 @@ Deno.test({
       await delay(1000);
     }
 
-    const restoredGame = ExpGame.restore(
-      firebaseSave(structuredClone(game.toLogJSON())),
+    const restoredGame = ExpGame.fromJSON(
+      firebaseSave(JSON.parse(JSON.stringify(game.toLogJSON()))),
     );
-    assertEquals(game.toLogJSON(), restoredGame.toLogJSON());
+    assertEquals(
+      JSON.parse(JSON.stringify(game.toLogJSON())),
+      JSON.parse(JSON.stringify(restoredGame.toLogJSON())),
+    );
   },
   sanitizeOps: false,
   sanitizeResources: false,

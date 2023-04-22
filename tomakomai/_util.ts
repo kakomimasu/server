@@ -34,7 +34,7 @@ export const checkAuthPic: Middleware<StatePic> = async (ctx, next) => {
 
 export const getMatches = (userId: string) => {
   const matches = kkmm.getGames().filter((game) => {
-    if (game.ending) return false;
+    if (game.isEnded()) return false;
     const user = game.players.find((player) => {
       return player.type === "account" && player.id === userId;
     });

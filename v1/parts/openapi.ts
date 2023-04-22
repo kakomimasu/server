@@ -903,38 +903,28 @@ export const openapi = {
         type: "object",
         readOnly: true,
         required: [
-          "board",
-          "ending",
+          "status",
           "id",
-          "gaming",
           "log",
           "operationSec",
           "players",
           "reservedUsers",
           "startedAtUnixTime",
-          "tiled",
+          "field",
           "totalTurn",
+          "nPlayer",
+          "nAgent",
           "transitionSec",
           "turn",
           "type",
         ],
         properties: {
-          board: {
-            oneOf: [
-              {
-                "$ref": "#/components/schemas/Board",
-              },
-              {
-                type: "null",
-              },
-            ],
-            description:
-              "ゲームで使用されているボード情報<br>開始前は非公開(`null`)です。",
+          status: {
+            type: "string",
+            enum: ["free", "ready", "gaming", "ended"],
+            description: "ゲームの状態",
           },
-          ending: {
-            type: "boolean",
-            description: "ゲームが終了しているかどうか",
-          },
+
           id: {
             type: "string",
             description: "ゲームID",
@@ -943,10 +933,6 @@ export const openapi = {
             type: "string",
             description:
               "ゲーム名<br>フリー対戦など指定がない場合には空文字になります。",
-          },
-          gaming: {
-            type: "boolean",
-            description: "ゲーム中かどうか",
           },
           log: {
             type: "array",
@@ -1083,42 +1069,71 @@ export const openapi = {
             description: "ゲーム開始時刻(UNIX時間)",
             nullable: true,
           },
-          tiled: {
-            description: "フィールドの状態<br>開始前は`null`です。",
-            oneOf: [
-              {
-                type: "array",
-                description: "マスの情報(1次元配列)",
-                items: {
-                  type: "object",
-                  required: [
-                    "type",
-                    "player",
-                  ],
-                  properties: {
-                    type: {
-                      type: "integer",
-                      description:
-                        "マスのタイプ。ただし`player`がnullの場合は値に関係なく空白マス。<br>各数字が以下のように対応<br>0: 陣地, 1: 壁",
-                      enum: [0, 1],
-                    },
-                    player: {
-                      type: "integer",
-                      nullable: true,
-                      description:
-                        "マスを所持するプレイヤー番号(`players`の配列番号)。<br>`null`の場合は空白マス。",
+          field: {
+            description: "フィールド情報<br>開始前は非公開(`null`)です。",
+            oneOf: [{
+              type: "object",
+              required: [
+                "width",
+                "height",
+                "points",
+                "tiles",
+              ],
+              properties: {
+                width: {
+                  type: "integer",
+                  description: "フィールドの幅",
+                },
+                height: {
+                  type: "integer",
+                  description: "フィールドの高さ",
+                },
+                points: {
+                  type: "array",
+                  items: {
+                    type: "integer",
+                  },
+                  description: "各マスのポイント(1次元配列)",
+                },
+                tiles: {
+                  description: "マスの状態(1次元配列)",
+                  type: "array",
+                  items: {
+                    type: "object",
+                    required: [
+                      "type",
+                      "player",
+                    ],
+                    properties: {
+                      type: {
+                        type: "integer",
+                        description:
+                          "マスのタイプ。ただし`player`がnullの場合は値に関係なく空白マス。<br>各数字が以下のように対応<br>0: 陣地, 1: 壁",
+                        enum: [0, 1],
+                      },
+                      player: {
+                        type: "integer",
+                        nullable: true,
+                        description:
+                          "マスを所持するプレイヤー番号(`players`の配列番号)。<br>`null`の場合は空白マス。",
+                      },
                     },
                   },
                 },
               },
-              {
-                type: "null",
-              },
-            ],
+            }, { type: "null" }],
           },
           totalTurn: {
             type: "integer",
             description: "ゲームの総ターン数",
+          },
+          nPlayer: {
+            type: "integer",
+            description: "参加プレイヤー数",
+          },
+          nAgent: {
+            type: "integer",
+            description: "エージェント数",
           },
           transitionSec: {
             type: "integer",
@@ -1232,11 +1247,7 @@ export const openapi = {
         type: "object",
         required: [
           "height",
-          "nAgent",
           "name",
-          "nPlayer",
-          "nSec",
-          "nTurn",
           "points",
           "width",
         ],
@@ -1257,11 +1268,15 @@ export const openapi = {
             type: "integer",
             description: "プレイヤー数",
           },
-          nSec: {
+          transitionSec: {
+            type: "integer",
+            description: "遷移ステップの秒数",
+          },
+          operationSec: {
             type: "integer",
             description: "行動ステップの秒数",
           },
-          nTurn: {
+          totalTurn: {
             type: "integer",
             description: "総ターン数",
           },

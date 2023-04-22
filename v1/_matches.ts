@@ -114,14 +114,15 @@ router.post(
 
     const board = await getBoard(reqJson.boardName);
     if (!board) throw new ServerError(errors.INVALID_BOARD_NAME);
-    board.nplayer = reqJson.nPlayer || 2;
 
-    let game: ExpGame;
+    const game: ExpGame = new ExpGame(
+      { ...board, nPlayer: reqJson.nPlayer },
+      reqJson.name,
+    );
     if (!reqJson.dryRun) {
-      game = new ExpGame(board, reqJson.name);
       kkmm.addGame(game);
       game.wsSend();
-    } else game = new ExpGame(board, reqJson.name);
+    }
 
     if (reqJson.isPersonal) {
       const authedUserId = ctx.state.authed_userId as string;
@@ -220,7 +221,7 @@ router.patch(
         ("y" in action) ? action.y : 0,
       );
       const actionIdx = newActions.findIndex((a) =>
-        a.agentid === action.agentId
+        a.agentId === action.agentId
       );
       if (actionIdx === -1) {
         newActions.push(newAction);

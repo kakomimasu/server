@@ -95,8 +95,8 @@ const dynamicFilter = (game: ExpGame, { searchOptions }: MapValue) => {
   for (const so of searchOptions) {
     if (so.op === "is") {
       if (so.value === "waiting" && !game.isFree()) return false;
-      else if (so.value === "gaming" && !game.gaming) return false;
-      else if (so.value === "finished" && !game.ending) return false;
+      else if (so.value === "gaming" && !game.isGaming()) return false;
+      else if (so.value === "finished" && !game.isEnded()) return false;
     }
   }
   return true;

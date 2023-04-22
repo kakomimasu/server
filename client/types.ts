@@ -131,15 +131,20 @@ export type RegenerateUserTokenRes = AuthedUser;
 
 export type Game = {
   id: string;
-  gaming: boolean;
-  ending: boolean;
-  board: Board | null;
+  status: "free" | "ready" | "gaming" | "ended";
   turn: number;
   totalTurn: number;
-  tiled: {
-    type: typeof TileType[keyof typeof TileType];
-    player: number | null;
-  }[] | null;
+  nPlayer: number;
+  nAgent: number;
+  field: {
+    width: number;
+    height: number;
+    points: number[];
+    tiles: {
+      type: typeof TileType[keyof typeof TileType];
+      player: number | null;
+    }[];
+  } | null;
   players: Player[];
   log: {
     players: {
@@ -165,10 +170,11 @@ export type Board = {
   name: string;
   width: number;
   height: number;
-  nAgent: number;
-  nPlayer: number;
-  nTurn: number;
-  nSec: number;
+  nAgent?: number;
+  nPlayer?: number;
+  totalTurn?: number;
+  operationSec?: number;
+  transitionSec?: number;
   points: number[];
 };
 

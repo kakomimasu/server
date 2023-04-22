@@ -1,14 +1,12 @@
 {
-  "gaming": false,
-  "ending": false,
-  "board": {
-    "name": "A-1",
+  "nAgent": 8,
+  "nPlayer": 2,
+  "turn": 0,
+  "totalTurn": 30,
+  "log": [],
+  "field": {
     "width": 10,
     "height": 10,
-    "nAgent": 8,
-    "nPlayer": 2,
-    "nTurn": 30,
-    "nSec": 1,
     "points": [
       12,
       3,
@@ -110,415 +108,414 @@
       5,
       3,
       12
+    ],
+    "tiles": [
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      },
+      {
+        "type": 0,
+        "player": null
+      }
     ]
   },
-  "turn": 0,
-  "totalTurn": 30,
-  "tiled": [
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    },
-    {
-      "type": 0,
-      "player": null
-    }
-  ],
   "players": [
     {
-      "id": "2227255c-30db-4761-a571-52e8ca7e7e18",
+      "id": "wMBkn2jHAgXTMcf1R9wAXkJEqZCh",
+      "spec": "test",
       "agents": [
         {
           "x": -1,
@@ -560,7 +557,8 @@
       "type": "account"
     },
     {
-      "id": "2227255c-30db-4761-a571-52e8ca7e7e18",
+      "id": "wMBkn2jHAgXTMcf1R9wAXkJEqZCh",
+      "spec": "test",
       "agents": [
         {
           "x": -1,
@@ -602,10 +600,10 @@
       "type": "account"
     }
   ],
-  "log": [],
-  "id": "61dfbe96-a6db-4362-8196-5cf56e862213",
+  "status": "ready",
+  "id": "b4f685a6-4f22-494c-bff0-3c8b28f811ba",
   "name": "test",
-  "startedAtUnixTime": 1634863448,
+  "startedAtUnixTime": 1681912851,
   "reservedUsers": [],
   "type": "self",
   "transitionSec": 1,

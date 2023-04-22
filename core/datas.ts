@@ -220,7 +220,7 @@ class Tournaments {
 
 const kkmm = new ExpKakomimasu();
 (await getAllGameSnapShot()).forEach((doc) => {
-  kkmm.games.push(ExpGame.restore(doc.val()));
+  kkmm.games.push(ExpGame.fromJSON(doc.val()));
 });
 
 const tournaments = new Tournaments();

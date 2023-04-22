@@ -1,1 +1,3227 @@
-{"boards":{"A-1":{"height":10,"nagent":8,"name":"A-1","nsec":1,"nturn":30,"points":[12,3,5,3,1,1,3,5,3,12,3,5,7,5,3,3,5,7,5,3,5,7,10,7,5,5,7,10,7,5,3,5,7,5,3,3,5,7,5,3,1,3,5,3,12,12,3,5,3,1,1,3,5,3,12,12,3,5,3,1,3,5,7,5,3,3,5,7,5,3,5,7,10,7,5,5,7,10,7,5,3,5,7,5,3,3,5,7,5,3,12,3,5,3,1,1,3,5,3,12],"width":10}},"games":{"0142ec79-20b4-44b0-9d66-abb5c32f7996":{"board":{"h":20,"nagent":8,"name":"Kakom-2","nplayer":2,"nsec":3,"nturn":60,"points":[11,9,7,16,10,7,7,15,6,9,1,3,12,13,10,10,5,10,12,14,5,-16,-16,-16,12,10,-16,-16,-16,2,13,-16,-16,-16,4,1,-16,-16,-16,9,4,-16,-16,-16,9,15,-16,-16,-16,3,12,-16,-16,-16,14,15,-16,-16,-16,2,6,-16,-16,-16,5,3,-16,-16,-16,1,15,-16,-16,-16,11,1,-16,-16,-16,14,13,10,16,13,2,5,7,9,15,7,9,1,11,5,16,3,2,14,16,12,16,6,2,7,8,10,1,7,11,15,15,15,9,3,11,10,5,2,6,2,2,-16,-16,-16,14,4,-16,-16,-16,12,15,-16,-16,-16,12,3,-16,-16,-16,9,4,-16,-16,-16,11,9,-16,-16,-16,10,4,-16,-16,-16,14,3,-16,-16,-16,7,5,-16,-16,-16,4,8,-16,-16,-16,12,7,-16,-16,-16,14,4,-16,-16,-16,9,9,12,2,7,16,5,1,3,2,9,13,13,11,4,6,7,7,9,8,9,7,10,5,9,10,10,1,14,6,11,15,15,7,15,14,10,11,10,16,9,10,-16,-16,-16,15,8,-16,-16,-16,7,7,-16,-16,-16,11,3,-16,-16,-16,11,10,-16,-16,-16,16,2,-16,-16,-16,1,14,-16,-16,-16,14,4,-16,-16,-16,10,5,-16,-16,-16,12,8,-16,-16,-16,14,12,-16,-16,-16,5,5,-16,-16,-16,14,8,13,10,7,9,7,7,9,3,3,12,16,9,8,15,6,6,16,6,8,10,7,13,1,5,15,3,13,9,15,4,13,15,5,1,2,14,11,14,2,4,-16,-16,-16,1,15,-16,-16,-16,4,4,-16,-16,-16,8,2,-16,-16,-16,6,8,-16,-16,-16,8,16,-16,-16,-16,4,12,-16,-16,-16,3,9,-16,-16,-16,3,12,-16,-16,-16,3,13,-16,-16,-16,7,7,-16,-16,-16,16,6,-16,-16,-16,10,11,6,5,6,9,12,12,8,5,8,9,7,8,3,15,4,11,4,13,12],"w":20},"ending":true,"field":{"field":[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]},"gaming":false,"log":[{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":0}}]}],"nsec":3,"nturn":60,"players":[{"agents":[{"bkx":-1,"bky":-1,"playerid":0,"x":-1,"y":-1},{"bkx":-1,"bky":-1,"playerid":0,"x":-1,"y":-1},{"bkx":-1,"bky":-1,"playerid":0,"x":-1,"y":-1},{"bkx":-1,"bky":-1,"playerid":0,"x":-1,"y":-1},{"bkx":-1,"bky":-1,"playerid":0,"x":-1,"y":-1},{"bkx":-1,"bky":-1,"playerid":0,"x":-1,"y":-1},{"bkx":-1,"bky":-1,"playerid":0,"x":-1,"y":-1},{"bkx":-1,"bky":-1,"playerid":0,"x":-1,"y":-1}],"id":"AI-3","index":0,"pic":"398593","spec":"デタラメ"},{"agents":[{"bkx":-1,"bky":-1,"playerid":1,"x":-1,"y":-1},{"bkx":-1,"bky":-1,"playerid":1,"x":-1,"y":-1},{"bkx":-1,"bky":-1,"playerid":1,"x":-1,"y":-1},{"bkx":-1,"bky":-1,"playerid":1,"x":-1,"y":-1},{"bkx":-1,"bky":-1,"playerid":1,"x":-1,"y":-1},{"bkx":-1,"bky":-1,"playerid":1,"x":-1,"y":-1},{"bkx":-1,"bky":-1,"playerid":1,"x":-1,"y":-1},{"bkx":-1,"bky":-1,"playerid":1,"x":-1,"y":-1}],"id":"AI-4","index":1,"pic":"548356","spec":"破壊者"}],"startedAtUnixTime":1653048377,"turn":60,"type":"normal","uuid":"0142ec79-20b4-44b0-9d66-abb5c32f7996"},"0548f106-0719-4f7f-81f9-103f34a752e0":{"board":{"h":10,"nagent":3,"name":"A-2","nplayer":2,"nsec":3,"nturn":30,"points":[3,-3,5,7,11,11,7,5,-3,3,-1,-4,14,2,13,13,2,14,-4,-1,2,7,-1,8,-2,-2,8,-1,7,2,3,14,15,9,5,5,9,15,14,3,14,-14,2,13,3,3,13,2,-14,14,14,-14,2,13,3,3,13,2,-14,14,3,14,15,9,5,5,9,15,14,3,2,7,-1,8,-2,-2,8,-1,7,2,-1,-4,14,2,13,13,2,14,-4,-1,3,-3,5,7,11,11,7,5,-3,3],"w":10},"ending":true,"field":{"field":[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"player":1,"type":1},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"player":1,"type":1},{"type":0},{"type":0},{"type":0},{"type":0},{"player":1,"type":1},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]},"gaming":false,"log":[{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"actions":[{"agentId":0,"res":0,"type":1,"x":2,"y":6},{"agentId":1,"res":0,"type":1,"x":7,"y":6},{"agentId":2,"res":0,"type":1,"x":2,"y":1}],"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]},{"players":[{"point":{"basepoint":0,"wallpoint":0}},{"point":{"basepoint":0,"wallpoint":44}}]}],"nsec":3,"nturn":30,"players":[{"agents":[{"bkx":-1,"bky":-1,"playerid":0,"x":-1,"y":-1},{"bkx":-1,"bky":-1,"playerid":0,"x":-1,"y":-1},{"bkx":-1,"bky":-1,"playerid":0,"x":-1,"y":-1}],"id":"AI-2","index":0,"pic":"224144","spec":""},{"agents":[{"bkx":2,"bky":6,"playerid":1,"x":2,"y":6},{"bkx":7,"bky":6,"playerid":1,"x":7,"y":6},{"bkx":2,"bky":1,"playerid":1,"x":2,"y":1}],"id":"AI-1","index":1,"pic":"943434","spec":""}],"startedAtUnixTime":1650803191,"turn":30,"type":"normal","uuid":"0548f106-0719-4f7f-81f9-103f34a752e0"},"058084e1-9858-43c2-9de2-a592c032df15":{"board":{"h":20,"nagent":8,"name":"island-4","nplayer":2,"nsec":2,"nturn":60,"points":[8,3,15,13,6,15,14,2,1,7,7,16,15,4,14,8,7,7,4,10,7,2,11,5,2,10,16,2,11,14,1,2,9,11,2,3,16,2,8,10,13,1,2,1,1,2,5,7,13,9,15,12,13,6,16,14,9,5,10,12,4,6,14,2,4,10,16,5,10,6,6,12,1,5,15,14,5,12,15,4,13,6,16,15,6,13,6,13,7,12,2,8,2,9,14,15,5,16,11,3,13,14,5,7,14,6,13,3,13,9,5,2,5,15,8,14,2,1,12,14,13,12,14,13,12,9,1,10,4,2,11,12,13,1,16,7,11,15,1,12,12,5,5,-13,-13,-13,11,5,1,12,1,3,3,9,5,11,6,13,6,1,15,-7,-7,-13,-13,-13,1,7,9,6,11,1,12,13,2,10,8,15,13,16,14,-7,-7,-13,-13,-13,16,7,1,16,8,2,11,8,5,14,5,12,5,1,5,-7,-7,-7,8,13,12,9,6,12,7,3,14,4,2,5,3,2,1,13,10,4,1,4,2,13,11,9,14,7,1,11,-6,-6,-6,13,15,10,2,6,5,10,1,6,8,8,13,3,15,12,6,1,-6,-6,-6,14,-8,-8,16,11,1,2,10,13,12,3,13,8,-14,-14,-14,14,-6,-6,-6,4,-8,-8,3,4,8,13,15,10,2,9,8,-15,-14,-14,-14,11,16,6,12,4,2,14,14,5,14,2,15,4,10,6,13,-15,-14,-14,-14,11,14,9,10,14,6,3,15,16,9,10,15,8,12,3,7,-15,-15,-15,3,14,6,3,14,15,13,9,16,9,14,9,10,2,14,3,15,5,9,4,4,9,13,6,12,9,12,5,5,4,6,11,3,10,10,9,4,10,4,11,8,14,11,6,1,4,15,4,10,15,9,5,8,7,12,10,12,11,11,3,15,6,5,11,4,1,15,4,1,4],"w":20},"ending":true,"field":{"field":[{"type":0},{"player":1,"type":1},{"player":1,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":1,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"type":0},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":1,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":1,"type":1},{"type":0},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"type":0},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"type":0},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"type":0},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"type":0},{"type":0},{"type":0},{"type":0},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"type":0},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"type":0},{"type":0},{"player":0,"type":1},{"type":0},{"player":0,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"type":0},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"type":0},{"type":0},{"player":0,"type":1},{"type":0},{"type":0},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"type":0},{"type":0},{"type":0},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":0},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"type":0},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"type":0},{"type":0},{"type":0},{"type":0},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"type":0},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"type":0},{"type":0},{"player":1,"type":1},{"type":0},{"type":0},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"type":0},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":0,"type":1},{"player":1,"type":1},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"player":1,"type":1},{"type":0},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":1,"type":1},{"player":0,"type":1},{"player":1,"type":1},{"player":0,"type":1},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"player":1,"type":1},{"type":0},{"player":1,"type":1},{"player":0,"type":1},{"type":0},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"player":0,"type":1},{"player":0,"type":1},{"type":0},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"player":0,"type":1},{"player":0,"type":0},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":0},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"player":0,"type":1},{"type":0},{"player":0,"type":1},{"player":0,"type":1},{"player":0,"type":1}]},"gaming":false,"log":[{"players":[{"actions":[{"agentId":0,"res":0,"type":1,"x":11,"y":0},{"agentId":1,"res":0,"type":1,"x":6,"y":1},{"agentId":2,"res":0,"type":1,"x":16,"y":1},{"agentId":3,"res":0,"type":1,"x":14,"y":2},{"agentId":4,"res":1,"type":1,"x":6,"y":3},{"agentId":5,"res":1,"type":1,"x":2,"y":4},{"agentId":6,"res":1,"type":1,"x":17,"y":4},{"agentId":7,"res":1,"type":1,"x":14,"y":6}],"point":{"basepoint":0,"wallpoint":64}},{"actions":[{"agentId":0,"res":1,"type":1,"x":6,"y":3},{"agentId":1,"res":1,"type":1,"x":2,"y":4},{"agentId":2,"res":1,"type":1,"x":17,"y":4},{"agentId":3,"res":1,"type":1,"x":14,"y":6},{"agentId":4,"res":0,"type":1,"x":19,"y":8},{"agentId":5,"res":0,"type":1,"x":6,"y":9},{"agentId":6,"res":0,"type":1,"x":9,"y":9},{"agentId":7,"res":0,"type":1,"x":18,"y":12}],"point":{"basepoint":0,"wallpoint":64}}]},{"players":[{"actions":[{"agentId":0,"res":5,"type":3,"x":10,"y":-1},{"agentId":1,"res":0,"type":3,"x":5,"y":1},{"agentId":2,"res":0,"type":3,"x":17,"y":1},{"agentId":3,"res":0,"type":3,"x":14,"y":1},{"agentId":4,"res":1,"type":1,"x":19,"y":8},{"agentId":5,"res":1,"type":1,"x":6,"y":9},{"agentId":6,"res":1,"type":1,"x":9,"y":9},{"agentId":7,"res":0,"type":1,"x":18,"y":12}],"point":{"basepoint":0,"wallpoint":78}},{"actions":[{"agentId":0,"res":0,"type":1,"x":14,"y":6},{"agentId":1,"res":1,"type":1,"x":19,"y":8},{"agentId":2,"res":1,"type":1,"x":6,"y":9},{"agentId":3,"res":1,"type":1,"x":9,"y":9},{"agentId":4,"res":0,"type":3,"x":19,"y":9},{"agentId":5,"res":0,"type":3,"x":7,"y":8},{"agentId":6,"res":0,"type":3,"x":10,"y":10},{"agentId":7,"res":0,"type":3,"x":17,"y":11}],"point":{"basepoint":0,"wallpoint":105}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":10,"y":1},{"agentId":1,"res":0,"type":3,"x":6,"y":1},{"agentId":2,"res":0,"type":3,"x":16,"y":0},{"agentId":3,"res":0,"type":3,"x":13,"y":1},{"agentId":4,"res":0,"type":1,"x":19,"y":8},{"agentId":5,"res":0,"type":1,"x":6,"y":9},{"agentId":6,"res":0,"type":1,"x":9,"y":9},{"agentId":7,"res":1,"type":1,"x":18,"y":12}],"point":{"basepoint":0,"wallpoint":97}},{"actions":[{"agentId":0,"res":0,"type":3,"x":15,"y":7},{"agentId":1,"res":0,"type":1,"x":6,"y":3},{"agentId":2,"res":0,"type":1,"x":2,"y":4},{"agentId":3,"res":0,"type":1,"x":17,"y":4},{"agentId":4,"res":0,"type":3,"x":19,"y":10},{"agentId":5,"res":0,"type":3,"x":6,"y":7},{"agentId":6,"res":0,"type":3,"x":10,"y":9},{"agentId":7,"res":1,"type":3,"x":18,"y":12}],"point":{"basepoint":0,"wallpoint":196}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":11,"y":2},{"agentId":1,"res":0,"type":3,"x":7,"y":1},{"agentId":2,"res":5,"type":3,"x":17,"y":-1},{"agentId":3,"res":0,"type":3,"x":13,"y":0},{"agentId":4,"res":0,"type":1,"x":18,"y":12},{"agentId":5,"res":0,"type":1,"x":12,"y":14},{"agentId":6,"res":0,"type":1,"x":19,"y":15},{"agentId":7,"res":0,"type":1,"x":18,"y":16}],"point":{"basepoint":0,"wallpoint":163}},{"actions":[{"agentId":0,"res":0,"type":3,"x":15,"y":6},{"agentId":1,"res":0,"type":3,"x":7,"y":3},{"agentId":2,"res":0,"type":3,"x":2,"y":3},{"agentId":3,"res":0,"type":3,"x":18,"y":4},{"agentId":4,"res":0,"type":3,"x":19,"y":9},{"agentId":5,"res":0,"type":3,"x":7,"y":6},{"agentId":6,"res":0,"type":3,"x":9,"y":8},{"agentId":7,"res":0,"type":3,"x":16,"y":11}],"point":{"basepoint":0,"wallpoint":264}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":12,"y":1},{"agentId":1,"res":0,"type":3,"x":7,"y":0},{"agentId":2,"res":0,"type":3,"x":16,"y":1},{"agentId":3,"res":0,"type":3,"x":12,"y":0},{"agentId":4,"res":0,"type":1,"x":14,"y":6},{"agentId":5,"res":0,"type":3,"x":11,"y":14},{"agentId":6,"res":0,"type":3,"x":18,"y":14},{"agentId":7,"res":0,"type":3,"x":19,"y":15}],"point":{"basepoint":0,"wallpoint":214}},{"actions":[{"agentId":0,"res":0,"type":3,"x":15,"y":7},{"agentId":1,"res":0,"type":3,"x":8,"y":2},{"agentId":2,"res":0,"type":3,"x":3,"y":2},{"agentId":3,"res":0,"type":3,"x":19,"y":3},{"agentId":4,"res":0,"type":3,"x":18,"y":9},{"agentId":5,"res":0,"type":3,"x":6,"y":7},{"agentId":6,"res":0,"type":3,"x":8,"y":7},{"agentId":7,"res":0,"type":3,"x":17,"y":10}],"point":{"basepoint":0,"wallpoint":290}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":11,"y":0},{"agentId":1,"res":0,"type":3,"x":8,"y":0},{"agentId":2,"res":0,"type":3,"x":15,"y":1},{"agentId":3,"res":0,"type":3,"x":12,"y":1},{"agentId":4,"res":0,"type":1,"x":17,"y":4},{"agentId":5,"res":0,"type":3,"x":11,"y":13},{"agentId":6,"res":0,"type":3,"x":19,"y":15},{"agentId":7,"res":0,"type":3,"x":18,"y":14}],"point":{"basepoint":0,"wallpoint":232}},{"actions":[{"agentId":0,"res":0,"type":3,"x":16,"y":7},{"agentId":1,"res":0,"type":3,"x":9,"y":2},{"agentId":2,"res":0,"type":3,"x":2,"y":1},{"agentId":3,"res":0,"type":3,"x":18,"y":3},{"agentId":4,"res":0,"type":3,"x":17,"y":8},{"agentId":5,"res":0,"type":3,"x":6,"y":6},{"agentId":6,"res":0,"type":3,"x":7,"y":8},{"agentId":7,"res":0,"type":3,"x":16,"y":11}],"point":{"basepoint":0,"wallpoint":347}}]},{"players":[{"actions":[{"agentId":0,"res":5,"type":3,"x":10,"y":-1},{"agentId":1,"res":0,"type":3,"x":7,"y":1},{"agentId":2,"res":0,"type":3,"x":16,"y":0},{"agentId":3,"res":0,"type":3,"x":11,"y":2},{"agentId":4,"res":0,"type":1,"x":2,"y":4},{"agentId":5,"res":0,"type":3,"x":12,"y":12},{"agentId":6,"res":5,"type":3,"x":20,"y":14},{"agentId":7,"res":0,"type":3,"x":19,"y":14}],"point":{"basepoint":0,"wallpoint":231}},{"actions":[{"agentId":0,"res":0,"type":3,"x":15,"y":8},{"agentId":1,"res":0,"type":3,"x":10,"y":2},{"agentId":2,"res":0,"type":3,"x":3,"y":2},{"agentId":3,"res":0,"type":3,"x":18,"y":2},{"agentId":4,"res":0,"type":3,"x":18,"y":7},{"agentId":5,"res":0,"type":3,"x":5,"y":6},{"agentId":6,"res":0,"type":3,"x":6,"y":8},{"agentId":7,"res":0,"type":3,"x":15,"y":10}],"point":{"basepoint":0,"wallpoint":403}}]},{"players":[{"actions":[{"agentId":0,"res":1,"type":3,"x":11,"y":1},{"agentId":1,"res":0,"type":3,"x":7,"y":0},{"agentId":2,"res":0,"type":3,"x":17,"y":0},{"agentId":3,"res":1,"type":3,"x":11,"y":1},{"agentId":4,"res":0,"type":1,"x":9,"y":9},{"agentId":5,"res":0,"type":3,"x":13,"y":12},{"agentId":6,"res":0,"type":3,"x":18,"y":14},{"agentId":7,"res":0,"type":3,"x":19,"y":13}],"point":{"basepoint":0,"wallpoint":236}},{"actions":[{"agentId":0,"res":0,"type":3,"x":15,"y":7},{"agentId":1,"res":0,"type":3,"x":9,"y":1},{"agentId":2,"res":0,"type":3,"x":4,"y":2},{"agentId":3,"res":0,"type":3,"x":19,"y":3},{"agentId":4,"res":0,"type":3,"x":18,"y":8},{"agentId":5,"res":0,"type":3,"x":4,"y":5},{"agentId":6,"res":0,"type":3,"x":5,"y":9},{"agentId":7,"res":0,"type":3,"x":14,"y":10}],"point":{"basepoint":0,"wallpoint":434}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":12,"y":1},{"agentId":1,"res":5,"type":3,"x":6,"y":-1},{"agentId":2,"res":0,"type":3,"x":16,"y":0},{"agentId":3,"res":0,"type":3,"x":10,"y":1},{"agentId":4,"res":0,"type":1,"x":2,"y":4},{"agentId":5,"res":0,"type":3,"x":13,"y":11},{"agentId":6,"res":2,"type":3,"x":19,"y":13},{"agentId":7,"res":5,"type":3,"x":20,"y":13}],"point":{"basepoint":0,"wallpoint":230}},{"actions":[{"agentId":0,"res":0,"type":3,"x":14,"y":6},{"agentId":1,"res":0,"type":3,"x":9,"y":2},{"agentId":2,"res":2,"type":3,"x":5,"y":1},{"agentId":3,"res":0,"type":3,"x":18,"y":3},{"agentId":4,"res":0,"type":3,"x":19,"y":8},{"agentId":5,"res":0,"type":3,"x":3,"y":6},{"agentId":6,"res":0,"type":3,"x":5,"y":8},{"agentId":7,"res":0,"type":3,"x":15,"y":10}],"point":{"basepoint":0,"wallpoint":434}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":13,"y":1},{"agentId":1,"res":0,"type":3,"x":8,"y":1},{"agentId":2,"res":0,"type":3,"x":17,"y":0},{"agentId":3,"res":0,"type":3,"x":11,"y":0},{"agentId":4,"res":0,"type":1,"x":18,"y":12},{"agentId":5,"res":0,"type":3,"x":12,"y":10},{"agentId":6,"res":0,"type":3,"x":18,"y":15},{"agentId":7,"res":0,"type":3,"x":18,"y":14}],"point":{"basepoint":0,"wallpoint":270}},{"actions":[{"agentId":0,"res":0,"type":3,"x":13,"y":6},{"agentId":1,"res":0,"type":3,"x":8,"y":3},{"agentId":2,"res":0,"type":3,"x":3,"y":2},{"agentId":3,"res":0,"type":3,"x":19,"y":3},{"agentId":4,"res":0,"type":3,"x":18,"y":8},{"agentId":5,"res":0,"type":3,"x":2,"y":6},{"agentId":6,"res":0,"type":3,"x":6,"y":8},{"agentId":7,"res":0,"type":3,"x":14,"y":11}],"point":{"basepoint":0,"wallpoint":453}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":13,"y":0},{"agentId":1,"res":0,"type":3,"x":7,"y":1},{"agentId":2,"res":0,"type":3,"x":18,"y":0},{"agentId":3,"res":0,"type":3,"x":10,"y":0},{"agentId":4,"res":0,"type":1,"x":17,"y":4},{"agentId":5,"res":0,"type":3,"x":13,"y":11},{"agentId":6,"res":0,"type":3,"x":17,"y":16},{"agentId":7,"res":0,"type":3,"x":19,"y":14}],"point":{"basepoint":0,"wallpoint":290}},{"actions":[{"agentId":0,"res":0,"type":3,"x":13,"y":5},{"agentId":1,"res":0,"type":3,"x":9,"y":2},{"agentId":2,"res":0,"type":3,"x":4,"y":3},{"agentId":3,"res":0,"type":3,"x":18,"y":3},{"agentId":4,"res":0,"type":3,"x":17,"y":9},{"agentId":5,"res":0,"type":3,"x":2,"y":5},{"agentId":6,"res":0,"type":3,"x":7,"y":9},{"agentId":7,"res":0,"type":3,"x":14,"y":10}],"point":{"basepoint":0,"wallpoint":496}}]},{"players":[{"actions":[{"agentId":0,"res":5,"type":3,"x":13,"y":-1},{"agentId":1,"res":0,"type":3,"x":6,"y":0},{"agentId":2,"res":5,"type":3,"x":19,"y":-1},{"agentId":3,"res":2,"type":3,"x":9,"y":1},{"agentId":4,"res":0,"type":1,"x":17,"y":4},{"agentId":5,"res":0,"type":3,"x":13,"y":10},{"agentId":6,"res":0,"type":3,"x":17,"y":17},{"agentId":7,"res":0,"type":3,"x":18,"y":13}],"point":{"basepoint":0,"wallpoint":316}},{"actions":[{"agentId":0,"res":0,"type":3,"x":13,"y":6},{"agentId":1,"res":2,"type":3,"x":10,"y":1},{"agentId":2,"res":0,"type":3,"x":3,"y":3},{"agentId":3,"res":0,"type":3,"x":17,"y":2},{"agentId":4,"res":0,"type":3,"x":18,"y":8},{"agentId":5,"res":0,"type":3,"x":3,"y":5},{"agentId":6,"res":0,"type":3,"x":7,"y":10},{"agentId":7,"res":0,"type":3,"x":13,"y":9}],"point":{"basepoint":0,"wallpoint":527}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":14,"y":1},{"agentId":1,"res":0,"type":3,"x":6,"y":1},{"agentId":2,"res":0,"type":3,"x":17,"y":1},{"agentId":3,"res":5,"type":3,"x":9,"y":-1},{"agentId":4,"res":0,"type":1,"x":2,"y":4},{"agentId":5,"res":0,"type":3,"x":12,"y":11},{"agentId":6,"res":0,"type":3,"x":17,"y":16},{"agentId":7,"res":0,"type":3,"x":17,"y":12}],"point":{"basepoint":0,"wallpoint":302}},{"actions":[{"agentId":0,"res":0,"type":3,"x":14,"y":6},{"agentId":1,"res":0,"type":3,"x":9,"y":1},{"agentId":2,"res":0,"type":3,"x":2,"y":2},{"agentId":3,"res":0,"type":3,"x":17,"y":3},{"agentId":4,"res":0,"type":3,"x":19,"y":9},{"agentId":5,"res":0,"type":3,"x":4,"y":4},{"agentId":6,"res":0,"type":3,"x":7,"y":11},{"agentId":7,"res":0,"type":3,"x":12,"y":8}],"point":{"basepoint":15,"wallpoint":568}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":14,"y":0},{"agentId":1,"res":0,"type":3,"x":5,"y":1},{"agentId":2,"res":0,"type":3,"x":16,"y":1},{"agentId":3,"res":2,"type":3,"x":9,"y":1},{"agentId":4,"res":0,"type":1,"x":18,"y":12},{"agentId":5,"res":0,"type":3,"x":13,"y":10},{"agentId":6,"res":0,"type":3,"x":16,"y":15},{"agentId":7,"res":2,"type":3,"x":18,"y":12}],"point":{"basepoint":0,"wallpoint":322}},{"actions":[{"agentId":0,"res":1,"type":3,"x":13,"y":7},{"agentId":1,"res":2,"type":3,"x":10,"y":0},{"agentId":2,"res":0,"type":3,"x":3,"y":2},{"agentId":3,"res":0,"type":3,"x":17,"y":2},{"agentId":4,"res":0,"type":3,"x":18,"y":8},{"agentId":5,"res":0,"type":3,"x":5,"y":4},{"agentId":6,"res":0,"type":3,"x":8,"y":11},{"agentId":7,"res":1,"type":3,"x":13,"y":7}],"point":{"basepoint":15,"wallpoint":595}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":14,"y":1},{"agentId":1,"res":0,"type":3,"x":6,"y":0},{"agentId":2,"res":0,"type":3,"x":15,"y":1},{"agentId":3,"res":0,"type":3,"x":11,"y":1},{"agentId":4,"res":0,"type":1,"x":19,"y":8},{"agentId":5,"res":0,"type":3,"x":13,"y":11},{"agentId":6,"res":0,"type":3,"x":16,"y":16},{"agentId":7,"res":2,"type":3,"x":17,"y":11}],"point":{"basepoint":0,"wallpoint":337}},{"actions":[{"agentId":0,"res":0,"type":3,"x":14,"y":7},{"agentId":1,"res":2,"type":3,"x":10,"y":0},{"agentId":2,"res":0,"type":3,"x":2,"y":1},{"agentId":3,"res":0,"type":3,"x":18,"y":3},{"agentId":4,"res":0,"type":3,"x":18,"y":9},{"agentId":5,"res":0,"type":3,"x":6,"y":5},{"agentId":6,"res":0,"type":3,"x":7,"y":12},{"agentId":7,"res":0,"type":3,"x":13,"y":9}],"point":{"basepoint":15,"wallpoint":616}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":13,"y":2},{"agentId":1,"res":0,"type":3,"x":7,"y":1},{"agentId":2,"res":0,"type":3,"x":14,"y":0},{"agentId":3,"res":0,"type":3,"x":10,"y":1},{"agentId":4,"res":0,"type":1,"x":9,"y":9},{"agentId":5,"res":0,"type":3,"x":14,"y":12},{"agentId":6,"res":0,"type":3,"x":15,"y":17},{"agentId":7,"res":2,"type":3,"x":18,"y":12}],"point":{"basepoint":0,"wallpoint":346}},{"actions":[{"agentId":0,"res":0,"type":3,"x":15,"y":6},{"agentId":1,"res":2,"type":3,"x":8,"y":0},{"agentId":2,"res":0,"type":3,"x":2,"y":0},{"agentId":3,"res":0,"type":3,"x":19,"y":3},{"agentId":4,"res":0,"type":3,"x":17,"y":10},{"agentId":5,"res":0,"type":3,"x":5,"y":4},{"agentId":6,"res":0,"type":3,"x":8,"y":11},{"agentId":7,"res":2,"type":3,"x":12,"y":10}],"point":{"basepoint":15,"wallpoint":631}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":13,"y":3},{"agentId":1,"res":0,"type":3,"x":8,"y":0},{"agentId":2,"res":0,"type":3,"x":14,"y":1},{"agentId":3,"res":2,"type":3,"x":9,"y":2},{"agentId":4,"res":0,"type":1,"x":19,"y":8},{"agentId":5,"res":0,"type":3,"x":13,"y":13},{"agentId":6,"res":0,"type":3,"x":16,"y":18},{"agentId":7,"res":0,"type":3,"x":16,"y":13}],"point":{"basepoint":0,"wallpoint":352}},{"actions":[{"agentId":0,"res":0,"type":3,"x":16,"y":7},{"agentId":1,"res":0,"type":3,"x":9,"y":0},{"agentId":2,"res":0,"type":3,"x":1,"y":0},{"agentId":3,"res":0,"type":3,"x":18,"y":4},{"agentId":4,"res":0,"type":3,"x":16,"y":9},{"agentId":5,"res":0,"type":3,"x":5,"y":3},{"agentId":6,"res":0,"type":3,"x":8,"y":10},{"agentId":7,"res":0,"type":3,"x":12,"y":9}],"point":{"basepoint":15,"wallpoint":673}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":13,"y":4},{"agentId":1,"res":0,"type":3,"x":7,"y":1},{"agentId":2,"res":0,"type":3,"x":14,"y":0},{"agentId":3,"res":0,"type":3,"x":11,"y":1},{"agentId":4,"res":0,"type":1,"x":6,"y":9},{"agentId":5,"res":0,"type":3,"x":14,"y":13},{"agentId":6,"res":0,"type":3,"x":15,"y":18},{"agentId":7,"res":0,"type":3,"x":17,"y":13}],"point":{"basepoint":0,"wallpoint":351}},{"actions":[{"agentId":0,"res":0,"type":3,"x":15,"y":6},{"agentId":1,"res":2,"type":3,"x":10,"y":0},{"agentId":2,"res":0,"type":3,"x":0,"y":1},{"agentId":3,"res":0,"type":3,"x":18,"y":3},{"agentId":4,"res":0,"type":3,"x":16,"y":10},{"agentId":5,"res":0,"type":3,"x":6,"y":2},{"agentId":6,"res":0,"type":3,"x":9,"y":11},{"agentId":7,"res":2,"type":3,"x":12,"y":10}],"point":{"basepoint":15,"wallpoint":695}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":12,"y":3},{"agentId":1,"res":2,"type":3,"x":8,"y":2},{"agentId":2,"res":5,"type":3,"x":14,"y":-1},{"agentId":3,"res":0,"type":3,"x":11,"y":0},{"agentId":4,"res":0,"type":1,"x":9,"y":9},{"agentId":5,"res":0,"type":3,"x":15,"y":13},{"agentId":6,"res":0,"type":3,"x":15,"y":19},{"agentId":7,"res":0,"type":3,"x":17,"y":14}],"point":{"basepoint":0,"wallpoint":371}},{"actions":[{"agentId":0,"res":0,"type":3,"x":14,"y":5},{"agentId":1,"res":2,"type":3,"x":8,"y":0},{"agentId":2,"res":0,"type":3,"x":1,"y":1},{"agentId":3,"res":0,"type":3,"x":19,"y":3},{"agentId":4,"res":0,"type":3,"x":17,"y":11},{"agentId":5,"res":2,"type":3,"x":5,"y":1},{"agentId":6,"res":0,"type":3,"x":9,"y":12},{"agentId":7,"res":2,"type":3,"x":12,"y":10}],"point":{"basepoint":15,"wallpoint":717}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":11,"y":2},{"agentId":1,"res":0,"type":3,"x":7,"y":0},{"agentId":2,"res":5,"type":3,"x":14,"y":-1},{"agentId":3,"res":0,"type":3,"x":11,"y":1},{"agentId":4,"res":1,"type":1,"x":14,"y":6},{"agentId":5,"res":0,"type":3,"x":15,"y":12},{"agentId":6,"res":5,"type":3,"x":14,"y":20},{"agentId":7,"res":0,"type":3,"x":16,"y":14}],"point":{"basepoint":3,"wallpoint":387}},{"actions":[{"agentId":0,"res":1,"type":3,"x":14,"y":6},{"agentId":1,"res":2,"type":3,"x":8,"y":1},{"agentId":2,"res":0,"type":3,"x":1,"y":2},{"agentId":3,"res":0,"type":3,"x":19,"y":4},{"agentId":4,"res":0,"type":3,"x":16,"y":12},{"agentId":5,"res":0,"type":3,"x":5,"y":3},{"agentId":6,"res":0,"type":3,"x":8,"y":13},{"agentId":7,"res":0,"type":3,"x":11,"y":8}],"point":{"basepoint":15,"wallpoint":700}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":11,"y":1},{"agentId":1,"res":5,"type":3,"x":8,"y":-1},{"agentId":2,"res":5,"type":3,"x":13,"y":-1},{"agentId":3,"res":0,"type":3,"x":12,"y":2},{"agentId":4,"res":0,"type":1,"x":6,"y":9},{"agentId":5,"res":2,"type":3,"x":16,"y":11},{"agentId":6,"res":0,"type":3,"x":16,"y":18},{"agentId":7,"res":0,"type":3,"x":15,"y":15}],"point":{"basepoint":3,"wallpoint":414}},{"actions":[{"agentId":0,"res":0,"type":3,"x":14,"y":6},{"agentId":1,"res":0,"type":3,"x":9,"y":1},{"agentId":2,"res":0,"type":3,"x":2,"y":2},{"agentId":3,"res":0,"type":3,"x":18,"y":5},{"agentId":4,"res":0,"type":3,"x":15,"y":11},{"agentId":5,"res":0,"type":3,"x":4,"y":4},{"agentId":6,"res":0,"type":3,"x":8,"y":12},{"agentId":7,"res":0,"type":3,"x":12,"y":7}],"point":{"basepoint":15,"wallpoint":743}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":10,"y":1},{"agentId":1,"res":5,"type":3,"x":8,"y":-1},{"agentId":2,"res":5,"type":3,"x":14,"y":-1},{"agentId":3,"res":0,"type":3,"x":13,"y":2},{"agentId":4,"res":0,"type":1,"x":18,"y":12},{"agentId":5,"res":0,"type":3,"x":15,"y":13},{"agentId":6,"res":0,"type":3,"x":17,"y":18},{"agentId":7,"res":0,"type":3,"x":16,"y":14}],"point":{"basepoint":3,"wallpoint":418}},{"actions":[{"agentId":0,"res":0,"type":3,"x":14,"y":5},{"agentId":1,"res":0,"type":3,"x":9,"y":2},{"agentId":2,"res":0,"type":3,"x":3,"y":3},{"agentId":3,"res":0,"type":3,"x":17,"y":4},{"agentId":4,"res":0,"type":3,"x":16,"y":12},{"agentId":5,"res":0,"type":3,"x":4,"y":5},{"agentId":6,"res":0,"type":3,"x":7,"y":11},{"agentId":7,"res":0,"type":3,"x":11,"y":8}],"point":{"basepoint":15,"wallpoint":743}}]},{"players":[{"actions":[{"agentId":0,"res":2,"type":3,"x":9,"y":2},{"agentId":1,"res":0,"type":3,"x":6,"y":1},{"agentId":2,"res":0,"type":3,"x":15,"y":1},{"agentId":3,"res":0,"type":3,"x":13,"y":3},{"agentId":4,"res":0,"type":1,"x":6,"y":9},{"agentId":5,"res":0,"type":3,"x":14,"y":13},{"agentId":6,"res":0,"type":3,"x":17,"y":19},{"agentId":7,"res":0,"type":3,"x":17,"y":13}],"point":{"basepoint":3,"wallpoint":422}},{"actions":[{"agentId":0,"res":0,"type":3,"x":13,"y":5},{"agentId":1,"res":0,"type":3,"x":8,"y":2},{"agentId":2,"res":0,"type":3,"x":2,"y":4},{"agentId":3,"res":0,"type":3,"x":18,"y":5},{"agentId":4,"res":2,"type":3,"x":16,"y":13},{"agentId":5,"res":0,"type":3,"x":4,"y":4},{"agentId":6,"res":0,"type":3,"x":6,"y":11},{"agentId":7,"res":0,"type":3,"x":10,"y":8}],"point":{"basepoint":15,"wallpoint":765}}]},{"players":[{"actions":[{"agentId":0,"res":2,"type":3,"x":9,"y":2},{"agentId":1,"res":0,"type":3,"x":5,"y":0},{"agentId":2,"res":0,"type":3,"x":14,"y":0},{"agentId":3,"res":0,"type":3,"x":13,"y":2},{"agentId":4,"res":0,"type":1,"x":18,"y":12},{"agentId":5,"res":0,"type":3,"x":15,"y":12},{"agentId":6,"res":0,"type":3,"x":18,"y":19},{"agentId":7,"res":2,"type":3,"x":18,"y":12}],"point":{"basepoint":3,"wallpoint":438}},{"actions":[{"agentId":0,"res":0,"type":3,"x":14,"y":4},{"agentId":1,"res":0,"type":3,"x":9,"y":2},{"agentId":2,"res":0,"type":3,"x":1,"y":3},{"agentId":3,"res":0,"type":3,"x":17,"y":6},{"agentId":4,"res":2,"type":3,"x":17,"y":12},{"agentId":5,"res":0,"type":3,"x":3,"y":4},{"agentId":6,"res":0,"type":3,"x":7,"y":12},{"agentId":7,"res":0,"type":3,"x":11,"y":9}],"point":{"basepoint":0,"wallpoint":817}}]},{"players":[{"actions":[{"agentId":0,"res":2,"type":3,"x":10,"y":2},{"agentId":1,"res":0,"type":3,"x":4,"y":1},{"agentId":2,"res":5,"type":3,"x":13,"y":-1},{"agentId":3,"res":0,"type":3,"x":14,"y":2},{"agentId":4,"res":0,"type":1,"x":6,"y":9},{"agentId":5,"res":2,"type":3,"x":15,"y":11},{"agentId":6,"res":5,"type":3,"x":17,"y":20},{"agentId":7,"res":0,"type":3,"x":17,"y":12}],"point":{"basepoint":3,"wallpoint":440}},{"actions":[{"agentId":0,"res":0,"type":3,"x":15,"y":5},{"agentId":1,"res":2,"type":3,"x":8,"y":1},{"agentId":2,"res":0,"type":3,"x":2,"y":4},{"agentId":3,"res":0,"type":3,"x":18,"y":5},{"agentId":4,"res":0,"type":3,"x":17,"y":11},{"agentId":5,"res":0,"type":3,"x":4,"y":3},{"agentId":6,"res":0,"type":3,"x":6,"y":11},{"agentId":7,"res":0,"type":3,"x":11,"y":10}],"point":{"basepoint":0,"wallpoint":834}}]},{"players":[{"actions":[{"agentId":0,"res":2,"type":3,"x":9,"y":2},{"agentId":1,"res":0,"type":3,"x":4,"y":0},{"agentId":2,"res":5,"type":3,"x":15,"y":-1},{"agentId":3,"res":0,"type":3,"x":14,"y":3},{"agentId":4,"res":1,"type":1,"x":17,"y":4},{"agentId":5,"res":2,"type":3,"x":16,"y":12},{"agentId":6,"res":5,"type":3,"x":17,"y":20},{"agentId":7,"res":2,"type":3,"x":18,"y":12}],"point":{"basepoint":3,"wallpoint":461}},{"actions":[{"agentId":0,"res":0,"type":3,"x":15,"y":6},{"agentId":1,"res":2,"type":3,"x":10,"y":1},{"agentId":2,"res":0,"type":3,"x":2,"y":3},{"agentId":3,"res":1,"type":3,"x":17,"y":4},{"agentId":4,"res":0,"type":3,"x":16,"y":12},{"agentId":5,"res":0,"type":3,"x":5,"y":3},{"agentId":6,"res":0,"type":3,"x":7,"y":10},{"agentId":7,"res":0,"type":3,"x":10,"y":9}],"point":{"basepoint":0,"wallpoint":834}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":10,"y":0},{"agentId":1,"res":0,"type":3,"x":3,"y":1},{"agentId":2,"res":0,"type":3,"x":15,"y":0},{"agentId":3,"res":0,"type":3,"x":15,"y":2},{"agentId":4,"res":1,"type":1,"x":2,"y":4},{"agentId":5,"res":2,"type":3,"x":14,"y":11},{"agentId":6,"res":5,"type":3,"x":17,"y":20},{"agentId":7,"res":0,"type":3,"x":18,"y":13}],"point":{"basepoint":3,"wallpoint":488}},{"actions":[{"agentId":0,"res":0,"type":3,"x":16,"y":5},{"agentId":1,"res":2,"type":3,"x":8,"y":1},{"agentId":2,"res":1,"type":3,"x":2,"y":4},{"agentId":3,"res":0,"type":3,"x":17,"y":4},{"agentId":4,"res":0,"type":3,"x":15,"y":11},{"agentId":5,"res":0,"type":3,"x":5,"y":4},{"agentId":6,"res":0,"type":3,"x":8,"y":10},{"agentId":7,"res":0,"type":3,"x":9,"y":8}],"point":{"basepoint":0,"wallpoint":836}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":10,"y":1},{"agentId":1,"res":0,"type":3,"x":3,"y":0},{"agentId":2,"res":0,"type":3,"x":14,"y":1},{"agentId":3,"res":0,"type":3,"x":14,"y":3},{"agentId":4,"res":0,"type":1,"x":6,"y":9},{"agentId":5,"res":0,"type":3,"x":14,"y":13},{"agentId":6,"res":0,"type":3,"x":19,"y":19},{"agentId":7,"res":0,"type":3,"x":17,"y":12}],"point":{"basepoint":3,"wallpoint":505}},{"actions":[{"agentId":0,"res":0,"type":3,"x":17,"y":5},{"agentId":1,"res":0,"type":3,"x":10,"y":2},{"agentId":2,"res":0,"type":3,"x":1,"y":2},{"agentId":3,"res":0,"type":3,"x":17,"y":3},{"agentId":4,"res":0,"type":3,"x":14,"y":10},{"agentId":5,"res":0,"type":3,"x":5,"y":5},{"agentId":6,"res":0,"type":3,"x":7,"y":11},{"agentId":7,"res":0,"type":3,"x":10,"y":9}],"point":{"basepoint":0,"wallpoint":843}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":11,"y":2},{"agentId":1,"res":5,"type":3,"x":4,"y":-1},{"agentId":2,"res":0,"type":3,"x":15,"y":2},{"agentId":3,"res":0,"type":3,"x":13,"y":2},{"agentId":4,"res":0,"type":1,"x":17,"y":4},{"agentId":5,"res":0,"type":3,"x":14,"y":12},{"agentId":6,"res":5,"type":3,"x":20,"y":19},{"agentId":7,"res":0,"type":3,"x":18,"y":13}],"point":{"basepoint":3,"wallpoint":505}},{"actions":[{"agentId":0,"res":0,"type":3,"x":16,"y":6},{"agentId":1,"res":0,"type":3,"x":9,"y":1},{"agentId":2,"res":0,"type":3,"x":0,"y":2},{"agentId":3,"res":0,"type":3,"x":18,"y":2},{"agentId":4,"res":0,"type":3,"x":14,"y":9},{"agentId":5,"res":0,"type":3,"x":4,"y":5},{"agentId":6,"res":0,"type":3,"x":8,"y":11},{"agentId":7,"res":0,"type":3,"x":10,"y":8}],"point":{"basepoint":0,"wallpoint":872}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":10,"y":1},{"agentId":1,"res":5,"type":3,"x":3,"y":-1},{"agentId":2,"res":0,"type":3,"x":14,"y":3},{"agentId":3,"res":0,"type":3,"x":14,"y":2},{"agentId":4,"res":0,"type":1,"x":2,"y":4},{"agentId":5,"res":0,"type":3,"x":15,"y":12},{"agentId":6,"res":5,"type":3,"x":20,"y":18},{"agentId":7,"res":0,"type":3,"x":19,"y":14}],"point":{"basepoint":3,"wallpoint":505}},{"actions":[{"agentId":0,"res":0,"type":3,"x":15,"y":6},{"agentId":1,"res":0,"type":3,"x":9,"y":2},{"agentId":2,"res":0,"type":3,"x":0,"y":3},{"agentId":3,"res":2,"type":3,"x":17,"y":1},{"agentId":4,"res":0,"type":3,"x":15,"y":9},{"agentId":5,"res":0,"type":3,"x":4,"y":6},{"agentId":6,"res":0,"type":3,"x":9,"y":10},{"agentId":7,"res":0,"type":3,"x":11,"y":7}],"point":{"basepoint":0,"wallpoint":917}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":11,"y":1},{"agentId":1,"res":5,"type":3,"x":2,"y":-1},{"agentId":2,"res":0,"type":3,"x":13,"y":2},{"agentId":3,"res":0,"type":3,"x":15,"y":1},{"agentId":4,"res":1,"type":1,"x":14,"y":6},{"agentId":5,"res":2,"type":3,"x":16,"y":11},{"agentId":6,"res":0,"type":3,"x":19,"y":18},{"agentId":7,"res":5,"type":3,"x":20,"y":13}],"point":{"basepoint":3,"wallpoint":520}},{"actions":[{"agentId":0,"res":1,"type":3,"x":14,"y":6},{"agentId":1,"res":2,"type":3,"x":10,"y":1},{"agentId":2,"res":0,"type":3,"x":0,"y":2},{"agentId":3,"res":0,"type":3,"x":18,"y":1},{"agentId":4,"res":0,"type":3,"x":15,"y":10},{"agentId":5,"res":0,"type":3,"x":3,"y":5},{"agentId":6,"res":0,"type":3,"x":8,"y":10},{"agentId":7,"res":0,"type":3,"x":12,"y":7}],"point":{"basepoint":0,"wallpoint":925}}]},{"players":[{"actions":[{"agentId":0,"res":2,"type":3,"x":10,"y":2},{"agentId":1,"res":5,"type":3,"x":4,"y":-1},{"agentId":2,"res":0,"type":3,"x":14,"y":1},{"agentId":3,"res":0,"type":3,"x":16,"y":1},{"agentId":4,"res":0,"type":1,"x":18,"y":12},{"agentId":5,"res":0,"type":3,"x":16,"y":13},{"agentId":6,"res":0,"type":3,"x":19,"y":19},{"agentId":7,"res":5,"type":3,"x":20,"y":13}],"point":{"basepoint":3,"wallpoint":520}},{"actions":[{"agentId":0,"res":0,"type":3,"x":16,"y":7},{"agentId":1,"res":0,"type":3,"x":9,"y":1},{"agentId":2,"res":0,"type":3,"x":1,"y":1},{"agentId":3,"res":0,"type":3,"x":17,"y":2},{"agentId":4,"res":0,"type":3,"x":14,"y":10},{"agentId":5,"res":0,"type":3,"x":3,"y":6},{"agentId":6,"res":0,"type":3,"x":9,"y":10},{"agentId":7,"res":0,"type":3,"x":13,"y":7}],"point":{"basepoint":15,"wallpoint":934}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":10,"y":0},{"agentId":1,"res":2,"type":3,"x":2,"y":1},{"agentId":2,"res":0,"type":3,"x":14,"y":2},{"agentId":3,"res":2,"type":3,"x":17,"y":2},{"agentId":4,"res":0,"type":1,"x":18,"y":12},{"agentId":5,"res":0,"type":3,"x":17,"y":13},{"agentId":6,"res":5,"type":3,"x":20,"y":19},{"agentId":7,"res":5,"type":3,"x":20,"y":15}],"point":{"basepoint":3,"wallpoint":520}},{"actions":[{"agentId":0,"res":0,"type":3,"x":17,"y":6},{"agentId":1,"res":0,"type":3,"x":8,"y":2},{"agentId":2,"res":0,"type":3,"x":1,"y":0},{"agentId":3,"res":2,"type":3,"x":17,"y":1},{"agentId":4,"res":0,"type":3,"x":15,"y":11},{"agentId":5,"res":0,"type":3,"x":2,"y":6},{"agentId":6,"res":0,"type":3,"x":10,"y":9},{"agentId":7,"res":0,"type":3,"x":13,"y":8}],"point":{"basepoint":2,"wallpoint":947}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":11,"y":1},{"agentId":1,"res":2,"type":3,"x":2,"y":1},{"agentId":2,"res":0,"type":3,"x":14,"y":3},{"agentId":3,"res":0,"type":3,"x":15,"y":0},{"agentId":4,"res":0,"type":1,"x":19,"y":8},{"agentId":5,"res":0,"type":3,"x":18,"y":14},{"agentId":6,"res":0,"type":3,"x":19,"y":18},{"agentId":7,"res":0,"type":3,"x":19,"y":13}],"point":{"basepoint":3,"wallpoint":520}},{"actions":[{"agentId":0,"res":0,"type":3,"x":17,"y":5},{"agentId":1,"res":2,"type":3,"x":8,"y":1},{"agentId":2,"res":0,"type":3,"x":1,"y":1},{"agentId":3,"res":0,"type":3,"x":16,"y":3},{"agentId":4,"res":0,"type":3,"x":14,"y":11},{"agentId":5,"res":0,"type":3,"x":3,"y":6},{"agentId":6,"res":0,"type":3,"x":11,"y":10},{"agentId":7,"res":0,"type":3,"x":12,"y":8}],"point":{"basepoint":2,"wallpoint":952}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":10,"y":0},{"agentId":1,"res":5,"type":3,"x":2,"y":-1},{"agentId":2,"res":0,"type":3,"x":13,"y":3},{"agentId":3,"res":0,"type":3,"x":14,"y":1},{"agentId":4,"res":0,"type":1,"x":6,"y":9},{"agentId":5,"res":0,"type":3,"x":19,"y":13},{"agentId":6,"res":0,"type":3,"x":18,"y":19},{"agentId":7,"res":0,"type":3,"x":19,"y":12}],"point":{"basepoint":3,"wallpoint":531}},{"actions":[{"agentId":0,"res":0,"type":3,"x":17,"y":6},{"agentId":1,"res":2,"type":3,"x":8,"y":1},{"agentId":2,"res":0,"type":3,"x":0,"y":2},{"agentId":3,"res":0,"type":3,"x":15,"y":3},{"agentId":4,"res":0,"type":3,"x":14,"y":10},{"agentId":5,"res":0,"type":3,"x":2,"y":5},{"agentId":6,"res":2,"type":3,"x":12,"y":10},{"agentId":7,"res":0,"type":3,"x":11,"y":9}],"point":{"basepoint":2,"wallpoint":966}}]},{"players":[{"actions":[{"agentId":0,"res":2,"type":3,"x":9,"y":0},{"agentId":1,"res":0,"type":3,"x":4,"y":1},{"agentId":2,"res":0,"type":3,"x":12,"y":3},{"agentId":3,"res":0,"type":3,"x":15,"y":0},{"agentId":4,"res":0,"type":1,"x":6,"y":3},{"agentId":5,"res":5,"type":3,"x":20,"y":13},{"agentId":6,"res":0,"type":3,"x":17,"y":18},{"agentId":7,"res":0,"type":3,"x":18,"y":13}],"point":{"basepoint":3,"wallpoint":531}},{"actions":[{"agentId":0,"res":0,"type":3,"x":18,"y":6},{"agentId":1,"res":2,"type":3,"x":8,"y":1},{"agentId":2,"res":0,"type":3,"x":1,"y":2},{"agentId":3,"res":0,"type":3,"x":15,"y":4},{"agentId":4,"res":0,"type":3,"x":13,"y":9},{"agentId":5,"res":0,"type":3,"x":3,"y":5},{"agentId":6,"res":0,"type":3,"x":11,"y":9},{"agentId":7,"res":0,"type":3,"x":12,"y":8}],"point":{"basepoint":28,"wallpoint":982}}]},{"players":[{"actions":[{"agentId":0,"res":2,"type":3,"x":9,"y":1},{"agentId":1,"res":0,"type":3,"x":4,"y":0},{"agentId":2,"res":0,"type":3,"x":12,"y":4},{"agentId":3,"res":0,"type":3,"x":15,"y":1},{"agentId":4,"res":0,"type":1,"x":14,"y":6},{"agentId":5,"res":0,"type":3,"x":19,"y":14},{"agentId":6,"res":0,"type":3,"x":17,"y":19},{"agentId":7,"res":0,"type":3,"x":19,"y":12}],"point":{"basepoint":3,"wallpoint":533}},{"actions":[{"agentId":0,"res":0,"type":3,"x":18,"y":7},{"agentId":1,"res":0,"type":3,"x":7,"y":3},{"agentId":2,"res":0,"type":3,"x":0,"y":3},{"agentId":3,"res":2,"type":3,"x":14,"y":3},{"agentId":4,"res":0,"type":3,"x":12,"y":8},{"agentId":5,"res":0,"type":3,"x":4,"y":5},{"agentId":6,"res":0,"type":3,"x":11,"y":8},{"agentId":7,"res":0,"type":3,"x":13,"y":8}],"point":{"basepoint":28,"wallpoint":982}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":10,"y":1},{"agentId":1,"res":0,"type":3,"x":5,"y":0},{"agentId":2,"res":0,"type":3,"x":12,"y":3},{"agentId":3,"res":0,"type":3,"x":14,"y":2},{"agentId":4,"res":0,"type":1,"x":19,"y":8},{"agentId":5,"res":5,"type":3,"x":20,"y":15},{"agentId":6,"res":0,"type":3,"x":18,"y":19},{"agentId":7,"res":0,"type":3,"x":19,"y":11}],"point":{"basepoint":3,"wallpoint":539}},{"actions":[{"agentId":0,"res":0,"type":3,"x":19,"y":6},{"agentId":1,"res":0,"type":3,"x":8,"y":2},{"agentId":2,"res":0,"type":3,"x":1,"y":4},{"agentId":3,"res":0,"type":3,"x":16,"y":4},{"agentId":4,"res":0,"type":3,"x":13,"y":8},{"agentId":5,"res":0,"type":3,"x":5,"y":6},{"agentId":6,"res":0,"type":3,"x":10,"y":7},{"agentId":7,"res":0,"type":3,"x":14,"y":7}],"point":{"basepoint":23,"wallpoint":1006}}]},{"players":[{"actions":[{"agentId":0,"res":2,"type":3,"x":9,"y":0},{"agentId":1,"res":5,"type":3,"x":6,"y":-1},{"agentId":2,"res":0,"type":3,"x":13,"y":2},{"agentId":3,"res":0,"type":3,"x":15,"y":1},{"agentId":4,"res":0,"type":1,"x":6,"y":9},{"agentId":5,"res":0,"type":3,"x":19,"y":13},{"agentId":6,"res":5,"type":3,"x":17,"y":20},{"agentId":7,"res":0,"type":3,"x":18,"y":10}],"point":{"basepoint":3,"wallpoint":540}},{"actions":[{"agentId":0,"res":0,"type":3,"x":18,"y":7},{"agentId":1,"res":0,"type":3,"x":9,"y":2},{"agentId":2,"res":0,"type":3,"x":1,"y":5},{"agentId":3,"res":0,"type":3,"x":17,"y":5},{"agentId":4,"res":1,"type":3,"x":14,"y":8},{"agentId":5,"res":0,"type":3,"x":6,"y":7},{"agentId":6,"res":0,"type":3,"x":10,"y":8},{"agentId":7,"res":1,"type":3,"x":14,"y":8}],"point":{"basepoint":23,"wallpoint":1020}}]},{"players":[{"actions":[{"agentId":0,"res":2,"type":3,"x":9,"y":0},{"agentId":1,"res":5,"type":3,"x":5,"y":-1},{"agentId":2,"res":0,"type":3,"x":14,"y":3},{"agentId":3,"res":0,"type":3,"x":14,"y":0},{"agentId":4,"res":0,"type":1,"x":18,"y":12},{"agentId":5,"res":0,"type":3,"x":19,"y":14},{"agentId":6,"res":0,"type":3,"x":17,"y":18},{"agentId":7,"res":2,"type":3,"x":19,"y":9}],"point":{"basepoint":3,"wallpoint":540}},{"actions":[{"agentId":0,"res":0,"type":3,"x":18,"y":8},{"agentId":1,"res":0,"type":3,"x":10,"y":2},{"agentId":2,"res":0,"type":3,"x":0,"y":6},{"agentId":3,"res":0,"type":3,"x":17,"y":4},{"agentId":4,"res":0,"type":3,"x":14,"y":9},{"agentId":5,"res":0,"type":3,"x":5,"y":6},{"agentId":6,"res":0,"type":3,"x":11,"y":9},{"agentId":7,"res":0,"type":3,"x":15,"y":8}],"point":{"basepoint":23,"wallpoint":1033}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":11,"y":0},{"agentId":1,"res":0,"type":3,"x":6,"y":0},{"agentId":2,"res":0,"type":3,"x":13,"y":3},{"agentId":3,"res":0,"type":3,"x":15,"y":0},{"agentId":4,"res":0,"type":1,"x":14,"y":6},{"agentId":5,"res":5,"type":3,"x":20,"y":14},{"agentId":6,"res":0,"type":3,"x":17,"y":19},{"agentId":7,"res":2,"type":3,"x":18,"y":9}],"point":{"basepoint":3,"wallpoint":540}},{"actions":[{"agentId":0,"res":0,"type":3,"x":17,"y":8},{"agentId":1,"res":2,"type":3,"x":10,"y":1},{"agentId":2,"res":0,"type":3,"x":1,"y":5},{"agentId":3,"res":0,"type":3,"x":18,"y":4},{"agentId":4,"res":0,"type":3,"x":13,"y":9},{"agentId":5,"res":0,"type":3,"x":6,"y":7},{"agentId":6,"res":0,"type":3,"x":10,"y":9},{"agentId":7,"res":0,"type":3,"x":16,"y":9}],"point":{"basepoint":23,"wallpoint":1033}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":10,"y":1},{"agentId":1,"res":0,"type":3,"x":5,"y":0},{"agentId":2,"res":0,"type":3,"x":13,"y":4},{"agentId":3,"res":0,"type":3,"x":15,"y":1},{"agentId":4,"res":0,"type":1,"x":6,"y":3},{"agentId":5,"res":5,"type":3,"x":20,"y":15},{"agentId":6,"res":5,"type":3,"x":17,"y":20},{"agentId":7,"res":2,"type":3,"x":19,"y":10}],"point":{"basepoint":3,"wallpoint":540}},{"actions":[{"agentId":0,"res":0,"type":3,"x":18,"y":8},{"agentId":1,"res":0,"type":3,"x":9,"y":1},{"agentId":2,"res":0,"type":3,"x":2,"y":6},{"agentId":3,"res":0,"type":3,"x":19,"y":3},{"agentId":4,"res":0,"type":3,"x":12,"y":9},{"agentId":5,"res":0,"type":3,"x":7,"y":7},{"agentId":6,"res":0,"type":3,"x":11,"y":8},{"agentId":7,"res":0,"type":3,"x":17,"y":9}],"point":{"basepoint":23,"wallpoint":1038}}]},{"players":[{"actions":[{"agentId":0,"res":2,"type":3,"x":9,"y":0},{"agentId":1,"res":5,"type":3,"x":4,"y":-1},{"agentId":2,"res":0,"type":3,"x":12,"y":4},{"agentId":3,"res":0,"type":3,"x":16,"y":2},{"agentId":4,"res":0,"type":1,"x":2,"y":4},{"agentId":5,"res":5,"type":3,"x":20,"y":13},{"agentId":6,"res":0,"type":3,"x":18,"y":18},{"agentId":7,"res":2,"type":3,"x":17,"y":11}],"point":{"basepoint":3,"wallpoint":559}},{"actions":[{"agentId":0,"res":0,"type":3,"x":17,"y":8},{"agentId":1,"res":2,"type":3,"x":10,"y":0},{"agentId":2,"res":0,"type":3,"x":3,"y":5},{"agentId":3,"res":0,"type":3,"x":19,"y":4},{"agentId":4,"res":0,"type":3,"x":13,"y":9},{"agentId":5,"res":0,"type":3,"x":6,"y":8},{"agentId":6,"res":0,"type":3,"x":11,"y":9},{"agentId":7,"res":0,"type":3,"x":18,"y":8}],"point":{"basepoint":23,"wallpoint":1038}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":11,"y":1},{"agentId":1,"res":0,"type":3,"x":6,"y":1},{"agentId":2,"res":0,"type":3,"x":11,"y":4},{"agentId":3,"res":2,"type":3,"x":17,"y":3},{"agentId":4,"res":0,"type":1,"x":19,"y":8},{"agentId":5,"res":0,"type":3,"x":19,"y":13},{"agentId":6,"res":0,"type":3,"x":18,"y":17},{"agentId":7,"res":2,"type":3,"x":19,"y":9}],"point":{"basepoint":3,"wallpoint":572}},{"actions":[{"agentId":0,"res":0,"type":3,"x":18,"y":8},{"agentId":1,"res":0,"type":3,"x":8,"y":2},{"agentId":2,"res":0,"type":3,"x":3,"y":4},{"agentId":3,"res":0,"type":3,"x":19,"y":5},{"agentId":4,"res":0,"type":3,"x":12,"y":9},{"agentId":5,"res":0,"type":3,"x":7,"y":7},{"agentId":6,"res":0,"type":3,"x":12,"y":8},{"agentId":7,"res":0,"type":3,"x":19,"y":9}],"point":{"basepoint":23,"wallpoint":1052}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":12,"y":0},{"agentId":1,"res":0,"type":3,"x":5,"y":1},{"agentId":2,"res":0,"type":3,"x":12,"y":4},{"agentId":3,"res":2,"type":3,"x":15,"y":3},{"agentId":4,"res":0,"type":1,"x":6,"y":9},{"agentId":5,"res":5,"type":3,"x":20,"y":14},{"agentId":6,"res":0,"type":3,"x":19,"y":17},{"agentId":7,"res":2,"type":3,"x":18,"y":9}],"point":{"basepoint":3,"wallpoint":576}},{"actions":[{"agentId":0,"res":2,"type":3,"x":19,"y":9},{"agentId":1,"res":0,"type":3,"x":9,"y":3},{"agentId":2,"res":0,"type":3,"x":3,"y":5},{"agentId":3,"res":0,"type":3,"x":19,"y":6},{"agentId":4,"res":0,"type":3,"x":12,"y":8},{"agentId":5,"res":0,"type":3,"x":6,"y":6},{"agentId":6,"res":0,"type":3,"x":11,"y":9},{"agentId":7,"res":2,"type":3,"x":18,"y":10}],"point":{"basepoint":23,"wallpoint":1058}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":13,"y":1},{"agentId":1,"res":0,"type":3,"x":6,"y":0},{"agentId":2,"res":0,"type":3,"x":13,"y":3},{"agentId":3,"res":0,"type":3,"x":17,"y":1},{"agentId":4,"res":0,"type":1,"x":6,"y":3},{"agentId":5,"res":0,"type":3,"x":18,"y":14},{"agentId":6,"res":5,"type":3,"x":20,"y":17},{"agentId":7,"res":2,"type":3,"x":19,"y":10}],"point":{"basepoint":3,"wallpoint":576}},{"actions":[{"agentId":0,"res":0,"type":3,"x":17,"y":7},{"agentId":1,"res":0,"type":3,"x":8,"y":3},{"agentId":2,"res":0,"type":3,"x":4,"y":5},{"agentId":3,"res":0,"type":3,"x":18,"y":6},{"agentId":4,"res":0,"type":3,"x":13,"y":8},{"agentId":5,"res":0,"type":3,"x":5,"y":6},{"agentId":6,"res":0,"type":3,"x":10,"y":10},{"agentId":7,"res":0,"type":3,"x":19,"y":8}],"point":{"basepoint":10,"wallpoint":1071}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":12,"y":1},{"agentId":1,"res":0,"type":3,"x":7,"y":1},{"agentId":2,"res":0,"type":3,"x":12,"y":4},{"agentId":3,"res":2,"type":3,"x":18,"y":2},{"agentId":4,"res":0,"type":1,"x":14,"y":6},{"agentId":5,"res":0,"type":3,"x":17,"y":13},{"agentId":6,"res":5,"type":3,"x":20,"y":17},{"agentId":7,"res":2,"type":3,"x":17,"y":10}],"point":{"basepoint":3,"wallpoint":576}},{"actions":[{"agentId":0,"res":0,"type":3,"x":18,"y":8},{"agentId":1,"res":0,"type":3,"x":7,"y":2},{"agentId":2,"res":0,"type":3,"x":3,"y":5},{"agentId":3,"res":0,"type":3,"x":19,"y":5},{"agentId":4,"res":0,"type":3,"x":13,"y":7},{"agentId":5,"res":0,"type":3,"x":4,"y":6},{"agentId":6,"res":0,"type":3,"x":11,"y":10},{"agentId":7,"res":0,"type":3,"x":19,"y":9}],"point":{"basepoint":10,"wallpoint":1078}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":13,"y":1},{"agentId":1,"res":2,"type":3,"x":6,"y":2},{"agentId":2,"res":0,"type":3,"x":11,"y":4},{"agentId":3,"res":2,"type":3,"x":17,"y":2},{"agentId":4,"res":0,"type":1,"x":9,"y":9},{"agentId":5,"res":0,"type":3,"x":16,"y":14},{"agentId":6,"res":0,"type":3,"x":19,"y":16},{"agentId":7,"res":2,"type":3,"x":19,"y":9}],"point":{"basepoint":3,"wallpoint":585}},{"actions":[{"agentId":0,"res":0,"type":3,"x":17,"y":7},{"agentId":1,"res":2,"type":3,"x":6,"y":1},{"agentId":2,"res":0,"type":3,"x":3,"y":6},{"agentId":3,"res":0,"type":3,"x":19,"y":4},{"agentId":4,"res":0,"type":3,"x":14,"y":8},{"agentId":5,"res":0,"type":3,"x":4,"y":5},{"agentId":6,"res":0,"type":3,"x":10,"y":10},{"agentId":7,"res":0,"type":3,"x":19,"y":10}],"point":{"basepoint":8,"wallpoint":1080}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":14,"y":2},{"agentId":1,"res":2,"type":3,"x":6,"y":2},{"agentId":2,"res":0,"type":3,"x":11,"y":3},{"agentId":3,"res":0,"type":3,"x":16,"y":1},{"agentId":4,"res":0,"type":1,"x":9,"y":9},{"agentId":5,"res":0,"type":3,"x":17,"y":14},{"agentId":6,"res":0,"type":3,"x":18,"y":15},{"agentId":7,"res":0,"type":3,"x":18,"y":11}],"point":{"basepoint":3,"wallpoint":599}},{"actions":[{"agentId":0,"res":0,"type":3,"x":16,"y":6},{"agentId":1,"res":0,"type":3,"x":8,"y":2},{"agentId":2,"res":0,"type":3,"x":2,"y":6},{"agentId":3,"res":0,"type":3,"x":18,"y":5},{"agentId":4,"res":0,"type":3,"x":15,"y":9},{"agentId":5,"res":0,"type":3,"x":3,"y":4},{"agentId":6,"res":0,"type":3,"x":11,"y":11},{"agentId":7,"res":0,"type":3,"x":19,"y":9}],"point":{"basepoint":8,"wallpoint":1091}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":13,"y":1},{"agentId":1,"res":0,"type":3,"x":7,"y":0},{"agentId":2,"res":0,"type":3,"x":11,"y":4},{"agentId":3,"res":0,"type":3,"x":16,"y":0},{"agentId":4,"res":0,"type":1,"x":17,"y":4},{"agentId":5,"res":0,"type":3,"x":18,"y":14},{"agentId":6,"res":0,"type":3,"x":17,"y":15},{"agentId":7,"res":0,"type":3,"x":19,"y":11}],"point":{"basepoint":0,"wallpoint":602}},{"actions":[{"agentId":0,"res":0,"type":3,"x":15,"y":7},{"agentId":1,"res":0,"type":3,"x":9,"y":1},{"agentId":2,"res":0,"type":3,"x":3,"y":7},{"agentId":3,"res":0,"type":3,"x":18,"y":6},{"agentId":4,"res":0,"type":3,"x":14,"y":9},{"agentId":5,"res":0,"type":3,"x":3,"y":3},{"agentId":6,"res":0,"type":3,"x":10,"y":11},{"agentId":7,"res":0,"type":3,"x":18,"y":9}],"point":{"basepoint":8,"wallpoint":1079}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":14,"y":0},{"agentId":1,"res":0,"type":3,"x":8,"y":0},{"agentId":2,"res":0,"type":3,"x":10,"y":3},{"agentId":3,"res":5,"type":3,"x":17,"y":-1},{"agentId":4,"res":0,"type":1,"x":17,"y":4},{"agentId":5,"res":0,"type":3,"x":18,"y":13},{"agentId":6,"res":0,"type":3,"x":16,"y":15},{"agentId":7,"res":2,"type":3,"x":18,"y":12}],"point":{"basepoint":0,"wallpoint":608}},{"actions":[{"agentId":0,"res":0,"type":3,"x":14,"y":8},{"agentId":1,"res":2,"type":3,"x":10,"y":1},{"agentId":2,"res":0,"type":3,"x":4,"y":8},{"agentId":3,"res":0,"type":3,"x":19,"y":5},{"agentId":4,"res":0,"type":3,"x":15,"y":9},{"agentId":5,"res":0,"type":3,"x":3,"y":2},{"agentId":6,"res":0,"type":3,"x":9,"y":12},{"agentId":7,"res":0,"type":3,"x":17,"y":10}],"point":{"basepoint":8,"wallpoint":1066}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":13,"y":0},{"agentId":1,"res":5,"type":3,"x":9,"y":-1},{"agentId":2,"res":2,"type":3,"x":9,"y":2},{"agentId":3,"res":5,"type":3,"x":17,"y":-1},{"agentId":4,"res":0,"type":1,"x":6,"y":9},{"agentId":5,"res":0,"type":3,"x":19,"y":13},{"agentId":6,"res":0,"type":3,"x":15,"y":14},{"agentId":7,"res":5,"type":3,"x":20,"y":11}],"point":{"basepoint":0,"wallpoint":612}},{"actions":[{"agentId":0,"res":2,"type":3,"x":15,"y":9},{"agentId":1,"res":0,"type":3,"x":9,"y":0},{"agentId":2,"res":0,"type":3,"x":3,"y":8},{"agentId":3,"res":0,"type":3,"x":19,"y":6},{"agentId":4,"res":1,"type":3,"x":16,"y":10},{"agentId":5,"res":0,"type":3,"x":2,"y":1},{"agentId":6,"res":0,"type":3,"x":8,"y":12},{"agentId":7,"res":1,"type":3,"x":16,"y":10}],"point":{"basepoint":34,"wallpoint":1053}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":12,"y":0},{"agentId":1,"res":5,"type":3,"x":7,"y":-1},{"agentId":2,"res":0,"type":3,"x":11,"y":3},{"agentId":3,"res":0,"type":3,"x":17,"y":1},{"agentId":4,"res":0,"type":1,"x":17,"y":4},{"agentId":5,"res":0,"type":3,"x":19,"y":14},{"agentId":6,"res":0,"type":3,"x":14,"y":13},{"agentId":7,"res":5,"type":3,"x":20,"y":10}],"point":{"basepoint":0,"wallpoint":612}},{"actions":[{"agentId":0,"res":0,"type":3,"x":15,"y":8},{"agentId":1,"res":2,"type":3,"x":10,"y":1},{"agentId":2,"res":0,"type":3,"x":2,"y":9},{"agentId":3,"res":0,"type":3,"x":18,"y":6},{"agentId":4,"res":0,"type":3,"x":16,"y":8},{"agentId":5,"res":0,"type":3,"x":1,"y":1},{"agentId":6,"res":0,"type":3,"x":9,"y":11},{"agentId":7,"res":0,"type":3,"x":16,"y":10}],"point":{"basepoint":26,"wallpoint":1054}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":12,"y":1},{"agentId":1,"res":5,"type":3,"x":9,"y":-1},{"agentId":2,"res":0,"type":3,"x":10,"y":4},{"agentId":3,"res":2,"type":3,"x":18,"y":2},{"agentId":4,"res":0,"type":1,"x":6,"y":3},{"agentId":5,"res":0,"type":3,"x":18,"y":13},{"agentId":6,"res":0,"type":3,"x":15,"y":12},{"agentId":7,"res":0,"type":3,"x":18,"y":11}],"point":{"basepoint":0,"wallpoint":614}},{"actions":[{"agentId":0,"res":0,"type":3,"x":14,"y":7},{"agentId":1,"res":2,"type":3,"x":8,"y":1},{"agentId":2,"res":0,"type":3,"x":3,"y":8},{"agentId":3,"res":0,"type":3,"x":19,"y":5},{"agentId":4,"res":0,"type":3,"x":17,"y":7},{"agentId":5,"res":0,"type":3,"x":2,"y":1},{"agentId":6,"res":0,"type":3,"x":10,"y":12},{"agentId":7,"res":0,"type":3,"x":15,"y":10}],"point":{"basepoint":26,"wallpoint":1060}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":12,"y":2},{"agentId":1,"res":5,"type":3,"x":9,"y":-1},{"agentId":2,"res":0,"type":3,"x":9,"y":5},{"agentId":3,"res":0,"type":3,"x":16,"y":2},{"agentId":4,"res":0,"type":1,"x":19,"y":8},{"agentId":5,"res":0,"type":3,"x":17,"y":12},{"agentId":6,"res":0,"type":3,"x":14,"y":13},{"agentId":7,"res":2,"type":3,"x":18,"y":12}],"point":{"basepoint":0,"wallpoint":623}},{"actions":[{"agentId":0,"res":0,"type":3,"x":13,"y":6},{"agentId":1,"res":2,"type":3,"x":10,"y":1},{"agentId":2,"res":0,"type":3,"x":3,"y":7},{"agentId":3,"res":0,"type":3,"x":19,"y":6},{"agentId":4,"res":0,"type":3,"x":16,"y":8},{"agentId":5,"res":0,"type":3,"x":2,"y":0},{"agentId":6,"res":0,"type":3,"x":10,"y":13},{"agentId":7,"res":0,"type":3,"x":15,"y":11}],"point":{"basepoint":26,"wallpoint":1046}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":11,"y":2},{"agentId":1,"res":2,"type":3,"x":9,"y":1},{"agentId":2,"res":0,"type":3,"x":10,"y":6},{"agentId":3,"res":0,"type":3,"x":15,"y":1},{"agentId":4,"res":0,"type":1,"x":14,"y":6},{"agentId":5,"res":2,"type":3,"x":16,"y":11},{"agentId":6,"res":0,"type":3,"x":14,"y":14},{"agentId":7,"res":2,"type":3,"x":18,"y":12}],"point":{"basepoint":0,"wallpoint":646}},{"actions":[{"agentId":0,"res":0,"type":3,"x":12,"y":5},{"agentId":1,"res":2,"type":3,"x":8,"y":0},{"agentId":2,"res":0,"type":3,"x":3,"y":6},{"agentId":3,"res":0,"type":3,"x":18,"y":5},{"agentId":4,"res":0,"type":3,"x":15,"y":7},{"agentId":5,"res":0,"type":3,"x":1,"y":0},{"agentId":6,"res":2,"type":3,"x":11,"y":13},{"agentId":7,"res":2,"type":3,"x":14,"y":12}],"point":{"basepoint":26,"wallpoint":1051}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":12,"y":3},{"agentId":1,"res":2,"type":3,"x":9,"y":1},{"agentId":2,"res":0,"type":3,"x":11,"y":5},{"agentId":3,"res":0,"type":3,"x":15,"y":2},{"agentId":4,"res":1,"type":1,"x":17,"y":4},{"agentId":5,"res":0,"type":3,"x":17,"y":13},{"agentId":6,"res":0,"type":3,"x":13,"y":15},{"agentId":7,"res":2,"type":3,"x":17,"y":10}],"point":{"basepoint":0,"wallpoint":657}},{"actions":[{"agentId":0,"res":2,"type":3,"x":12,"y":4},{"agentId":1,"res":2,"type":3,"x":8,"y":0},{"agentId":2,"res":0,"type":3,"x":4,"y":7},{"agentId":3,"res":1,"type":3,"x":17,"y":4},{"agentId":4,"res":0,"type":3,"x":14,"y":6},{"agentId":5,"res":0,"type":3,"x":0,"y":1},{"agentId":6,"res":0,"type":3,"x":10,"y":12},{"agentId":7,"res":2,"type":3,"x":14,"y":12}],"point":{"basepoint":13,"wallpoint":1038}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":11,"y":3},{"agentId":1,"res":2,"type":3,"x":9,"y":0},{"agentId":2,"res":0,"type":3,"x":10,"y":4},{"agentId":3,"res":0,"type":3,"x":15,"y":1},{"agentId":4,"res":1,"type":1,"x":17,"y":4},{"agentId":5,"res":0,"type":3,"x":17,"y":12},{"agentId":6,"res":0,"type":3,"x":14,"y":15},{"agentId":7,"res":0,"type":3,"x":19,"y":12}],"point":{"basepoint":0,"wallpoint":667}},{"actions":[{"agentId":0,"res":2,"type":3,"x":11,"y":4},{"agentId":1,"res":2,"type":3,"x":8,"y":0},{"agentId":2,"res":0,"type":3,"x":4,"y":6},{"agentId":3,"res":1,"type":3,"x":17,"y":4},{"agentId":4,"res":0,"type":3,"x":13,"y":7},{"agentId":5,"res":0,"type":3,"x":1,"y":2},{"agentId":6,"res":0,"type":3,"x":10,"y":11},{"agentId":7,"res":0,"type":3,"x":14,"y":10}],"point":{"basepoint":13,"wallpoint":1038}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":12,"y":4},{"agentId":1,"res":0,"type":3,"x":8,"y":1},{"agentId":2,"res":0,"type":3,"x":10,"y":3},{"agentId":3,"res":0,"type":3,"x":14,"y":2},{"agentId":4,"res":0,"type":1,"x":17,"y":4},{"agentId":5,"res":2,"type":3,"x":16,"y":12},{"agentId":6,"res":0,"type":3,"x":14,"y":16},{"agentId":7,"res":0,"type":3,"x":18,"y":11}],"point":{"basepoint":0,"wallpoint":681}},{"actions":[{"agentId":0,"res":2,"type":3,"x":13,"y":4},{"agentId":1,"res":2,"type":3,"x":10,"y":0},{"agentId":2,"res":0,"type":3,"x":3,"y":7},{"agentId":3,"res":0,"type":3,"x":19,"y":5},{"agentId":4,"res":0,"type":3,"x":14,"y":8},{"agentId":5,"res":0,"type":3,"x":2,"y":1},{"agentId":6,"res":0,"type":3,"x":9,"y":11},{"agentId":7,"res":2,"type":3,"x":13,"y":10}],"point":{"basepoint":13,"wallpoint":1038}}]},{"players":[{"actions":[{"agentId":0,"res":0,"type":3,"x":11,"y":4},{"agentId":1,"res":2,"type":3,"x":9,"y":1},{"agentId":2,"res":2,"type":3,"x":10,"y":2},{"agentId":3,"res":0,"type":3,"x":13,"y":3},{"agentId":4,"res":0,"type":1,"x":2,"y":4},{"agentId":5,"res":2,"type":3,"x":16,"y":11},{"agentId":6,"res":0,"type":3,"x":14,"y":17},{"agentId":7,"res":2,"type":3,"x":17,"y":12}],"point":{"basepoint":27,"wallpoint":693}},{"actions":[{"agentId":0,"res":2,"type":3,"x":11,"y":5},{"agentId":1,"res":2,"type":3,"x":8,"y":0},{"agentId":2,"res":0,"type":3,"x":4,"y":8},{"agentId":3,"res":0,"type":3,"x":18,"y":6},{"agentId":4,"res":0,"type":3,"x":15,"y":9},{"agentId":5,"res":0,"type":3,"x":1,"y":0},{"agentId":6,"res":0,"type":3,"x":8,"y":12},{"agentId":7,"res":0,"type":3,"x":15,"y":10}],"point":{"basepoint":13,"wallpoint":1038}}]}],"nsec":2,"nturn":60,"players":[{"agents":[{"bkx":11,"bky":4,"playerid":0,"x":11,"y":4},{"bkx":8,"bky":1,"playerid":0,"x":8,"y":1},{"bkx":10,"bky":3,"playerid":0,"x":10,"y":3},{"bkx":13,"bky":3,"playerid":0,"x":13,"y":3},{"bkx":-1,"bky":-1,"playerid":0,"x":-1,"y":-1},{"bkx":17,"bky":12,"playerid":0,"x":17,"y":12},{"bkx":14,"bky":17,"playerid":0,"x":14,"y":17},{"bkx":18,"bky":11,"playerid":0,"x":18,"y":11}],"id":"AI-1","index":0,"pic":"111919","spec":""},{"agents":[{"bkx":12,"bky":5,"playerid":1,"x":12,"y":5},{"bkx":9,"bky":0,"playerid":1,"x":9,"y":0},{"bkx":4,"bky":8,"playerid":1,"x":4,"y":8},{"bkx":18,"bky":6,"playerid":1,"x":18,"y":6},{"bkx":15,"bky":9,"playerid":1,"x":15,"y":9},{"bkx":1,"bky":0,"playerid":1,"x":1,"y":0},{"bkx":8,"bky":12,"playerid":1,"x":8,"y":12},{"bkx":15,"bky":10,"playerid":1,"x":15,"y":10}],"id":"AI-2","index":1,"pic":"624370","spec":""}],"startedAtUnixTime":1657200038,"turn":60,"type":"normal","uuid":"058084e1-9858-43c2-9de2-a592c032df15"}},"tournaments":[{"id":"a18f30ce-d6b9-4577-9846-2bfa08b0ee00","name":"テスト大会","organizer":"Code for KOSEN","remarks":"","type":"round-robin"},{"id":"61290bd0-55a0-4d25-a7c8-e1b7303e67d5","name":"テスト大会","organizer":"Code for KOSEN","remarks":"","type":"round-robin","users":["CaydxrDMKjVSd6ob6NlV47c9KEf1"]},{"id":"e03ac2cf-b972-42eb-928e-c16cc32960f5","name":"test2","organizer":"","remarks":"","type":"round-robin"}],"users":[{"bearerToken":"2c7014b9-011f-4c90-82ea-9b1bb99960dc","id":"OgcrlI4h1DKyFrdX8T0IVXs5StCD","name":"qwert","screenName":"client1"},{"bearerToken":"8788369a-78fe-4569-a346-3c7cf1e374f2","id":"\tP1708kCGhWooWEPyS86UgYTQOpO7","name":"asdfg","screenName":"client2"}]}
+{
+  "boards": {
+    "A-1": {
+      "height": 10,
+      "nAgent": 8,
+      "name": "A-1",
+      "operationSec": 1,
+      "points": [
+        12, 3, 5, 3, 1, 1, 3, 5, 3, 12, 3, 5, 7, 5, 3, 3, 5, 7, 5, 3, 5, 7, 10,
+        7, 5, 5, 7, 10, 7, 5, 3, 5, 7, 5, 3, 3, 5, 7, 5, 3, 1, 3, 5, 3, 12, 12,
+        3, 5, 3, 1, 1, 3, 5, 3, 12, 12, 3, 5, 3, 1, 3, 5, 7, 5, 3, 3, 5, 7, 5,
+        3, 5, 7, 10, 7, 5, 5, 7, 10, 7, 5, 3, 5, 7, 5, 3, 3, 5, 7, 5, 3, 12, 3,
+        5, 3, 1, 1, 3, 5, 3, 12
+      ],
+      "totalTurn": 30,
+      "width": 10
+    }
+  },
+  "games": {
+    "034b2b90-f024-4855-93e0-c3a2a0825b1b": {
+      "field": {
+        "height": 10,
+        "nAgent": 8,
+        "nPlayer": 2,
+        "points": [
+          12, 3, 5, 3, 1, 1, 3, 5, 3, 12, 3, 5, 7, 5, 3, 3, 5, 7, 5, 3, 5, 7,
+          10, 7, 5, 5, 7, 10, 7, 5, 3, 5, 7, 5, 3, 3, 5, 7, 5, 3, 1, 3, 5, 3,
+          12, 12, 3, 5, 3, 1, 1, 3, 5, 3, 12, 12, 3, 5, 3, 1, 3, 5, 7, 5, 3, 3,
+          5, 7, 5, 3, 5, 7, 10, 7, 5, 5, 7, 10, 7, 5, 3, 5, 7, 5, 3, 3, 5, 7, 5,
+          3, 12, 3, 5, 3, 1, 1, 3, 5, 3, 12
+        ],
+        "tiles": [
+          { "player": 0, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "type": 0 },
+          { "player": 1, "type": 1 }
+        ],
+        "width": 10
+      },
+      "log": [
+        {
+          "players": [
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 1, "x": 0, "y": 0 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 12 }
+            },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 1, "x": 5, "y": 4 },
+                { "agentId": 1, "res": 0, "type": 1, "x": 4, "y": 5 },
+                { "agentId": 2, "res": 0, "type": 1, "x": 5, "y": 5 },
+                { "agentId": 3, "res": 0, "type": 1, "x": 0, "y": 9 },
+                { "agentId": 4, "res": 0, "type": 1, "x": 9, "y": 9 },
+                { "agentId": 5, "res": 0, "type": 1, "x": 2, "y": 2 },
+                { "agentId": 6, "res": 0, "type": 1, "x": 7, "y": 2 },
+                { "agentId": 7, "res": 0, "type": 1, "x": 2, "y": 7 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 90 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 5, "y": 5 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 3, "y": 5 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 5, "y": 4 },
+                { "agentId": 3, "res": 5, "type": 3, "x": 1, "y": 10 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 9, "y": 8 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 2, "y": 3 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 8, "y": 2 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 1, "y": 7 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 117 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 4, "y": 5 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 2, "y": 4 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 6, "y": 3 },
+                { "agentId": 3, "res": 5, "type": 3, "x": -1, "y": 10 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 8, "y": 8 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 4 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 7, "y": 1 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 1, "y": 8 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 147 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 1, "type": 3, "x": 3, "y": 5 },
+                { "agentId": 1, "res": 1, "type": 3, "x": 3, "y": 5 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 6, "y": 2 },
+                { "agentId": 3, "res": 5, "type": 3, "x": 1, "y": 10 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 9, "y": 7 },
+                { "agentId": 5, "res": 1, "type": 3, "x": 3, "y": 5 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 8, "y": 1 },
+                { "agentId": 7, "res": 2, "type": 3, "x": 0, "y": 9 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 164 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 5, "y": 5 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 2, "y": 3 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 6, "y": 3 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 0, "y": 8 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 8, "y": 8 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 4, "y": 4 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 8, "y": 0 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 0, "y": 9 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 182 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 6, "y": 4 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 1, "y": 4 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 7, "y": 2 },
+                { "agentId": 3, "res": 5, "type": 3, "x": -1, "y": 7 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 7, "y": 8 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 4 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 9, "y": 0 },
+                { "agentId": 7, "res": 5, "type": 3, "x": 1, "y": 10 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 207 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 5, "y": 5 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 0, "y": 3 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 8, "y": 1 },
+                { "agentId": 3, "res": 5, "type": 3, "x": -1, "y": 7 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 6, "y": 7 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 4, "y": 4 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 9, "y": -1 },
+                { "agentId": 7, "res": 5, "type": 3, "x": -1, "y": 10 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 217 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 5, "y": 4 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 1, "y": 2 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 7, "y": 0 },
+                { "agentId": 3, "res": 5, "type": 3, "x": -1, "y": 9 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 7, "y": 6 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 5 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 10, "y": 1 },
+                { "agentId": 7, "res": 5, "type": 3, "x": -1, "y": 9 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 236 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 6, "y": 5 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 0, "y": 1 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 7, "y": 1 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 1, "y": 7 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 6, "y": 7 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 6 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 9, "y": -1 },
+                { "agentId": 7, "res": 5, "type": 3, "x": 1, "y": 10 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 247 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 7, "y": 5 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 1, "y": 2 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 6, "y": 1 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 0, "y": 8 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 6, "y": 6 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 2, "y": 7 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 9, "y": -1 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 1, "y": 8 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 262 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 7, "y": 4 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 1, "y": 3 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 6, "y": 2 },
+                { "agentId": 3, "res": 5, "type": 3, "x": -1, "y": 8 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 6, "y": 7 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 8 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 9, "y": -1 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 1, "y": 7 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 277 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 6, "y": 5 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 0, "y": 3 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 7, "y": 3 },
+                { "agentId": 3, "res": 5, "type": 3, "x": -1, "y": 9 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 7, "y": 6 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 9 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 10, "y": 0 },
+                { "agentId": 7, "res": 2, "type": 3, "x": 0, "y": 8 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 287 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 5, "y": 6 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 1, "y": 2 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 7, "y": 4 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 0, "y": 7 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 6, "y": 5 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 8 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 9, "y": -1 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 0, "y": 6 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 298 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 5, "y": 7 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 1, "y": 1 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 7, "y": 3 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 0, "y": 6 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 7, "y": 5 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 4, "y": 8 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 10, "y": 1 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 1, "y": 5 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 314 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 6, "y": 6 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 2, "y": 2 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 6, "y": 4 },
+                { "agentId": 3, "res": 5, "type": 3, "x": -1, "y": 6 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 8, "y": 6 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 9 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 8, "y": -1 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 2, "y": 5 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 324 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 5, "y": 6 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 2, "y": 1 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 5, "y": 3 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 1, "y": 7 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 9, "y": 5 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 8 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 10, "y": 0 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 3, "y": 5 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 335 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 6, "y": 7 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 1, "y": 0 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 6, "y": 4 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 1, "y": 8 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 9, "y": 6 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 7 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 9, "y": -1 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 2, "y": 6 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 355 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 6, "y": 8 },
+                { "agentId": 1, "res": 2, "type": 3, "x": 0, "y": 0 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 7, "y": 3 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 0, "y": 9 },
+                { "agentId": 4, "res": 5, "type": 3, "x": 10, "y": 6 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 2, "y": 7 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 10, "y": -1 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 1, "y": 7 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 360 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 6, "y": 7 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 1, "y": 1 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 8, "y": 3 },
+                { "agentId": 3, "res": 5, "type": 3, "x": -1, "y": 9 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 8, "y": 5 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 8 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 10, "y": -1 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 1, "y": 8 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 368 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 1, "type": 3, "x": 7, "y": 6 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 1, "y": 2 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 9, "y": 4 },
+                { "agentId": 3, "res": 5, "type": 3, "x": 0, "y": 10 },
+                { "agentId": 4, "res": 1, "type": 3, "x": 7, "y": 6 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 2, "y": 7 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 9, "y": -1 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 1, "y": 9 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 372 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 6, "y": 8 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 2, "y": 2 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 9, "y": 3 },
+                { "agentId": 3, "res": 5, "type": 3, "x": -1, "y": 9 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 9, "y": 4 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 1, "y": 7 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 8, "y": -1 },
+                { "agentId": 7, "res": 5, "type": 3, "x": 0, "y": 10 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 375 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 6, "y": 9 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 3, "y": 1 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 9, "y": 4 },
+                { "agentId": 3, "res": 5, "type": 3, "x": -1, "y": 10 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 8, "y": 3 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 2, "y": 6 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 10, "y": -1 },
+                { "agentId": 7, "res": 2, "type": 3, "x": 0, "y": 9 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 383 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 5, "y": 9 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 2, "y": 2 },
+                { "agentId": 2, "res": 5, "type": 3, "x": 10, "y": 5 },
+                { "agentId": 3, "res": 5, "type": 3, "x": -1, "y": 10 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 8, "y": 4 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 7 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 10, "y": -1 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 2, "y": 9 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 392 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 5, "y": 8 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 2, "y": 1 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 8, "y": 5 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 1, "y": 9 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 7, "y": 5 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 2, "y": 7 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 9, "y": -1 },
+                { "agentId": 7, "res": 5, "type": 3, "x": 1, "y": 10 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 395 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 4, "y": 9 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 1, "y": 0 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 9, "y": 6 },
+                { "agentId": 3, "res": 5, "type": 3, "x": 1, "y": 10 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 6, "y": 6 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 7 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 10, "y": 0 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 3, "y": 9 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 396 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 3, "y": 9 },
+                { "agentId": 1, "res": 5, "type": 3, "x": 1, "y": -1 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 9, "y": 7 },
+                { "agentId": 3, "res": 5, "type": 3, "x": 1, "y": 10 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 7, "y": 5 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 2, "y": 7 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 8, "y": 0 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 3, "y": 8 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 396 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 5, "type": 3, "x": 2, "y": 10 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 0, "y": 1 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 8, "y": 8 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 1, "y": 8 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 8, "y": 4 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 2, "y": 8 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 9, "y": -1 },
+                { "agentId": 7, "res": 2, "type": 3, "x": 3, "y": 9 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 403 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 4, "y": 9 },
+                { "agentId": 1, "res": 5, "type": 3, "x": -1, "y": 1 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 9, "y": 8 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 0, "y": 8 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 8, "y": 5 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 2, "y": 9 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 7, "y": -1 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 3, "y": 9 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 403 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 5, "type": 3, "x": 3, "y": 10 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 1, "y": 2 },
+                { "agentId": 2, "res": 5, "type": 3, "x": 10, "y": 8 },
+                { "agentId": 3, "res": 5, "type": 3, "x": -1, "y": 8 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 8, "y": 4 },
+                { "agentId": 5, "res": 2, "type": 3, "x": 3, "y": 9 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 7, "y": 1 },
+                { "agentId": 7, "res": 5, "type": 3, "x": 2, "y": 10 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 403 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 5, "y": 9 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 0, "y": 2 },
+                { "agentId": 2, "res": 5, "type": 3, "x": 10, "y": 7 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 0, "y": 7 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 8, "y": 5 },
+                { "agentId": 5, "res": 5, "type": 3, "x": 2, "y": 10 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 8, "y": 2 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 4, "y": 8 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 408 }
+            }
+          ]
+        }
+      ],
+      "name": "対AI戦：test:aJMXBaKlwlFzi6GtY83P3JfbNrFX(@7618ef52-5a37-480a-962e-9d3ed0e46761) vs AI(a1)",
+      "options": { "operationSec": 1, "transitionSec": 1 },
+      "players": [
+        {
+          "agents": [
+            { "x": 0, "y": 0 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 }
+          ],
+          "id": "aJMXBaKlwlFzi6GtY83P3JfbNrFX",
+          "index": 0,
+          "pic": "051887",
+          "spec": "",
+          "type": "account"
+        },
+        {
+          "agents": [
+            { "x": 5, "y": 9 },
+            { "x": 0, "y": 2 },
+            { "x": 9, "y": 8 },
+            { "x": 0, "y": 7 },
+            { "x": 8, "y": 5 },
+            { "x": 2, "y": 9 },
+            { "x": 8, "y": 2 },
+            { "x": 4, "y": 8 }
+          ],
+          "id": "a1",
+          "index": 1,
+          "pic": "086406",
+          "spec": "",
+          "type": "account"
+        }
+      ],
+      "startedAtUnixTime": 1682168627,
+      "totalTurn": 30,
+      "turn": 30,
+      "type": "normal",
+      "uuid": "034b2b90-f024-4855-93e0-c3a2a0825b1b"
+    },
+    "1a125119-0f47-4b7e-94af-b7deae2bf488": {
+      "field": {
+        "height": 10,
+        "nAgent": 8,
+        "nPlayer": 2,
+        "points": [
+          12, 3, 5, 3, 1, 1, 3, 5, 3, 12, 3, 5, 7, 5, 3, 3, 5, 7, 5, 3, 5, 7,
+          10, 7, 5, 5, 7, 10, 7, 5, 3, 5, 7, 5, 3, 3, 5, 7, 5, 3, 1, 3, 5, 3,
+          12, 12, 3, 5, 3, 1, 1, 3, 5, 3, 12, 12, 3, 5, 3, 1, 3, 5, 7, 5, 3, 3,
+          5, 7, 5, 3, 5, 7, 10, 7, 5, 5, 7, 10, 7, 5, 3, 5, 7, 5, 3, 3, 5, 7, 5,
+          3, 12, 3, 5, 3, 1, 1, 3, 5, 3, 12
+        ],
+        "tiles": [
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "player": 0, "type": 1 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 }
+        ],
+        "width": 10
+      },
+      "log": [
+        {
+          "players": [
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 1, "x": 1, "y": 1 },
+                { "agentId": 1, "res": 5, "type": 2, "x": 0, "y": 0 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 5 }
+            },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 1, "x": 1, "y": 2 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 7 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        }
+      ],
+      "options": { "operationSec": 1, "transitionSec": 1 },
+      "players": [
+        {
+          "agents": [
+            { "x": 1, "y": 1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 }
+          ],
+          "id": "eVgCYYSFIGNZznBtAzcIaWDYWml7",
+          "index": 0,
+          "pic": "208623",
+          "spec": "test",
+          "type": "account"
+        },
+        {
+          "agents": [
+            { "x": 1, "y": 2 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 }
+          ],
+          "id": "eVgCYYSFIGNZznBtAzcIaWDYWml7",
+          "index": 1,
+          "pic": "727737",
+          "spec": "test",
+          "type": "account"
+        }
+      ],
+      "startedAtUnixTime": 1682168617,
+      "totalTurn": 30,
+      "turn": 30,
+      "type": "normal",
+      "uuid": "1a125119-0f47-4b7e-94af-b7deae2bf488"
+    },
+    "6ac8bbb5-5937-4648-833c-d89df7252093": {
+      "field": {
+        "height": 10,
+        "nAgent": 8,
+        "nPlayer": 2,
+        "points": [
+          12, 3, 5, 3, 1, 1, 3, 5, 3, 12, 3, 5, 7, 5, 3, 3, 5, 7, 5, 3, 5, 7,
+          10, 7, 5, 5, 7, 10, 7, 5, 3, 5, 7, 5, 3, 3, 5, 7, 5, 3, 1, 3, 5, 3,
+          12, 12, 3, 5, 3, 1, 1, 3, 5, 3, 12, 12, 3, 5, 3, 1, 3, 5, 7, 5, 3, 3,
+          5, 7, 5, 3, 5, 7, 10, 7, 5, 5, 7, 10, 7, 5, 3, 5, 7, 5, 3, 3, 5, 7, 5,
+          3, 12, 3, 5, 3, 1, 1, 3, 5, 3, 12
+        ],
+        "tiles": [
+          { "player": 0, "type": 1 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 }
+        ],
+        "width": 10
+      },
+      "log": [
+        {
+          "players": [
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 1, "x": 0, "y": 0 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 12 }
+            },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            {
+              "actions": [
+                { "agentId": 0, "res": 5, "type": 1, "x": 0, "y": 0 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 12 }
+            },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        }
+      ],
+      "options": { "operationSec": 1, "transitionSec": 1 },
+      "players": [
+        {
+          "agents": [
+            { "x": 0, "y": 0 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 }
+          ],
+          "id": "N6Md1V9FBSP3CoVCbIqgXkt1kemU",
+          "index": 0,
+          "pic": "563745",
+          "spec": "",
+          "type": "account"
+        },
+        {
+          "agents": [
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 }
+          ],
+          "id": "N6Md1V9FBSP3CoVCbIqgXkt1kemU",
+          "index": 1,
+          "pic": "481007",
+          "spec": "",
+          "type": "account"
+        }
+      ],
+      "startedAtUnixTime": 1682168588,
+      "totalTurn": 30,
+      "turn": 30,
+      "type": "normal",
+      "uuid": "6ac8bbb5-5937-4648-833c-d89df7252093"
+    },
+    "9f8f813e-cd3c-4703-a55d-d3866a0329f9": {
+      "field": {
+        "height": 10,
+        "nAgent": 8,
+        "nPlayer": 2,
+        "points": [
+          12, 3, 5, 3, 1, 1, 3, 5, 3, 12, 3, 5, 7, 5, 3, 3, 5, 7, 5, 3, 5, 7,
+          10, 7, 5, 5, 7, 10, 7, 5, 3, 5, 7, 5, 3, 3, 5, 7, 5, 3, 1, 3, 5, 3,
+          12, 12, 3, 5, 3, 1, 1, 3, 5, 3, 12, 12, 3, 5, 3, 1, 3, 5, 7, 5, 3, 3,
+          5, 7, 5, 3, 5, 7, 10, 7, 5, 5, 7, 10, 7, 5, 3, 5, 7, 5, 3, 3, 5, 7, 5,
+          3, 12, 3, 5, 3, 1, 1, 3, 5, 3, 12
+        ],
+        "tiles": [
+          { "player": 0, "type": 1 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 }
+        ],
+        "width": 10
+      },
+      "log": [
+        {
+          "players": [
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 1, "x": 0, "y": 0 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 12 }
+            },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            {
+              "actions": [
+                { "agentId": 0, "res": 5, "type": 1, "x": 0, "y": 0 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 12 }
+            },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 12 } },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        }
+      ],
+      "options": { "operationSec": 1, "transitionSec": 1 },
+      "players": [
+        {
+          "agents": [
+            { "x": 0, "y": 0 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 }
+          ],
+          "id": "xVWkfTZqRJ0zNoGTXQLq8z9UmFaP",
+          "index": 0,
+          "pic": "946867",
+          "spec": "",
+          "type": "account"
+        },
+        {
+          "agents": [
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 }
+          ],
+          "id": "xVWkfTZqRJ0zNoGTXQLq8z9UmFaP",
+          "index": 1,
+          "pic": "420216",
+          "spec": "",
+          "type": "account"
+        }
+      ],
+      "startedAtUnixTime": 1682168577,
+      "totalTurn": 30,
+      "turn": 30,
+      "type": "normal",
+      "uuid": "9f8f813e-cd3c-4703-a55d-d3866a0329f9"
+    },
+    "d91dc797-5a85-4891-a43b-3ff218ccee83": {
+      "field": {
+        "height": 10,
+        "nAgent": 8,
+        "nPlayer": 2,
+        "points": [
+          12, 3, 5, 3, 1, 1, 3, 5, 3, 12, 3, 5, 7, 5, 3, 3, 5, 7, 5, 3, 5, 7,
+          10, 7, 5, 5, 7, 10, 7, 5, 3, 5, 7, 5, 3, 3, 5, 7, 5, 3, 1, 3, 5, 3,
+          12, 12, 3, 5, 3, 1, 1, 3, 5, 3, 12, 12, 3, 5, 3, 1, 3, 5, 7, 5, 3, 3,
+          5, 7, 5, 3, 5, 7, 10, 7, 5, 5, 7, 10, 7, 5, 3, 5, 7, 5, 3, 3, 5, 7, 5,
+          3, 12, 3, 5, 3, 1, 1, 3, 5, 3, 12
+        ],
+        "tiles": [
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "player": 0, "type": 1 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 }
+        ],
+        "width": 10
+      },
+      "log": [
+        {
+          "players": [
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 1, "x": 1, "y": 1 },
+                { "agentId": 1, "res": 5, "type": 2, "x": 0, "y": 0 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 5 }
+            },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 1, "x": 1, "y": 2 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 7 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        }
+      ],
+      "name": "test",
+      "options": { "operationSec": 1, "transitionSec": 1 },
+      "players": [
+        {
+          "agents": [
+            { "x": 1, "y": 1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 }
+          ],
+          "id": "VnLoOswtwUmI8kLFhrszKKwoyHFC",
+          "index": 0,
+          "pic": "558698",
+          "spec": "test",
+          "type": "account"
+        },
+        {
+          "agents": [
+            { "x": 1, "y": 2 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 }
+          ],
+          "id": "VnLoOswtwUmI8kLFhrszKKwoyHFC",
+          "index": 1,
+          "pic": "112959",
+          "spec": "test",
+          "type": "account"
+        }
+      ],
+      "startedAtUnixTime": 1682168607,
+      "totalTurn": 30,
+      "turn": 30,
+      "type": "self",
+      "uuid": "d91dc797-5a85-4891-a43b-3ff218ccee83"
+    },
+    "e8a883f8-8860-4b9a-acd1-cff8cc8caf78": {
+      "field": {
+        "height": 10,
+        "nAgent": 8,
+        "nPlayer": 2,
+        "points": [
+          12, 3, 5, 3, 1, 1, 3, 5, 3, 12, 3, 5, 7, 5, 3, 3, 5, 7, 5, 3, 5, 7,
+          10, 7, 5, 5, 7, 10, 7, 5, 3, 5, 7, 5, 3, 3, 5, 7, 5, 3, 1, 3, 5, 3,
+          12, 12, 3, 5, 3, 1, 1, 3, 5, 3, 12, 12, 3, 5, 3, 1, 3, 5, 7, 5, 3, 3,
+          5, 7, 5, 3, 5, 7, 10, 7, 5, 5, 7, 10, 7, 5, 3, 5, 7, 5, 3, 3, 5, 7, 5,
+          3, 12, 3, 5, 3, 1, 1, 3, 5, 3, 12
+        ],
+        "tiles": [
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "player": 1, "type": 1 }
+        ],
+        "width": 10
+      },
+      "log": [
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 1, "x": 0, "y": 0 },
+                { "agentId": 1, "res": 0, "type": 1, "x": 9, "y": 0 },
+                { "agentId": 2, "res": 0, "type": 1, "x": 4, "y": 4 },
+                { "agentId": 3, "res": 0, "type": 1, "x": 5, "y": 4 },
+                { "agentId": 4, "res": 0, "type": 1, "x": 4, "y": 5 },
+                { "agentId": 5, "res": 0, "type": 1, "x": 5, "y": 5 },
+                { "agentId": 6, "res": 0, "type": 1, "x": 0, "y": 9 },
+                { "agentId": 7, "res": 0, "type": 1, "x": 9, "y": 9 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 96 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 1, "y": 1 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 8, "y": 1 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 3, "y": 4 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 4, "y": 3 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 3, "y": 6 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 4, "y": 4 },
+                { "agentId": 6, "res": 5, "type": 3, "x": -1, "y": 9 },
+                { "agentId": 7, "res": 5, "type": 3, "x": 10, "y": 9 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 117 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 2, "y": 0 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 9, "y": 2 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 4, "y": 4 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 3, "y": 4 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 2, "y": 7 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 4, "y": 5 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 1, "y": 8 },
+                { "agentId": 7, "res": 5, "type": 3, "x": 9, "y": 10 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 142 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 2, "y": 1 },
+                { "agentId": 1, "res": 5, "type": 3, "x": 10, "y": 2 },
+                { "agentId": 2, "res": 1, "type": 3, "x": 4, "y": 5 },
+                { "agentId": 3, "res": 1, "type": 3, "x": 4, "y": 5 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 3, "y": 8 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 5 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 0, "y": 9 },
+                { "agentId": 7, "res": 5, "type": 3, "x": 10, "y": 8 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 157 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 1, "y": 2 },
+                { "agentId": 1, "res": 5, "type": 3, "x": 10, "y": 2 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 3, "y": 3 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 4, "y": 5 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 2, "y": 9 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 4 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 0, "y": 10 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 9, "y": 8 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 177 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 1, "y": 1 },
+                { "agentId": 1, "res": 5, "type": 3, "x": 10, "y": 3 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 2, "y": 2 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 4, "y": 6 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 3, "y": 8 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 2, "y": 3 },
+                { "agentId": 6, "res": 5, "type": 3, "x": 0, "y": 10 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 9, "y": 7 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 202 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 1, "y": 0 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 9, "y": 1 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 2, "y": 3 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 4, "y": 5 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 4, "y": 7 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 4 },
+                { "agentId": 6, "res": 5, "type": 3, "x": -1, "y": 9 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 8, "y": 7 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 220 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 0, "y": 1 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 9, "y": 2 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 2, "y": 4 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 5, "y": 4 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 5, "y": 7 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 4, "y": 3 },
+                { "agentId": 6, "res": 5, "type": 3, "x": -1, "y": 8 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 8, "y": 8 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 238 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 1, "y": 1 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 9, "y": 1 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 1, "y": 4 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 6, "y": 3 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 4, "y": 7 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 4 },
+                { "agentId": 6, "res": 5, "type": 3, "x": -1, "y": 10 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 8, "y": 7 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 246 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 0, "y": 2 },
+                { "agentId": 1, "res": 5, "type": 3, "x": 10, "y": 0 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 0, "y": 4 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 5, "y": 3 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 4, "y": 6 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 4, "y": 4 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 1, "y": 9 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 9, "y": 7 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 258 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 1, "y": 3 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 9, "y": 0 },
+                { "agentId": 2, "res": 5, "type": 3, "x": -1, "y": 5 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 6, "y": 4 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 4, "y": 7 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 3 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 2, "y": 8 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 8, "y": 7 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 273 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 2, "y": 4 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 9, "y": 1 },
+                { "agentId": 2, "res": 5, "type": 3, "x": -1, "y": 3 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 6, "y": 5 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 4, "y": 6 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 2, "y": 2 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 2, "y": 7 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 7, "y": 6 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 283 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 1, "y": 5 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 9, "y": 2 },
+                { "agentId": 2, "res": 5, "type": 3, "x": -1, "y": 4 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 5, "y": 4 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 3, "y": 5 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 3 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 3, "y": 8 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 8, "y": 7 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 286 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 2, "y": 5 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 9, "y": 3 },
+                { "agentId": 2, "res": 5, "type": 3, "x": -1, "y": 5 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 6, "y": 3 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 2, "y": 6 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 2, "y": 3 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 2, "y": 9 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 9, "y": 7 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 301 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 3, "y": 4 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 8, "y": 2 },
+                { "agentId": 2, "res": 5, "type": 3, "x": -1, "y": 3 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 7, "y": 3 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 1, "y": 5 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 1, "y": 4 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 1, "y": 9 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 9, "y": 8 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 315 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 4, "y": 3 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 7, "y": 2 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 1, "y": 4 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 8, "y": 4 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 0, "y": 6 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 2, "y": 5 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 0, "y": 8 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 9, "y": 7 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 334 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 5, "y": 3 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 7, "y": 1 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 2, "y": 3 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 7, "y": 4 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 0, "y": 7 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 2, "y": 6 },
+                { "agentId": 6, "res": 5, "type": 3, "x": -1, "y": 9 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 9, "y": 6 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 354 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 5, "y": 2 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 7, "y": 0 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 1, "y": 4 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 6, "y": 3 },
+                { "agentId": 4, "res": 5, "type": 3, "x": -1, "y": 6 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 1, "y": 6 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 1, "y": 7 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 9, "y": 7 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 376 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 6, "y": 2 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 8, "y": 0 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 2, "y": 5 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 5, "y": 2 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 1, "y": 7 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 2, "y": 7 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 1, "y": 8 },
+                { "agentId": 7, "res": 5, "type": 3, "x": 10, "y": 8 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 386 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 7, "y": 2 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 8, "y": 1 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 1, "y": 4 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 4, "y": 1 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 0, "y": 8 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 8 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 0, "y": 7 },
+                { "agentId": 7, "res": 5, "type": 3, "x": 10, "y": 8 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 389 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 6, "y": 1 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 8, "y": 2 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 1, "y": 3 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 3, "y": 2 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 1, "y": 7 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 2, "y": 9 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 1, "y": 6 },
+                { "agentId": 7, "res": 5, "type": 3, "x": 10, "y": 6 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 401 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 6, "y": 2 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 7, "y": 3 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 0, "y": 3 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 3, "y": 3 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 0, "y": 8 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 8 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 0, "y": 5 },
+                { "agentId": 7, "res": 5, "type": 3, "x": 10, "y": 6 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 405 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 5, "y": 1 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 8, "y": 3 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 0, "y": 2 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 3, "y": 4 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 1, "y": 7 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 9 },
+                { "agentId": 6, "res": 5, "type": 3, "x": -1, "y": 4 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 8, "y": 6 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 421 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 4, "y": 1 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 8, "y": 4 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 1, "y": 3 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 4, "y": 3 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 0, "y": 8 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 4, "y": 9 },
+                { "agentId": 6, "res": 5, "type": 3, "x": -1, "y": 4 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 8, "y": 5 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 425 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 5, "y": 2 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 9, "y": 5 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 0, "y": 3 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 3, "y": 3 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 0, "y": 9 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 5, "y": 8 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 1, "y": 6 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 7, "y": 4 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 429 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 5, "y": 3 },
+                { "agentId": 1, "res": 5, "type": 3, "x": 10, "y": 6 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 1, "y": 2 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 4, "y": 3 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 0, "y": 8 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 4, "y": 8 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 0, "y": 5 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 6, "y": 4 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 432 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 4, "y": 4 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 9, "y": 6 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 0, "y": 1 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 5, "y": 4 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 1, "y": 8 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 7 },
+                { "agentId": 6, "res": 5, "type": 3, "x": -1, "y": 4 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 5, "y": 3 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 439 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 4, "y": 3 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 9, "y": 5 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 1, "y": 1 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 5, "y": 3 },
+                { "agentId": 4, "res": 0, "type": 3, "x": 0, "y": 9 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 2, "y": 6 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 1, "y": 6 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 4, "y": 4 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 439 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 5, "y": 2 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 8, "y": 6 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 2, "y": 1 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 6, "y": 3 },
+                { "agentId": 4, "res": 5, "type": 3, "x": -1, "y": 8 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 3, "y": 6 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 1, "y": 5 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 5, "y": 4 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 439 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 0 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 3, "x": 4, "y": 1 },
+                { "agentId": 1, "res": 0, "type": 3, "x": 7, "y": 7 },
+                { "agentId": 2, "res": 0, "type": 3, "x": 3, "y": 1 },
+                { "agentId": 3, "res": 0, "type": 3, "x": 6, "y": 2 },
+                { "agentId": 4, "res": 5, "type": 3, "x": 0, "y": 10 },
+                { "agentId": 5, "res": 0, "type": 3, "x": 2, "y": 6 },
+                { "agentId": 6, "res": 0, "type": 3, "x": 1, "y": 4 },
+                { "agentId": 7, "res": 0, "type": 3, "x": 6, "y": 5 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 454 }
+            }
+          ]
+        }
+      ],
+      "name": "対AI戦：test:wUrsILb4uW4964i44GHX9GVZIkA4(@2f550e87-7240-4cae-a169-e857a40a0099) vs AI(a1)",
+      "options": { "operationSec": 1, "transitionSec": 1 },
+      "players": [
+        {
+          "agents": [
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 }
+          ],
+          "id": "wUrsILb4uW4964i44GHX9GVZIkA4",
+          "index": 0,
+          "pic": "549203",
+          "spec": "",
+          "type": "account"
+        },
+        {
+          "agents": [
+            { "x": 4, "y": 1 },
+            { "x": 7, "y": 7 },
+            { "x": 3, "y": 1 },
+            { "x": 6, "y": 2 },
+            { "x": 0, "y": 9 },
+            { "x": 2, "y": 6 },
+            { "x": 1, "y": 4 },
+            { "x": 6, "y": 5 }
+          ],
+          "id": "a1",
+          "index": 1,
+          "pic": "284549",
+          "spec": "",
+          "type": "account"
+        }
+      ],
+      "startedAtUnixTime": 1682168628,
+      "totalTurn": 30,
+      "turn": 30,
+      "type": "normal",
+      "uuid": "e8a883f8-8860-4b9a-acd1-cff8cc8caf78"
+    },
+    "f7233595-b42a-41ee-8cf9-661016dd2a5c": {
+      "field": {
+        "height": 10,
+        "nAgent": 8,
+        "nPlayer": 2,
+        "points": [
+          12, 3, 5, 3, 1, 1, 3, 5, 3, 12, 3, 5, 7, 5, 3, 3, 5, 7, 5, 3, 5, 7,
+          10, 7, 5, 5, 7, 10, 7, 5, 3, 5, 7, 5, 3, 3, 5, 7, 5, 3, 1, 3, 5, 3,
+          12, 12, 3, 5, 3, 1, 1, 3, 5, 3, 12, 12, 3, 5, 3, 1, 3, 5, 7, 5, 3, 3,
+          5, 7, 5, 3, 5, 7, 10, 7, 5, 5, 7, 10, 7, 5, 3, 5, 7, 5, 3, 3, 5, 7, 5,
+          3, 12, 3, 5, 3, 1, 1, 3, 5, 3, 12
+        ],
+        "tiles": [
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "player": 0, "type": 1 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "player": 1, "type": 1 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 },
+          { "type": 0 }
+        ],
+        "width": 10
+      },
+      "log": [
+        {
+          "players": [
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 1, "x": 1, "y": 1 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 5 }
+            },
+            { "point": { "areaPoint": 0, "wallPoint": 0 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            {
+              "actions": [
+                { "agentId": 0, "res": 0, "type": 1, "x": 1, "y": 2 }
+              ],
+              "point": { "areaPoint": 0, "wallPoint": 7 }
+            }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        },
+        {
+          "players": [
+            { "point": { "areaPoint": 0, "wallPoint": 5 } },
+            { "point": { "areaPoint": 0, "wallPoint": 7 } }
+          ]
+        }
+      ],
+      "name": "test",
+      "options": { "operationSec": 1, "transitionSec": 1 },
+      "players": [
+        {
+          "agents": [
+            { "x": 1, "y": 1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 }
+          ],
+          "id": "test1",
+          "index": 0,
+          "pic": "597952",
+          "spec": "",
+          "type": "guest"
+        },
+        {
+          "agents": [
+            { "x": 1, "y": 2 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 },
+            { "x": -1, "y": -1 }
+          ],
+          "id": "test2",
+          "index": 1,
+          "pic": "158310",
+          "spec": "",
+          "type": "guest"
+        }
+      ],
+      "startedAtUnixTime": 1682168597,
+      "totalTurn": 30,
+      "turn": 30,
+      "type": "self",
+      "uuid": "f7233595-b42a-41ee-8cf9-661016dd2a5c"
+    }
+  },
+  "tournaments": [
+    {
+      "id": "a18f30ce-d6b9-4577-9846-2bfa08b0ee00",
+      "name": "テスト大会",
+      "organizer": "Code for KOSEN",
+      "remarks": "",
+      "type": "round-robin"
+    },
+    {
+      "id": "61290bd0-55a0-4d25-a7c8-e1b7303e67d5",
+      "name": "テスト大会",
+      "organizer": "Code for KOSEN",
+      "remarks": "",
+      "type": "round-robin",
+      "users": ["CaydxrDMKjVSd6ob6NlV47c9KEf1"]
+    },
+    {
+      "id": "e03ac2cf-b972-42eb-928e-c16cc32960f5",
+      "name": "test2",
+      "organizer": "",
+      "remarks": "",
+      "type": "round-robin"
+    }
+  ],
+  "users": [
+    {
+      "bearerToken": "2c7014b9-011f-4c90-82ea-9b1bb99960dc",
+      "id": "OgcrlI4h1DKyFrdX8T0IVXs5StCD",
+      "name": "qwert",
+      "screenName": "client1"
+    },
+    {
+      "bearerToken": "8788369a-78fe-4569-a346-3c7cf1e374f2",
+      "id": "\tP1708kCGhWooWEPyS86UgYTQOpO7",
+      "name": "asdfg",
+      "screenName": "client2"
+    }
+  ]
+}
