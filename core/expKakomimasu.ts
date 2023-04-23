@@ -24,28 +24,24 @@ export interface Board extends Core.Board {
 }
 
 interface GameLogJson extends Core.GameJson {
-  uuid: string;
+  id: string;
   name?: string;
   startedAtUnixTime: number | null;
   reservedUsers: string[];
   type: "normal" | "self" | "personal";
   personalUserId: string | null;
   players: PlayerJson[];
-  options: {
-    transitionSec?: number;
-    operationSec?: number;
-  };
+  transitionSec: number;
+  operationSec: number;
 }
 type GameJson =
   & Omit<
     GameLogJson,
-    "players" | "personalUserId" | "uuid" | "field" | "options"
+    "players" | "personalUserId" | "field" | "options"
   >
   & {
     nPlayer: number;
     nAgent: number;
-    operationSec: number;
-    transitionSec: number;
     field: {
       width: number;
       height: number;
@@ -53,7 +49,6 @@ type GameJson =
       tiles: Core.FieldTile[];
     } | null;
     status: ReturnType<Core.Game["getStatus"]>;
-    id: string;
     players:
       (Omit<PlayerJson, "actions" | "pic" | "index"> & { point: Core.Point })[];
   };
@@ -98,7 +93,7 @@ class Player extends Core.Player<ExpGame> {
     return {
       userId: this.id,
       spec: this.spec,
-      gameId: this.game?.uuid,
+      gameId: this.game?.id,
       index: this.index,
       pic: this.pic,
     };
@@ -115,26 +110,28 @@ type GameInit = Omit<Board, "name">;
 
 class ExpGame extends Core.Game {
   public override players: Player[];
-  public uuid: string;
+  public id: string;
   public name?: string;
   public startedAtUnixTime: number | null;
   public reservedUsers: string[];
   public type: "normal" | "self" | "personal";
   public personalUserId: string | null;
   public ai: Algorithm | undefined;
-  public options: Pick<GameInit, "operationSec" | "transitionSec">;
+  public operationSec: number;
+  public transitionSec: number;
 
-  constructor(board: GameInit, name?: string) {
-    const { transitionSec = 1, operationSec = 1, ...gameInit } = board;
+  constructor(init: GameInit, name?: string) {
+    const { transitionSec = 1, operationSec = 1, ...gameInit } = init;
     super(gameInit);
-    this.uuid = randomUUID();
+    this.id = randomUUID();
     this.name = name;
     this.startedAtUnixTime = null;
     this.reservedUsers = [];
     this.type = "normal";
     this.personalUserId = null;
     this.players = [];
-    this.options = { transitionSec, operationSec };
+    this.operationSec = operationSec;
+    this.transitionSec = transitionSec;
   }
 
   static fromJSON(data: GameLogJson) {
@@ -145,11 +142,11 @@ class ExpGame extends Core.Game {
       nPlayer: data.field.nPlayer,
       nAgent: data.field.nAgent,
       totalTurn: data.totalTurn,
-      transitionSec: data.options.transitionSec,
-      operationSec: data.options.operationSec,
+      transitionSec: data.transitionSec,
+      operationSec: data.operationSec,
     };
     const game = new ExpGame(board, data.name);
-    game.uuid = data.uuid;
+    game.id = data.id;
     game.players = data.players.map((p) => Player.fromJSON(p, game));
     // firebaseではnullがundefinedに変換されるので、再度nullを代入する
     game.field.tiles = data.field.tiles.map(({ type, player }) => {
@@ -177,11 +174,7 @@ class ExpGame extends Core.Game {
     this.type = type;
     this.personalUserId = userId || null;
   }
-  getType() {
-    return this.type;
-  }
 
-  /// @ts-ignore 継承の関係でおかしい型定義を無視
   attachPlayer(player: Player) {
     if (this.reservedUsers.length > 0) {
       const isReservedUser = player.type === "account" &&
@@ -189,7 +182,6 @@ class ExpGame extends Core.Game {
       if (!isReservedUser) throw Error("Not allowed user");
     }
 
-    /// @ts-ignore 継承の関係でおかしい型定義を無視
     if (super.attachPlayer(player) === false) return false;
     this.updateStatus();
     return true;
@@ -220,15 +212,15 @@ class ExpGame extends Core.Game {
       this.onTurn();
       // 次の遷移ステップ時間まで待つ
       const nextTransitionUnixTime = this.startedAtUnixTime +
-        this.operationSec() * (this.turn) +
-        this.transitionSec() * (this.turn - 1);
+        this.operationSec * (this.turn) +
+        this.transitionSec * (this.turn - 1);
       await sleep(diffTime(nextTransitionUnixTime));
 
       this.nextTurn();
 
       // 次の行動ステップ時間まで待つ
       const nextOperationUnixTime = nextTransitionUnixTime +
-        this.transitionSec();
+        this.transitionSec;
       await sleep(diffTime(nextOperationUnixTime));
 
       this.wsSend();
@@ -236,21 +228,13 @@ class ExpGame extends Core.Game {
     setGame(this);
   }
 
-  // TODO: 関数を消して普通にプロパティにアクセスするようにする
-  transitionSec() {
-    return this.options.transitionSec ?? 1;
-  }
-  operationSec() {
-    return this.options.operationSec ?? 1;
-  }
-
   isTransitionStep() {
     if (this.isGaming() === false) return false;
     if (this.startedAtUnixTime === null) return false;
     const elapsetTimeFromStart = nowUnixTime() - this.startedAtUnixTime;
     const elapsetTimeFromTurn = elapsetTimeFromStart %
-      (this.transitionSec() + this.operationSec());
-    if (elapsetTimeFromTurn - this.operationSec() < 0) return false;
+      (this.transitionSec + this.operationSec);
+    if (elapsetTimeFromTurn - this.operationSec < 0) return false;
     else return true;
   }
 
@@ -335,14 +319,12 @@ class ExpGame extends Core.Game {
 
   toJSON(): GameJson {
     const {
-      uuid: id,
-      players: _,
+      players: players_,
       field: field_,
-      options: _o,
       personalUserId: _p,
       ...ret
     } = this;
-    const players = this.players.map((p, i) => { // kakomimasu.tsから実装をコピー&typeを追加
+    const players = players_.map((p, i) => { // kakomimasu.tsから実装をコピー&typeを追加
       return {
         id: p.id,
         spec: p.spec,
@@ -359,9 +341,6 @@ class ExpGame extends Core.Game {
       field: this.isFree() ? null : field,
       players,
       status: this.getStatus(),
-      id: id,
-      transitionSec: this.transitionSec(),
-      operationSec: this.operationSec(),
     };
     return data;
   }
@@ -376,36 +355,4 @@ class ExpGame extends Core.Game {
   }
 }
 
-class ExpKakomimasu {
-  public games: ExpGame[];
-  public boards: Core.Board[];
-
-  constructor() {
-    this.games = [];
-    this.boards = [];
-  }
-
-  appendBoard(board: Core.Board): void {
-    this.boards.push(board);
-  }
-
-  getBoards() {
-    return this.boards;
-  }
-
-  getFreeGames() {
-    const games = this.games.filter((g) => g.isFree());
-    return games.filter((game) => game.getType() === "normal");
-  }
-
-  addGame(game: ExpGame) {
-    this.games.push(game);
-    return game;
-  }
-
-  getGames() {
-    return this.games;
-  }
-}
-
-export { ExpGame, ExpKakomimasu, Player };
+export { ExpGame, Player };

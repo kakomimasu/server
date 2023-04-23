@@ -1,7 +1,7 @@
 import { Context, Core, Router } from "../deps.ts";
 
 import { nowUnixTime } from "../core/util.ts";
-import { accounts, kkmm, tournaments } from "../core/datas.ts";
+import { accounts, games, tournaments } from "../core/datas.ts";
 import { errors, ServerError } from "../core/error.ts";
 import { getAllBoards, getBoard } from "../core/firestore.ts";
 import { ExpGame, Player } from "../core/expKakomimasu.ts";
@@ -91,9 +91,9 @@ router.get("/", (ctx) => {
     }
   }
 
-  let games = [...kkmm.getGames()];
-  games.sort(sortFn);
-  games = games.slice(0, limit);
+  let sortedGames = [...games];
+  sortedGames.sort(sortFn);
+  sortedGames = sortedGames.slice(0, limit);
   ctx.response.body = games;
 });
 
@@ -120,7 +120,7 @@ router.post(
       reqJson.name,
     );
     if (!reqJson.dryRun) {
-      kkmm.addGame(game);
+      games.push(game);
       game.wsSend();
     }
 
@@ -150,7 +150,7 @@ router.post(
       if (!tournament) throw new ServerError(errors.INVALID_TOURNAMENT_ID);
 
       if (!reqJson.dryRun) {
-        tournaments.addGame(reqJson.tournamentId, game.uuid);
+        tournaments.addGame(reqJson.tournamentId, game.id);
       }
     }
 
@@ -162,7 +162,7 @@ router.post(
 
 router.get("/:id", (ctx) => {
   const id = ctx.params.id;
-  const game = kkmm.getGames().find((item) => item.uuid === id);
+  const game = games.find((item) => item.id === id);
   if (!game) throw new ServerError(errors.NOT_GAME);
   if (game.isTransitionStep()) {
     throw new ServerError(errors.DURING_TRANSITION_STEP);
@@ -184,7 +184,7 @@ router.patch(
 
     const gameId = ctx.params.gameId;
 
-    const game = kkmm.getGames().find((item) => item.uuid === gameId);
+    const game = games.find((item) => item.id === gameId);
     if (!game) throw new ServerError(errors.NOT_GAME);
 
     if (game.isTransitionStep()) {
@@ -266,7 +266,8 @@ router.post(
 
     const player = createPlayer(ctx, reqData);
 
-    const freeGame = kkmm.getFreeGames();
+    const freeGame = games.filter((g) => g.isFree() && g.type === "normal");
+
     if (!reqData.dryRun) {
       if (freeGame.length === 0) {
         const bname = boardname;
@@ -275,7 +276,7 @@ router.post(
         const game = new ExpGame(brd);
         //const game = kkmm.createGame(brd);
         freeGame.push(game);
-        kkmm.addGame(game);
+        games.push(game);
       }
       freeGame[0].attachPlayer(player);
       //console.log(player);
@@ -317,7 +318,7 @@ router.post(
     if (!brd) throw new ServerError(errors.INVALID_BOARD_NAME);
     if (!reqData.dryRun) {
       const game = new ExpGame(brd);
-      kkmm.addGame(game);
+      games.push(game);
       if (player.type === "account") {
         const authedUserId = ctx.state.authed_userId as string;
         const user = accounts.getUsers().find((user) =>
@@ -330,7 +331,6 @@ router.post(
         game.name = `対AI戦：${player.id} vs AI(${ai.name})`;
       }
       game.attachPlayer(player);
-      //accounts.addGame(user.userId, game.uuid);
 
       const aiClient = new ai.client();
       const aiPlayer = new Player(ai.name, "");
@@ -368,7 +368,7 @@ router.post(
 
     const player = createPlayer(ctx, reqData);
 
-    const game = kkmm.getGames().find((game) => game.uuid === gameId);
+    const game = games.find((game) => game.id === gameId);
     if (!game) throw new ServerError(errors.NOT_GAME);
     if (!reqData.dryRun) {
       if (game.attachPlayer(player) === false) {
@@ -376,7 +376,6 @@ router.post(
         //throw Error("Game is not free");
       }
     }
-    //accounts.addGame(user.userId, game.uuid);
 
     const { gameId: pGameId, ...rawRes } = player.getJSON();
     const res: GameIdMatchRes = {

@@ -1,6 +1,6 @@
 import { Context, Middleware } from "../deps.ts";
 
-import { accounts, kkmm, type User } from "../core/datas.ts";
+import { accounts, games, type User } from "../core/datas.ts";
 
 import { PriorMatch } from "./types.ts";
 
@@ -33,7 +33,7 @@ export const checkAuthPic: Middleware<StatePic> = async (ctx, next) => {
 };
 
 export const getMatches = (userId: string) => {
-  const matches = kkmm.getGames().filter((game) => {
+  const matches = games.filter((game) => {
     if (game.isEnded()) return false;
     const user = game.players.find((player) => {
       return player.type === "account" && player.id === userId;
@@ -57,11 +57,11 @@ export const getMatches = (userId: string) => {
       }
 
       return {
-        matchID: game.uuid,
+        matchID: game.id,
         teams,
         turns: game.turn,
-        operationMillis: game.operationSec() * 1000,
-        transitionMillis: game.transitionSec() * 1000,
+        operationMillis: game.operationSec * 1000,
+        transitionMillis: game.transitionSec * 1000,
       };
     });
     return [...matches];

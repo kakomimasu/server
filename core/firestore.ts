@@ -91,7 +91,7 @@ export async function getAllTournaments(): Promise<FTournament[]> {
 export async function setGame(
   game: ExpGame,
 ): Promise<void> {
-  const gameRef = ref(db, "games/" + game.uuid);
+  const gameRef = ref(db, "games/" + game.id);
   const gameJson = game.toLogJSON();
   const gameJson2 = JSON.parse(JSON.stringify(gameJson));
   await set(gameRef, gameJson2);

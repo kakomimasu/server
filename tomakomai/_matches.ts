@@ -1,6 +1,6 @@
 import { Core, Middleware, RouterMiddleware } from "../deps.ts";
 
-import { kkmm } from "../core/datas.ts";
+import { games } from "../core/datas.ts";
 import type { ExpGame } from "../core/expKakomimasu.ts";
 import { nowUnixTime, StateData } from "../core/util.ts";
 
@@ -33,7 +33,7 @@ export const matches: RouterMiddleware<
   const id = ctx.params.id;
   const pic = ctx.state.pic;
 
-  const game = kkmm.getGames().find((game) => game.uuid === id);
+  const game = games.find((game) => game.id === id);
   if (game?.players.find((player) => player.pic === pic) === undefined) { // 参加していない試合に対するリクエスト、また存在しない試合IDの場合
     ctx.response.status = 404;
     return;
@@ -117,7 +117,7 @@ export const updateAction: RouterMiddleware<
   const id = ctx.params.id;
   const pic = ctx.state.pic;
 
-  const game = kkmm.getGames().find((game) => game.uuid === id);
+  const game = games.find((game) => game.id === id);
   const playerIdx = game?.players.findIndex((player) => player.pic === pic) ??
     -1;
   const player = playerIdx >= 0 ? game?.players[playerIdx] : undefined;

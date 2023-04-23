@@ -1,6 +1,6 @@
 import { Core, Middleware, RouterMiddleware } from "../deps.ts";
 
-import { kkmm } from "../core/datas.ts";
+import { games } from "../core/datas.ts";
 import type { ExpGame } from "../core/expKakomimasu.ts";
 import { StateData } from "../core/util.ts";
 
@@ -17,7 +17,7 @@ import {
 export const priorMatches: Middleware<StateToken> = (ctx) => {
   const authedUser = ctx.state.user;
 
-  const matches = kkmm.getGames().filter((game) => {
+  const matches = games.filter((game) => {
     if (game.isEnded()) return false;
     const user = game.players.find((player) => {
       return player.id === authedUser.id;
@@ -35,11 +35,11 @@ export const priorMatches: Middleware<StateToken> = (ctx) => {
       );
 
       return {
-        id: game.uuid,
-        intervalMillis: game.transitionSec() * 1000,
+        id: game.id,
+        intervalMillis: game.transitionSec * 1000,
         matchTo: oppoUser.join(","),
         teamID: parseInt(game.players[idx].pic),
-        turnMillis: game.operationSec() * 1000,
+        turnMillis: game.operationSec * 1000,
         turns: game.totalTurn,
         index: idx,
       };
@@ -63,7 +63,7 @@ export const matches: RouterMiddleware<
   const id = ctx.params.id;
   const pic = ctx.state.pic;
 
-  const game = kkmm.getGames().find((game) => game.uuid === id);
+  const game = games.find((game) => game.id === id);
   if (game?.players.find((player) => player.pic === pic) === undefined) {
     ctx.response.status = 400;
     ctx.response.body = { status: "InvalidMatches" };
@@ -142,7 +142,7 @@ export const updateAction: RouterMiddleware<
   const id = ctx.params.id;
   const pic = ctx.state.pic;
 
-  const game = kkmm.getGames().find((game) => game.uuid === id);
+  const game = games.find((game) => game.id === id);
   const playerIdx = game?.players.findIndex((player) => player.pic === pic) ??
     -1;
   const player = playerIdx >= 0 ? game?.players[playerIdx] : undefined;
