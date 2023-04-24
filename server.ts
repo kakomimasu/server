@@ -45,6 +45,29 @@ app.use(async (ctx, next) => {
   ctx.response.headers.set("X-Response-Time", `${ms}ms`);
 });
 
+// deno-lint-ignore no-explicit-any
+function sortObject(unsorted: any): any {
+  if (unsorted === null || typeof unsorted !== "object") return unsorted;
+  if (Array.isArray(unsorted)) return unsorted.map(sortObject);
+  const sorted = Object.keys(unsorted).sort().reduce(
+    (obj, key) => {
+      obj[key] = sortObject(unsorted[key]);
+      return obj;
+    },
+    {} as Record<string, unknown>,
+  );
+  return sorted;
+}
+
+app.use(async (ctx, next) => {
+  await next();
+  if (ctx.response.body) {
+    let body = JSON.parse(JSON.stringify(ctx.response.body));
+    body = sortObject(body);
+    ctx.response.body = body;
+  }
+});
+
 const router = new Router();
 
 router.use(async (ctx, next) => {
