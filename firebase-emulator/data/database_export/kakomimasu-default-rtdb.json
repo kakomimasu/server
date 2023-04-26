@@ -722,7 +722,7 @@
       "totalTurn": 30,
       "turn": 30,
       "type": "normal",
-      "uuid": "034b2b90-f024-4855-93e0-c3a2a0825b1b"
+      "id": "034b2b90-f024-4855-93e0-c3a2a0825b1b"
     },
     "1a125119-0f47-4b7e-94af-b7deae2bf488": {
       "field": {
@@ -1074,7 +1074,7 @@
       "totalTurn": 30,
       "turn": 30,
       "type": "normal",
-      "uuid": "1a125119-0f47-4b7e-94af-b7deae2bf488"
+      "id": "1a125119-0f47-4b7e-94af-b7deae2bf488"
     },
     "6ac8bbb5-5937-4648-833c-d89df7252093": {
       "field": {
@@ -1425,7 +1425,7 @@
       "totalTurn": 30,
       "turn": 30,
       "type": "normal",
-      "uuid": "6ac8bbb5-5937-4648-833c-d89df7252093"
+      "id": "6ac8bbb5-5937-4648-833c-d89df7252093"
     },
     "9f8f813e-cd3c-4703-a55d-d3866a0329f9": {
       "field": {
@@ -1776,7 +1776,7 @@
       "totalTurn": 30,
       "turn": 30,
       "type": "normal",
-      "uuid": "9f8f813e-cd3c-4703-a55d-d3866a0329f9"
+      "id": "9f8f813e-cd3c-4703-a55d-d3866a0329f9"
     },
     "d91dc797-5a85-4891-a43b-3ff218ccee83": {
       "field": {
@@ -2129,7 +2129,7 @@
       "totalTurn": 30,
       "turn": 30,
       "type": "self",
-      "uuid": "d91dc797-5a85-4891-a43b-3ff218ccee83"
+      "id": "d91dc797-5a85-4891-a43b-3ff218ccee83"
     },
     "e8a883f8-8860-4b9a-acd1-cff8cc8caf78": {
       "field": {
@@ -2831,7 +2831,7 @@
       "totalTurn": 30,
       "turn": 30,
       "type": "normal",
-      "uuid": "e8a883f8-8860-4b9a-acd1-cff8cc8caf78"
+      "id": "e8a883f8-8860-4b9a-acd1-cff8cc8caf78"
     },
     "f7233595-b42a-41ee-8cf9-661016dd2a5c": {
       "field": {
@@ -3183,7 +3183,7 @@
       "totalTurn": 30,
       "turn": 30,
       "type": "self",
-      "uuid": "f7233595-b42a-41ee-8cf9-661016dd2a5c"
+      "id": "f7233595-b42a-41ee-8cf9-661016dd2a5c"
     }
   },
   "tournaments": [

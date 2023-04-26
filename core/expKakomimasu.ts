@@ -71,7 +71,7 @@ class Player extends Core.Player<ExpGame> {
     const player = new Player(data.id, data.spec);
     player.index = data.index;
     player.pic = data.pic;
-    player.type = data.type ?? "account";
+    player.type = data.type;
     if (game) {
       player.game = game;
       player.agents = data.agents.map((a) => {
@@ -163,7 +163,7 @@ class ExpGame extends Core.Game {
     game.turn = data.turn;
     game.startedAtUnixTime = data.startedAtUnixTime ?? null;
     game.reservedUsers = data.reservedUsers ?? [];
-    game.type = data.type || "normal";
+    game.type = data.type;
     game.personalUserId = data.personalUserId ?? null;
     return game;
   }

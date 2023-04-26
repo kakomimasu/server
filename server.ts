@@ -54,7 +54,7 @@ app.use(async (ctx, next) => {
 // Sort response body
 app.use(async (ctx, next) => {
   await next();
-  if (ctx.response.body) {
+  if (ctx.respond === false && ctx.response.body) {
     let body = JSON.parse(JSON.stringify(ctx.response.body));
     body = sortObject(body);
     ctx.response.body = body;
