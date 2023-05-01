@@ -332,7 +332,7 @@ router.post(
       }
       game.attachPlayer(player);
 
-      const aiClient = new ai.client();
+      const aiClient = new ai.client(1);
       const aiPlayer = new Player(ai.name, "");
       game.ai = aiClient;
       game.attachPlayer(aiPlayer);

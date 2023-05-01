@@ -1,4 +1,5 @@
-import { Middleware } from "../deps.ts";
+import { Core, Middleware } from "../deps.ts";
+import type { ExpGame } from "./expKakomimasu.ts";
 
 import { errors, ServerError } from "./error.ts";
 
@@ -28,3 +29,9 @@ export const jsonParse =
     }
     await next();
   };
+
+export interface ClientBase {
+  playerIndex: number;
+  oninit: (game: ExpGame) => void;
+  onturn: (game: ExpGame) => Core.Action[];
+}

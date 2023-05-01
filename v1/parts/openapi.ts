@@ -98,7 +98,7 @@ export const openapi = {
                       properties: {
                         aiName: {
                           type: "string",
-                          enum: ["none", "a1", "a2", "a3", "a4", "a5"],
+                          enum: ["none", "a1", "a2", "a3", "a4"],
                         },
                         boardName: {
                           type: "string",
