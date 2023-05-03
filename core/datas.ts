@@ -1,5 +1,5 @@
 import { errors, ServerError } from "./error.ts";
-import { ExpGame, ExpKakomimasu } from "./expKakomimasu.ts";
+import { ExpGame } from "./expKakomimasu.ts";
 import {
   type FTournament,
   type FUser,
@@ -34,12 +34,12 @@ class User implements FUser {
   }
 
   private getGameIds() {
-    const gameIds = kkmm.getGames().filter((game) => {
+    const gameIds = games.filter((game) => {
       return game.players.some((p) => p.id === this.id);
     }).sort((a, b) => {
       return (a.startedAtUnixTime ?? Infinity) -
         (b.startedAtUnixTime ?? Infinity);
-    }).map((game) => game.uuid);
+    }).map((game) => game.id);
     return gameIds;
   }
 
@@ -141,7 +141,7 @@ export class Tournament implements FTournament {
 
   dataCheck(games: ExpGame[]) {
     this.gameIds = this.gameIds.filter((gameId) => {
-      if (games.some((game) => game.uuid === gameId)) return true;
+      if (games.some((game) => game.id === gameId)) return true;
       else return false;
     });
   }
@@ -218,16 +218,16 @@ class Tournaments {
   }
 }
 
-const kkmm = new ExpKakomimasu();
+const games: ExpGame[] = [];
 (await getAllGameSnapShot()).forEach((doc) => {
-  kkmm.games.push(ExpGame.restore(doc.val()));
+  games.push(ExpGame.fromJSON(doc.val()));
 });
 
 const tournaments = new Tournaments();
 await tournaments.read();
-tournaments.dataCheck(kkmm.getGames());
+tournaments.dataCheck(games);
 
 const accounts = new Users();
 await accounts.read();
 
-export { accounts, kkmm, tournaments, User };
+export { accounts, games, tournaments, User };

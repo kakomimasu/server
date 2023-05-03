@@ -1,5 +1,4 @@
 import {
-  Core,
   get,
   getAuth,
   getDatabase,
@@ -9,7 +8,7 @@ import {
 } from "../deps.ts";
 
 import { env } from "./env.ts";
-import type { ExpGame } from "./expKakomimasu.ts";
+import type { Board, ExpGame } from "./expKakomimasu.ts";
 import type { Tournament, User } from "./datas.ts";
 import { firebaseInit } from "./firebase.ts";
 
@@ -92,7 +91,7 @@ export async function getAllTournaments(): Promise<FTournament[]> {
 export async function setGame(
   game: ExpGame,
 ): Promise<void> {
-  const gameRef = ref(db, "games/" + game.uuid);
+  const gameRef = ref(db, "games/" + game.id);
   const gameJson = game.toLogJSON();
   const gameJson2 = JSON.parse(JSON.stringify(gameJson));
   await set(gameRef, gameJson2);
@@ -106,24 +105,24 @@ export async function getAllGameSnapShot() {
 }
 
 /** ボードを1つ取得 */
-export async function getBoard(id: string): Promise<Core.Board | undefined> {
+export async function getBoard(id: string): Promise<Board | undefined> {
   const boardsRef = ref(db, "boards/" + id);
   const snap = await get(boardsRef);
   const rawBoard = snap.val();
   if (rawBoard) {
-    const board = createBoard(snap.val());
+    const board = (snap.val()) as Board;
     return board;
   } else return undefined;
 }
 
 /** ボードをすべて取得 */
-export async function getAllBoards(): Promise<Core.Board[]> {
+export async function getAllBoards(): Promise<Board[]> {
   const boardsRef = ref(db, "boards");
   const snap = await get(boardsRef);
-  const boards: Core.Board[] = [];
+  const boards: Board[] = [];
   // deno-lint-ignore no-explicit-any
   snap.forEach((doc: any) => {
-    boards.push(createBoard(doc.val()));
+    boards.push(doc.val() as Board);
   });
   return boards;
 }
@@ -133,29 +132,4 @@ export async function getAllBoards(): Promise<Core.Board[]> {
 export async function setBoard(board: any): Promise<void> {
   const boardsRef = ref(db, "boards/" + board.name);
   await set(boardsRef, board);
-}
-
-// deno-lint-ignore no-explicit-any
-function createBoard(data: any) {
-  const {
-    width: w,
-    height: h,
-    points: points,
-    nagent,
-    nturn,
-    nsec,
-    nplayer,
-    name,
-  } = data;
-  const board = new Core.Board({
-    w,
-    h,
-    points,
-    nagent,
-    nturn,
-    nsec,
-    nplayer,
-    name,
-  });
-  return board;
 }

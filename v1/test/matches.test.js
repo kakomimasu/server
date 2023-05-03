@@ -14,11 +14,9 @@ import { errors } from "../../core/error.ts";
 const assertGame = (game, sample = {}) => {
   assert(v4.validate(game.id));
   if (sample.id) assertEquals(game.id, sample.id);
-  assertEquals(game.gaming, sample.gaming || false);
-  assertEquals(game.ending, sample.ending || false);
-  assertEquals(game.board, sample.board || null);
+  assertEquals(game.status, sample.status || "free");
+  assertEquals(game.field, sample.field || null);
   assertEquals(game.turn, sample.turn || 0);
-  assertEquals(game.tiled, sample.tiled || null);
   assertEquals(game.name, sample.name || "");
   assertEquals(game.startedAtUnixTime, null);
   if (sample.reservedUsers) assert(game.reservedUsers, sample.reservedUsers);

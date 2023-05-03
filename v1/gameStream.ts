@@ -9,7 +9,7 @@ import { ResponseType } from "../util/openapi-type.ts";
 
 import { auth } from "./middleware.ts";
 import { openapi } from "./parts/openapi.ts";
-import { kkmm } from "../core/datas.ts";
+import { games } from "../core/datas.ts";
 import { addSendGameFn, ExpGame } from "../core/expKakomimasu.ts";
 
 type StreamRes = ResponseType<
@@ -81,12 +81,12 @@ const staticFilter = (
 ) => {
   for (const so of searchOptions) {
     if (so.op === "type") {
-      if (so.value === "self" && game.getType() !== "self") return false;
-      if (so.value === "normal" && game.getType() !== "normal") return false;
+      if (so.value === "self" && game.type !== "self") return false;
+      if (so.value === "normal" && game.type !== "normal") return false;
       if (so.value === "personal" && game.personalUserId !== authedUserId) {
         return false;
       }
-    } else if (so.op === "id" && so.value !== game.uuid) return false;
+    } else if (so.op === "id" && so.value !== game.id) return false;
   }
   return true;
 };
@@ -95,8 +95,8 @@ const dynamicFilter = (game: ExpGame, { searchOptions }: MapValue) => {
   for (const so of searchOptions) {
     if (so.op === "is") {
       if (so.value === "waiting" && !game.isFree()) return false;
-      else if (so.value === "gaming" && !game.gaming) return false;
-      else if (so.value === "finished" && !game.ending) return false;
+      else if (so.value === "gaming" && !game.isGaming()) return false;
+      else if (so.value === "finished" && !game.isEnded()) return false;
     }
   }
   return true;
@@ -106,24 +106,24 @@ export function sendGame(game: ExpGame) {
   clients.forEach((value, controller) => {
     let data: StreamRes;
 
-    if (value.gameIds.some((id) => id === game.uuid)) {
+    if (value.gameIds.some((id) => id === game.id)) {
       if (dynamicFilter(game, value)) {
         data = {
           type: "update",
           game: game.toJSON(),
         };
       } else {
-        const removeIndex = value.gameIds.findIndex((id) => id === game.uuid);
+        const removeIndex = value.gameIds.findIndex((id) => id === game.id);
         value.gameIds.splice(removeIndex, 1);
         data = {
           type: "remove",
-          gameId: game.uuid,
+          gameId: game.id,
         };
       }
     } else {
       if (!value.allowNewGame) return;
       if (staticFilter(game, value) && dynamicFilter(game, value)) {
-        value.gameIds.push(game.uuid);
+        value.gameIds.push(game.id);
         data = {
           type: "add",
           game: game.toJSON(),
@@ -165,13 +165,13 @@ export const streamRoutes = () => {
         keepAliveTimerId: setKeepAliveTimeout(target),
       };
 
-      const games = kkmm.getGames().filter((game) => {
+      const filteredGames = games.filter((game) => {
         return staticFilter(game, client) && dynamicFilter(game, client);
       }).sort((a, b) => sortCompareFn(a, b, searchOptions));
 
-      const gamesNum = games.length;
-      const slicedGames = games.slice(sIdx, eIdx);
-      const gameIds = slicedGames.map((g) => g.uuid);
+      const gamesNum = filteredGames.length;
+      const slicedGames = filteredGames.slice(sIdx, eIdx);
+      const gameIds = slicedGames.map((g) => g.id);
 
       client.gameIds = gameIds;
 

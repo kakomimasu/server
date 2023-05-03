@@ -9,23 +9,29 @@ import { router as miyakonojoRouter } from "./miyakonojo/router.ts";
 import { router as tomakomaiRouter } from "./tomakomai/router.ts";
 import { router as v1Router } from "./v1/router.ts";
 
+// deno-lint-ignore no-explicit-any
+function sortObject(unsorted: any): any {
+  if (unsorted === null || typeof unsorted !== "object") return unsorted;
+  if (Array.isArray(unsorted)) return unsorted.map(sortObject);
+  const sorted = Object.keys(unsorted).sort().reduce(
+    (obj, key) => {
+      obj[key] = sortObject(unsorted[key]);
+      return obj;
+    },
+    {} as Record<string, unknown>,
+  );
+  return sorted;
+}
+
 const port = parseInt(env.PORT);
 
-// Port Listen
 const app = new Application();
+
+// CORS
 app.use(oakCors({
   origin: "*",
   methods: ["GET", "POST", "DELETE", "PATCH"],
 }));
-
-app.addEventListener("listen", ({ hostname, port, secure }) => {
-  console.log(
-    `Listening on: ${secure ? "https://" : "http://"}${
-      hostname ??
-        "localhost"
-    }:${port}`,
-  );
-});
 
 // Logger
 app.use(async (ctx, next) => {
@@ -45,9 +51,18 @@ app.use(async (ctx, next) => {
   ctx.response.headers.set("X-Response-Time", `${ms}ms`);
 });
 
-const router = new Router();
+// Sort response body
+app.use(async (ctx, next) => {
+  await next();
+  if (ctx.respond === false && ctx.response.body) {
+    let body = JSON.parse(JSON.stringify(ctx.response.body));
+    body = sortObject(body);
+    ctx.response.body = body;
+  }
+});
 
-router.use(async (ctx, next) => {
+// Error handling
+app.use(async (ctx, next) => {
   try {
     await next();
   } catch (err) {
@@ -73,19 +88,29 @@ URL: ${ctx.request.url}
   }
 });
 
+// API router
+const router = new Router();
 router.use("/v1", v1Router.routes());
 router.use("/miyakonojo", miyakonojoRouter.routes());
 router.use("/tomakomai", tomakomaiRouter.routes());
-app.use(router.routes());
-app.use(router.allowedMethods());
-
 router.get("/version", (ctx) => {
   const data: VersionRes = { version: env.VERSION };
   ctx.response.body = data;
 });
-
 router.get("/(.*)", (_ctx: Context) => {
   throw new ServerError(errors.NOT_FOUND);
+});
+
+app.use(router.routes());
+app.use(router.allowedMethods());
+
+app.addEventListener("listen", ({ hostname, port, secure }) => {
+  console.log(
+    `Listening on: ${secure ? "https://" : "http://"}${
+      hostname ??
+        "localhost"
+    }:${port}`,
+  );
 });
 
 app.listen({ port });

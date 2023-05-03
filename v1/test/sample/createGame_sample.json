@@ -1,17 +1,17 @@
 {
-  "id": "0d6243ab-96cd-41a8-9c48-35ac947703b0",
-  "gaming": false,
-  "ending": false,
-  "board": null,
-  "turn": 0,
-  "totalTurn": 30,
-  "tiled": null,
-  "players": [],
+  "field": null,
+  "id": "209ef2b3-da8a-4fbd-9ac8-f5c9f4a01317",
   "log": [],
+  "nAgent": 8,
+  "nPlayer": 2,
   "name": "test",
-  "startedAtUnixTime": null,
+  "operationSec": 1,
+  "players": [],
   "reservedUsers": [],
-  "type": "self",
+  "startedAtUnixTime": null,
+  "status": "free",
+  "totalTurn": 30,
   "transitionSec": 1,
-  "operationSec": 1
+  "turn": 0,
+  "type": "self"
 }

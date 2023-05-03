@@ -1,6 +1,6 @@
 import { Core, Middleware, RouterMiddleware } from "../deps.ts";
 
-import { kkmm } from "../core/datas.ts";
+import { games } from "../core/datas.ts";
 import type { ExpGame } from "../core/expKakomimasu.ts";
 import { StateData } from "../core/util.ts";
 
@@ -17,8 +17,8 @@ import {
 export const priorMatches: Middleware<StateToken> = (ctx) => {
   const authedUser = ctx.state.user;
 
-  const matches = kkmm.getGames().filter((game) => {
-    if (game.ending) return false;
+  const matches = games.filter((game) => {
+    if (game.isEnded()) return false;
     const user = game.players.find((player) => {
       return player.id === authedUser.id;
     });
@@ -35,12 +35,12 @@ export const priorMatches: Middleware<StateToken> = (ctx) => {
       );
 
       return {
-        id: game.uuid,
-        intervalMillis: game.transitionSec() * 1000,
+        id: game.id,
+        intervalMillis: game.transitionSec * 1000,
         matchTo: oppoUser.join(","),
         teamID: parseInt(game.players[idx].pic),
-        turnMillis: game.operationSec() * 1000,
-        turns: game.board.nturn,
+        turnMillis: game.operationSec * 1000,
+        turns: game.totalTurn,
         index: idx,
       };
     });
@@ -63,13 +63,13 @@ export const matches: RouterMiddleware<
   const id = ctx.params.id;
   const pic = ctx.state.pic;
 
-  const game = kkmm.getGames().find((game) => game.uuid === id);
+  const game = games.find((game) => game.id === id);
   if (game?.players.find((player) => player.pic === pic) === undefined) {
     ctx.response.status = 400;
     ctx.response.body = { status: "InvalidMatches" };
     return;
   }
-  if (game.gaming === false && game.ending === false) {
+  if (game.isGaming() === false && game.isEnded() === false) {
     ctx.response.status = 400;
     ctx.response.body = {
       status: "TooEarly",
@@ -80,15 +80,15 @@ export const matches: RouterMiddleware<
 
   const actions = getActions(game);
 
-  const points: number[][] = new Array(game.board.h);
-  const tiled: number[][] = new Array(game.board.h);
-  for (let y = 0; y < game.board.h; y++) {
-    points[y] = new Array(game.board.w);
-    tiled[y] = new Array(game.board.w);
-    for (let x = 0; x < game.board.w; x++) {
-      const idx = y * game.board.h + x;
-      points[y][x] = game.board.points[idx];
-      const tile = game.field.field[idx];
+  const points: number[][] = new Array(game.field.height);
+  const tiled: number[][] = new Array(game.field.height);
+  for (let y = 0; y < game.field.height; y++) {
+    points[y] = new Array(game.field.width);
+    tiled[y] = new Array(game.field.width);
+    for (let x = 0; x < game.field.width; x++) {
+      const idx = y * game.field.height + x;
+      points[y][x] = game.field.points[idx];
+      const tile = game.field.tiles[idx];
       if (tile.player !== null && tile.type === Core.Field.WALL) {
         tiled[y][x] = tile.player + 1;
       } else {
@@ -104,7 +104,7 @@ export const matches: RouterMiddleware<
   const teams = game.players.map((player, playerIdx) => {
     const agents = player.agents.map((agent, agentIdx) => {
       return {
-        agentID: getAgentID(playerIdx, agentIdx, game.board.nagent),
+        agentID: getAgentID(playerIdx, agentIdx, game.field.nAgent),
         x: agent.x,
         y: agent.y,
       };
@@ -121,13 +121,13 @@ export const matches: RouterMiddleware<
 
   const body: MatchesRes = {
     actions,
-    height: game.board.h,
+    height: game.field.height,
     points,
     startedAtUnixTime,
     teams,
     tiled,
     turn: game.turn,
-    width: game.board.w,
+    width: game.field.width,
   };
   ctx.response.body = body;
 };
@@ -142,7 +142,7 @@ export const updateAction: RouterMiddleware<
   const id = ctx.params.id;
   const pic = ctx.state.pic;
 
-  const game = kkmm.getGames().find((game) => game.uuid === id);
+  const game = games.find((game) => game.id === id);
   const playerIdx = game?.players.findIndex((player) => player.pic === pic) ??
     -1;
   const player = playerIdx >= 0 ? game?.players[playerIdx] : undefined;
@@ -151,7 +151,7 @@ export const updateAction: RouterMiddleware<
     ctx.response.body = { status: "InvalidMatches" };
     return;
   }
-  if (game.gaming === false && game.ending === false) {
+  if (game.isGaming() === false && game.isEnded() === false) {
     ctx.response.status = 400;
     ctx.response.body = {
       status: "TooEarly",
@@ -159,7 +159,7 @@ export const updateAction: RouterMiddleware<
     };
     return;
   }
-  if (game.ending || game.isTransitionStep()) {
+  if (game.isEnded() || game.isTransitionStep()) {
     ctx.response.status = 400;
     ctx.response.body = {
       status: "UnacceptableTime",
@@ -175,7 +175,7 @@ export const updateAction: RouterMiddleware<
   const nowTurn = game.turn;
 
   actions.map((action) => {
-    const coreAgentId = getCoreAgentId(action.agentID, game.board.nagent);
+    const coreAgentId = getCoreAgentId(action.agentID, game.field.nAgent);
     const type = getTypeFromString(action.type);
     const agent = player.agents[coreAgentId];
 
@@ -197,7 +197,7 @@ export const updateAction: RouterMiddleware<
     );
     const actionIdx = newActions.findIndex((a) =>
       // TODO: AddActionとして関数に出したらどうだろう
-      a.agentid === coreAgentId
+      a.agentId === coreAgentId
     );
     if (actionIdx === -1) {
       newActions.push(newAction);
@@ -216,9 +216,9 @@ export const updateAction: RouterMiddleware<
 };
 
 function getActions(game: ExpGame) {
-  if (!game.isReady()) return []; // ゲーム開始前はアクションは必ず空配列
-  const playerNum = game.board.nplayer;
-  const agentNum = game.board.nagent;
+  if (game.isFree()) return []; // ゲーム開始前はアクションは必ず空配列
+  const playerNum = game.field.nPlayer;
+  const agentNum = game.field.nAgent;
   const prevAxisList: ({ x: number; y: number } | null)[] = new Array(
     playerNum * agentNum,
   );

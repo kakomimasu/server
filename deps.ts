@@ -17,15 +17,7 @@ export {
 export { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 export * from "https://deno.land/x/djwt@v2.3/mod.ts";
 
-export * as Core from "https://cdn.jsdelivr.net/gh/codeforkosen/Kakomimasu@457c2eaeff487207993c6eed47edbf3759447f2d/mod.ts";
-
-export * from "https://raw.githubusercontent.com/kakomimasu/client-deno/v1.0.0-beta.1/algorithm.js";
-export * from "https://raw.githubusercontent.com/kakomimasu/client-deno/v1.0.0-beta.1/client_a1.js";
-export * from "https://raw.githubusercontent.com/kakomimasu/client-deno/v1.0.0-beta.1/client_a2.js";
-export * from "https://raw.githubusercontent.com/kakomimasu/client-deno/v1.0.0-beta.1/client_a3.js";
-export * from "https://raw.githubusercontent.com/kakomimasu/client-deno/v1.0.0-beta.1/client_a4.js";
-export * from "https://raw.githubusercontent.com/kakomimasu/client-deno/v1.0.0-beta.1/client_a5.js";
-export * from "https://raw.githubusercontent.com/kakomimasu/client-deno/v1.0.0-beta.1/client_none.js";
+export * as Core from "https://cdn.jsdelivr.net/gh/codeforkosen/Kakomimasu@v2.0.0/mod.ts";
 
 // @deno-types="https://cdn.esm.sh/v61/firebase@9.18.0/app/dist/app/index.d.ts"
 export {

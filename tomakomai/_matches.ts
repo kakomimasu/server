@@ -1,6 +1,6 @@
 import { Core, Middleware, RouterMiddleware } from "../deps.ts";
 
-import { kkmm } from "../core/datas.ts";
+import { games } from "../core/datas.ts";
 import type { ExpGame } from "../core/expKakomimasu.ts";
 import { nowUnixTime, StateData } from "../core/util.ts";
 
@@ -33,12 +33,12 @@ export const matches: RouterMiddleware<
   const id = ctx.params.id;
   const pic = ctx.state.pic;
 
-  const game = kkmm.getGames().find((game) => game.uuid === id);
+  const game = games.find((game) => game.id === id);
   if (game?.players.find((player) => player.pic === pic) === undefined) { // 参加していない試合に対するリクエスト、また存在しない試合IDの場合
     ctx.response.status = 404;
     return;
   }
-  if (game.gaming === false && game.ending === false) { // 試合開始前のリクエストの場合
+  if (game.isGaming() === false && game.isEnded() === false) { // 試合開始前のリクエストの場合
     ctx.response.status = 425;
     const retryTime = game.startedAtUnixTime === null
       ? 0
@@ -55,36 +55,36 @@ export const matches: RouterMiddleware<
       return {
         x: agent.x + 1,
         y: agent.y + 1,
-        agentID: getAgentID(playerIdx, agentIdx, game.board.nagent),
+        agentID: getAgentID(playerIdx, agentIdx, game.field.nAgent),
       };
     });
     const { areaPoint, wallPoint } = playerPoints[playerIdx];
     return {
       teamID: pic === player.pic ? parseInt(player.pic) : 0,
-      agent: game.board.nagent,
+      agent: game.field.nAgent,
       agents,
       areaPoint,
       wallPoint,
     };
   });
 
-  const walls: number[][] = new Array(game.board.h);
-  const areas: number[][] = new Array(game.board.h);
-  const points: number[][] = new Array(game.board.h);
-  for (let y = 0; y < game.board.h; y++) {
-    walls[y] = new Array(game.board.w);
-    areas[y] = new Array(game.board.w);
-    points[y] = new Array(game.board.w);
-    for (let x = 0; x < game.board.w; x++) {
-      const idx = y * game.board.h + x;
-      points[y][x] = game.board.points[idx];
-      const tile = game.field.field[idx];
+  const walls: number[][] = new Array(game.field.height);
+  const areas: number[][] = new Array(game.field.height);
+  const points: number[][] = new Array(game.field.height);
+  for (let y = 0; y < game.field.height; y++) {
+    walls[y] = new Array(game.field.width);
+    areas[y] = new Array(game.field.width);
+    points[y] = new Array(game.field.width);
+    for (let x = 0; x < game.field.width; x++) {
+      const idx = y * game.field.height + x;
+      points[y][x] = game.field.points[idx];
+      const tile = game.field.tiles[idx];
       if (tile.type === Core.Field.WALL && tile.player !== null) {
         walls[y][x] = tile.player + 1;
       } else {
         walls[y][x] = 0;
       }
-      if (tile.type === Core.Field.BASE && tile.player !== null) {
+      if (tile.type === Core.Field.AREA && tile.player !== null) {
         areas[y][x] = tile.player + 1;
       } else {
         areas[y][x] = 0;
@@ -96,8 +96,8 @@ export const matches: RouterMiddleware<
   const body: MatchesRes = {
     turn: game.turn,
     startedAtUnixTime,
-    width: game.board.w,
-    height: game.board.h,
+    width: game.field.width,
+    height: game.field.height,
     teams,
     walls,
     areas,
@@ -117,7 +117,7 @@ export const updateAction: RouterMiddleware<
   const id = ctx.params.id;
   const pic = ctx.state.pic;
 
-  const game = kkmm.getGames().find((game) => game.uuid === id);
+  const game = games.find((game) => game.id === id);
   const playerIdx = game?.players.findIndex((player) => player.pic === pic) ??
     -1;
   const player = playerIdx >= 0 ? game?.players[playerIdx] : undefined;
@@ -125,7 +125,7 @@ export const updateAction: RouterMiddleware<
     ctx.response.status = 404;
     return;
   }
-  if (game.gaming === false && game.ending === false) { // 試合開始前のリクエストの場合
+  if (game.isGaming() === false && game.isEnded() === false) { // 試合開始前のリクエストの場合
     ctx.response.status = 425;
     const retryTime = game.startedAtUnixTime === null
       ? 0
@@ -133,7 +133,7 @@ export const updateAction: RouterMiddleware<
     ctx.response.headers.append("Retry-After", retryTime.toString());
     return;
   }
-  if (game.ending || game.isTransitionStep()) { // ターンとターンの間の時間や試合終了後にアクセスした場合
+  if (game.isEnded() || game.isTransitionStep()) { // ターンとターンの間の時間や試合終了後にアクセスした場合
     ctx.response.status = 400;
     return;
   }
@@ -147,7 +147,7 @@ export const updateAction: RouterMiddleware<
     actions.map((action) => {
       const coreAgentId = getCoreAgentId(
         action.agentID,
-        game.board.nagent,
+        game.field.nAgent,
         playerIdx,
       );
       if (coreAgentId === undefined) {
@@ -163,7 +163,7 @@ export const updateAction: RouterMiddleware<
       );
       const actionIdx = newActions.findIndex((a) =>
         // TODO: AddActionとして関数に出したらどうだろう
-        a.agentid === coreAgentId
+        a.agentId === coreAgentId
       );
       if (actionIdx === -1) {
         newActions.push(newAction);
@@ -186,9 +186,9 @@ export const updateAction: RouterMiddleware<
 };
 
 function getActions(game: ExpGame) {
-  if (!game.isReady()) return []; // ゲーム開始前はアクションは必ず空配列
-  const playerNum = game.board.nplayer;
-  const agentNum = game.board.nagent;
+  if (game.isFree()) return []; // ゲーム開始前はアクションは必ず空配列
+  const playerNum = game.field.nPlayer;
+  const agentNum = game.field.nAgent;
   const prevAxisList: ({ x: number; y: number } | null)[] = new Array(
     playerNum * agentNum,
   );

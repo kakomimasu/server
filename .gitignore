@@ -1,6 +1,3 @@
-# deno lock
-deno.lock
-
 # Environment File
 .env
 
