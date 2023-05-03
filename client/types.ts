@@ -47,7 +47,7 @@ export type JoinFreeMatchReq = JoinMatchReqBase & DryRunOption;
 export type JoinFreeMatchRes = JoinMatchRes;
 
 export type JoinAiMatchReq = JoinMatchReqBase & {
-  aiName: "none" | "a1" | "a2" | "a3" | "a4" | "a5";
+  aiName: "none" | "a1" | "a2" | "a3" | "a4";
   boardName?: string;
 } & DryRunOption;
 export type JoinAiMatchRes = JoinMatchRes;
