@@ -29,6 +29,10 @@ jobs:
         run: |
           deno task cache
       - name: Run test
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          FIREBASE_DATABASE_EMULATOR_HOST: ${{ secrets.FIREBASE_DATABASE_EMULATOR_HOST }}
+          FIREBASE_AUTH_EMULATOR_HOST: ${{ secrets.FIREBASE_AUTH_EMULATOR_HOST}}
         run: |
           deno task ci:test
       - name: Create coverage
