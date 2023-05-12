@@ -28,9 +28,12 @@ jobs:
       - name: Run cache & check
         run: |
           deno task cache
+      - name: Create Firebase service account
+        run: |
+          cat ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }} >> ./firebase-key.json
       - name: Run test
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          GOOGLE_APPLICATION_CREDENTIALS: "firebase-key.json"
           FIREBASE_DATABASE_EMULATOR_HOST: ${{ secrets.FIREBASE_DATABASE_EMULATOR_HOST }}
           FIREBASE_AUTH_EMULATOR_HOST: ${{ secrets.FIREBASE_AUTH_EMULATOR_HOST}}
         run: |
