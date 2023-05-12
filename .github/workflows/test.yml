@@ -25,12 +25,9 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.33.3
-      - name: Run cache & check
-        run: |
-          deno task cache
       - name: Create Firebase service account
         run: |
-          printf '%s' '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > ./firebase-key.json
+          printf '%s' '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > ./firebase-key.json
       - name: Run test
         env:
           GOOGLE_APPLICATION_CREDENTIALS: "firebase-key.json"
