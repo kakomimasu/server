@@ -30,7 +30,7 @@ jobs:
           deno task cache
       - name: Create Firebase service account
         run: |
-          echo -n "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}" > ./firebase-key.json
+          printf '%s' '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > ./firebase-key.json
       - name: Run test
         env:
           GOOGLE_APPLICATION_CREDENTIALS: "firebase-key.json"
