@@ -34,5 +34,7 @@ Deno.test({
 
     const status = await child.status;
     assert(status.success);
+
+    setTimeout(() => Deno.exit(0), 100);
   },
 });

@@ -1,11 +1,11 @@
 name: CI
 
-on: 
+on:
   workflow_dispatch:
-  push: 
+  push:
     branches:
       - main
-  pull_request: 
+  pull_request:
 
 jobs:
   check:
@@ -29,10 +29,6 @@ jobs:
         run: |
           deno task cache
       - name: Run test
-        env:
-          FIREBASE_USERNAME: test@example.com
-          FIREBASE_PASSWORD: server-admin
-          FIREBASE_TEST: true
         run: |
           deno task ci:test
       - name: Create coverage
