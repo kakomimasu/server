@@ -3,7 +3,6 @@
 
 # Firebase
 firebase-emulator/firebase
-firebase-emulator/*.log
 firebase-key.json
 
 # Coverage
