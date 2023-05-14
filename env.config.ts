@@ -9,7 +9,7 @@ export const config = {
   DISCORD_WEBHOOK_URL: { // 予期しないエラーが発生したときにDiscordのチャンネルに投稿するようのWebhook URL
     require: false,
   },
-  GOOGLE_APPLICATION_CREDENTIALS: { // Firebase Admin SDKの認証情報
+  FIREBASE_CONFIG: { // Firebase Admin SDKの認証情報
     require: true,
   },
   FIREBASE_DATABASE_EMULATOR_HOST: { // Firebase Database emulatorのEmulator先を指定

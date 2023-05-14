@@ -10,12 +10,10 @@
   },
   "lock": false,
   "fmt": {
-    "files": { "exclude": ["firebase-emulator/"] }
+    "exclude": ["firebase-emulator/"]
   },
   "test": {
-    "files": {
-      "include": [""],
-      "exclude": ["test.ts"]
-    }
+    "include": [""],
+    "exclude": ["test.ts"]
   }
 }

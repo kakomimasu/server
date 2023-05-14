@@ -13,16 +13,19 @@ https://api.kakomimasu.com
 | PORT                            | リクエストを受信するポート                                   | `"8880"`   |
 | BOARDNAME                       | フリーマッチで使われるボード<br>指定なしでランダムに選ばれる |            |
 | DISCORD_WEBHOOK_URL             | 予期しないエラー発生時のDiscordチャンネルWebHook URL         |            |
-| GOOGLE_APPLICATION_CREDENTIALS  | Firebaseサービスアカウント認証情報 ※1                        |            |
+| FIREBASE_CONFIG                 | Firebaseサービスアカウント認証情報 ※1                        |            |
 | FIREBASE_DATABASE_EMULATOR_HOST | Firebase Database emulatorの接続先を指定 ※2                  |            |
 | FIREBASE_AUTH_EMULATOR_HOST     | Firebase Auth emulatorの接続先を指定 ※3                      |            |
 | VERSION                         | 現在のバージョン名<br> `/version`アクセス時に使用される      | `"local"`  |
 
 ※ `.env`ファイルが使用できます。([dotenv](https://deno.land/std/dotenv/mod.ts))
+
 ※1
-`GOOGLE_APPLICATION_CREDENTIALS`は[Admin SDKへの接続方法](https://firebase.google.com/docs/admin/setup?hl=ja#initialize_the_sdk_in_non-google_environments)を参照
+`FIREBASE_CONFIG`は[SDKを初期化する](https://firebase.google.com/docs/admin/setup?authuser=0&hl=ja#initialize-sdk)を参照
+
 ※2
 `FIREBASE_DATABASE_EMULATOR_HOST`は[Database Emulatorへの接続方法](https://firebase.google.com/docs/emulator-suite/connect_rtdb?hl=ja)を参照
+
 ※3
 `FIREBASE_AUTH_EMULATOR_HOST`は[Auth Emulatorへの接続方法](https://firebase.google.com/docs/emulator-suite/connect_auth?hl=ja)を参照
 
@@ -62,7 +65,7 @@ OpenAPIにて定義されています。
 ### 1. 環境変数を設定する
 
 Firebase
-Emulatorに接続するために、以下の環境変数と、`GOOGLE_APPLICATION_CREDENTIALS`の適切な設定が必要です。
+Emulatorに接続するために、以下の環境変数と、`FIREBASE_CONFIG`の適切な設定が必要です。
 
 ```
 FIREBASE_DATABASE_EMULATOR_HOST=127.0.0.1:9000
