@@ -8,6 +8,8 @@ import { app } from "../core/firebase.ts";
 import { ResponseType } from "../util/openapi-type.ts";
 import { openapi, validator } from "./parts/openapi.ts";
 
+const fbAuth = app.auth();
+
 export const userRouter = () => {
   const router = new Router();
 
@@ -131,6 +133,7 @@ export const userRouter = () => {
       const user = accounts.getUsers()[index];
       if (reqData.dryRun !== true) {
         accounts.deleteUser(index);
+        fbAuth.deleteUser(user.id);
       }
       const body: ResponseType<
         "/users/{userIdOrName}",
