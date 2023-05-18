@@ -2,7 +2,7 @@ import { Context } from "../deps.ts";
 
 import { accounts } from "../core/datas.ts";
 import { errorCodeResponse, errors, ServerError } from "../core/error.ts";
-import { getPayload } from "./parts/jwt.ts";
+import { app } from "../core/firebase.ts";
 
 export const auth = (
   { bearer, jwt, required = true }: {
@@ -26,9 +26,14 @@ async (ctx: Context, next: () => Promise<unknown>) => { // Authorizationヘッ�
         return;
       }
     } else if (jwt) {
-      const payload = await getPayload(auth);
+      let payload;
+      try {
+        payload = await app.auth().verifyIdToken(auth);
+      } catch (_) {
+        //
+      }
       if (payload) {
-        const id = payload.user_id;
+        const id = payload.uid;
         const account = accounts.getUsers().find((user) => user.id === id);
         if (account) {
           ctx.state.authed_userId = account.id;

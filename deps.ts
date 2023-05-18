@@ -19,29 +19,8 @@ export * from "https://deno.land/x/djwt@v2.3/mod.ts";
 
 export * as Core from "https://cdn.jsdelivr.net/gh/codeforkosen/Kakomimasu@v2.0.0/mod.ts";
 
-// @deno-types="https://cdn.esm.sh/v61/firebase@9.18.0/app/dist/app/index.d.ts"
-export {
-  type FirebaseOptions,
-  initializeApp,
-} from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
-
-// @deno-types="https://cdn.esm.sh/v61/firebase@9.18.0/app/dist/auth/index.d.ts"
-export {
-  connectAuthEmulator,
-  createUserWithEmailAndPassword,
-  getAuth,
-  signInWithEmailAndPassword,
-  type UserCredential,
-} from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
-
-// @deno-types="https://cdn.esm.sh/v61/firebase@9.18.0/app/dist/database/index.d.ts"
-export {
-  connectDatabaseEmulator,
-  get,
-  getDatabase,
-  ref,
-  set,
-} from "https://www.gstatic.com/firebasejs/9.18.0/firebase-database.js";
+export { default as admin } from "npm:firebase-admin";
+export * as adminApp from "npm:firebase-admin/app";
 
 export {
   type OpenAPIObject,

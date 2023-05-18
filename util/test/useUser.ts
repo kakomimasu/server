@@ -1,30 +1,33 @@
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  UserCredential,
-} from "../../deps.ts";
-import { assert } from "../../deps-test.ts";
+import { assert, firebaseJsAuth } from "../../deps-test.ts";
+import { initFirebaseClient } from "../../test/firebase-js-sdk.ts";
 
-import { firebaseInit } from "../../core/firebase.ts";
+import { app } from "../../core/firebase.ts";
 
 import ApiClient, { User } from "../../client/client.ts";
 
-await firebaseInit();
-const auth = getAuth();
+const auth = app.auth();
 
 const ac = new ApiClient();
 
+const { auth: clientAuth } = initFirebaseClient();
+
 export async function createFirebaseUser() {
-  const u = await createUserWithEmailAndPassword(
-    auth,
-    `${crypto.randomUUID()}@example.com`,
-    "test-client",
+  const userRecord = await auth.createUser({
+    email: `${crypto.randomUUID()}@example.com`,
+    password: "test-client",
+  });
+  const userCredential = await firebaseJsAuth.signInWithCustomToken(
+    clientAuth,
+    await auth.createCustomToken(userRecord.uid),
   );
-  return u;
+  return userCredential;
 }
 
 export async function useUser(
-  runFn: (user: Required<User>, firebaseUser: UserCredential) => Promise<void>,
+  runFn: (
+    user: Required<User>,
+    firebaseUser: firebaseJsAuth.UserCredential,
+  ) => Promise<void>,
 ) {
   // 新規Firebaseユーザ作成
   const u = await createFirebaseUser();

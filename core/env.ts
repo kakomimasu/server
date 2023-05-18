@@ -30,31 +30,5 @@ Object.entries(config).forEach(([key, data]) => {
   env[key] = value ?? data.default;
 });
 
-// Deno.envを使った時にエラーを吐くようにする
-const oldEnvGet = Deno.env.get;
-const oldEnvSet = Deno.env.set;
-const oldEnvToObject = Deno.env.toObject;
-const oldEnvDelete = Deno.env.delete;
-const deprecatedConsoleLog = (funcName: string) =>
-  console.warn(
-    Colors.red(`${funcName} is deprecated. Use 'core/env.ts' instead.`),
-  );
-Deno.env.get = (key) => {
-  deprecatedConsoleLog("Deno.env.get");
-  return oldEnvGet(key);
-};
-Deno.env.set = (key, value) => {
-  deprecatedConsoleLog("Deno.env.set");
-  return oldEnvSet(key, value);
-};
-Deno.env.delete = (key) => {
-  deprecatedConsoleLog("Deno.env.delete");
-  return oldEnvDelete(key);
-};
-Deno.env.toObject = () => {
-  deprecatedConsoleLog("Deno.env.toObject");
-  return oldEnvToObject();
-};
-
 // console.log(env);
 console.log(Colors.green("[env]\tChecked environment"));

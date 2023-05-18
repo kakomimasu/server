@@ -1,4 +1,4 @@
-FROM denoland/deno:alpine-1.31.3
+FROM denoland/deno:alpine-1.33.3
 
 EXPOSE $PORT
 

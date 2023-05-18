@@ -9,19 +9,14 @@ export const config = {
   DISCORD_WEBHOOK_URL: { // 予期しないエラーが発生したときにDiscordのチャンネルに投稿するようのWebhook URL
     require: false,
   },
-  FIREBASE_TEST: { // firebase emulatorを使うかどうか
-    require: false,
-    default: "false",
-  },
-  FIREBASE_EMULATOR_HOST: {
-    require: false,
-    default: "localhost",
-  },
-  FIREBASE_USERNAME: { // firebase の管理者ユーザ名
+  GOOGLE_APPLICATION_CREDENTIALS: { // Firebase Admin SDKの認証情報
     require: true,
   },
-  FIREBASE_PASSWORD: { // firebase の管理者パスワード
-    require: true,
+  FIREBASE_DATABASE_EMULATOR_HOST: { // Firebase Database emulatorのEmulator先を指定
+    require: false,
+  },
+  FIREBASE_AUTH_EMULATOR_HOST: { // Firebase Auth emulatorのEmulator先を指定
+    require: false,
   },
   VERSION: {
     require: false,
