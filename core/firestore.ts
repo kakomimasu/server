@@ -1,6 +1,16 @@
+import {
+  get,
+  getAuth,
+  getDatabase,
+  ref,
+  set,
+  signInWithEmailAndPassword,
+} from "../deps.ts";
+
+import { env } from "./env.ts";
 import type { Board, ExpGame } from "./expKakomimasu.ts";
 import type { Tournament, User } from "./datas.ts";
-import { app } from "./firebase.ts";
+import { firebaseInit } from "./firebase.ts";
 
 export interface FUser {
   screenName: string;
@@ -19,14 +29,23 @@ export interface FTournament {
   gameIds: string[] | null;
 }
 
-const db = app.database();
+firebaseInit();
+const auth = getAuth();
+const db = getDatabase();
+
+/** 管理ユーザでログイン */
+await signInWithEmailAndPassword(
+  auth,
+  env.FIREBASE_USERNAME,
+  env.FIREBASE_PASSWORD,
+);
 
 /** 全ユーザ保存 */
 export async function setAllUsers(users: User[]): Promise<void> {
   if (users.length == 0) {
     return;
   }
-  const usersRef = db.ref("users");
+  const usersRef = ref(db, "users");
   const users2: FUser[] = users.map((a) => {
     return {
       screenName: a.screenName,
@@ -35,14 +54,14 @@ export async function setAllUsers(users: User[]): Promise<void> {
       bearerToken: a.bearerToken,
     };
   });
-  await usersRef.set(users2);
+  await set(usersRef, users2);
 }
 
 /** 全ユーザ取得 */
 export async function getAllUsers(): Promise<FUser[]> {
   const users: FUser[] = [];
-  const usersRef = db.ref("users");
-  const snap = await usersRef.get();
+  const usersRef = ref(db, "users");
+  const snap = await get(usersRef);
   snap.forEach((doc) => {
     users.push(doc.val());
   });
@@ -53,15 +72,15 @@ export async function getAllUsers(): Promise<FUser[]> {
 export async function setAllTournaments(
   tournaments: Tournament[],
 ): Promise<void> {
-  const tournamentsRef = db.ref("tournaments");
-  await tournamentsRef.set(tournaments);
+  const tournamentsRef = ref(db, "tournaments");
+  await set(tournamentsRef, tournaments);
 }
 
 /** 全大会取得 */
 export async function getAllTournaments(): Promise<FTournament[]> {
   const tournaments: FTournament[] = [];
-  const usersRef = db.ref("tournaments");
-  const snap = await usersRef.get();
+  const usersRef = ref(db, "tournaments");
+  const snap = await get(usersRef);
   snap.forEach((doc) => {
     tournaments.push(doc.val());
   });
@@ -72,23 +91,23 @@ export async function getAllTournaments(): Promise<FTournament[]> {
 export async function setGame(
   game: ExpGame,
 ): Promise<void> {
-  const gameRef = db.ref("games/" + game.id);
+  const gameRef = ref(db, "games/" + game.id);
   const gameJson = game.toLogJSON();
   const gameJson2 = JSON.parse(JSON.stringify(gameJson));
-  await gameRef.set(gameJson2);
+  await set(gameRef, gameJson2);
 }
 
 /** 全ゲーム取得 */
 export async function getAllGameSnapShot() {
-  const gamesRef = db.ref("games");
-  const snap = await gamesRef.get();
+  const gamesRef = ref(db, "games");
+  const snap = await get(gamesRef);
   return snap;
 }
 
 /** ボードを1つ取得 */
 export async function getBoard(id: string): Promise<Board | undefined> {
-  const boardsRef = db.ref("boards/" + id);
-  const snap = await boardsRef.get();
+  const boardsRef = ref(db, "boards/" + id);
+  const snap = await get(boardsRef);
   const rawBoard = snap.val();
   if (rawBoard) {
     const board = (snap.val()) as Board;
@@ -98,8 +117,8 @@ export async function getBoard(id: string): Promise<Board | undefined> {
 
 /** ボードをすべて取得 */
 export async function getAllBoards(): Promise<Board[]> {
-  const boardsRef = db.ref("boards");
-  const snap = await boardsRef.get();
+  const boardsRef = ref(db, "boards");
+  const snap = await get(boardsRef);
   const boards: Board[] = [];
   // deno-lint-ignore no-explicit-any
   snap.forEach((doc: any) => {
@@ -111,6 +130,6 @@ export async function getAllBoards(): Promise<Board[]> {
 /** ボード保存(JSONから) */
 // deno-lint-ignore no-explicit-any
 export async function setBoard(board: any): Promise<void> {
-  const boardsRef = db.ref("boards/" + board.name);
-  await boardsRef.set(board);
+  const boardsRef = ref(db, "boards/" + board.name);
+  await set(boardsRef, board);
 }

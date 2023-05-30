@@ -25,14 +25,11 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.33.3
-      - name: Create Firebase service account
-        run: |
-          printf '%s' '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > ./firebase-key.json
       - name: Run test
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: "firebase-key.json"
-          FIREBASE_DATABASE_EMULATOR_HOST: ${{ secrets.FIREBASE_DATABASE_EMULATOR_HOST }}
-          FIREBASE_AUTH_EMULATOR_HOST: ${{ secrets.FIREBASE_AUTH_EMULATOR_HOST}}
+          FIREBASE_USERNAME: test@example.com
+          FIREBASE_PASSWORD: server-admin
+          FIREBASE_TEST: true
         run: |
           deno task ci:test
       - name: Create coverage
