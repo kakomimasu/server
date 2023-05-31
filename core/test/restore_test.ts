@@ -1,7 +1,6 @@
 import { assertEquals, delay } from "../../deps-test.ts";
 import { Core } from "../../deps.ts";
 import { ExpGame, Player } from "../expKakomimasu.ts";
-import { app } from "../firebase.ts";
 
 // deno-lint-ignore no-explicit-any
 function firebaseSave(obj: any) {
@@ -14,60 +13,52 @@ function firebaseSave(obj: any) {
 }
 
 Deno.test({
-  name: "restore test",
-  async fn(t) {
-    app.database().goOnline();
-
-    await t.step({
-      name: "ExpGame class",
-      fn() {
-        const game = new ExpGame({
-          width: 2,
-          height: 2,
-          points: [1, 2, 3, 4],
-          nAgent: 1,
-          totalTurn: 1,
-          operationSec: 1,
-          nPlayer: 2,
-        });
-        const restoredGame = ExpGame.fromJSON(game.toLogJSON());
-        assertEquals(game, restoredGame);
-      },
+  name: "restore ExpGame class",
+  fn() {
+    const game = new ExpGame({
+      width: 2,
+      height: 2,
+      points: [1, 2, 3, 4],
+      nAgent: 1,
+      totalTurn: 10,
+      operationSec: 1,
+      nPlayer: 2,
     });
+    const restoredGame = ExpGame.fromJSON(game.toLogJSON());
+    assertEquals(game, restoredGame);
+  },
+  sanitizeOps: false,
+});
 
-    await t.step({
-      name: "ExpGame class",
-      async fn() {
-        const game = new ExpGame({
-          width: 2,
-          height: 2,
-          points: [1, 2, 3, 4],
-          nAgent: 1,
-          totalTurn: 1,
-          operationSec: 1,
-          nPlayer: 2,
-        });
-        const p1 = new Player("p1");
-        const p2 = new Player("p2");
-        game.attachPlayer(p1);
-        game.attachPlayer(p2);
-        p1.setActions([new Core.Action(0, 1, 0, 1)]);
-
-        while (game.isEnded() === false) {
-          await delay(1000);
-        }
-
-        const restoredGame = ExpGame.fromJSON(
-          firebaseSave(JSON.parse(JSON.stringify(game.toLogJSON()))),
-        );
-        assertEquals(
-          JSON.parse(JSON.stringify(game.toLogJSON())),
-          JSON.parse(JSON.stringify(restoredGame.toLogJSON())),
-        );
-      },
+Deno.test({
+  name: "restore ExpGame class",
+  async fn() {
+    const game = new ExpGame({
+      width: 2,
+      height: 2,
+      points: [1, 2, 3, 4],
+      nAgent: 1,
+      totalTurn: 10,
+      operationSec: 1,
+      nPlayer: 2,
     });
+    const p1 = new Player("p1");
+    const p2 = new Player("p2");
+    game.attachPlayer(p1);
+    game.attachPlayer(p2);
+    p1.setActions([new Core.Action(0, 1, 0, 1)]);
 
-    app.database().goOffline();
+    while (game.turn < 2) {
+      await delay(1000);
+    }
+
+    const restoredGame = ExpGame.fromJSON(
+      firebaseSave(JSON.parse(JSON.stringify(game.toLogJSON()))),
+    );
+    assertEquals(
+      JSON.parse(JSON.stringify(game.toLogJSON())),
+      JSON.parse(JSON.stringify(restoredGame.toLogJSON())),
+    );
   },
   sanitizeOps: false,
   sanitizeResources: false,

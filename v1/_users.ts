@@ -4,11 +4,9 @@ import { contentTypeFilter, jsonParse } from "./util.ts";
 import { errorCodeResponse, errors, ServerError } from "../core/error.ts";
 import { auth } from "./middleware.ts";
 import { accounts, User } from "../core/datas.ts";
-import { app } from "../core/firebase.ts";
 import { ResponseType } from "../util/openapi-type.ts";
+import { getPayload } from "./parts/jwt.ts";
 import { openapi, validator } from "./parts/openapi.ts";
-
-const fbAuth = app.auth();
 
 export const userRouter = () => {
   const router = new Router();
@@ -48,14 +46,9 @@ export const userRouter = () => {
         throw new ServerError(errors.ALREADY_REGISTERED_NAME);
       }
 
-      let payload;
-      try {
-        payload = await app.auth().verifyIdToken(idToken);
-      } catch (_) {
-        throw new ServerError(errors.INVALID_USER_AUTHORIZATION);
-      }
-      const id = payload.uid;
-
+      const payload = await getPayload(idToken);
+      if (!payload) throw new ServerError(errors.INVALID_USER_AUTHORIZATION);
+      const id = payload.user_id;
       if (accounts.getUsers().some((e) => e.id === id)) {
         throw new ServerError(errors.ALREADY_REGISTERED_USER);
       }
@@ -133,7 +126,6 @@ export const userRouter = () => {
       const user = accounts.getUsers()[index];
       if (reqData.dryRun !== true) {
         accounts.deleteUser(index);
-        fbAuth.deleteUser(user.id);
       }
       const body: ResponseType<
         "/users/{userIdOrName}",
