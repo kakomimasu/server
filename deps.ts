@@ -17,7 +17,7 @@ export {
 export { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 export * from "https://deno.land/x/djwt@v2.3/mod.ts";
 
-export * as Core from "https://cdn.jsdelivr.net/gh/codeforkosen/Kakomimasu@v2.0.0/mod.ts";
+export * as Core from "https://cdn.jsdelivr.net/gh/codeforkosen/Kakomimasu@v2.0.1/mod.ts";
 
 // @deno-types="https://cdn.esm.sh/v61/firebase@9.18.0/app/dist/app/index.d.ts"
 export {
