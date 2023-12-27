@@ -15,8 +15,9 @@ type _HalfEquals<A, B> = (
   A extends unknown ? (
       B extends unknown
         ? A extends B
-          ? B extends A ? keyof A extends keyof B ? keyof B extends keyof A
-                // deno-lint-ignore ban-types
+          ? B extends A
+            ? keyof A extends keyof B
+              ? keyof B extends keyof A
                 ? A extends object
                   ? _DeepHalfEquals<A, B, keyof A> extends true ? 1
                   : never
