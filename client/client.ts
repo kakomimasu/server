@@ -20,7 +20,6 @@ export default class ApiClient {
     init: {
       auth?: string;
       method?: "POST" | "PATCH" | "DELETE";
-      // deno-lint-ignore ban-types
       data?: object;
     } | { auth?: string; method?: "GET" } = {},
   ): Promise<ApiRes<T>> {
