@@ -116,7 +116,14 @@ router.post(
     if (!board) throw new ServerError(errors.INVALID_BOARD_NAME);
 
     const game: ExpGame = new ExpGame(
-      { ...board, nPlayer: reqJson.nPlayer },
+      {
+        ...board,
+        nPlayer: reqJson.nPlayer,
+        nAgent: reqJson.nAgent,
+        totalTurn: reqJson.totalTurn,
+        operationSec: reqJson.operationSec,
+        transitionSec: reqJson.transitionSec,
+      },
       reqJson.name,
     );
     if (!reqJson.dryRun) {

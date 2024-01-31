@@ -121,6 +121,24 @@ Deno.test("POST v1/matches:normal with playerIdentifiers", async () => {
     assertGame(res.data, { ...data, reservedUsers: [user.id] });
   });
 });
+Deno.test("POST v1/matches:normal add options", async () => {
+  const res = await ac.createMatch({
+    ...data,
+    dryRun: true,
+    nAgent: 1,
+    nPlayer: 3,
+    totalTurn: 1,
+    operationSec: 10,
+    transitionSec: 10,
+  });
+  assertcreateMatchRes(res.data, 200);
+  assertGame(res.data, data);
+  assertEquals(res.data.nAgent, 1);
+  assertEquals(res.data.nPlayer, 3);
+  assertEquals(res.data.totalTurn, 1);
+  assertEquals(res.data.operationSec, 10);
+  assertEquals(res.data.transitionSec, 10);
+});
 Deno.test("POST v1/matches:invalid boardName", async () => {
   {
     const res = await ac.createMatch({ ...data, boardName: "" });

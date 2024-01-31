@@ -320,7 +320,23 @@ export const openapi = {
                     },
                     nPlayer: {
                       type: "integer",
-                      description: "参加人数（2~4、デフォルトは2人）。",
+                      description: "プレイヤー数（2~4、デフォルトは2人）。",
+                    },
+                    nAgent: {
+                      type: "integer",
+                      description: "エージェント数",
+                    },
+                    totalTurn: {
+                      type: "integer",
+                      description: "ターン数",
+                    },
+                    operationSec: {
+                      type: "integer",
+                      description: "行動ステップ時間(秒)",
+                    },
+                    transitionSec: {
+                      type: "integer",
+                      description: "遷移ステップ時間(秒)",
                     },
                     playerIdentifiers: {
                       type: "array",

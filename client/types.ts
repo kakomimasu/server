@@ -76,6 +76,10 @@ export type CreateMatchReq = {
   name?: string;
   boardName: string;
   nPlayer?: number;
+  nAgent?: number;
+  totalTurn?: number;
+  operationSec?: number;
+  transitionSec?: number;
   playerIdentifiers?: string[];
   tournamentId?: string;
   isPersonal?: boolean;
