@@ -9,17 +9,17 @@ import { diffTime, sleep } from "./client_util.ts";
 
 import { validator } from "../parts/openapi.ts";
 
-import createGameSample from "./sample/createGame_sample.json" assert {
+import createGameSample from "./sample/createGame_sample.json" with {
   type: "json",
 };
-import matchSample from "./sample/match_sample.json" assert { type: "json" };
-import matchGameInfoSample from "./sample/matchGameInfo_sample.json" assert {
+import matchSample from "./sample/match_sample.json" with { type: "json" };
+import matchGameInfoSample from "./sample/matchGameInfo_sample.json" with {
   type: "json",
 };
-import afterActionSample from "./sample/afterAction_sample.json" assert {
+import afterActionSample from "./sample/afterAction_sample.json" with {
   type: "json",
 };
-import afterActionSample2 from "./sample/afterAction_sample2.json" assert {
+import afterActionSample2 from "./sample/afterAction_sample2.json" with {
   type: "json",
 };
 
