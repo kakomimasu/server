@@ -103,6 +103,26 @@ export const openapi = {
                         boardName: {
                           type: "string",
                         },
+                        nAgent: {
+                          type: "integer",
+                          description: "エージェント数",
+                        },
+                        nPlayer: {
+                          type: "integer",
+                          description: "プレイヤー数",
+                        },
+                        totalTurn: {
+                          type: "integer",
+                          description: "ターン数",
+                        },
+                        operationSec: {
+                          type: "integer",
+                          description: "行動ステップ時間(秒)",
+                        },
+                        transitionSec: {
+                          type: "integer",
+                          description: "遷移ステップ時間(秒)",
+                        },
                       },
                       example: {
                         aiName: "a1",

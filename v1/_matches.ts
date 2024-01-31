@@ -4,7 +4,7 @@ import { nowUnixTime } from "../core/util.ts";
 import { accounts, games, tournaments } from "../core/datas.ts";
 import { errors, ServerError } from "../core/error.ts";
 import { getAllBoards, getBoard } from "../core/firestore.ts";
-import { ExpGame, Player } from "../core/expKakomimasu.ts";
+import { ExpGame, GameInit, Player } from "../core/expKakomimasu.ts";
 import { env } from "../core/env.ts";
 import { ResponseType, SchemaType } from "../util/openapi-type.ts";
 import { aiList } from "./parts/ai-list.ts";
@@ -317,7 +317,16 @@ router.post(
     const brd = bname ? await getBoard(bname) : await getRandomBoard(); //readBoard(bname);
     if (!brd) throw new ServerError(errors.INVALID_BOARD_NAME);
     if (!reqData.dryRun) {
-      const game = new ExpGame(brd);
+      const init: GameInit = brd;
+
+      // オプション適用
+      if (reqData.nAgent) init.nAgent = reqData.nAgent;
+      if (reqData.nPlayer) init.nPlayer = reqData.nPlayer;
+      if (reqData.totalTurn) init.totalTurn = reqData.totalTurn;
+      if (reqData.operationSec) init.operationSec = reqData.operationSec;
+      if (reqData.transitionSec) init.transitionSec = reqData.transitionSec;
+
+      const game = new ExpGame(init);
       games.push(game);
       if (player.type === "account") {
         const authedUserId = ctx.state.authed_userId as string;

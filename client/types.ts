@@ -49,6 +49,11 @@ export type JoinFreeMatchRes = JoinMatchRes;
 export type JoinAiMatchReq = JoinMatchReqBase & {
   aiName: "none" | "a1" | "a2" | "a3" | "a4";
   boardName?: string;
+  nAgent?: number;
+  nPlayer?: number;
+  totalTurn?: number;
+  operationSec?: number;
+  transitionSec?: number;
 } & DryRunOption;
 export type JoinAiMatchRes = JoinMatchRes;
 

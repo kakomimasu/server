@@ -343,6 +343,29 @@ Deno.test("POST v1/matches/ai/players:normal by guest", async () => {
   assertMatchesAiPlayersRes(res.data, 200);
   assertMatch(res.data, { userId: "test" });
 });
+Deno.test("POST v1/matches/ai/players:normal by options", async () => {
+  const data = {
+    aiName: "a1",
+    guestName: "test",
+    nAgent: 1, // オプション変更
+    nPlayer: 3, // オプション変更
+    totalTurn: 1, // オプション変更
+    operationSec: 10, // オプション変更
+    transitionSec: 10, // オプション変更
+  };
+  const res = await ac.joinAiMatch(data);
+  assertMatchesAiPlayersRes(res.data, 200);
+  assertMatch(res.data, { userId: "test" });
+
+  const matchRes = await ac.getMatch(res.data.gameId);
+  if (matchRes.success === false) throw new Error(matchRes.message);
+  const game = matchRes.data;
+  assertEquals(game.nAgent, 1);
+  assertEquals(game.nPlayer, 3);
+  assertEquals(game.totalTurn, 1);
+  assertEquals(game.operationSec, 10);
+  assertEquals(game.transitionSec, 10);
+});
 
 Deno.test("POST v1/matches/ai/players:can not find ai", async () => {
   await useUser(async (user) => {
