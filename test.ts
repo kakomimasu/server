@@ -23,6 +23,7 @@ Deno.test({
         "--allow-read",
         "--allow-env",
         "--allow-net",
+        "--ignore=test.ts",
         ...Deno.args,
       ],
       stdout: "piped",
