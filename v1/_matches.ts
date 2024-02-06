@@ -4,7 +4,7 @@ import { nowUnixTime } from "../core/util.ts";
 import { accounts, games, tournaments } from "../core/datas.ts";
 import { errors, ServerError } from "../core/error.ts";
 import { getAllBoards, getBoard } from "../core/firestore.ts";
-import { ExpGame, Player } from "../core/expKakomimasu.ts";
+import { ExpGame, GameInit, Player } from "../core/expKakomimasu.ts";
 import { env } from "../core/env.ts";
 import { ResponseType, SchemaType } from "../util/openapi-type.ts";
 import { aiList } from "./parts/ai-list.ts";
@@ -115,10 +115,16 @@ router.post(
     const board = await getBoard(reqJson.boardName);
     if (!board) throw new ServerError(errors.INVALID_BOARD_NAME);
 
-    const game: ExpGame = new ExpGame(
-      { ...board, nPlayer: reqJson.nPlayer },
-      reqJson.name,
-    );
+    const init: GameInit = board;
+
+    // オプション適用
+    if (reqJson.nAgent) init.nAgent = reqJson.nAgent;
+    if (reqJson.nPlayer) init.nPlayer = reqJson.nPlayer;
+    if (reqJson.totalTurn) init.totalTurn = reqJson.totalTurn;
+    if (reqJson.operationSec) init.operationSec = reqJson.operationSec;
+    if (reqJson.transitionSec) init.transitionSec = reqJson.transitionSec;
+
+    const game: ExpGame = new ExpGame(init, reqJson.name);
     if (!reqJson.dryRun) {
       games.push(game);
       game.wsSend();
@@ -317,7 +323,15 @@ router.post(
     const brd = bname ? await getBoard(bname) : await getRandomBoard(); //readBoard(bname);
     if (!brd) throw new ServerError(errors.INVALID_BOARD_NAME);
     if (!reqData.dryRun) {
-      const game = new ExpGame(brd);
+      const init: GameInit = brd;
+
+      // オプション適用
+      if (reqData.nAgent) init.nAgent = reqData.nAgent;
+      if (reqData.totalTurn) init.totalTurn = reqData.totalTurn;
+      if (reqData.operationSec) init.operationSec = reqData.operationSec;
+      if (reqData.transitionSec) init.transitionSec = reqData.transitionSec;
+
+      const game = new ExpGame(init);
       games.push(game);
       if (player.type === "account") {
         const authedUserId = ctx.state.authed_userId as string;

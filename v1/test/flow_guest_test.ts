@@ -8,19 +8,19 @@ import { diffTime, sleep } from "./client_util.ts";
 
 const ac = new ApiClient();
 
-import createGameSample from "./sample_guest/createGame_sample.json" assert {
+import createGameSample from "./sample_guest/createGame_sample.json" with {
   type: "json",
 };
-import matchSample from "./sample_guest/match_sample.json" assert {
+import matchSample from "./sample_guest/match_sample.json" with {
   type: "json",
 };
-import matchGameInfoSample from "./sample_guest/matchGameInfo_sample.json" assert {
+import matchGameInfoSample from "./sample_guest/matchGameInfo_sample.json" with {
   type: "json",
 };
-import afterActionSample from "./sample_guest/afterAction_sample.json" assert {
+import afterActionSample from "./sample_guest/afterAction_sample.json" with {
   type: "json",
 };
-import afterActionSample2 from "./sample_guest/afterAction_sample2.json" assert {
+import afterActionSample2 from "./sample_guest/afterAction_sample2.json" with {
   type: "json",
 };
 

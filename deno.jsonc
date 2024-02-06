@@ -13,7 +13,7 @@
     "exclude": ["firebase-emulator/"]
   },
   "test": {
-    "include": [""],
-    "exclude": ["test.ts"]
+    "include": [""]
+    // "exclude": ["test.ts"] // deno v1.40.2に移行時にexcludeが入っていると直接test.tsを指定しても実行されなくなってしまったのでコメントアウト
   }
 }

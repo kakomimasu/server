@@ -80,7 +80,7 @@ export const openapi = {
     "/matches/ai/players": {
       post: {
         description:
-          "サーバ上のAIと対戦するゲームに参加できます。作成したプログラムの動作確認等に便利です。<br>`guestName`を指定してゲスト参加する場合、認証情報は要りません。",
+          "サーバ上のAIと対戦するゲームに参加できます。作成したプログラムの動作確認等に便利です。<br>なお、プレイヤー数は2で固定になります。<br>`guestName`を指定してゲスト参加する場合、認証情報は要りません。",
         summary: "ゲーム参加(AI対戦)",
         tags: ["Matches API"],
         security: [{}, { "Bearer": [] }],
@@ -102,6 +102,22 @@ export const openapi = {
                         },
                         boardName: {
                           type: "string",
+                        },
+                        nAgent: {
+                          type: "integer",
+                          description: "エージェント数",
+                        },
+                        totalTurn: {
+                          type: "integer",
+                          description: "ターン数",
+                        },
+                        operationSec: {
+                          type: "integer",
+                          description: "行動ステップ時間(秒)",
+                        },
+                        transitionSec: {
+                          type: "integer",
+                          description: "遷移ステップ時間(秒)",
                         },
                       },
                       example: {
@@ -300,7 +316,23 @@ export const openapi = {
                     },
                     nPlayer: {
                       type: "integer",
-                      description: "参加人数（2~4、デフォルトは2人）。",
+                      description: "プレイヤー数（2~4、デフォルトは2人）。",
+                    },
+                    nAgent: {
+                      type: "integer",
+                      description: "エージェント数",
+                    },
+                    totalTurn: {
+                      type: "integer",
+                      description: "ターン数",
+                    },
+                    operationSec: {
+                      type: "integer",
+                      description: "行動ステップ時間(秒)",
+                    },
+                    transitionSec: {
+                      type: "integer",
+                      description: "遷移ステップ時間(秒)",
                     },
                     playerIdentifiers: {
                       type: "array",

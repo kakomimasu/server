@@ -106,7 +106,7 @@ class Player extends Core.Player<ExpGame> {
   }
 }
 
-type GameInit = Omit<Board, "name">;
+export type GameInit = Omit<Board, "name">;
 
 class ExpGame extends Core.Game {
   public override players: Player[];

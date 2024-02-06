@@ -109,6 +109,8 @@ Deno.test("POST v1/matches:normal", async () => {
   const res = await ac.createMatch({ ...data, dryRun: true });
   assertcreateMatchRes(res.data, 200);
   assertGame(res.data, data);
+  assertEquals(res.data.nAgent, 8);
+  assertEquals(res.data.operationSec, 1);
 });
 Deno.test("POST v1/matches:normal with playerIdentifiers", async () => {
   await useUser(async (user) => {
@@ -120,6 +122,24 @@ Deno.test("POST v1/matches:normal with playerIdentifiers", async () => {
     assertcreateMatchRes(res.data, 200);
     assertGame(res.data, { ...data, reservedUsers: [user.id] });
   });
+});
+Deno.test("POST v1/matches:normal add options", async () => {
+  const res = await ac.createMatch({
+    ...data,
+    dryRun: true,
+    nAgent: 1,
+    nPlayer: 3,
+    totalTurn: 1,
+    operationSec: 10,
+    transitionSec: 10,
+  });
+  assertcreateMatchRes(res.data, 200);
+  assertGame(res.data, data);
+  assertEquals(res.data.nAgent, 1);
+  assertEquals(res.data.nPlayer, 3);
+  assertEquals(res.data.totalTurn, 1);
+  assertEquals(res.data.operationSec, 10);
+  assertEquals(res.data.transitionSec, 10);
 });
 Deno.test("POST v1/matches:invalid boardName", async () => {
   {
@@ -342,6 +362,29 @@ Deno.test("POST v1/matches/ai/players:normal by guest", async () => {
   // console.log(res);
   assertMatchesAiPlayersRes(res.data, 200);
   assertMatch(res.data, { userId: "test" });
+});
+Deno.test("POST v1/matches/ai/players:normal by options", async () => {
+  const data = {
+    aiName: "a1",
+    guestName: "test",
+    nAgent: 1, // オプション変更
+    nPlayer: 3, // オプション変更...しても無視される（AI対戦は対戦者とAIなので2に固定）
+    totalTurn: 1, // オプション変更
+    operationSec: 10, // オプション変更
+    transitionSec: 10, // オプション変更
+  };
+  const res = await ac.joinAiMatch(data);
+  assertMatchesAiPlayersRes(res.data, 200);
+  assertMatch(res.data, { userId: "test" });
+
+  const matchRes = await ac.getMatch(res.data.gameId);
+  if (matchRes.success === false) throw new Error(matchRes.message);
+  const game = matchRes.data;
+  assertEquals(game.nAgent, 1);
+  assertEquals(game.nPlayer, 2);
+  assertEquals(game.totalTurn, 1);
+  assertEquals(game.operationSec, 10);
+  assertEquals(game.transitionSec, 10);
 });
 
 Deno.test("POST v1/matches/ai/players:can not find ai", async () => {
