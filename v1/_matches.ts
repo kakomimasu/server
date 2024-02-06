@@ -115,17 +115,16 @@ router.post(
     const board = await getBoard(reqJson.boardName);
     if (!board) throw new ServerError(errors.INVALID_BOARD_NAME);
 
-    const game: ExpGame = new ExpGame(
-      {
-        ...board,
-        nPlayer: reqJson.nPlayer,
-        nAgent: reqJson.nAgent,
-        totalTurn: reqJson.totalTurn,
-        operationSec: reqJson.operationSec,
-        transitionSec: reqJson.transitionSec,
-      },
-      reqJson.name,
-    );
+    const init: GameInit = board;
+
+    // オプション適用
+    if (reqJson.nAgent) init.nAgent = reqJson.nAgent;
+    if (reqJson.nPlayer) init.nPlayer = reqJson.nPlayer;
+    if (reqJson.totalTurn) init.totalTurn = reqJson.totalTurn;
+    if (reqJson.operationSec) init.operationSec = reqJson.operationSec;
+    if (reqJson.transitionSec) init.transitionSec = reqJson.transitionSec;
+
+    const game: ExpGame = new ExpGame(init, reqJson.name);
     if (!reqJson.dryRun) {
       games.push(game);
       game.wsSend();

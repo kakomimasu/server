@@ -109,6 +109,8 @@ Deno.test("POST v1/matches:normal", async () => {
   const res = await ac.createMatch({ ...data, dryRun: true });
   assertcreateMatchRes(res.data, 200);
   assertGame(res.data, data);
+  assertEquals(res.data.nAgent, 8);
+  assertEquals(res.data.operationSec, 1);
 });
 Deno.test("POST v1/matches:normal with playerIdentifiers", async () => {
   await useUser(async (user) => {
