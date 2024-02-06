@@ -327,7 +327,6 @@ router.post(
 
       // オプション適用
       if (reqData.nAgent) init.nAgent = reqData.nAgent;
-      if (reqData.nPlayer) init.nPlayer = reqData.nPlayer;
       if (reqData.totalTurn) init.totalTurn = reqData.totalTurn;
       if (reqData.operationSec) init.operationSec = reqData.operationSec;
       if (reqData.transitionSec) init.transitionSec = reqData.transitionSec;

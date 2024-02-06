@@ -80,7 +80,7 @@ export const openapi = {
     "/matches/ai/players": {
       post: {
         description:
-          "サーバ上のAIと対戦するゲームに参加できます。作成したプログラムの動作確認等に便利です。<br>`guestName`を指定してゲスト参加する場合、認証情報は要りません。",
+          "サーバ上のAIと対戦するゲームに参加できます。作成したプログラムの動作確認等に便利です。<br>なお、プレイヤー数は2で固定になります。<br>`guestName`を指定してゲスト参加する場合、認証情報は要りません。",
         summary: "ゲーム参加(AI対戦)",
         tags: ["Matches API"],
         security: [{}, { "Bearer": [] }],
@@ -106,10 +106,6 @@ export const openapi = {
                         nAgent: {
                           type: "integer",
                           description: "エージェント数",
-                        },
-                        nPlayer: {
-                          type: "integer",
-                          description: "プレイヤー数",
                         },
                         totalTurn: {
                           type: "integer",

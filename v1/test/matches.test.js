@@ -368,7 +368,7 @@ Deno.test("POST v1/matches/ai/players:normal by options", async () => {
     aiName: "a1",
     guestName: "test",
     nAgent: 1, // オプション変更
-    nPlayer: 3, // オプション変更
+    nPlayer: 3, // オプション変更...しても無視される（AI対戦は対戦者とAIなので2に固定）
     totalTurn: 1, // オプション変更
     operationSec: 10, // オプション変更
     transitionSec: 10, // オプション変更
@@ -381,7 +381,7 @@ Deno.test("POST v1/matches/ai/players:normal by options", async () => {
   if (matchRes.success === false) throw new Error(matchRes.message);
   const game = matchRes.data;
   assertEquals(game.nAgent, 1);
-  assertEquals(game.nPlayer, 3);
+  assertEquals(game.nPlayer, 2);
   assertEquals(game.totalTurn, 1);
   assertEquals(game.operationSec, 10);
   assertEquals(game.transitionSec, 10);
