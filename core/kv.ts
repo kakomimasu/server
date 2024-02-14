@@ -8,7 +8,7 @@ export const kv = await Deno.openKv(
 );
 
 const BOARD_KEY = "boards";
-const USERS_KEY = "users";
+// const USERS_KEY = "users";
 
 /** ボードを1つ取得 */
 export async function getBoard(boardName: string): Promise<Board | undefined> {
