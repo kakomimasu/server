@@ -1,6 +1,9 @@
 import { assert } from "https://deno.land/std@0.180.0/testing/asserts.ts";
 import { env } from "./core/env.ts";
 
+// KV Databaseの初期化
+import "./db/init.ts";
+
 // Disable server logs
 console.log = (_) => {};
 console.error = (_) => {};
