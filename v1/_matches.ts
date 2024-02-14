@@ -3,7 +3,7 @@ import { Context, Core, Router } from "../deps.ts";
 import { nowUnixTime } from "../core/util.ts";
 import { accounts, games, tournaments } from "../core/datas.ts";
 import { errors, ServerError } from "../core/error.ts";
-import { getAllBoards, getBoard } from "../core/firestore.ts";
+import { getBoard, getBoards } from "../core/kv.ts";
 import { ExpGame, GameInit, Player } from "../core/expKakomimasu.ts";
 import { env } from "../core/env.ts";
 import { ResponseType, SchemaType } from "../util/openapi-type.ts";
@@ -49,7 +49,7 @@ type IGame = SchemaType<
 const boardname = env.BOARDNAME; // || "E-1"; // "F-1" "A-1"
 
 const getRandomBoard = async () => {
-  const list = await getAllBoards(); //Deno.readDir(resolve("./board"));
+  const list = await getBoards(); //Deno.readDir(resolve("./board"));
   return list[Math.floor(Math.random() * list.length)];
 };
 

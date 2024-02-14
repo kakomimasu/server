@@ -27,6 +27,9 @@ export const config = {
     require: false,
     default: "local",
   },
+  DENO_KV_ACCESS_TOKEN: {
+    require: false,
+  },
 } as const satisfies {
   [key: string]: { require: true } | {
     require: false;

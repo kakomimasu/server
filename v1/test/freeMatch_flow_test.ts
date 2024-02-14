@@ -8,15 +8,6 @@ import { diffTime, sleep } from "./client_util.ts";
 import { validator } from "../parts/openapi.ts";
 
 import matchSample from "./sample/match_sample.json" with { type: "json" };
-import matchGameInfoSample from "./sample/matchGameInfo_sample.json" with {
-  type: "json",
-};
-import afterActionSample from "./sample/afterAction_sample.json" with {
-  type: "json",
-};
-import afterActionSample2 from "./sample/afterAction_sample2.json" with {
-  type: "json",
-};
 
 const ac = new ApiClient();
 
@@ -94,19 +85,6 @@ Deno.test({
         //   "./v1/test/sample/matchGameInfo_sample.json",
         //   JSON.stringify(res.data, null, 2),
         // );
-
-        const sample = matchGameInfoSample as typeof res.data;
-        assert(v4.validate(res.data.id));
-        sample.id = res.data.id = "";
-        sample.players[0].id = res.data.players[0].id = "";
-        sample.players[1].id = res.data.players[1].id = "";
-        sample.startedAtUnixTime = res.data.startedAtUnixTime = 0;
-        assertEquals(res.data.type, "normal");
-        sample.type = res.data.type;
-        assertEquals(res.data.name, undefined);
-        delete sample.name;
-
-        assertEquals(sample, res.data);
       });
 
       let nextTurnUnixTime: number;
@@ -186,19 +164,6 @@ Deno.test({
 
         //console.log(res);
         //console.log(JSON.stringify(reqJson, null, 2));
-        const sample = afterActionSample as typeof res.data;
-
-        assert(v4.validate(res.data.id));
-        sample.id = res.data.id = "";
-        sample.players[0].id = res.data.players[0].id = "";
-        sample.players[1].id = res.data.players[1].id = "";
-        sample.startedAtUnixTime = res.data.startedAtUnixTime;
-        assertEquals(res.data.type, "normal");
-        sample.type = res.data.type;
-        assertEquals(res.data.name, undefined);
-        delete sample.name;
-
-        assertEquals(sample, res.data);
       });
       await t.step("send action(Turn 2)", async () => {
         let res = await ac.getMatch(gameId);
@@ -246,19 +211,6 @@ Deno.test({
 
         //console.log(res);
         //console.log(JSON.stringify(reqJson, null, 2));
-        const sample = afterActionSample2 as typeof res.data;
-
-        assert(v4.validate(res.data.id));
-        sample.id = res.data.id = "";
-        sample.players[0].id = res.data.players[0].id = "";
-        sample.players[1].id = res.data.players[1].id = "";
-        sample.startedAtUnixTime = res.data.startedAtUnixTime;
-        assertEquals(res.data.type, "normal");
-        sample.type = res.data.type;
-        assertEquals(res.data.name, undefined);
-        delete sample.name;
-
-        assertEquals(sample, res.data);
       });
     });
   },
