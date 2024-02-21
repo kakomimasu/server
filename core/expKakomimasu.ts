@@ -1,6 +1,6 @@
 import { Core } from "../deps.ts";
 
-import { setGame } from "./firestore.ts";
+import { setGame } from "./kv.ts";
 import { ClientBase, nowUnixTime, randomUUID } from "./util.ts";
 
 function sleep(ms: number) {

@@ -1,30 +1,30 @@
 import { errors, ServerError } from "./error.ts";
 import { ExpGame } from "./expKakomimasu.ts";
 import {
-  type FTournament,
-  type FUser,
   getAllGameSnapShot,
   getAllTournaments,
   getAllUsers,
+  type KvTournament,
+  type KvUser,
   setAllTournaments,
   setAllUsers,
-} from "./firestore.ts";
+} from "./kv.ts";
 import { PartiallyPartial, randomUUID } from "./util.ts";
 
-class User implements FUser {
+class User implements KvUser {
   public screenName: string;
   public name: string;
   public readonly id: string;
   public bearerToken: string;
 
-  constructor(data: FUser) {
+  constructor(data: KvUser) {
     this.screenName = data.screenName;
     this.name = data.name;
     this.id = data.id;
     this.bearerToken = data.bearerToken;
   }
 
-  static create(data: Pick<FUser, "screenName" | "name" | "id">) {
+  static create(data: Pick<KvUser, "screenName" | "name" | "id">) {
     return new User({
       screenName: data.screenName,
       name: data.name,
@@ -99,7 +99,7 @@ class Users {
 
 type newTournamentConstructorParam = PartiallyPartial<
   Pick<
-    FTournament,
+    KvTournament,
     | "name"
     | "organizer"
     | "type"
@@ -108,16 +108,16 @@ type newTournamentConstructorParam = PartiallyPartial<
   "organizer" | "remarks"
 >;
 
-export class Tournament implements FTournament {
+export class Tournament implements KvTournament {
   public id: string;
   public name: string;
   public organizer: string;
-  public type: FTournament["type"];
+  public type: KvTournament["type"];
   public remarks: string;
   public users: string[];
   public gameIds: string[];
 
-  constructor(data: FTournament) {
+  constructor(data: KvTournament) {
     this.id = data.id;
     this.name = data.name;
     this.organizer = data.organizer;
@@ -219,8 +219,9 @@ class Tournaments {
 }
 
 const games: ExpGame[] = [];
-(await getAllGameSnapShot()).forEach((doc) => {
-  games.push(ExpGame.fromJSON(doc.val()));
+// deno-lint-ignore no-explicit-any
+(await getAllGameSnapShot()).forEach((doc: any) => {
+  games.push(ExpGame.fromJSON(doc));
 });
 
 const tournaments = new Tournaments();
