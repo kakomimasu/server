@@ -27,6 +27,7 @@ Deno.test({
         "--allow-env",
         "--allow-net",
         "--ignore=test.ts",
+        "--unstable-kv",
         ...Deno.args,
       ],
       stdout: "piped",
