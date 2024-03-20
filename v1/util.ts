@@ -1,5 +1,7 @@
 import { Context } from "../deps.ts";
+import { getSessionId } from "kv_oauth";
 import { errors, ServerError } from "../core/error.ts";
+import { accounts } from "../core/datas.ts";
 
 export type UnknownRequest<T> = Record<keyof T, unknown>;
 
@@ -20,9 +22,44 @@ export const jsonParse = () =>
 async (ctx: Context, next: () => Promise<unknown>) => {
   try {
     const reqJson = await ctx.request.body({ type: "json" }).value;
-    ctx.state.data = reqJson;
+    ctx.state.data = reqJson ?? {};
   } catch (_e) {
     throw new ServerError(errors.INVALID_SYNTAX);
   }
   await next();
 };
+
+/**
+ * This is required for Oak to convert between web-standard
+ * and Oak `Request` and `Response` interfaces.
+ *
+ * @see {@link https://github.com/oakserver/oak/issues/533}
+ */
+export async function wrapOakRequest(
+  ctx: Context,
+  fn: (request: Request) => Promise<Response>,
+) {
+  const req = OakRequest2Request(ctx);
+  const response = await fn(req);
+  ApplyResponse(ctx, response);
+}
+
+/**
+ * @see {@link https://github.com/oakserver/oak/issues/533}
+ */
+export function OakRequest2Request(ctx: Context): Request {
+  return new Request(ctx.request.url.toString(), {
+    body: ctx.request.originalRequest.getBody().body,
+    headers: ctx.request.headers,
+    method: ctx.request.method,
+  });
+}
+
+/**
+ * @see {@link https://github.com/oakserver/oak/issues/533}
+ */
+export function ApplyResponse(ctx: Context, res: Response) {
+  ctx.response.status = res.status;
+  ctx.response.headers = res.headers;
+  ctx.response.body = res;
+}

@@ -240,6 +240,43 @@ const _atures: Equals<
   PostTournamentsTournamentIdUsersRes
 > = true;
 
+// GET /users/me
+type GetUsersMeRes = ResponseAllType<
+  "/users/me",
+  "get",
+  "application/json",
+  typeof openapi
+>;
+const _gumres: Equals<T.GetUserMeRes | T.ErrorRes, GetUsersMeRes> = true;
+
+// DELETE /users/me
+type DeleteUsersMeReq = RequestBodyType<
+  "/users/me",
+  "delete",
+  "application/json",
+  typeof openapi
+>;
+const _dumreq: Equals<T.DeleteUserMeReq, DeleteUsersMeReq> = true;
+type DeleteUsersMeRes = ResponseAllType<
+  "/users/me",
+  "delete",
+  "application/json",
+  typeof openapi
+>;
+const _dumres: Equals<T.DeleteUserMeRes | T.ErrorRes, DeleteUsersMeRes> = true;
+
+// GET /users/me/token
+type GetUsersMeTokenRes = ResponseAllType<
+  "/users/me/token",
+  "get",
+  "application/json",
+  typeof openapi
+>;
+const _gumtres: Equals<
+  T.RegenerateUserTokenRes | T.ErrorRes,
+  GetUsersMeTokenRes
+> = true;
+
 // GET /users/{usersIdOrName}
 type GetUsersUserIdOrNameRes = ResponseAllType<
   "/users/{userIdOrName}",
@@ -249,37 +286,6 @@ type GetUsersUserIdOrNameRes = ResponseAllType<
 >;
 const _gures: Equals<T.GetUserRes | T.ErrorRes, GetUsersUserIdOrNameRes> = true;
 
-// DELETE /users/{usersIdOrName}
-type DeleteUsersUserIdOrNameReq = RequestBodyType<
-  "/users/{userIdOrName}",
-  "delete",
-  "application/json",
-  typeof openapi
->;
-const _dureq: Equals<T.DeleteUserReq, DeleteUsersUserIdOrNameReq> = true;
-type DeleteUsersUserIdOrNameRes = ResponseAllType<
-  "/users/{userIdOrName}",
-  "delete",
-  "application/json",
-  typeof openapi
->;
-const _dures: Equals<
-  T.DeleteUserRes | T.ErrorRes,
-  DeleteUsersUserIdOrNameRes
-> = true;
-
-// GET /users/{usersIdOrName}/token
-type GetUsersUserIdOrNameTokenRes = ResponseAllType<
-  "/users/{userIdOrName}/token",
-  "get",
-  "application/json",
-  typeof openapi
->;
-const _dutres: Equals<
-  T.RegenerateUserTokenRes | T.ErrorRes,
-  GetUsersUserIdOrNameTokenRes
-> = true;
-
 // GET /users
 type GetUsersRes = ResponseAllType<
   "/users",
@@ -288,19 +294,3 @@ type GetUsersRes = ResponseAllType<
   typeof openapi
 >;
 const _gusres: Equals<T.GetUsersRes | T.ErrorRes, GetUsersRes> = true;
-
-// POST /users
-type PostUsersReq = RequestBodyType<
-  "/users",
-  "post",
-  "application/json",
-  typeof openapi
->;
-const _cureq: Equals<T.CreateUserReq, PostUsersReq> = true;
-type PostUsersRes = ResponseAllType<
-  "/users",
-  "post",
-  "application/json",
-  typeof openapi
->;
-const _cures: Equals<T.CreateUserRes | T.ErrorRes, PostUsersRes> = true;

@@ -3,15 +3,16 @@
   "configurations": [
     {
       "name": "Deno",
-      "type": "pwa-node",
+      "type": "node",
       "request": "launch",
+      "program": "${workspaceFolder}/server.ts",
       "cwd": "${workspaceFolder}",
       "runtimeExecutable": "deno",
       "runtimeArgs": [
         "run",
-        "--inspect",
+        "--inspect-wait",
         "-A",
-        "server.ts"
+        "--unstable-kv"
       ],
       "attachSimplePort": 9229
     }

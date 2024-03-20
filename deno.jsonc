@@ -2,18 +2,16 @@
   "tasks": {
     "cache": "deno cache server.ts",
     "start": "deno run --allow-read --allow-env --allow-net --unstable-kv server.ts",
-    "test": "rm -rf coverage && deno test --allow-read --allow-env --allow-net --allow-run --unstable-kv --coverage=coverage test.ts",
+    "test": "TEST=true && rm -rf coverage && deno test --allow-read --allow-env --allow-net --allow-run --unstable-kv --coverage=coverage test.ts",
     "coverage": "deno coverage coverage --lcov --output=coverage/coverage.lcov",
-    "coverage:report": "genhtml -o coverage-html coverage/coverage.lcov",
-    "firebase:emu": "cd firebase-emulator && firebase emulators:start --import ./data/",
-    "ci:test": "cd firebase-emulator && firebase emulators:exec --import ./data/ 'deno task test'"
+    "coverage:report": "deno coverage coverage --html"
   },
   "lock": false,
-  "fmt": {
-    "exclude": ["firebase-emulator/"]
-  },
   "test": {
     "include": [""]
     // "exclude": ["test.ts"] // deno v1.40.2に移行時にexcludeが入っていると直接test.tsを指定しても実行されなくなってしまったのでコメントアウト
+  },
+  "imports": {
+    "kv_oauth": "https://deno.land/x/deno_kv_oauth@v0.10.0/mod.ts"
   }
 }

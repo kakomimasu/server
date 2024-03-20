@@ -1,72 +1,84 @@
 import { Router } from "../deps.ts";
 
 import { contentTypeFilter, jsonParse } from "./util.ts";
-import { errorCodeResponse, errors, ServerError } from "../core/error.ts";
+import { errors, ServerError } from "../core/error.ts";
+import { env } from "../core/env.ts";
+import { deleteUser, kv } from "../core/kv.ts";
 import { auth } from "./middleware.ts";
 import { accounts, User } from "../core/datas.ts";
 import { ResponseType } from "../util/openapi-type.ts";
-import { getPayload } from "./parts/jwt.ts";
 import { openapi, validator } from "./parts/openapi.ts";
 
 export const userRouter = () => {
   const router = new Router();
 
-  // ユーザ登録
-  router.post(
-    "/",
+  // ユーザ情報取得
+  router.get(
+    "/me",
+    auth({ bearer: true, cookie: true }),
+    (ctx) => {
+      const authedUserId = ctx.state.authed_userId as string;
+      const user = accounts.getUsers().find((u) => u.id === authedUserId)!;
+      const body: ResponseType<
+        "/users/me",
+        "get",
+        "200",
+        "application/json",
+        typeof openapi
+      > = user.noSafe();
+      ctx.response.body = body;
+    },
+  );
+
+  // ユーザ削除
+  router.delete(
+    "/me",
     contentTypeFilter("application/json"),
+    auth({ bearer: true, cookie: true }),
     jsonParse(),
-    async (ctx) => {
-      const idToken = ctx.request.headers.get("Authorization");
-
-      if (!idToken) {
-        ctx.response.headers.append(
-          "WWW-Authenticate",
-          `JWT realm="token_required"`,
-        );
-
-        ctx.response.status = 401;
-        ctx.response.body = errorCodeResponse(
-          new ServerError(errors.UNAUTHORIZED),
-        );
-        return;
-      }
+    (ctx) => {
+      const authedUserId = ctx.state.authed_userId as string;
+      const user = accounts.getUsers().find((u) => u.id === authedUserId)!;
 
       const reqData = ctx.state.data;
       const isValid = validator.validateRequestBody(
         reqData,
-        "/users",
-        "post" as const,
+        "/users/me",
+        "delete" as const,
         "application/json",
       );
       if (!isValid) throw new ServerError(errors.INVALID_REQUEST);
-      //console.log(reqData);
 
-      if (accounts.getUsers().some((e) => e.name === reqData.name)) {
-        throw new ServerError(errors.ALREADY_REGISTERED_NAME);
-      }
-
-      const payload = await getPayload(idToken);
-      if (!payload) throw new ServerError(errors.INVALID_USER_AUTHORIZATION);
-      const id = payload.user_id;
-      if (accounts.getUsers().some((e) => e.id === id)) {
-        throw new ServerError(errors.ALREADY_REGISTERED_USER);
-      }
-
-      const user = User.create({
-        name: reqData.name,
-        screenName: reqData.screenName,
-        id,
-      });
-
+      const index = accounts.getUsers().findIndex((u) => u === user);
       if (reqData.dryRun !== true) {
-        accounts.getUsers().push(user);
+        accounts.getUsers().splice(index, 1);
         accounts.save();
+        deleteUser(user.id);
       }
+      const body: ResponseType<
+        "/users/me",
+        "delete",
+        "200",
+        "application/json",
+        typeof openapi
+      > = user.noSafe();
+      ctx.response.body = body;
+    },
+  );
+  // ユーザトークン再生成
+  router.get(
+    "/me/token",
+    auth({ bearer: true, cookie: true }),
+    (ctx) => {
+      const authedUserId = ctx.state.authed_userId as string;
+      const user = accounts.getUsers().find((u) => u.id === authedUserId)!;
+
+      user.regenerateToken();
+      accounts.save();
 
       const body: ResponseType<
-        "/users",
-        "post",
+        "/users/me/token",
+        "get",
         "200",
         "application/json",
         typeof openapi
@@ -78,15 +90,10 @@ export const userRouter = () => {
   // ユーザ情報取得
   router.get(
     "/:idOrName",
-    auth({ jwt: true, required: false }),
     (ctx) => {
       const idOrName = ctx.params.idOrName;
 
       const user = accounts.showUser(idOrName);
-
-      // 認証済みユーザかの確認
-      const authedUserId = ctx.state.authed_userId as string;
-      const bodyUser = user.id === authedUserId ? user.noSafe() : user.toJSON();
 
       const body: ResponseType<
         "/users/{userIdOrName}",
@@ -94,71 +101,7 @@ export const userRouter = () => {
         "200",
         "application/json",
         typeof openapi
-      > = bodyUser;
-      ctx.response.body = body;
-    },
-  );
-
-  // ユーザ削除
-  router.delete(
-    "/:idOrName",
-    contentTypeFilter("application/json"),
-    auth({ bearer: true, jwt: true }),
-    jsonParse(),
-    (ctx) => {
-      const idOrName = ctx.params.idOrName;
-      const reqData = ctx.state.data;
-      const isValid = validator.validateRequestBody(
-        reqData,
-        "/users/{userIdOrName}",
-        "delete" as const,
-        "application/json",
-      );
-      if (!isValid) throw new ServerError(errors.INVALID_REQUEST);
-      const authedUserId = ctx.state.authed_userId as string;
-
-      const index = accounts.getUsers().findIndex((u) =>
-        u.id === authedUserId &&
-        (u.id === idOrName || u.name === idOrName)
-      );
-      if (index === -1) throw new ServerError(errors.NOT_USER);
-
-      const user = accounts.getUsers()[index];
-      if (reqData.dryRun !== true) {
-        accounts.deleteUser(index);
-      }
-      const body: ResponseType<
-        "/users/{userIdOrName}",
-        "delete",
-        "200",
-        "application/json",
-        typeof openapi
-      > = user.noSafe();
-      ctx.response.body = body;
-    },
-  );
-  // ユーザトークン再生成
-  router.get(
-    "/:idOrName/token",
-    auth({ jwt: true, required: true }),
-    (ctx) => {
-      const idOrName = ctx.params.idOrName;
-      const user = accounts.showUser(idOrName);
-
-      // 認証済みユーザかの確認
-      const authedUserId = ctx.state.authed_userId as string;
-      if (user.id !== authedUserId) throw new ServerError(errors.NOT_USER);
-
-      user.regenerateToken();
-      accounts.save();
-
-      const body: ResponseType<
-        "/users/{userIdOrName}/token",
-        "get",
-        "200",
-        "application/json",
-        typeof openapi
-      > = user.noSafe();
+      > = user.toJSON();
       ctx.response.body = body;
     },
   );
@@ -184,6 +127,35 @@ export const userRouter = () => {
     > = users.map((u) => u.toJSON());
     ctx.response.body = body;
   });
+
+  if (env.TEST) {
+    // テスト時のみユーザ登録APIを作成する
+    router.post(
+      "/",
+      contentTypeFilter("application/json"),
+      jsonParse(),
+      async (ctx) => {
+        const reqData = ctx.state.data as {
+          name: string;
+          screenName: string;
+          id: string;
+          avaterUrl: string;
+          sessions: string[];
+        };
+
+        const user = User.create(reqData);
+
+        accounts.getUsers().push(user);
+        await accounts.save();
+
+        for await (const sessionId of reqData.sessions) {
+          await kv.set(["site_sessions", sessionId], true);
+        }
+
+        ctx.response.body = user.noSafe();
+      },
+    );
+  }
 
   return router.routes();
 };

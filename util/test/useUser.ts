@@ -1,48 +1,49 @@
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  UserCredential,
-} from "../../deps.ts";
 import { assert } from "../../deps-test.ts";
 
-import { firebaseInit } from "../../core/firebase.ts";
+import { randomUUID } from "../../core/util.ts";
+import { env } from "../../core/env.ts";
 
-import ApiClient, { User } from "../../client/client.ts";
-
-await firebaseInit();
-const auth = getAuth();
-
-const ac = new ApiClient();
-
-export async function createFirebaseUser() {
-  const u = await createUserWithEmailAndPassword(
-    auth,
-    `${crypto.randomUUID()}@example.com`,
-    "test-client",
-  );
-  return u;
-}
+import { AuthedUser } from "../../client/client.ts";
 
 export async function useUser(
-  runFn: (user: Required<User>, firebaseUser: UserCredential) => Promise<void>,
+  runFn: (user: AuthedUser, sessionId: string) => Promise<void>,
 ) {
-  // 新規Firebaseユーザ作成
-  const u = await createFirebaseUser();
+  assert(env.TEST.toLowerCase() === "true", "API is not TEST mode.");
 
   // 新規囲みマス ユーザ作成
-  const user = await ac.createUser({
-    screenName: `test:${u.user.uid}`,
-    name: crypto.randomUUID(),
-  }, await u.user.getIdToken());
-
-  assert(user.success, "user regist failed");
+  const sessionId = randomUUID();
+  const forDeleteSessionId = `forDelete-${randomUUID()}`;
+  const user = {
+    screenName: "John Doe",
+    name: randomUUID(),
+    id: randomUUID(),
+    avaterUrl: "https://example.com",
+    gameIds: [],
+    sessions: [sessionId, forDeleteSessionId],
+  };
+  const res = await fetch("http://localhost:8880/v1/users", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  });
+  assert(res.ok);
+  const resUser = await res.json();
 
   try {
-    await runFn(user.data, u);
+    await runFn(resUser, sessionId);
   } catch (e) {
     throw e;
   } finally {
     // テスト成功時も失敗時もユーザ削除
-    await ac.deleteUser(user.data.id, {}, await u.user.getIdToken());
+    const res = await fetch("http://localhost:8880/v1/users/me", {
+      method: "DELETE",
+      headers: {
+        Cookie: `site-session=${forDeleteSessionId}`,
+        "Content-Type": "application/json",
+      },
+    });
+    await res.text();
   }
 }

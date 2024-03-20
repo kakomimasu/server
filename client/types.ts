@@ -123,19 +123,15 @@ export type DeleteTournamentRes = Tournament;
 export type AddTournamentUserReq = { user: string } & DryRunOption;
 export type AddTournamentUserRes = Tournament;
 
-export type GetUserRes = User;
+export type GetUserMeRes = AuthedUser;
 
-export type DeleteUserReq = DryRunOption;
-export type DeleteUserRes = AuthedUser;
+export type DeleteUserMeReq = DryRunOption;
+export type DeleteUserMeRes = AuthedUser;
 
-export type GetUsersRes = User[];
-
-export type CreateUserReq = {
-  screenName: string;
-  name: string;
-} & DryRunOption;
-export type CreateUserRes = AuthedUser;
 export type RegenerateUserTokenRes = AuthedUser;
+
+export type GetUserRes = User;
+export type GetUsersRes = User[];
 
 export type Game = {
   id: string;
@@ -208,12 +204,11 @@ export type Tournament = {
   gameIds: string[];
 };
 
-type UserBase = {
+export type User = {
   screenName: string;
   name: string;
   id: string;
   gameIds: string[];
+  avaterUrl: string;
 };
-
-export type User = UserBase & { bearerToken?: string };
-export type AuthedUser = UserBase & { bearerToken: string };
+export type AuthedUser = User & { bearerToken: string };
