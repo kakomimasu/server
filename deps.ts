@@ -1,6 +1,6 @@
 // Standard Library
-export * as Colors from "https://deno.land/std@0.180.0/fmt/colors.ts";
-export { loadSync as loadEnv } from "https://deno.land/std@0.180.0/dotenv/mod.ts";
+export * as Colors from "https://deno.land/std@0.221.0/fmt/colors.ts";
+export { loadSync as loadEnv } from "https://deno.land/std@0.221.0/dotenv/mod.ts";
 
 // Third Party Modules
 export {
@@ -13,7 +13,7 @@ export {
   type RouterMiddleware,
   ServerSentEvent,
   type ServerSentEventTarget,
-} from "https://deno.land/x/oak@v12.1.0/mod.ts";
+} from "https://deno.land/x/oak@14.2.0/mod.ts";
 export { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 export * from "https://deno.land/x/djwt@v2.3/mod.ts";
 
@@ -49,4 +49,4 @@ export {
   type RequestBodyObject,
   type ResponseObject,
   type SchemaObject,
-} from "https://esm.sh/openapi3-ts@3.2.0/";
+} from "https://esm.sh/openapi3-ts@4.2.2/";

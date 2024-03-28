@@ -1,4 +1,4 @@
-import { assert } from "https://deno.land/std@0.180.0/testing/asserts.ts";
+import { assert } from "https://deno.land/std@0.221.0/testing/asserts.ts";
 import { env } from "./core/env.ts";
 
 // KV Databaseの初期化
