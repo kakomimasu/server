@@ -1,11 +1,14 @@
-import { getBoards, kv, setBoard } from "../core/kv.ts";
+import { kv, setBoard } from "../core/kv.ts";
 
 import boards from "./boards.json" with { type: "json" };
 
-(await getBoards()).forEach(async (a) => await kv.delete(["boards", a.name]));
+// 全データ削除
+for await (const entry of kv.list({ prefix: [] })) {
+  console.log(entry.key);
+  await kv.delete(entry.key);
+}
 
-console.log(boards);
-
+// ボード情報だけ追加
 for (const board of Object.values(boards)) {
   await setBoard(board);
 }

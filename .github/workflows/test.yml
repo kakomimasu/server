@@ -16,22 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Firebase Emulator
-        shell: bash -xe {0}
-        run: |
-          curl -sL https://firebase.tools | upgrade=true bash
-          firebase setup:emulators:database
-          firebase setup:emulators:firestore
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.40.2
       - name: Run test
-        env:
-          FIREBASE_USERNAME: test@example.com
-          FIREBASE_PASSWORD: server-admin
-          FIREBASE_TEST: true
         run: |
-          deno task ci:test
+          deno task test
       - name: Create coverage
         run: |
           deno task coverage

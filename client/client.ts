@@ -56,23 +56,20 @@ export default class ApiClient {
     return await this.#fetch<T.VersionRes>("/version");
   }
 
-  async createUser(data: T.CreateUserReq, auth?: string) {
-    return await this.#fetch<T.CreateUserRes>(
-      "/v1/users",
-      { method: "POST", data, auth },
-    );
-  }
-
-  async regenerateUserToken(idOrName: string, auth: string) {
+  async regenerateUserMeToken(auth: string) {
     return await this.#fetch<T.RegenerateUserTokenRes>(
-      `/v1/users/${idOrName}/token`,
+      `/v1/users/me/token`,
       { auth },
     );
   }
 
-  async deleteUser(idOrName: string, data: T.DeleteUserReq, auth: string) {
-    return await this.#fetch<T.DeleteUserRes>(
-      `/v1/users/${idOrName}`,
+  async getUserMe(auth: string) {
+    return await this.#fetch<T.GetUserMeRes>(`/v1/users/me`, { auth });
+  }
+
+  async deleteUserMe(data: T.DeleteUserMeReq, auth: string) {
+    return await this.#fetch<T.DeleteUserMeRes>(
+      `/v1/users/me`,
       { data, auth, method: "DELETE" },
     );
   }
