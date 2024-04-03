@@ -1,7 +1,5 @@
 import { Context } from "../deps.ts";
-import { getSessionId } from "kv_oauth";
 import { errors, ServerError } from "../core/error.ts";
-import { accounts } from "../core/datas.ts";
 
 export type UnknownRequest<T> = Record<keyof T, unknown>;
 
