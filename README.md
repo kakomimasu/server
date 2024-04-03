@@ -8,18 +8,21 @@ https://api.kakomimasu.com
 
 ## 環境変数
 
-| 変数                         | 説明                                                         | デフォルト    |
-| ---------------------------- | ------------------------------------------------------------ | ------------- |
-| PORT                         | リクエストを受信するポート                                   | `"8880"`      |
-| BOARDNAME                    | フリーマッチで使われるボード<br>指定なしでランダムに選ばれる |               |
-| DISCORD_WEBHOOK_URL          | 予期しないエラー発生時のDiscordチャンネルWebHook URL         |               |
-| FIREBASE_TEST                | Firebase Emulatorを使用するかどうか                          | `"false"`     |
-| FIREBASE_EMULATOR_HOST       | Firebase Emulatorのホストを設定                              | `"localhost"` |
-| FIREBASE_USERNAME `required` | Firebaseの管理ユーザ名                                       |               |
-| FIREBASE_PASSWORD `required` | Firebaseの管理者パスワード                                   |               |
-| VERSION                      | 現在のバージョン名<br> `/version`アクセス時に使用される      | `"local"`     |
+| 変数                 | 説明                                                                              | デフォルト |
+| -------------------- | --------------------------------------------------------------------------------- | ---------- |
+| PORT                 | リクエストを受信するポート                                                        | `"8880"`   |
+| BOARDNAME            | フリーマッチで使われるボード<br>指定なしでランダムに選ばれる                      |            |
+| DISCORD_WEBHOOK_URL  | 予期しないエラー発生時のDiscordチャンネルWebHook URL                              |            |
+| VERSION              | 現在のバージョン名<br> `/version`アクセス時に使用される                           | `"local"`  |
+| DENO_KV_ACCESS_TOKEN | 本番環境用に使用するKVのトークン<br>指定なしでローカルのKVストアを使用            |            |
+| GITHUB_CLIENT_ID     | GitHub OAuthログイン用<br>詳細は[こちら](https://deno.land/x/deno_kv_oauth)を参照 |            |
+| GITHUB_CLIENT_SECRET | GitHub OAuthログイン用<br>詳細は[こちら](https://deno.land/x/deno_kv_oauth)を参照 |            |
+| TEST                 | テスト時のフラグ                                                                  | `true`     |
 
-※ `.env`ファイルが使用できます。([dotenv](https://deno.land/std/dotenv/mod.ts))
+※
+`.env`ファイルが使用できます。([dotenv](https://deno.land/std/dotenv/mod.ts))<br>
+※
+`GITHUB_CLIENT_*`が未指定の場合、アカウントに関連する機能（BearerTokenを用いたAPI）は利用できません。ゲストモードによるゲーム参加は可能です。
 
 ## 開発者向け
 
@@ -27,15 +30,6 @@ https://api.kakomimasu.com
 
 ```console
 deno task start
-```
-
-### Firebase Emulator起動
-
-1. Firebase CLIをインストール（https://firebase.google.com/docs/cli）
-1. エミュレータ起動
-
-```
-deno task firebase:emu
 ```
 
 ### API定義
@@ -54,26 +48,6 @@ OpenAPIにて定義されています。
 
 ## テスト
 
-### 1. 環境変数を設定する
-
-```
-FIREBASE_TEST=true
-FIREBASE_USERNAME=test@example.com
-FIREBASE_PASSWORD=server-admin
-```
-
-### 2a. `test`
-
 ```
 deno task test
 ```
-
-※Firebase Emulatorがすでに起動している必要あり
-
-### 2b. `ci:test`
-
-```
-deno task ci:test
-```
-
-Firebase Emulatorの起動とテスト実行の両方を一括で行います。

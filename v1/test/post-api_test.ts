@@ -14,8 +14,7 @@ const urls = [
   `POST tournaments`,
   `DELETE tournaments/${randomUUID()}`,
   `POST tournaments/${randomUUID()}/users`,
-  `POST users`,
-  `DELETE users/${randomUUID()}`,
+  `DELETE users/me`,
 ];
 
 // fetch all urls by no Content-Type header
