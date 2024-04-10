@@ -17,6 +17,8 @@ export interface KvUser {
   screenName: string;
   name: string;
   id: string;
+  avaterUrl: string;
+  sessions: string[];
   bearerToken: string;
 }
 export interface KvTournament {
@@ -36,6 +38,8 @@ export async function setAllUsers(users: User[]): Promise<void> {
       screenName: a.screenName,
       name: a.name,
       id: a.id,
+      avaterUrl: a.avaterUrl,
+      sessions: a.sessions,
       bearerToken: a.bearerToken,
     };
   });
@@ -50,17 +54,20 @@ export async function getAllUsers(): Promise<KvUser[]> {
   const data = kv.list<KvUser>({ prefix: [USERS_KEY] });
 
   const users = (await Array.fromAsync(data)).map((d) => d.value);
-  // tournaments[0].addUser("test");
-  // console.log(users[0]);
   return users;
+}
 
-  // const users: KVUser[] = [];
-  // const usersRef = ref(db, "users");
-  // const snap = await get(usersRef);
-  // snap.forEach((doc) => {
-  //   users.push(doc.val());
-  // });
-  // return users;
+/** ユーザ削除 */
+export async function deleteUser(userId: string) {
+  const data = await kv.get<KvUser>([USERS_KEY, userId]);
+  if (data.value) {
+    const at = kv.atomic();
+    at.delete([USERS_KEY, userId]);
+    data.value.sessions.forEach((sessionId) =>
+      at.delete(["site_sessions", sessionId])
+    );
+    at.commit();
+  }
 }
 
 /** 全大会保存 */

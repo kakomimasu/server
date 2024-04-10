@@ -756,12 +756,76 @@ export const openapi = {
         },
       },
     },
+    "/users/me": {
+      get: {
+        description: "自分のユーザ情報を取得できます。",
+        summary: "ユーザ情報取得",
+        tags: ["Users API"],
+        security: [{ Bearer: [], Cookie: [] }],
+        responses: {
+          "200": {
+            "$ref": "#/components/responses/AuthedUser",
+          },
+          "401": {
+            "$ref": "#/components/responses/400",
+          },
+        },
+      },
+      delete: {
+        description: "ユーザを削除することができます。",
+        summary: "ユーザ削除",
+        tags: ["Users API"],
+        security: [{ Bearer: [], Cookie: [] }],
+        parameters: [
+          {
+            in: "path",
+            name: "userIdOrName",
+            required: true,
+            schema: {
+              type: "string",
+              description: "ユーザID or ユーザネーム",
+            },
+          },
+        ],
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: { "$ref": "#/components/schemas/DryRunRequest" },
+            },
+          },
+        },
+        responses: {
+          "200": {
+            "$ref": "#/components/responses/AuthedUser",
+          },
+          "401": {
+            "$ref": "#/components/responses/400",
+          },
+        },
+      },
+    },
+    "/users/me/token": {
+      get: {
+        description:
+          "ユーザのBearerTokenを再生成することができます。<br>⚠再生成が行われると、既存のBearerTokenは無効になります。",
+        summary: "ユーザトークン再生成",
+        tags: ["Users API"],
+        security: [{ Bearer: [], Cookie: [] }],
+        responses: {
+          "200": {
+            "$ref": "#/components/responses/AuthedUser",
+          },
+          "401": {
+            "$ref": "#/components/responses/400",
+          },
+        },
+      },
+    },
     "/users/{userIdOrName}": {
       get: {
         description: "ユーザ情報を取得できます。",
         summary: "ユーザ情報取得",
         tags: ["Users API"],
-        security: [{}, { Bearer: [] }, { JWT: [] }],
         parameters: [
           {
             in: "path",
@@ -786,61 +850,6 @@ export const openapi = {
           },
           "400": {
             "$ref": "#/components/responses/400",
-          },
-        },
-      },
-      delete: {
-        description: "ユーザを削除することができます。",
-        summary: "ユーザ削除",
-        tags: ["Users API"],
-        security: [{ Bearer: [] }, { JWT: [] }],
-        parameters: [
-          {
-            in: "path",
-            name: "userIdOrName",
-            required: true,
-            schema: {
-              type: "string",
-              description: "ユーザID or ユーザネーム",
-            },
-          },
-        ],
-        requestBody: {
-          content: {
-            "application/json": {
-              schema: { "$ref": "#/components/schemas/DryRunRequest" },
-            },
-          },
-        },
-        responses: {
-          "200": {
-            "$ref": "#/components/responses/AuthedUser",
-          },
-          "400": {
-            "$ref": "#/components/responses/400",
-          },
-          "401": {
-            "$ref": "#/components/responses/401",
-          },
-        },
-      },
-    },
-    "/users/{userIdOrName}/token": {
-      get: {
-        description:
-          "ユーザのBearerTokenを再生成することができます。<br>⚠再生成が行われると、既存のBearerTokenは無効になります。また、現在は公式サイトのみでの再生成が可能です。",
-        summary: "ユーザトークン再生成",
-        tags: ["Users API"],
-        security: [{ JWT: [] }],
-        responses: {
-          "200": {
-            "$ref": "#/components/responses/AuthedUser",
-          },
-          "400": {
-            "$ref": "#/components/responses/400",
-          },
-          "401": {
-            "$ref": "#/components/responses/401",
           },
         },
       },
@@ -878,52 +887,6 @@ export const openapi = {
           },
           "400": {
             "$ref": "#/components/responses/400",
-          },
-        },
-      },
-      post: {
-        description:
-          "ユーザを作成用<br>公式Viewerで使用されるAPIであり一般の方は認証に必要なトークンが取得できないため利用できません。",
-        summary: "ユーザ作成",
-        tags: ["Users API"],
-        security: [{ JWT: [] }],
-        requestBody: {
-          content: {
-            "application/json": {
-              schema: {
-                allOf: [{
-                  type: "object",
-                  required: ["screenName", "name"],
-                  properties: {
-                    screenName: {
-                      type: "string",
-                      description: "表示名",
-                      pattern: ".+",
-                    },
-                    name: {
-                      type: "string",
-                      description: "ユーザネーム",
-                      pattern: ".+",
-                    },
-                  },
-                  example: {
-                    "screenName": "A-1",
-                    "name": "a1",
-                  },
-                }, { "$ref": "#/components/schemas/DryRunRequest" }],
-              },
-            },
-          },
-        },
-        responses: {
-          "200": {
-            "$ref": "#/components/responses/AuthedUser",
-          },
-          "400": {
-            "$ref": "#/components/responses/400",
-          },
-          "401": {
-            "$ref": "#/components/responses/401",
           },
         },
       },
@@ -1354,13 +1317,14 @@ export const openapi = {
           },
         },
       },
-      UserBase: {
+      User: {
         type: "object",
         required: [
           "screenName",
           "name",
           "id",
           "gameIds",
+          "avaterUrl",
         ],
         properties: {
           screenName: {
@@ -1382,31 +1346,18 @@ export const openapi = {
               type: "string",
             },
           },
+          avaterUrl: {
+            type: "string",
+            description: "ユーザアイコンのURL",
+          },
         },
         example: {
           "screenName": "A-1",
           "name": "a1",
           "id": "a92070bf-7f78-4c64-953b-189ddb44c159",
           "gameIds": [],
+          "avaterUrl": [],
         },
-      },
-      User: {
-        allOf: [
-          { $ref: "#/components/schemas/UserBase" },
-          {
-            type: "object",
-            properties: {
-              bearerToken: {
-                type: "string",
-                description:
-                  "BearerToken<br>認証されたユーザのみ取得できます。",
-              },
-            },
-            example: {
-              "bearerToken": "",
-            },
-          },
-        ],
       },
       Tournament: {
         type: "object",
@@ -1607,7 +1558,7 @@ export const openapi = {
         content: {
           "application/json": {
             schema: {
-              allOf: [{ "$ref": "#/components/schemas/UserBase" }, {
+              allOf: [{ "$ref": "#/components/schemas/User" }, {
                 type: "object",
                 required: ["bearerToken"],
                 properties: {
@@ -1638,13 +1589,6 @@ export const openapi = {
         name: "Authorization",
         description:
           "ゲーム参加時のレスポンスで得られるPIC(プレイヤー識別コード)を使用します。",
-      },
-      JWT: {
-        type: "http",
-        scheme: "bearer",
-        bearerFormat: "JWT",
-        description:
-          "[囲みマス公式Viewer](https://kakomimasu.com)にて使用される認証方法です。<br>通常の人がJWTトークンを取得することはできません。",
       },
     },
   },

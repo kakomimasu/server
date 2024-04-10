@@ -11,8 +11,6 @@ type Env<T = typeof config> =
   }
   | never;
 
-console.log(Colors.yellow("[env]\tCheck environment"));
-
 // Read dotenv file
 loadEnv({ export: true });
 
@@ -28,6 +26,9 @@ Object.entries(config).forEach(([key, data]) => {
 
   // @ts-ignore configがas constのため
   env[key] = value ?? data.default;
+  if (value === undefined && "default" in data) {
+    Deno.env.set(key, value ?? data.default);
+  }
 });
 
 // console.log(env);

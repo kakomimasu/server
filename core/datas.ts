@@ -15,20 +15,26 @@ class User implements KvUser {
   public screenName: string;
   public name: string;
   public readonly id: string;
+  public avaterUrl: string;
+  public sessions: string[];
   public bearerToken: string;
 
   constructor(data: KvUser) {
     this.screenName = data.screenName;
     this.name = data.name;
     this.id = data.id;
+    this.avaterUrl = data.avaterUrl;
+    this.sessions = data.sessions;
     this.bearerToken = data.bearerToken;
   }
 
-  static create(data: Pick<KvUser, "screenName" | "name" | "id">) {
+  static create(data: Omit<KvUser, "bearerToken">) {
     return new User({
       screenName: data.screenName,
       name: data.name,
       id: data.id,
+      avaterUrl: data.avaterUrl,
+      sessions: data.sessions,
       bearerToken: randomUUID(),
     });
   }
@@ -48,14 +54,18 @@ class User implements KvUser {
   }
 
   // シリアライズする際にBearerTokenを返さないように
-  // パスワードを返したい場合にはnoSafe()を用いる
+  // BearerTokenを返したい場合にはnoSafe()を用いる
   toJSON() {
     const { bearerToken: _b, ...data } = this.noSafe();
     return data;
   }
 
-  // BearerTokenも含めたオブジェクトにする
-  noSafe = () => ({ ...this, gameIds: this.getGameIds() });
+  // BearerTokenやSession情報も含めたオブジェクトにする
+  noSafe = () => {
+    const { sessions: _s, ...data } = this;
+    const gameIds = this.getGameIds();
+    return { ...data, gameIds };
+  };
 }
 
 class Users {
@@ -68,11 +78,6 @@ class Users {
   save = () => setAllUsers(this.users);
 
   getUsers = () => this.users;
-
-  deleteUser(index: number) {
-    this.users.splice(index, 1);
-    this.save();
-  }
 
   showUser(idOrName: string) {
     const user = this.users.find((
