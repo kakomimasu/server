@@ -31,6 +31,7 @@ const app = new Application();
 app.use(oakCors({
   origin: "*",
   methods: ["GET", "POST", "DELETE", "PATCH"],
+  exposedHeaders: ["Date"],
 }));
 
 // Logger
