@@ -156,7 +156,17 @@ class ExpGame extends Core.Game {
     game.log = data.log.map((turn) => {
       return {
         players: turn.players.map(({ point, actions }) => {
-          return { point, actions: actions ?? [] };
+          const restoreActions = actions?.map((action) => {
+            const a = new Core.Action(
+              action.agentId,
+              action.type,
+              action.x,
+              action.y,
+            );
+            a.res = action.res;
+            return a;
+          });
+          return { point, actions: restoreActions ?? [] };
         }),
       };
     });
