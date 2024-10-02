@@ -17,6 +17,7 @@ const dumpKv = await Deno.openKv(dumpKvPath.pathname);
 const newKv = await Deno.openKv(newKvPath.pathname);
 
 // 移行前のゲームデータをすべて取得
+// deno-lint-ignore no-explicit-any
 const data = kv.list<any>({ prefix: [GAMES_KEY] });
 for await (const d of data) {
   // dump.kv に再度保存
@@ -25,6 +26,7 @@ for await (const d of data) {
 console.log("dump.kv に保存しました");
 
 // 移行後のデータに変換して保存
+// deno-lint-ignore no-explicit-any
 const dumpData = dumpKv.list<any>({ prefix: [GAMES_KEY] });
 for await (const d of dumpData) {
   const game = ExpGame.fromJSON(d.value);

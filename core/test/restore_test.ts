@@ -82,6 +82,7 @@ Deno.test({
     });
     testKv.set(["test1"], await compression(game.toLogJSON()));
 
+    // deno-lint-ignore no-explicit-any
     const kvData = await testKv.get<any>(["test1"]);
     const restoredGame = ExpGame.fromJSON(await decompression(kvData.value));
 

@@ -14,6 +14,7 @@ if (!await fs.exists(newKvPath)) {
 const newKv = await Deno.openKv(newKvPath.pathname);
 
 // 移行
+// deno-lint-ignore no-explicit-any
 const data = newKv.list<any>({ prefix: [GAMES_KEY] });
 for await (const d of data) {
   kv.set(d.key, d.value);
