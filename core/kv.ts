@@ -1,6 +1,7 @@
 import { env } from "./env.ts";
 import type { Board, ExpGame } from "./expKakomimasu.ts";
 import type { Tournament, User } from "./datas.ts";
+import { compression, decompression } from "./util.ts";
 
 export const kv = await Deno.openKv(
   env.DENO_KV_ACCESS_TOKEN
@@ -94,25 +95,18 @@ export async function getAllTournaments(): Promise<KvTournament[]> {
 export async function setGame(
   game: ExpGame,
 ): Promise<void> {
-  await kv.set([GAMES_KEY, game.id], game.toLogJSON());
-  // const gameRef = ref(db, "games/" + game.id);
-  // const gameJson = game.toLogJSON();
-  // const gameJson2 = JSON.parse(JSON.stringify(gameJson));
-  // await set(gameRef, gameJson2);
+  await kv.set([GAMES_KEY, game.id], compression(game.toLogJSON()));
 }
 
 /** 全ゲーム取得 */
 export async function getAllGameSnapShot() {
-  const data = kv.list({ prefix: [GAMES_KEY] });
+  const data = kv.list<ArrayBuffer>({ prefix: [GAMES_KEY] });
 
-  const games = (await Array.fromAsync(data)).map((d) => d.value);
-  // tournaments[0].addUser("test");
-  // console.log(users[0]);
+  const games = [];
+  for await (const d of data) {
+    games.push(await decompression(d.value));
+  }
   return games;
-
-  // const gamesRef = ref(db, "games");
-  // const snap = await get(gamesRef);
-  // return snap;
 }
 
 /** ボードを1つ取得 */
