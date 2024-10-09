@@ -95,7 +95,7 @@ export async function getAllTournaments(): Promise<KvTournament[]> {
 export async function setGame(
   game: ExpGame,
 ): Promise<void> {
-  await kv.set([GAMES_KEY, game.id], compression(game.toLogJSON()));
+  await kv.set([GAMES_KEY, game.id], await compression(game.toLogJSON()));
 }
 
 /** 全ゲーム取得 */
