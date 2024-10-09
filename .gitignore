@@ -8,3 +8,6 @@ firebase-key.json
 # Coverage
 coverage
 coverage-html
+
+# Migration
+db/migration/202410_kv_games_deflate/new*

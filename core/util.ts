@@ -35,3 +35,25 @@ export interface ClientBase {
   oninit: (game: ExpGame) => void;
   onturn: (game: ExpGame) => Core.Action[];
 }
+
+/** deflate-raw 形式に圧縮する関数 */
+export async function compression(obj: Parameters<JSON["stringify"]>[0]) {
+  const str = JSON.stringify(obj);
+  const complessedStream = new Blob([str]).stream().pipeThrough(
+    new CompressionStream("deflate-raw"),
+  );
+  const complessedArrayBuffer = await new Response(complessedStream)
+    .arrayBuffer();
+
+  return complessedArrayBuffer;
+}
+
+/** deflate-raw 形式のデータを解凍する関数 */
+// deno-lint-ignore no-explicit-any
+export async function decompression(arrayBuffer: ArrayBuffer): Promise<any> {
+  const decompressedStream = new Blob([arrayBuffer]).stream().pipeThrough(
+    new DecompressionStream("deflate-raw"),
+  );
+  const json = await new Response(decompressedStream).json();
+  return json;
+}
