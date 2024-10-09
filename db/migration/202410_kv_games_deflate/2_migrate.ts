@@ -17,6 +17,7 @@ const newKv = await Deno.openKv(newKvPath.pathname);
 // deno-lint-ignore no-explicit-any
 const data = newKv.list<any>({ prefix: [GAMES_KEY] });
 for await (const d of data) {
+  console.log("移行中...", d.key);
   kv.set(d.key, d.value);
 }
 console.log("kv に保存しました");

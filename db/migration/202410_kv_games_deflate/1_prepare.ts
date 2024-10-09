@@ -7,28 +7,17 @@ const baseUrl = new URL(import.meta.url);
 
 const GAMES_KEY = "games";
 
-const dumpKvPath = new URL("./dump.kv", baseUrl);
 const newKvPath = new URL("./new.kv", baseUrl);
-if (await fs.exists(dumpKvPath) || await fs.exists(newKvPath)) {
-  console.error("dump.kv または new.kv がすでに存在しています");
+if (await fs.exists(newKvPath)) {
+  console.error("new.kv がすでに存在しています");
   Deno.exit(1);
 }
-const dumpKv = await Deno.openKv(dumpKvPath.pathname);
 const newKv = await Deno.openKv(newKvPath.pathname);
 
-// 移行前のゲームデータをすべて取得
 // deno-lint-ignore no-explicit-any
 const data = kv.list<any>({ prefix: [GAMES_KEY] });
 for await (const d of data) {
-  // dump.kv に再度保存
-  dumpKv.set(d.key, d.value);
-}
-console.log("dump.kv に保存しました");
-
-// 移行後のデータに変換して保存
-// deno-lint-ignore no-explicit-any
-const dumpData = dumpKv.list<any>({ prefix: [GAMES_KEY] });
-for await (const d of dumpData) {
+  console.log("変換中...", d.key);
   const game = ExpGame.fromJSON(d.value);
   const ab = await compression(game.toLogJSON());
   // new-dump.kv に変換したデータを保存
