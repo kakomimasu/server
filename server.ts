@@ -115,3 +115,26 @@ app.addEventListener("listen", ({ hostname, port, secure }) => {
 });
 
 app.listen({ port });
+
+// Error handling
+globalThis.window.addEventListener("unhandledrejection", (e) => {
+  e.preventDefault();
+  console.error(e.reason);
+
+  const message = e.reason instanceof Error ? e.reason.stack : e.reason;
+  if (env.DISCORD_WEBHOOK_URL) {
+    const content = `kakomimasu/serverで予期しないエラーを検出しました。
+Type: unhandledrejection
+Date: ${new Date().toLocaleString("ja-JP")}
+\`\`\`console\n${message}\n\`\`\``;
+    fetch(env.DISCORD_WEBHOOK_URL, {
+      method: "POST",
+      headers: new Headers({ "content-type": "application/json" }),
+      body: JSON.stringify({ content, username: "unhandledrejection ERROR!" }),
+    }).then(async (res) => {
+      console.log(await res.text());
+    }).catch((e) => {
+      console.error(e);
+    });
+  }
+});
