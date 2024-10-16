@@ -1,4 +1,5 @@
-import { Colors, loadEnv } from "../deps.ts";
+import * as Colors from "@std/fmt/colors";
+import { loadSync as loadEnv } from "@std/dotenv";
 
 import { config } from "../env.config.ts";
 

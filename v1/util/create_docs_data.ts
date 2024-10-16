@@ -1,4 +1,4 @@
-import { Core } from "../../deps.ts";
+import * as Core from "kkmm-core";
 import { ExpGame, Player } from "../parts/expKakomimasu.ts";
 
 const board = new Core.Board({

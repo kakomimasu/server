@@ -1,4 +1,4 @@
-import { Router } from "../deps.ts";
+import { Router } from "oak";
 
 import { contentTypeFilter, jsonParse } from "./util.ts";
 import { Tournament, tournaments } from "../core/datas.ts";

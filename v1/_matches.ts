@@ -1,4 +1,5 @@
-import { Context, Core, Router } from "../deps.ts";
+import { Context, Router } from "oak";
+import * as Core from "kkmm-core";
 
 import { nowUnixTime } from "../core/util.ts";
 import { accounts, games, tournaments } from "../core/datas.ts";

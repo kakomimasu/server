@@ -1,4 +1,5 @@
-import { Core, Middleware } from "../deps.ts";
+import { Middleware } from "oak";
+import * as Core from "kkmm-core";
 import type { ExpGame } from "./expKakomimasu.ts";
 
 import { errors, ServerError } from "./error.ts";

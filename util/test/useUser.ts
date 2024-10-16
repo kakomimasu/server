@@ -1,4 +1,4 @@
-import { assert } from "../../deps-test.ts";
+import { assert } from "@std/assert";
 
 import { randomUUID } from "../../core/util.ts";
 import { env } from "../../core/env.ts";

@@ -1,4 +1,4 @@
-import { Core } from "../deps.ts";
+import * as Core from "kkmm-core";
 
 import { setGame } from "./kv.ts";
 import { ClientBase, nowUnixTime, randomUUID } from "./util.ts";

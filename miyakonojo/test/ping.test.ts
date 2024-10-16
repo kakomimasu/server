@@ -1,4 +1,4 @@
-import { assert, assertEquals } from "../../deps-test.ts";
+import { assert, assertEquals } from "@std/assert";
 
 import { useUser } from "../../util/test/useUser.ts";
 

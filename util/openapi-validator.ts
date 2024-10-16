@@ -4,7 +4,7 @@ import {
   RequestBodyObject,
   ResponseObject,
   SchemaObject,
-} from "../deps.ts";
+} from "openapi3-ts/oas30";
 import {
   InferReferenceType,
   Methods,

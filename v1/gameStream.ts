@@ -1,9 +1,4 @@
-import {
-  helpers,
-  Router,
-  ServerSentEvent,
-  ServerSentEventTarget,
-} from "../deps.ts";
+import { helpers, Router, ServerSentEvent, ServerSentEventTarget } from "oak";
 
 import { ResponseType } from "../util/openapi-type.ts";
 

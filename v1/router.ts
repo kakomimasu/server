@@ -1,4 +1,4 @@
-import { Router } from "../deps.ts";
+import { Router } from "oak";
 
 import { authRouter } from "./_oauth.ts";
 import { tournamentRouter } from "./_tournaments.ts";

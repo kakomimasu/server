@@ -1,4 +1,5 @@
-import { assert, v4 } from "../../deps-test.ts";
+import { assert } from "@std/assert";
+import { v4 } from "@std/uuid";
 import { randomUUID } from "../../core/util.ts";
 
 Deno.test("randamUUID", () => {
