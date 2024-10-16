@@ -1,4 +1,4 @@
-import { Middleware, RouterMiddleware } from "../deps.ts";
+import { Middleware, RouterMiddleware } from "oak";
 
 import { getMatches, StateToken } from "./_util.ts";
 import { TeamsMatchesRes, TeamsMeRes } from "./types.ts";

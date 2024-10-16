@@ -1,5 +1,6 @@
-import { assertEquals, delay } from "../../deps-test.ts";
-import { Core } from "../../deps.ts";
+import { assertEquals } from "@std/assert";
+import { delay } from "@std/async";
+import * as Core from "kkmm-core";
 import { ExpGame, Player } from "../expKakomimasu.ts";
 import { compression, decompression } from "../util.ts";
 

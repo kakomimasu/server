@@ -1,4 +1,5 @@
-import { Core, Middleware, RouterMiddleware } from "../deps.ts";
+import { Middleware, RouterMiddleware } from "oak";
+import * as Core from "kkmm-core";
 
 import { games } from "../core/datas.ts";
 import type { ExpGame } from "../core/expKakomimasu.ts";

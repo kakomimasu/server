@@ -1,4 +1,4 @@
-import { Context, Middleware } from "../deps.ts";
+import { Context, Middleware } from "oak";
 
 import { accounts, games, type User } from "../core/datas.ts";
 

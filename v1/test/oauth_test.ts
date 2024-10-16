@@ -1,4 +1,4 @@
-import { assert, assertEquals } from "../../deps-test.ts";
+import { assert, assertEquals } from "@std/assert";
 import { getAllUsers } from "../../core/kv.ts";
 import { randomUUID } from "../../core/util.ts";
 import { errors } from "../../core/error.ts";

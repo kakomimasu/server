@@ -1,4 +1,4 @@
-import { Core } from "../../deps.ts";
+import * as Core from "kkmm-core";
 import { ClientBase } from "../../core/util.ts";
 import { ExpGame } from "../../core/expKakomimasu.ts";
 
