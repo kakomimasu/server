@@ -6,7 +6,7 @@ import {
   signIn,
   signOut,
 } from "kv_oauth";
-import { Octokit as OctokitRest } from "npm:@octokit/rest@20.0.1";
+import { Octokit as OctokitRest } from "npm:@octokit/rest@21.0.2";
 
 import { wrapOakRequest } from "./util.ts";
 import { errors, ServerError } from "../core/error.ts";
