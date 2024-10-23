@@ -67,7 +67,7 @@ class Player extends Core.Player<ExpGame> {
     this.type = type;
   }
 
-  static fromJSON(data: PlayerJson, game?: ExpGame): Player { // Kakomimasu.tsから実装をコピー＋pic,typeを追加
+  static override fromJSON(data: PlayerJson, game?: ExpGame): Player { // Kakomimasu.tsから実装をコピー＋pic,typeを追加
     const player = new Player(data.id, data.spec);
     player.index = data.index;
     player.pic = data.pic;
@@ -81,7 +81,7 @@ class Player extends Core.Player<ExpGame> {
 
     return player;
   }
-  toJSON(): PlayerJson {
+  override toJSON(): PlayerJson {
     return {
       ...super.toJSON(),
       pic: this.pic,
@@ -134,7 +134,7 @@ class ExpGame extends Core.Game {
     this.transitionSec = transitionSec;
   }
 
-  static fromJSON(data: GameLogJson) {
+  static override fromJSON(data: GameLogJson) {
     const board: GameInit = {
       width: data.field.width,
       height: data.field.height,
@@ -185,7 +185,7 @@ class ExpGame extends Core.Game {
     this.personalUserId = userId || null;
   }
 
-  attachPlayer(player: Player) {
+  override attachPlayer(player: Player) {
     if (this.reservedUsers.length > 0) {
       const isReservedUser = player.type === "account" &&
         this.reservedUsers.some((e) => e === player.id);
