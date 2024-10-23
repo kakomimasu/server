@@ -1,4 +1,4 @@
-import { Router } from "oak";
+import { Router } from "@oak/oak";
 
 import { getBoards } from "../core/kv.ts";
 

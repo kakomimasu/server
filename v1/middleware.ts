@@ -1,4 +1,4 @@
-import { Context } from "oak";
+import { Context } from "@oak/oak";
 import { getSessionId } from "kv_oauth";
 
 import { accounts } from "../core/datas.ts";

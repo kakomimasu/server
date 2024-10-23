@@ -1,4 +1,4 @@
-import { Application, Context, Router } from "oak";
+import { Application, Context, Router } from "@oak/oak";
 import { oakCors } from "@tajpouria/cors";
 
 import { VersionRes } from "./types.ts";

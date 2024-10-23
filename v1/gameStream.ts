@@ -1,4 +1,4 @@
-import { Router, ServerSentEvent, ServerSentEventTarget } from "oak";
+import { Router, ServerSentEvent, ServerSentEventTarget } from "@oak/oak";
 
 import { ResponseType } from "../util/openapi-type.ts";
 

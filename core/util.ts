@@ -1,4 +1,4 @@
-import { Middleware } from "oak";
+import { Middleware } from "@oak/oak";
 import * as Core from "kkmm-core";
 import type { ExpGame } from "./expKakomimasu.ts";
 

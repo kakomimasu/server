@@ -1,4 +1,4 @@
-import { Context, Router } from "oak";
+import { Context, Router } from "@oak/oak";
 import * as Core from "kkmm-core";
 
 import { nowUnixTime } from "../core/util.ts";

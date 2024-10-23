@@ -1,7 +1,7 @@
 // API仕様
 // https://procon31resources.s3-ap-northeast-1.amazonaws.com/index.html
 
-import { Router } from "oak";
+import { Router } from "@oak/oak";
 
 import { jsonParse, StateData } from "../core/util.ts";
 import { errors, ServerError } from "../core/error.ts";

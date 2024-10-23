@@ -1,4 +1,4 @@
-import { Middleware } from "oak";
+import { Middleware } from "@oak/oak";
 
 import { PingRes } from "./types.ts";
 

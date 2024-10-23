@@ -1,4 +1,4 @@
-import { Context } from "oak";
+import { Context } from "@oak/oak";
 import { errors, ServerError } from "../core/error.ts";
 
 export type UnknownRequest<T> = Record<keyof T, unknown>;
