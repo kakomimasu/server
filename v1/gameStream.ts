@@ -1,4 +1,4 @@
-import { helpers, Router, ServerSentEvent, ServerSentEventTarget } from "oak";
+import { Router, ServerSentEvent, ServerSentEventTarget } from "oak";
 
 import { ResponseType } from "../util/openapi-type.ts";
 
@@ -139,14 +139,15 @@ export const streamRoutes = () => {
   router.get(
     "/stream",
     auth({ bearer: true, required: false }),
-    (ctx) => {
-      const params = helpers.getQuery(ctx);
+    async (ctx) => {
+      const params = ctx.request.url.searchParams;
 
-      const q = params.q;
-      const sIdx = params.startIndex ? parseInt(params.startIndex) : undefined;
-      const eIdx = params.endIndex ? parseInt(params.endIndex) : undefined;
-      const allowNewGame = params.allowNewGame === "true";
-      // console.log(q, sIdx, eIdx, allowNewGame);
+      const q = params.get("q") ?? "";
+      const sIdxStr = params.get("startIndex");
+      const sIdx = sIdxStr ? parseInt(sIdxStr) : undefined;
+      const eIdxStr = params.get("endIndex");
+      const eIdx = eIdxStr ? parseInt(eIdxStr) : undefined;
+      const allowNewGame = params.get("allowNewGame") === "true";
 
       const target = await ctx.sendEvents();
 
