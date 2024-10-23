@@ -45,7 +45,8 @@ export default class ApiClient {
         data: await res.json() as any,
         res,
       };
-    } catch (e) {
+      // deno-lint-ignore no-explicit-any
+    } catch (e: any) {
       const data: T.ErrorRes = { errorCode: -1, message: e.message };
       const res = new Response(JSON.stringify(data), { status: 404 });
       return { success: false, data, res };
