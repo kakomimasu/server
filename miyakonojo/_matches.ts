@@ -1,4 +1,4 @@
-import { Middleware, RouterMiddleware } from "oak";
+import { Middleware, RouterMiddleware } from "@oak/oak";
 import * as Core from "kkmm-core";
 
 import { games } from "../core/datas.ts";

@@ -1,4 +1,5 @@
 import { assert, assertEquals } from "@std/assert";
+import { delay } from "@std/async";
 import { getAllUsers } from "../../core/kv.ts";
 import { randomUUID } from "../../core/util.ts";
 import { errors } from "../../core/error.ts";
@@ -16,6 +17,7 @@ Deno.test(`GET /v1/oauth/signout:success`, async () => {
 
     assert(res.status === 302);
 
+    await delay(500);
     // ユーザ情報からセッション情報が削除されているかを確認
     const users = await getAllUsers();
     const signOutUser = users.find((u) => u.id === user.id);

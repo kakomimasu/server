@@ -1,4 +1,4 @@
-import { Context } from "oak";
+import { Context } from "@oak/oak";
 import { errors, ServerError } from "../core/error.ts";
 
 export type UnknownRequest<T> = Record<keyof T, unknown>;
@@ -19,7 +19,7 @@ export const jsonParse = () =>
 // TODO: coreのutilに移行
 async (ctx: Context, next: () => Promise<unknown>) => {
   try {
-    const reqJson = await ctx.request.body({ type: "json" }).value;
+    const reqJson = await ctx.request.body.json();
     ctx.state.data = reqJson ?? {};
   } catch (_e) {
     throw new ServerError(errors.INVALID_SYNTAX);
@@ -37,7 +37,7 @@ export async function wrapOakRequest(
   ctx: Context,
   fn: (request: Request) => Promise<Response>,
 ) {
-  const req = OakRequest2Request(ctx);
+  const req = await OakRequest2NoBodyRequest(ctx);
   const response = await fn(req);
   ApplyResponse(ctx, response);
 }
@@ -45,12 +45,16 @@ export async function wrapOakRequest(
 /**
  * @see {@link https://github.com/oakserver/oak/issues/533}
  */
-export function OakRequest2Request(ctx: Context): Request {
-  return new Request(ctx.request.url.toString(), {
-    body: ctx.request.originalRequest.getBody().body,
+export async function OakRequest2NoBodyRequest(ctx: Context): Promise<Request> {
+  const req = new Request(ctx.request.url.toString(), {
+    body: ["get", "head"].includes(ctx.request.method.toLowerCase())
+      ? undefined
+      : "dummy",
     headers: ctx.request.headers,
     method: ctx.request.method,
   });
+  await req.text(); // bodyはないということを明示するために使用済みにしておく
+  return req;
 }
 
 /**

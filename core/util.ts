@@ -1,4 +1,4 @@
-import { Middleware } from "oak";
+import { Middleware } from "@oak/oak";
 import * as Core from "kkmm-core";
 import type { ExpGame } from "./expKakomimasu.ts";
 
@@ -23,7 +23,7 @@ export const jsonParse =
       throw new ServerError(errors.INVALID_CONTENT_TYPE);
     }
     try {
-      const reqJson = await ctx.request.body({ type: "json" }).value;
+      const reqJson = await ctx.request.body.json();
       ctx.state.data = reqJson;
     } catch (_e) {
       throw new ServerError(errors.INVALID_SYNTAX);
