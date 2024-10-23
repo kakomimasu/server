@@ -181,7 +181,9 @@ export const streamRoutes = () => {
 
       clients.set(target, client);
 
-      const initialEvent = new ServerSentEvent("message", initialData);
+      const initialEvent = new ServerSentEvent("message", {
+        data: initialData,
+      });
       target.dispatchEvent(initialEvent);
 
       target.addEventListener("close", () => {

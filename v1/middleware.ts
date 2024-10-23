@@ -4,7 +4,7 @@ import { getSessionId } from "kv_oauth";
 import { accounts } from "../core/datas.ts";
 import { errorCodeResponse, errors, ServerError } from "../core/error.ts";
 
-import { OakRequest2Request } from "./util.ts";
+import { OakRequest2NoBodyRequest } from "./util.ts";
 
 export const auth = (
   { bearer, cookie, required = true }: {
@@ -37,7 +37,7 @@ async (ctx: Context, next: () => Promise<unknown>) => { // Authorizationヘッ�
     );
     ctx.response.headers.set("Access-Control-Allow-Credentials", "true");
 
-    const request = OakRequest2Request(ctx);
+    const request = await OakRequest2NoBodyRequest(ctx);
     const sessionId = await getSessionId(request);
 
     // 認証済みユーザの取得
