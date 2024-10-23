@@ -148,7 +148,7 @@ export const streamRoutes = () => {
       const allowNewGame = params.allowNewGame === "true";
       // console.log(q, sIdx, eIdx, allowNewGame);
 
-      const target = ctx.sendEvents();
+      const target = await ctx.sendEvents();
 
       const searchOptions = analyzeStringSearchOption(q);
 
