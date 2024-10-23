@@ -67,7 +67,8 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
   try {
     await next();
-  } catch (err) {
+    // deno-lint-ignore no-explicit-any
+  } catch (err: any) {
     if (!(err instanceof ServerError)) {
       if (env.DISCORD_WEBHOOK_URL) {
         const content = `kakomimasu/serverで予期しないエラーを検出しました。
@@ -118,7 +119,7 @@ app.addEventListener("listen", ({ hostname, port, secure }) => {
 app.listen({ port });
 
 // Error handling
-globalThis.window.addEventListener("unhandledrejection", (e) => {
+globalThis.addEventListener("unhandledrejection", (e) => {
   e.preventDefault();
   console.error(e.reason);
 
