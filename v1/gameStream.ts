@@ -1,4 +1,5 @@
-import { Router, ServerSentEvent, ServerSentEventTarget } from "@oak/oak";
+import { Hono } from "hono";
+import { SSEStreamingApi, streamSSE } from "hono/streaming";
 
 import { ResponseType } from "../util/openapi-type.ts";
 
@@ -21,9 +22,8 @@ type MapValue = {
   gameIds: string[];
   authedUserId?: string;
   allowNewGame: boolean;
-  keepAliveTimerId: number;
 };
-const clients = new Map<ServerSentEventTarget, MapValue>();
+const clients = new Map<SSEStreamingApi, MapValue>();
 
 const analyzeStringSearchOption = (q: string) => {
   console.log("query", q);
@@ -36,20 +36,6 @@ const analyzeStringSearchOption = (q: string) => {
   //console.log(qs);
 
   return qs;
-};
-
-const setKeepAliveTimeout = (controller: ServerSentEventTarget) => {
-  const timerId = setInterval(() => {
-    try {
-      controller.dispatchComment("keep-alive");
-    } catch (e) {
-      if (e instanceof TypeError) {
-        clearInterval(timerId);
-      }
-    }
-  }, 10 * 1000);
-
-  return timerId;
 };
 
 const sortCompareFn = (
@@ -125,76 +111,75 @@ export function sendGame(game: ExpGame) {
         };
       } else return;
     }
-    controller.dispatchMessage(JSON.stringify(data));
-
-    clearTimeout(value.keepAliveTimerId);
-    value.keepAliveTimerId = setKeepAliveTimeout(controller);
+    controller.writeSSE({ event: "message", data: JSON.stringify(data) });
   });
 }
 
 addSendGameFn(sendGame);
 
-export const streamRoutes = () => {
-  const router = new Router();
-  router.get(
-    "/stream",
-    auth({ bearer: true, required: false }),
-    async (ctx) => {
-      const params = ctx.request.url.searchParams;
+const router = new Hono();
+router.get(
+  "/stream",
+  auth({ bearer: true, required: false }),
+  (ctx) => {
+    const params = new URL(ctx.req.url).searchParams;
 
-      const q = params.get("q") ?? "";
-      const sIdxStr = params.get("startIndex");
-      const sIdx = sIdxStr ? parseInt(sIdxStr) : undefined;
-      const eIdxStr = params.get("endIndex");
-      const eIdx = eIdxStr ? parseInt(eIdxStr) : undefined;
-      const allowNewGame = params.get("allowNewGame") === "true";
+    const q = params.get("q") ?? "";
+    const sIdxStr = params.get("startIndex");
+    const sIdx = sIdxStr ? parseInt(sIdxStr) : undefined;
+    const eIdxStr = params.get("endIndex");
+    const eIdx = eIdxStr ? parseInt(eIdxStr) : undefined;
+    const allowNewGame = params.get("allowNewGame") === "true";
 
-      const target = await ctx.sendEvents();
+    const searchOptions = analyzeStringSearchOption(q);
 
-      const searchOptions = analyzeStringSearchOption(q);
+    const client: MapValue = {
+      searchOptions,
+      gameIds: [],
+      authedUserId: ctx.get("authed_userId"),
+      allowNewGame: allowNewGame ?? false,
+    };
 
-      const client: MapValue = {
-        searchOptions,
-        gameIds: [],
-        authedUserId: ctx.state.authed_userId,
-        allowNewGame: allowNewGame ?? false,
-        keepAliveTimerId: setKeepAliveTimeout(target),
-      };
+    const filteredGames = games.filter((game) => {
+      return staticFilter(game, client) && dynamicFilter(game, client);
+    }).sort((a, b) => sortCompareFn(a, b, searchOptions));
 
-      const filteredGames = games.filter((game) => {
-        return staticFilter(game, client) && dynamicFilter(game, client);
-      }).sort((a, b) => sortCompareFn(a, b, searchOptions));
+    const gamesNum = filteredGames.length;
+    const slicedGames = filteredGames.slice(sIdx, eIdx);
+    const gameIds = slicedGames.map((g) => g.id);
 
-      const gamesNum = filteredGames.length;
-      const slicedGames = filteredGames.slice(sIdx, eIdx);
-      const gameIds = slicedGames.map((g) => g.id);
+    client.gameIds = gameIds;
 
-      client.gameIds = gameIds;
+    const initialData: StreamRes = {
+      type: "initial",
+      q,
+      startIndex: sIdx,
+      endIndex: eIdx,
+      games: slicedGames.map((g) => g.toJSON()),
+      gamesNum,
+    };
 
-      const initialData: StreamRes = {
-        type: "initial",
-        q,
-        startIndex: sIdx,
-        endIndex: eIdx,
-        games: slicedGames.map((g) => g.toJSON()),
-        gamesNum,
-      };
-
+    return streamSSE(ctx, async (target) => {
       clients.set(target, client);
 
-      const initialEvent = new ServerSentEvent("message", {
-        data: initialData,
-      });
-      target.dispatchEvent(initialEvent);
+      const initialEvent = {
+        event: "message",
+        data: JSON.stringify(initialData),
+      };
+      await target.writeSSE(initialEvent);
 
-      target.addEventListener("close", () => {
-        const value = clients.get(target);
-        clearTimeout(value?.keepAliveTimerId);
+      target.onAbort(() => {
         // console.log(value);
         clients.delete(target);
       });
-    },
-  );
 
-  return router.routes();
-};
+      while (true) {
+        // keep-alive を 10 秒ごとに送信
+        await target.sleep(10 * 1000);
+        target.writeln(": keep-alive");
+      }
+    });
+  },
+);
+
+export default router;

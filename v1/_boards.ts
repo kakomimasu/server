@@ -1,11 +1,13 @@
-import { Router } from "@oak/oak";
+import { Hono } from "hono";
 
 import { getBoards } from "../core/kv.ts";
 
-export const router = new Router();
+const router = new Hono();
 
 router.get("/", async (ctx) => {
   const boards = await getBoards();
   //console.log(boards);
-  ctx.response.body = boards;
+  return ctx.json(boards);
 });
+
+export default router;

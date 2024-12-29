@@ -1,4 +1,4 @@
-import { Middleware, RouterMiddleware } from "@oak/oak";
+import { type Handler } from "hono";
 import * as Core from "kkmm-core";
 
 import { games } from "../core/datas.ts";
@@ -14,38 +14,34 @@ import {
   UpdateActionRes,
 } from "./types.ts";
 
-export const priorMatches: Middleware<StateToken> = (ctx) => {
-  const authedUser = ctx.state.user;
+export const priorMatches: Handler<{ Variables: StateToken }> = (ctx) => {
+  const authedUser = ctx.get("user");
 
   const body: PriorMatchesRes = {
     matches: getMatches(authedUser.id),
   };
-  ctx.response.status = 200;
-  ctx.response.body = body;
+  return ctx.json(body, 200);
 };
 
-export const matches: RouterMiddleware<
-  "/matches/:id",
-  { id: string },
-  StatePic
+export const matches: Handler<
+  { Variables: StatePic },
+  "/matches/:id"
 > = (
   ctx,
 ) => {
-  const id = ctx.params.id;
-  const pic = ctx.state.pic;
+  const id = ctx.req.param("id");
+  const pic = ctx.get("pic");
 
   const game = games.find((game) => game.id === id);
   if (game?.players.find((player) => player.pic === pic) === undefined) { // 参加していない試合に対するリクエスト、また存在しない試合IDの場合
-    ctx.response.status = 404;
-    return;
+    return new Response(null, { status: 404 });
   }
   if (game.isGaming() === false && game.isEnded() === false) { // 試合開始前のリクエストの場合
-    ctx.response.status = 425;
     const retryTime = game.startedAtUnixTime === null
       ? 0
       : game.startedAtUnixTime - nowUnixTime();
-    ctx.response.headers.append("Retry-After", retryTime.toString());
-    return;
+    ctx.res.headers.append("Retry-After", retryTime.toString());
+    return new Response(null, { status: 425 });
   }
 
   const startedAtUnixTime = game.startedAtUnixTime as number;
@@ -105,41 +101,37 @@ export const matches: RouterMiddleware<
     points,
     actions,
   };
-  ctx.response.body = body;
+  return ctx.json(body);
 };
 
-export const updateAction: RouterMiddleware<
-  "/matches/:id/action",
-  { id: string },
-  StateData<UpdateActionReq> & StatePic
+export const updateAction: Handler<
+  { Variables: StateData<UpdateActionReq> & StatePic },
+  "/matches/:id/action"
 > = (
   ctx,
 ) => {
-  const id = ctx.params.id;
-  const pic = ctx.state.pic;
+  const id = ctx.req.param("id");
+  const pic = ctx.get("pic");
 
   const game = games.find((game) => game.id === id);
   const playerIdx = game?.players.findIndex((player) => player.pic === pic) ??
     -1;
   const player = playerIdx >= 0 ? game?.players[playerIdx] : undefined;
   if (game === undefined || player === undefined) { // 参加していない試合に対するリクエスト、また存在しない試合IDの場合
-    ctx.response.status = 404;
-    return;
+    return new Response(null, { status: 404 });
   }
   if (game.isGaming() === false && game.isEnded() === false) { // 試合開始前のリクエストの場合
-    ctx.response.status = 425;
     const retryTime = game.startedAtUnixTime === null
       ? 0
       : game.startedAtUnixTime - nowUnixTime();
-    ctx.response.headers.append("Retry-After", retryTime.toString());
-    return;
+    ctx.res.headers.append("Retry-After", retryTime.toString());
+    return new Response(null, { status: 425 });
   }
   if (game.isEnded() || game.isTransitionStep()) { // ターンとターンの間の時間や試合終了後にアクセスした場合
-    ctx.response.status = 400;
-    return;
+    return new Response(null, { status: 400 });
   }
 
-  const actions = ctx.state.data;
+  const actions = ctx.get("data");
   const newActions = player.actions;
 
   const body: UpdateActionRes = { actions: [] };
@@ -178,12 +170,10 @@ export const updateAction: RouterMiddleware<
       });
     });
   } catch (_) { // リクエストの中に自分のエージェント以外を指定したアクションが含まれる場合
-    ctx.response.status = 400;
-    return;
+    return new Response(null, { status: 400 });
   }
 
-  ctx.response.status = 202;
-  ctx.response.body = body;
+  return ctx.json(body, 202);
 };
 
 function getActions(game: ExpGame) {

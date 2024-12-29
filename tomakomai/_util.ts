@@ -1,36 +1,41 @@
-import { Context, Middleware } from "@oak/oak";
+import { type Context } from "hono";
+import { createMiddleware } from "hono/factory";
 
 import { accounts, games, type User } from "../core/datas.ts";
 
 import { PriorMatch } from "./types.ts";
 
 const getAuth = (ctx: Context) => {
-  return ctx.request.headers.get("x-api-token");
+  return ctx.req.header("x-api-token");
 };
 
 export type StateToken = { user: User };
 export type StatePic = { pic: string };
 
-export const checkAuthToken: Middleware<StateToken> = async (ctx, next) => {
-  const token = getAuth(ctx) ?? "";
-  const authedUser = accounts.getWithAuth(token);
-  if (authedUser) {
-    ctx.state.user = authedUser;
-    await next();
-  } else {
-    ctx.response.status = 401;
-  }
-};
+export const checkAuthToken = createMiddleware<{ Variables: StateToken }>(
+  async (ctx, next) => {
+    const token = getAuth(ctx) ?? "";
+    const authedUser = accounts.getWithAuth(token);
+    if (authedUser) {
+      ctx.set("user", authedUser);
+      await next();
+    } else {
+      return new Response(null, { status: 401 });
+    }
+  },
+);
 
-export const checkAuthPic: Middleware<StatePic> = async (ctx, next) => {
-  const pic = getAuth(ctx);
-  if (pic) {
-    ctx.state.pic = pic;
-    await next();
-  } else {
-    ctx.response.status = 401;
-  }
-};
+export const checkAuthPic = createMiddleware<{ Variables: StatePic }>(
+  async (ctx, next) => {
+    const pic = getAuth(ctx);
+    if (pic) {
+      ctx.set("pic", pic);
+      await next();
+    } else {
+      return new Response(null, { status: 401 });
+    }
+  },
+);
 
 export const getMatches = (userId: string) => {
   const matches = games.filter((game) => {

@@ -1,4 +1,4 @@
-import { Context, Router } from "@oak/oak";
+import { Hono } from "hono";
 import * as Core from "kkmm-core";
 
 import { nowUnixTime } from "../core/util.ts";
@@ -55,10 +55,9 @@ const getRandomBoard = async () => {
 };
 
 const createPlayer = (
-  ctx: Context,
+  authedUserId: string,
   reqData: { guestName?: string; spec?: string },
 ) => {
-  const authedUserId = ctx.state.authed_userId as string;
   const user = accounts.getUsers().find((user) => user.id === authedUserId);
   if (!user) {
     if (reqData.guestName) {
@@ -72,10 +71,10 @@ const createPlayer = (
   }
 };
 
-export const router = new Router();
+const router = new Hono();
 
 router.get("/", (ctx) => {
-  const sp = ctx.request.url.searchParams;
+  const sp = new URL(ctx.req.url).searchParams;
 
   let limit: number | undefined = undefined;
   if (sp.has("limit")) {
@@ -95,7 +94,7 @@ router.get("/", (ctx) => {
   let sortedGames = [...games];
   sortedGames.sort(sortFn);
   sortedGames = sortedGames.slice(0, limit);
-  ctx.response.body = games;
+  return ctx.json(games);
 });
 
 router.post(
@@ -104,7 +103,7 @@ router.post(
   auth({ bearer: true, required: false }),
   jsonParse(),
   async (ctx) => {
-    const reqJson = ctx.state.data;
+    const reqJson = ctx.get("data");
     const isValid = validator.validateRequestBody(
       reqJson,
       "/matches",
@@ -132,7 +131,7 @@ router.post(
     }
 
     if (reqJson.isPersonal) {
-      const authedUserId = ctx.state.authed_userId as string;
+      const authedUserId = ctx.get("authed_userId") as string;
       console.log(authedUserId);
       if (authedUserId) game.setType("personal", authedUserId);
       else {
@@ -162,13 +161,13 @@ router.post(
     }
 
     const body: IGame = game.toJSON();
-    ctx.response.body = body;
+    return ctx.json(body);
     //console.log(kkmm_self);
   },
 );
 
 router.get("/:id", (ctx) => {
-  const id = ctx.params.id;
+  const id = ctx.req.param("id");
   const game = games.find((item) => item.id === id);
   if (!game) throw new ServerError(errors.NOT_GAME);
   if (game.isTransitionStep()) {
@@ -176,7 +175,7 @@ router.get("/:id", (ctx) => {
   }
 
   const body: IGame = game.toJSON();
-  ctx.response.body = body;
+  return ctx.json(body);
 });
 
 router.patch(
@@ -189,7 +188,7 @@ router.patch(
     // Actionを受け取った時刻を取得
     const reqTime = nowUnixTime();
 
-    const gameId = ctx.params.gameId;
+    const gameId = ctx.req.param("gameId");
 
     const game = games.find((item) => item.id === gameId);
     if (!game) throw new ServerError(errors.NOT_GAME);
@@ -198,7 +197,7 @@ router.patch(
       throw new ServerError(errors.DURING_TRANSITION_STEP);
     }
 
-    const actionData = ctx.state.data;
+    const actionData = ctx.get("data");
     const isValid = validator.validateRequestBody(
       actionData,
       "/matches/{gameId}/actions",
@@ -207,7 +206,7 @@ router.patch(
     );
     if (!isValid) throw new ServerError(errors.INVALID_REQUEST);
 
-    const pic = ctx.request.headers.get("Authorization");
+    const pic = ctx.req.header("Authorization");
     const player = game.players.find((player) => player.pic === pic);
     if (!player) throw new ServerError(errors.INVALID_USER_AUTHORIZATION);
 
@@ -249,7 +248,7 @@ router.patch(
       turn: nowTurn,
     };
 
-    ctx.response.body = resData;
+    return ctx.json(resData);
   },
 );
 
@@ -259,7 +258,7 @@ router.post(
   auth({ bearer: true, required: false }),
   jsonParse(),
   async (ctx) => {
-    const reqData = ctx.state.data;
+    const reqData = ctx.get("data");
     const isValid = validator.validateRequestBody(
       reqData,
       "/matches/free/players",
@@ -271,7 +270,8 @@ router.post(
     }
     //console.log(reqData);
 
-    const player = createPlayer(ctx, reqData);
+    const authedUserId = ctx.get("authed_userId");
+    const player = createPlayer(authedUserId, reqData);
 
     const freeGame = games.filter((g) => g.isFree() && g.type === "normal");
 
@@ -294,7 +294,7 @@ router.post(
       ...rawRes,
       gameId: gameId ?? crypto.randomUUID(),
     }; // dry-run用にgameIdを設定
-    ctx.response.body = res;
+    return ctx.json(res);
   },
 );
 
@@ -304,7 +304,7 @@ router.post(
   auth({ bearer: true, required: false }),
   jsonParse(),
   async (ctx) => {
-    const reqData = ctx.state.data;
+    const reqData = ctx.get("data");
     const isValid = validator.validateRequestBody(
       reqData,
       "/matches/ai/players",
@@ -316,7 +316,8 @@ router.post(
     }
     //console.log(reqData);
 
-    const player = createPlayer(ctx, reqData);
+    const authedUserId = ctx.get("authed_userId") as string;
+    const player = createPlayer(authedUserId, reqData);
 
     const ai = aiList.find((e) => e.name === reqData.aiName);
     if (!ai) throw new ServerError(errors.NOT_AI);
@@ -335,7 +336,6 @@ router.post(
       const game = new ExpGame(init);
       games.push(game);
       if (player.type === "account") {
-        const authedUserId = ctx.state.authed_userId as string;
         const user = accounts.getUsers().find((user) =>
           user.id === authedUserId
         );
@@ -358,7 +358,7 @@ router.post(
       ...rawRes,
       gameId: gameId ?? crypto.randomUUID(),
     }; // dry-run用にgameIdを設定
-    ctx.response.body = res;
+    return ctx.json(res);
   },
 );
 
@@ -368,7 +368,7 @@ router.post(
   auth({ bearer: true, required: false }),
   jsonParse(),
   (ctx) => {
-    const reqData = ctx.state.data;
+    const reqData = ctx.get("data");
     const isValid = validator.validateRequestBody(
       reqData,
       "/matches/{gameId}/players",
@@ -379,9 +379,10 @@ router.post(
       throw new ServerError(errors.INVALID_REQUEST);
     }
     //console.log(reqData);
-    const gameId = ctx.params.id;
+    const gameId = ctx.req.param("id");
 
-    const player = createPlayer(ctx, reqData);
+    const authedUserId = ctx.get("authed_userId") as string;
+    const player = createPlayer(authedUserId, reqData);
 
     const game = games.find((game) => game.id === gameId);
     if (!game) throw new ServerError(errors.NOT_GAME);
@@ -397,6 +398,8 @@ router.post(
       ...rawRes,
       gameId: pGameId ?? crypto.randomUUID(),
     }; // dry-run用にgameIdを設定
-    ctx.response.body = res;
+    return ctx.json(res);
   },
 );
+
+export default router;

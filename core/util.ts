@@ -1,4 +1,4 @@
-import { Middleware } from "@oak/oak";
+import { createMiddleware } from "hono/factory";
 import * as Core from "kkmm-core";
 import type { ExpGame } from "./expKakomimasu.ts";
 
@@ -16,20 +16,23 @@ export const randomUUID = () => crypto.randomUUID();
 
 export type StateData<T> = { data: T };
 
-export const jsonParse =
-  <T>(): Middleware<StateData<T>> => async (ctx, next) => {
-    const contentType = ctx.request.headers.get("content-type");
-    if (contentType === null || contentType !== "application/json") {
-      throw new ServerError(errors.INVALID_CONTENT_TYPE);
-    }
-    try {
-      const reqJson = await ctx.request.body.json();
-      ctx.state.data = reqJson;
-    } catch (_e) {
-      throw new ServerError(errors.INVALID_SYNTAX);
-    }
-    await next();
-  };
+export const jsonParse = <T>() => {
+  return createMiddleware<{ Variables: StateData<T> }>(
+    async (ctx, next) => {
+      const contentType = ctx.req.header("content-type");
+      if (contentType === null || contentType !== "application/json") {
+        throw new ServerError(errors.INVALID_CONTENT_TYPE);
+      }
+      try {
+        const reqJson = await ctx.req.json();
+        ctx.set("data", reqJson);
+      } catch (_e) {
+        throw new ServerError(errors.INVALID_SYNTAX);
+      }
+      await next();
+    },
+  );
+};
 
 export interface ClientBase {
   playerIndex: number;
