@@ -16,6 +16,7 @@ export const contentTypeFilter = (
 
 export const jsonParse = () =>
   // TODO: coreのutilに移行
+  // deno-lint-ignore no-explicit-any
   createMiddleware<{ Variables: { data: any } }>(async (ctx, next) => {
     try {
       const reqJson = await ctx.req.json();
