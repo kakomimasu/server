@@ -9,4 +9,3 @@ jobs:
     uses: kakomimasu/kakomimasu.github.io/.github/workflows/pr-labeler.yml@main
     with:
       title: ${{ github.event.pull_request.title }}
-
