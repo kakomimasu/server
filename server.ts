@@ -1,5 +1,5 @@
-import { Application, Context, Router } from "@oak/oak";
-import { oakCors } from "@tajpouria/cors";
+import { type Context, Hono } from "hono";
+import { cors } from "hono/cors";
 
 import { VersionRes } from "./types.ts";
 
@@ -10,38 +10,25 @@ import { router as miyakonojoRouter } from "./miyakonojo/router.ts";
 import { router as tomakomaiRouter } from "./tomakomai/router.ts";
 import { router as v1Router } from "./v1/router.ts";
 
-// deno-lint-ignore no-explicit-any
-function sortObject(unsorted: any): any {
-  if (unsorted === null || typeof unsorted !== "object") return unsorted;
-  if (Array.isArray(unsorted)) return unsorted.map(sortObject);
-  const sorted = Object.keys(unsorted).sort().reduce(
-    (obj, key) => {
-      obj[key] = sortObject(unsorted[key]);
-      return obj;
-    },
-    {} as Record<string, unknown>,
-  );
-  return sorted;
-}
-
 const port = parseInt(env.PORT);
 
-const app = new Application();
+const app = new Hono();
 
-// CORS
-app.use(oakCors({
-  origin: "*",
-  methods: ["GET", "POST", "DELETE", "PATCH"],
-  exposedHeaders: ["Date"],
-}));
+app.use(cors(
+  {
+    origin: "*",
+    allowMethods: ["GET", "POST", "DELETE", "PATCH"],
+    exposeHeaders: ["Date"],
+  },
+));
 
 // Logger
 app.use(async (ctx, next) => {
   await next();
-  const rt = ctx.response.headers.get("X-Response-Time");
+  const rt = ctx.res.headers.get("X-Response-Time");
   const now = new Date().toISOString();
   console.log(
-    `[${now}] ${ctx.response.status} ${ctx.request.method} ${ctx.request.url} - ${rt}`,
+    `[${now}] ${ctx.res.status} ${ctx.req.method} ${ctx.req.url} - ${rt}`,
   );
 });
 
@@ -50,73 +37,43 @@ app.use(async (ctx, next) => {
   const start = Date.now();
   await next();
   const ms = Date.now() - start;
-  ctx.response.headers.set("X-Response-Time", `${ms}ms`);
-});
-
-// Sort response body
-app.use(async (ctx, next) => {
-  await next();
-  if (ctx.respond === false && ctx.response.body) {
-    let body = JSON.parse(JSON.stringify(ctx.response.body));
-    body = sortObject(body);
-    ctx.response.body = body;
-  }
+  ctx.res.headers.set("X-Response-Time", `${ms}ms`);
 });
 
 // Error handling
-app.use(async (ctx, next) => {
-  try {
-    await next();
-    // deno-lint-ignore no-explicit-any
-  } catch (err: any) {
-    if (!(err instanceof ServerError)) {
-      if (env.DISCORD_WEBHOOK_URL) {
-        const content = `kakomimasu/serverで予期しないエラーを検出しました。
+app.onError((err, ctx) => {
+  if (!(err instanceof ServerError)) {
+    if (env.DISCORD_WEBHOOK_URL) {
+      const content = `kakomimasu/serverで予期しないエラーを検出しました。
 Date: ${new Date().toLocaleString("ja-JP")}
-URL: ${ctx.request.url}
+URL: ${ctx.req.url}
 \`\`\`console\n${err.stack}\n\`\`\``;
-        fetch(env.DISCORD_WEBHOOK_URL, {
-          method: "POST",
-          headers: new Headers({ "content-type": "application/json" }),
-          body: JSON.stringify({ content, username: "500 ERROR!" }),
-        }).then(async (res) => {
-          console.log(await res.text());
-        });
-      }
+      fetch(env.DISCORD_WEBHOOK_URL, {
+        method: "POST",
+        headers: new Headers({ "content-type": "application/json" }),
+        body: JSON.stringify({ content, username: "500 ERROR!" }),
+      }).then(async (res) => {
+        console.log(await res.text());
+      });
     }
-    // console.log(ctx.request);
-    const { status, body } = errorCodeResponse(err);
-    ctx.response.status = status;
-    ctx.response.body = body;
   }
+  // console.log(ctx.request);
+  const { status, body } = errorCodeResponse(err);
+  return ctx.json(body, status);
 });
 
 // API router
-const router = new Router();
-router.use("/v1", v1Router.routes());
-router.use("/miyakonojo", miyakonojoRouter.routes());
-router.use("/tomakomai", tomakomaiRouter.routes());
-router.get("/version", (ctx) => {
+app.route("/v1", v1Router);
+app.route("/miyakonojo", miyakonojoRouter);
+app.route("/tomakomai", tomakomaiRouter);
+app.get("/version", (ctx) => {
   const data: VersionRes = { version: env.VERSION };
-  ctx.response.body = data;
+  return ctx.json(data);
 });
-router.get("/(.*)", (_ctx: Context) => {
+app.get("*", (_ctx: Context) => {
   throw new ServerError(errors.NOT_FOUND);
 });
-
-app.use(router.routes());
-app.use(router.allowedMethods());
-
-app.addEventListener("listen", ({ hostname, port, secure }) => {
-  console.log(
-    `Listening on: ${secure ? "https://" : "http://"}${
-      hostname ??
-        "localhost"
-    }:${port}`,
-  );
-});
-
-app.listen({ port });
+Deno.serve({ port }, app.fetch);
 
 // Error handling
 globalThis.addEventListener("unhandledrejection", (e) => {

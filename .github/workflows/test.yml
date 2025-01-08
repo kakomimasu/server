@@ -10,7 +10,16 @@ on:
 jobs:
   check:
     name: format & lint check
-    uses: kakomimasu/kakomimasu.github.io/.github/workflows/dfl-check.yml@main
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.0.2
+      - name: Run fmt
+        run: deno fmt --check
+      - name: Run lint
+        run: deno lint
   test:
     needs: check
     runs-on: ubuntu-latest

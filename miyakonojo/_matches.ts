@@ -1,4 +1,4 @@
-import { Middleware, RouterMiddleware } from "@oak/oak";
+import { type Handler } from "hono";
 import * as Core from "kkmm-core";
 
 import { games } from "../core/datas.ts";
@@ -15,8 +15,8 @@ import {
   UpdateActionRes,
 } from "./types.ts";
 
-export const priorMatches: Middleware<StateToken> = (ctx) => {
-  const authedUser = ctx.state.user;
+export const priorMatches: Handler<{ Variables: StateToken }> = (ctx) => {
+  const authedUser = ctx.get("user");
 
   const matches = games.filter((game) => {
     if (game.isEnded()) return false;
@@ -50,33 +50,30 @@ export const priorMatches: Middleware<StateToken> = (ctx) => {
 
   const body: PriorMatchesRes = matches;
 
-  ctx.response.status = 200;
-  ctx.response.body = body;
+  return ctx.json(body, 200);
 };
 
-export const matches: RouterMiddleware<
-  "/matches/:id",
-  { id: string },
-  StatePic
+export const matches: Handler<
+  { Variables: StatePic },
+  "/matches/:id"
 > = (
   ctx,
 ) => {
-  const id = ctx.params.id;
-  const pic = ctx.state.pic;
+  const id = ctx.req.param("id");
+  const pic = ctx.get("pic");
 
   const game = games.find((game) => game.id === id);
   if (game?.players.find((player) => player.pic === pic) === undefined) {
-    ctx.response.status = 400;
-    ctx.response.body = { status: "InvalidMatches" };
-    return;
+    return ctx.json({ status: "InvalidMatches" }, 400);
   }
   if (game.isGaming() === false && game.isEnded() === false) {
-    ctx.response.status = 400;
-    ctx.response.body = {
-      status: "TooEarly",
-      startAtUnixTime: game.startedAtUnixTime ?? undefined,
-    };
-    return;
+    return ctx.json(
+      {
+        status: "TooEarly",
+        startAtUnixTime: game.startedAtUnixTime ?? undefined,
+      },
+      400,
+    );
   }
 
   const actions = getActions(game);
@@ -130,46 +127,39 @@ export const matches: RouterMiddleware<
     turn: game.turn,
     width: game.field.width,
   };
-  ctx.response.body = body;
+  return ctx.json(body);
 };
 
-export const updateAction: RouterMiddleware<
-  "/matches/:id/action",
-  { id: string },
-  StateData<UpdateActionReq> & StatePic
+export const updateAction: Handler<
+  { Variables: StateData<UpdateActionReq> & StatePic },
+  "/matches/:id/action"
 > = (
   ctx,
 ) => {
-  const id = ctx.params.id;
-  const pic = ctx.state.pic;
+  const id = ctx.req.param("id");
+  const pic = ctx.get("pic");
 
   const game = games.find((game) => game.id === id);
   const playerIdx = game?.players.findIndex((player) => player.pic === pic) ??
     -1;
   const player = playerIdx >= 0 ? game?.players[playerIdx] : undefined;
   if (game === undefined || player === undefined) {
-    ctx.response.status = 400;
-    ctx.response.body = { status: "InvalidMatches" };
-    return;
+    return ctx.json({ status: "InvalidMatches" }, 400);
   }
   if (game.isGaming() === false && game.isEnded() === false) {
-    ctx.response.status = 400;
-    ctx.response.body = {
+    return ctx.json({
       status: "TooEarly",
       startAtUnixTime: game.startedAtUnixTime ?? undefined,
-    };
-    return;
+    }, 400);
   }
   if (game.isEnded() || game.isTransitionStep()) {
-    ctx.response.status = 400;
-    ctx.response.body = {
+    return ctx.json({
       status: "UnacceptableTime",
       startAtUnixTime: game.startedAtUnixTime,
-    };
-    return;
+    }, 400);
   }
 
-  const actions = ctx.state.data;
+  const actions = ctx.get("data");
   const newActions = player.actions;
 
   const resActions: UpdateActionRes["actions"] = [];
@@ -212,8 +202,7 @@ export const updateAction: RouterMiddleware<
     });
   });
 
-  ctx.response.status = 201;
-  ctx.response.body = { actions: resActions };
+  return ctx.json({ actions: resActions }, 201);
 };
 
 function getActions(game: ExpGame) {

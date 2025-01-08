@@ -1,35 +1,30 @@
-import { Middleware, RouterMiddleware } from "@oak/oak";
-
+import { type Handler } from "hono";
 import { getMatches, StateToken } from "./_util.ts";
 import { TeamsMatchesRes, TeamsMeRes } from "./types.ts";
 
-export const myTeam: Middleware<StateToken> = (ctx) => {
-  const authedUser = ctx.state.user;
+export const myTeam: Handler<{ Variables: StateToken }> = (ctx) => {
+  const authedUser = ctx.get("user");
 
   const body: TeamsMeRes = {
     teamID: 0,
     name: authedUser.id,
   };
 
-  ctx.response.status = 200;
-  ctx.response.body = body;
+  return ctx.json(body, 200);
 };
 
-export const teamMatches: RouterMiddleware<
-  "/teams/:id/matches",
-  { id: string },
-  StateToken
+export const teamMatches: Handler<
+  { Variables: StateToken },
+  "/teams/:id/matches"
 > = (ctx) => {
-  const id = ctx.params.id;
-  const authedUser = ctx.state.user;
+  const id = ctx.req.param("id");
+  const authedUser = ctx.get("user");
 
   if (id !== authedUser.id) { // APIトークンと異なるチームのリソースにアクセスした場合
-    ctx.response.status = 403;
-    return;
+    return new Response(null, { status: 403 });
   }
 
   const body: TeamsMatchesRes = { matches: getMatches(authedUser.id) };
 
-  ctx.response.status = 200;
-  ctx.response.body = body;
+  return ctx.json(body, 200);
 };
