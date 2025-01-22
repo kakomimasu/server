@@ -25,8 +25,7 @@
     "jsr:@std/streams@0.221": "0.221.0",
     "jsr:@std/uuid@^1.0.4": "1.0.4",
     "npm:@octokit/rest@20.0.1": "20.0.1_@octokit+core@5.2.0",
-    "npm:@types/node@*": "22.5.4",
-    "npm:hono@^4.6.13": "4.6.13"
+    "npm:@types/node@*": "22.5.4"
   },
   "jsr": {
     "@deno/kv-oauth@0.11.0": {
@@ -233,9 +232,6 @@
     "deprecation@2.3.1": {
       "integrity": "sha512-xmHIy4F3scKVwMsQ4WnVaS8bHOx0DmVwRywosKhaILI0ywMDWPtBSku2HNxRvF7jtwDRsoEwYQSfbxj8b7RlJQ=="
     },
-    "hono@4.6.13": {
-      "integrity": "sha512-haV0gaMdSjy9URCRN9hxBPlqHa7fMm/T72kAImIxvw4eQLbNz1rgjN4hHElLJSieDiNuiIAXC//cC6YGz2KCbg=="
-    },
     "once@1.4.0": {
       "integrity": "sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==",
       "dependencies": [
@@ -270,8 +266,7 @@
       "jsr:@std/async@^1.0.5",
       "jsr:@std/dotenv@~0.225.2",
       "jsr:@std/fmt@^1.0.2",
-      "jsr:@std/uuid@^1.0.4",
-      "npm:hono@^4.6.13"
+      "jsr:@std/uuid@^1.0.4"
     ]
   }
 }
