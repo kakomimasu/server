@@ -1,4 +1,4 @@
-import { Hono } from "hono";
+import { Hono } from "@hono/hono";
 import { SSEStreamingApi, streamSSE } from "hono/streaming";
 
 import { ResponseType } from "../util/openapi-type.ts";

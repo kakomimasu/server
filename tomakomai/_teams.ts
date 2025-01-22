@@ -1,4 +1,4 @@
-import { type Handler } from "hono";
+import { type Handler } from "@hono/hono";
 import { getMatches, StateToken } from "./_util.ts";
 import { TeamsMatchesRes, TeamsMeRes } from "./types.ts";
 

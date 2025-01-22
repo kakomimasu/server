@@ -1,4 +1,4 @@
-import { type Context } from "hono";
+import { type Context } from "@hono/hono";
 import { createMiddleware } from "hono/factory";
 
 import { accounts, type User } from "../core/datas.ts";

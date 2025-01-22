@@ -1,7 +1,7 @@
 // API仕様
 // https://procon30resources.s3-ap-northeast-1.amazonaws.com/index.html
 
-import { Hono } from "hono";
+import { Hono } from "@hono/hono";
 
 import { jsonParse } from "../core/util.ts";
 

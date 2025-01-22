@@ -1,4 +1,4 @@
-import { type Handler } from "hono";
+import { type Handler } from "@hono/hono";
 import * as Core from "kkmm-core";
 
 import { games } from "../core/datas.ts";
