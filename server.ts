@@ -1,5 +1,5 @@
-import { type Context, Hono } from "hono";
-import { cors } from "hono/cors";
+import { type Context, Hono } from "@hono/hono";
+import { cors } from "@hono/hono/cors";
 
 import { VersionRes } from "./types.ts";
 

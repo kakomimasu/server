@@ -13,12 +13,12 @@
     // "exclude": ["test.ts"] // deno v1.40.2に移行時にexcludeが入っていると直接test.tsを指定しても実行されなくなってしまったのでコメントアウト
   },
   "imports": {
+    "@hono/hono": "jsr:@hono/hono@^4.6.17",
     "@std/assert": "jsr:@std/assert@^1.0.6",
     "@std/async": "jsr:@std/async@^1.0.5",
     "@std/dotenv": "jsr:@std/dotenv@^0.225.2",
     "@std/fmt": "jsr:@std/fmt@^1.0.2",
     "@std/uuid": "jsr:@std/uuid@^1.0.4",
-    "hono": "npm:hono@^4.6.13",
     "kkmm-core": "https://cdn.jsdelivr.net/gh/codeforkosen/Kakomimasu@v2.0.1/mod.ts",
     "kv_oauth": "jsr:@deno/kv-oauth@^0.11.0",
     "openapi3-ts/": "https://esm.sh/openapi3-ts@4.4.0/"

@@ -1,4 +1,4 @@
-import { Hono } from "hono";
+import { Hono } from "@hono/hono";
 import * as Core from "kkmm-core";
 
 import { nowUnixTime } from "../core/util.ts";

@@ -1,4 +1,4 @@
-import { Hono } from "hono";
+import { Hono } from "@hono/hono";
 
 import { contentTypeFilter, jsonParse } from "./util.ts";
 import { errors, ServerError } from "../core/error.ts";

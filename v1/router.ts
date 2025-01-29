@@ -1,4 +1,4 @@
-import { Hono } from "hono";
+import { Hono } from "@hono/hono";
 
 import authRouter from "./_oauth.ts";
 import tournamentRouter from "./_tournaments.ts";

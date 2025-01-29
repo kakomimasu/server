@@ -1,4 +1,4 @@
-import { type Handler } from "hono";
+import { type Handler } from "@hono/hono";
 
 import { PingRes } from "./types.ts";
 

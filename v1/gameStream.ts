@@ -1,5 +1,5 @@
-import { Hono } from "hono";
-import { SSEStreamingApi, streamSSE } from "hono/streaming";
+import { Hono } from "@hono/hono";
+import { SSEStreamingApi, streamSSE } from "@hono/hono/streaming";
 
 import { ResponseType } from "../util/openapi-type.ts";
 
