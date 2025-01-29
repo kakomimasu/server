@@ -1,4 +1,4 @@
-import { createMiddleware } from "hono/factory";
+import { createMiddleware } from "@hono/hono/factory";
 import * as Core from "kkmm-core";
 import type { ExpGame } from "./expKakomimasu.ts";
 

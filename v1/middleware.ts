@@ -1,4 +1,4 @@
-import { createMiddleware } from "hono/factory";
+import { createMiddleware } from "@hono/hono/factory";
 import { getSessionId } from "kv_oauth";
 
 import { accounts } from "../core/datas.ts";

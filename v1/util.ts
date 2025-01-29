@@ -1,4 +1,4 @@
-import { createMiddleware } from "hono/factory";
+import { createMiddleware } from "@hono/hono/factory";
 import { errors, ServerError } from "../core/error.ts";
 
 export type UnknownRequest<T> = Record<keyof T, unknown>;

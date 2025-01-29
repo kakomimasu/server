@@ -1,5 +1,5 @@
 import { type Context } from "@hono/hono";
-import { createMiddleware } from "hono/factory";
+import { createMiddleware } from "@hono/hono/factory";
 
 import { accounts, type User } from "../core/datas.ts";
 
