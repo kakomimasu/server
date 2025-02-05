@@ -3,7 +3,7 @@ import { OpenAPIValidator } from "../../util/openapi-validator.ts";
 
 export const openapi = {
   // export const openapi: OpenAPIObject = {
-  openapi: "3.1.1",
+  openapi: "3.0.3",
   info: {
     title: "Kakomimasu API",
     version: "0.1.0",
