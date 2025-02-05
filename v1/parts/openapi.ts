@@ -8,6 +8,12 @@ export const openapi = {
     title: "Kakomimasu API",
     version: "0.1.0",
   },
+  servers: [
+    {
+      url: "/v1",
+      description: "Version 1 API",
+    },
+  ],
   paths: {
     "/matches/{gameId}/players": {
       post: {
