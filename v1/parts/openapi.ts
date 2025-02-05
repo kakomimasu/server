@@ -3,11 +3,17 @@ import { OpenAPIValidator } from "../../util/openapi-validator.ts";
 
 export const openapi = {
   // export const openapi: OpenAPIObject = {
-  openapi: "3.1.1",
+  openapi: "3.0.3",
   info: {
     title: "Kakomimasu API",
     version: "0.1.0",
   },
+  servers: [
+    {
+      url: "/v1",
+      description: "Version 1 API",
+    },
+  ],
   paths: {
     "/matches/{gameId}/players": {
       post: {
@@ -678,13 +684,6 @@ export const openapi = {
             },
           },
         ],
-        requestBody: {
-          content: {
-            "application/json": {
-              schema: { "$ref": "#/components/schemas/DryRunRequest" },
-            },
-          },
-        },
         responses: {
           "200": {
             description: "Success",
@@ -776,24 +775,6 @@ export const openapi = {
         summary: "ユーザ削除",
         tags: ["Users API"],
         security: [{ Bearer: [], Cookie: [] }],
-        parameters: [
-          {
-            in: "path",
-            name: "userIdOrName",
-            required: true,
-            schema: {
-              type: "string",
-              description: "ユーザID or ユーザネーム",
-            },
-          },
-        ],
-        requestBody: {
-          content: {
-            "application/json": {
-              schema: { "$ref": "#/components/schemas/DryRunRequest" },
-            },
-          },
-        },
         responses: {
           "200": {
             "$ref": "#/components/responses/AuthedUser",
@@ -1116,7 +1097,9 @@ export const openapi = {
                   },
                 },
               },
-            }, { type: "null" }],
+            }, {
+              type: "object",
+            }],
           },
           totalTurn: {
             type: "integer",
@@ -1589,6 +1572,12 @@ export const openapi = {
         name: "Authorization",
         description:
           "ゲーム参加時のレスポンスで得られるPIC(プレイヤー識別コード)を使用します。",
+      },
+      Cookie: {
+        type: "apiKey",
+        in: "cookie",
+        name: "site-session",
+        description: "Cookieに保存されているセッションIDを使用します。",
       },
     },
   },
