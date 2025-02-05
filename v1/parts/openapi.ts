@@ -769,17 +769,6 @@ export const openapi = {
         summary: "ユーザ削除",
         tags: ["Users API"],
         security: [{ Bearer: [], Cookie: [] }],
-        parameters: [
-          {
-            in: "path",
-            name: "userIdOrName",
-            required: true,
-            schema: {
-              type: "string",
-              description: "ユーザID or ユーザネーム",
-            },
-          },
-        ],
         responses: {
           "200": {
             "$ref": "#/components/responses/AuthedUser",
