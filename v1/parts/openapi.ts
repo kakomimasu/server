@@ -678,13 +678,6 @@ export const openapi = {
             },
           },
         ],
-        requestBody: {
-          content: {
-            "application/json": {
-              schema: { "$ref": "#/components/schemas/DryRunRequest" },
-            },
-          },
-        },
         responses: {
           "200": {
             description: "Success",
@@ -787,13 +780,6 @@ export const openapi = {
             },
           },
         ],
-        requestBody: {
-          content: {
-            "application/json": {
-              schema: { "$ref": "#/components/schemas/DryRunRequest" },
-            },
-          },
-        },
         responses: {
           "200": {
             "$ref": "#/components/responses/AuthedUser",
