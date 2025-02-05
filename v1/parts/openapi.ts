@@ -1102,7 +1102,9 @@ export const openapi = {
                   },
                 },
               },
-            }, { type: "null" }],
+            }, {
+              type: "object",
+            }],
           },
           totalTurn: {
             type: "integer",
