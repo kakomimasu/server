@@ -1573,6 +1573,12 @@ export const openapi = {
         description:
           "ゲーム参加時のレスポンスで得られるPIC(プレイヤー識別コード)を使用します。",
       },
+      Cookie: {
+        type: "apiKey",
+        in: "cookie",
+        name: "site-session",
+        description: "Cookieに保存されているセッションIDを使用します。",
+      },
     },
   },
 } as const;
