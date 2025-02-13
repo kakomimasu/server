@@ -1060,9 +1060,12 @@ export const openapi = {
             },
           },
           startedAtUnixTime: {
-            type: "integer",
             description: "ゲーム開始時刻(UNIX時間)",
-            nullable: true,
+            oneOf: [{
+              type: "integer",
+            }, {
+              type: "null",
+            }],
           },
           field: {
             description: "フィールド情報<br>開始前は非公開(`null`)です。",
@@ -1107,10 +1110,13 @@ export const openapi = {
                         enum: [0, 1],
                       },
                       player: {
-                        type: "integer",
-                        nullable: true,
                         description:
                           "マスを所持するプレイヤー番号(`players`の配列番号)。<br>`null`の場合は空白マス。",
+                        oneOf: [{
+                          type: "integer",
+                        }, {
+                          type: "null",
+                        }],
                       },
                     },
                   },
