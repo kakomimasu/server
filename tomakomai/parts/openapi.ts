@@ -1,4 +1,4 @@
-// import { OpenAPIObject } from "openapi3-ts/oas30";
+// import { OpenAPIObject } from "openapi3-ts/oas31";
 import { OpenAPIValidator } from "../../util/openapi-validator.ts";
 
 export const openapi = {
