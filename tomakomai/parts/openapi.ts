@@ -11,7 +11,7 @@ export const openapi = {
   },
   servers: [
     {
-      url: "https://api.kakomimasu.com",
+      url: "https://api.kakomimasu.com/tomakomai",
     },
   ],
   paths: {
