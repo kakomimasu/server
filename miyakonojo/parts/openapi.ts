@@ -583,7 +583,7 @@ export const openapi = {
   },
   servers: [
     {
-      url: "//api.kakomimasu.com",
+      url: "//api.kakomimasu.com/miyakonojo",
     },
   ],
   components: {
