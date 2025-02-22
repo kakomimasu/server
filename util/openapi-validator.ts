@@ -151,7 +151,6 @@ export class OpenAPIValidator<Base> {
     const schema = this.spreadSchema(schema_);
     // console.log(data, schema);
     // console.log(JSON.stringify(schema, null, 2));
-    if (schema.nullable && data === null) return true;
 
     // console.log("validate", typeof schema.type);
     if (typeof schema.type === "string") {
