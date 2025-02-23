@@ -90,7 +90,7 @@ export class OpenAPIValidator<Base> {
     contentType: ContentType,
   ): data is ResponseType<Path, Method, StatusCode, ContentType, Base> {
     const rawSchema = this.spreadResponse(
-      this.openapi.paths[path][method]
+      this.openapi.paths?.[path]?.[method]
         .responses[String(statusCode)],
     ).content?.[contentType].schema;
 
@@ -126,7 +126,7 @@ export class OpenAPIValidator<Base> {
     contentType: ContentType,
   ): data is RequestBodyType<Path, Method, ContentType, Base> {
     const rawSchema = this.spreadRequestBody(
-      this.openapi.paths[path][method]
+      this.openapi.paths?.[path]?.[method]
         .requestBody,
     ).content?.[contentType].schema;
 
