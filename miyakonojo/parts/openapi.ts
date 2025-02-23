@@ -3,7 +3,7 @@ import { OpenAPIValidator } from "../../util/openapi-validator.ts";
 
 export const openapi = {
   // export const openapi: OpenAPIObject = {
-  openapi: "3.0.0",
+  openapi: "3.1.1",
   info: {
     description: "",
     title: "囲みマス API",
