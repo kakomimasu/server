@@ -4,7 +4,7 @@ import {
   RequestBodyObject,
   ResponseObject,
   SchemaObject,
-} from "openapi3-ts/oas30";
+} from "openapi3-ts/oas31";
 import {
   InferReferenceType,
   Methods,
@@ -90,7 +90,7 @@ export class OpenAPIValidator<Base> {
     contentType: ContentType,
   ): data is ResponseType<Path, Method, StatusCode, ContentType, Base> {
     const rawSchema = this.spreadResponse(
-      this.openapi.paths[path][method]
+      this.openapi.paths?.[path]?.[method]
         .responses[String(statusCode)],
     ).content?.[contentType].schema;
 
@@ -126,7 +126,7 @@ export class OpenAPIValidator<Base> {
     contentType: ContentType,
   ): data is RequestBodyType<Path, Method, ContentType, Base> {
     const rawSchema = this.spreadRequestBody(
-      this.openapi.paths[path][method]
+      this.openapi.paths?.[path]?.[method]
         .requestBody,
     ).content?.[contentType].schema;
 
@@ -151,7 +151,6 @@ export class OpenAPIValidator<Base> {
     const schema = this.spreadSchema(schema_);
     // console.log(data, schema);
     // console.log(JSON.stringify(schema, null, 2));
-    if (schema.nullable && data === null) return true;
 
     // console.log("validate", typeof schema.type);
     if (typeof schema.type === "string") {

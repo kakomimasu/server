@@ -1,4 +1,4 @@
-// import { OpenAPIObject } from "openapi3-ts/oas30";
+// import { OpenAPIObject } from "openapi3-ts/oas31";
 import { OpenAPIValidator } from "../../util/openapi-validator.ts";
 
 export const openapi = {
@@ -8,6 +8,12 @@ export const openapi = {
     title: "Kakomimasu API",
     version: "0.1.0",
   },
+  servers: [
+    {
+      url: "/v1",
+      description: "Version 1 API",
+    },
+  ],
   paths: {
     "/matches/{gameId}/players": {
       post: {
@@ -776,17 +782,6 @@ export const openapi = {
         summary: "ユーザ削除",
         tags: ["Users API"],
         security: [{ Bearer: [], Cookie: [] }],
-        parameters: [
-          {
-            in: "path",
-            name: "userIdOrName",
-            required: true,
-            schema: {
-              type: "string",
-              description: "ユーザID or ユーザネーム",
-            },
-          },
-        ],
         requestBody: {
           content: {
             "application/json": {
@@ -1060,9 +1055,12 @@ export const openapi = {
             },
           },
           startedAtUnixTime: {
-            type: "integer",
             description: "ゲーム開始時刻(UNIX時間)",
-            nullable: true,
+            oneOf: [{
+              type: "integer",
+            }, {
+              type: "null",
+            }],
           },
           field: {
             description: "フィールド情報<br>開始前は非公開(`null`)です。",
@@ -1107,10 +1105,13 @@ export const openapi = {
                         enum: [0, 1],
                       },
                       player: {
-                        type: "integer",
-                        nullable: true,
                         description:
                           "マスを所持するプレイヤー番号(`players`の配列番号)。<br>`null`の場合は空白マス。",
+                        oneOf: [{
+                          type: "integer",
+                        }, {
+                          type: "null",
+                        }],
                       },
                     },
                   },
