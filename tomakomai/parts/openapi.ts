@@ -1,9 +1,9 @@
-// import { OpenAPIObject } from "openapi3-ts/oas30";
+// import { OpenAPIObject } from "openapi3-ts/oas31";
 import { OpenAPIValidator } from "../../util/openapi-validator.ts";
 
 export const openapi = {
   // export const openapi: OpenAPIObject = {
-  openapi: "3.0.0",
+  openapi: "3.1.1",
   info: {
     title: "囲みマス API",
     version: "苫小牧",
@@ -11,7 +11,7 @@ export const openapi = {
   },
   servers: [
     {
-      url: "https://api.kakomimasu.com",
+      url: "https://api.kakomimasu.com/tomakomai",
     },
   ],
   paths: {
