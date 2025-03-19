@@ -3,6 +3,7 @@ import { SSEStreamingApi, streamSSE } from "@hono/hono/streaming";
 
 import { ResponseType } from "../util/openapi-type.ts";
 
+import { errors, ServerError } from "../core/error.ts";
 import { auth } from "./middleware.ts";
 import { openapi } from "./parts/openapi.ts";
 import { games } from "../core/datas.ts";
@@ -126,10 +127,14 @@ router.get(
 
     const q = params.get("q") ?? "";
     const sIdxStr = params.get("startIndex");
-    const sIdx = sIdxStr ? parseInt(sIdxStr) : undefined;
+    const sIdx = sIdxStr ? parseInt(sIdxStr) : 0;
     const eIdxStr = params.get("endIndex");
-    const eIdx = eIdxStr ? parseInt(eIdxStr) : undefined;
+    const eIdx = eIdxStr ? parseInt(eIdxStr) : sIdx + 20; // 指定がなければ 20 件
     const allowNewGame = params.get("allowNewGame") === "true";
+
+    if (eIdx - sIdx > 50) {
+      throw new ServerError(errors.INVALID_STREAM_QUERY);
+    }
 
     const searchOptions = analyzeStringSearchOption(q);
 
