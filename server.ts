@@ -12,7 +12,7 @@ import { router as v1Router } from "./v1/router.ts";
 
 const port = parseInt(env.PORT);
 
-const app = new Hono();
+export const app = new Hono();
 
 app.use(cors(
   {
@@ -73,7 +73,10 @@ app.get("/version", (ctx) => {
 app.get("*", (_ctx: Context) => {
   throw new ServerError(errors.NOT_FOUND);
 });
-Deno.serve({ port }, app.fetch);
+
+if (import.meta.main) {
+  Deno.serve({ port }, app.fetch);
+}
 
 // Error handling
 globalThis.addEventListener("unhandledrejection", (e) => {
