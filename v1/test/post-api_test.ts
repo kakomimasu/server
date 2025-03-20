@@ -5,6 +5,8 @@ import { useUser } from "../../util/test/useUser.ts";
 import { randomUUID } from "../../core/util.ts";
 import { errors } from "../../core/error.ts";
 
+import { app } from "../../server.ts";
+
 const urls = [
   `POST matches`,
   `POST matches/${randomUUID()}/players`,
@@ -17,11 +19,11 @@ const urls = [
   `DELETE users/me`,
 ];
 
-// fetch all urls by no Content-Type header
+// request all urls by no Content-Type header
 urls.forEach((url) => {
   Deno.test(`${url} without Content-Type header`, async () => {
     const [method, path] = url.split(" ");
-    const res = await fetch("http://localhost:8880/v1/" + path, {
+    const res = await app.request("/v1/" + path, {
       method,
       body: "a",
     });
@@ -30,12 +32,12 @@ urls.forEach((url) => {
   });
 });
 
-// fetch all urls by invalid json
+// request all urls by invalid json
 for await (const url of urls) {
   Deno.test(`${url} with invalid json`, async () => {
     const [method, path] = url.split(" ");
     await useUser(async (user) => {
-      const res = await fetch("http://localhost:8880/v1/" + path, {
+      const res = await app.request("/v1/" + path, {
         method,
         headers: {
           "Content-Type": "application/json",

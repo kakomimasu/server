@@ -2,6 +2,8 @@ import * as T from "./types.ts";
 
 export * from "./types.ts";
 
+import { app } from "../server.ts";
+
 export type ApiRes<T> = { success: true; data: T; res: Response } | {
   success: false;
   data: T.ErrorRes;
@@ -31,8 +33,8 @@ export default class ApiClient {
     }
     const body = ("data" in init && init.data) ? init.data : {};
     try {
-      const res = await fetch(
-        new URL(path, this.baseUrl).href,
+      const res = await app.request(
+        path,
         {
           method: method,
           headers,

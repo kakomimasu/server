@@ -2,16 +2,12 @@
   "tasks": {
     "cache": "deno cache server.ts",
     "start": "deno run --allow-read --allow-env --allow-net --unstable-kv server.ts",
-    "test": "export TEST=true && rm -rf coverage && deno test --allow-read --allow-env --allow-net --allow-run --unstable-kv --coverage=coverage test.ts",
+    "test": "export TEST=true && rm -rf coverage && deno task db:init && deno test --allow-read --allow-env --allow-net --allow-run --unstable-kv --coverage=coverage",
     "coverage": "deno coverage coverage --lcov --output=coverage/coverage.lcov",
     "coverage:report": "deno coverage coverage --html",
     "db:init": "deno run -A --unstable-kv db/init.ts"
   },
   "lock": false,
-  "test": {
-    "include": [""]
-    // "exclude": ["test.ts"] // deno v1.40.2に移行時にexcludeが入っていると直接test.tsを指定しても実行されなくなってしまったのでコメントアウト
-  },
   "imports": {
     "@hono/hono": "jsr:@hono/hono@^4.6.17",
     "@std/assert": "jsr:@std/assert@^1.0.6",

@@ -6,12 +6,16 @@ import ApiClient, { JoinFreeMatchRes } from "../../client/client.ts";
 
 import { validator } from "../parts/openapi.ts";
 
-const baseUrl = "http://localhost:8880/miyakonojo";
+import { app } from "../../server.ts";
+
+const baseUrl = "/miyakonojo";
 const ac = new ApiClient();
 const tempAction = { agentID: 0, dx: 0, dy: 0, type: "put" };
 
 Deno.test({
   name: "miyakonojo API",
+  sanitizeOps: false,
+  sanitizeResources: false,
   fn: async (t) => {
     await useUser(async (user) => {
       const token = user.bearerToken;
@@ -40,7 +44,7 @@ Deno.test({
         | undefined;
       await t.step("/matches", async (t) => {
         await t.step("200 Success", async () => {
-          const res = await fetch(baseUrl + "/matches", {
+          const res = await app.request(baseUrl + "/matches", {
             headers: { "Authorization": token },
           });
           const json = await res.json();
@@ -64,7 +68,7 @@ Deno.test({
             undefined;
         });
         await t.step("401 Failure", async () => {
-          const res = await fetch(baseUrl + "/matches", {
+          const res = await app.request(baseUrl + "/matches", {
             headers: { "Authorization": "" },
           });
           const json = await res.json();
@@ -83,7 +87,7 @@ Deno.test({
 
       await t.step("400 Failure (Invalid Matches)", async (t) => {
         await t.step("/matches/:id", async () => {
-          const res = await fetch(baseUrl + "/matches/foo", {
+          const res = await app.request(baseUrl + "/matches/foo", {
             headers: { "Authorization": `${pic}` },
           });
           const json = await res.json();
@@ -103,9 +107,12 @@ Deno.test({
 
       await t.step("401 Failure", async (t) => {
         await t.step("/matches/:id", async () => {
-          const res = await fetch(baseUrl + `/matches/${matchRes.gameId}`, {
-            headers: { "Authorization": "" },
-          });
+          const res = await app.request(
+            baseUrl + `/matches/${matchRes.gameId}`,
+            {
+              headers: { "Authorization": "" },
+            },
+          );
           const json = await res.json();
           assertEquals(res.status, 401);
           assert(validator.validateResponse(
@@ -118,7 +125,7 @@ Deno.test({
           assertEquals(json, { status: "InvalidToken" });
         });
         await t.step("/matches/:id/action", async () => {
-          const res = await fetch(
+          const res = await app.request(
             baseUrl + `/matches/${matchRes.gameId}/action`,
             {
               method: "POST",
@@ -147,9 +154,12 @@ Deno.test({
           await t.step(
             "/matches/:id/",
             async () => {
-              const res = await fetch(baseUrl + `/matches/${matchRes.gameId}`, {
-                headers: { "Authorization": `${pic}` },
-              });
+              const res = await app.request(
+                baseUrl + `/matches/${matchRes.gameId}`,
+                {
+                  headers: { "Authorization": `${pic}` },
+                },
+              );
               const json = await res.json();
               // console.log(json);
               assertEquals(res.status, 400);
@@ -167,7 +177,7 @@ Deno.test({
           await t.step(
             "/matches/:id/action",
             async () => {
-              const res = await fetch(
+              const res = await app.request(
                 baseUrl + `/matches/${matchRes.gameId}/action`,
                 {
                   method: "POST",
@@ -200,9 +210,12 @@ Deno.test({
       let nextUnixTime = 0;
       await t.step("400 Failure (Too Early)", async (t) => {
         await t.step("/matches/:id", async () => {
-          const res = await fetch(baseUrl + `/matches/${matchRes.gameId}`, {
-            headers: { "Authorization": `${pic}` },
-          });
+          const res = await app.request(
+            baseUrl + `/matches/${matchRes.gameId}`,
+            {
+              headers: { "Authorization": `${pic}` },
+            },
+          );
           const json = await res.json();
           // console.log(json);
           assertEquals(res.status, 400);
@@ -219,7 +232,7 @@ Deno.test({
           nextUnixTime = json.startAtUnixTime;
         });
         await t.step("/matches/:id/action", async () => {
-          const res = await fetch(
+          const res = await app.request(
             baseUrl + `/matches/${matchRes.gameId}/action`,
             {
               method: "POST",
@@ -248,7 +261,7 @@ Deno.test({
       await sleep(diffTime(nextUnixTime) + 500);
 
       await t.step("/matches/:id/action 201 Success", async () => {
-        const res = await fetch(
+        const res = await app.request(
           baseUrl + `/matches/${matchRes.gameId}/action`,
           {
             method: "POST",
@@ -277,7 +290,7 @@ Deno.test({
       await sleep(diffTime(nextUnixTime) + 500);
 
       await t.step("/matches/:id/action 400 UnacceptableTime", async () => {
-        const res = await fetch(
+        const res = await app.request(
           baseUrl + `/matches/${matchRes.gameId}/action`,
           {
             method: "POST",
@@ -305,7 +318,7 @@ Deno.test({
       await sleep(diffTime(nextUnixTime) + 500);
 
       await t.step("201 Success", async () => {
-        const res = await fetch(
+        const res = await app.request(
           baseUrl + `/matches/${matchRes.gameId}/action`,
           {
             method: "POST",
@@ -330,9 +343,12 @@ Deno.test({
 
       await t.step("/matches/:id", async (t) => {
         await t.step("200 Success", async () => {
-          const res = await fetch(baseUrl + `/matches/${matchRes.gameId}`, {
-            headers: { "Authorization": `${pic}` },
-          });
+          const res = await app.request(
+            baseUrl + `/matches/${matchRes.gameId}`,
+            {
+              headers: { "Authorization": `${pic}` },
+            },
+          );
           const json = await res.json();
           // console.log(json);
           assertEquals(res.status, 200);

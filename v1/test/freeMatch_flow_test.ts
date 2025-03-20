@@ -16,6 +16,8 @@ const testSpec = "test";
 
 Deno.test({
   name: "freeMatch flow test",
+  sanitizeOps: false,
+  sanitizeResources: false,
   fn: async (t) => {
     await useUser(async (user) => {
       const bearerToken = user.bearerToken;

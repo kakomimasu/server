@@ -1,11 +1,11 @@
 import { assertEquals } from "@std/assert";
 
-const host = "http://localhost:8880";
+import { app } from "../../server.ts";
 
 // 存在しないファイルにアクセスした場合には404を返す
-Deno.test("fetch illegal failed", async () => {
+Deno.test("request illegal failed", async () => {
   const path = "/img/.../img/kakomimasu-logo.png";
-  const res = await fetch(host + path);
+  const res = await app.request(path);
   //console.log("res", res);
   await res.text();
 
@@ -27,9 +27,12 @@ const methods = {
 for (const [key, _value] of Object.entries(methods)) {
   Deno.test(`cors header check(method:${key})`, async () => {
     const path = "/v1/tournament/get";
-    const res = await fetch(host + path, {
+    const res = await app.request(path, {
       method: "OPTIONS",
-      headers: { "Origin": host, "Access-Control-Request-Method": key },
+      headers: {
+        "Origin": "https://localhost:8880",
+        "Access-Control-Request-Method": key,
+      },
     });
     assertEquals(res.headers.get("Access-Control-Allow-Origin"), "*");
     assertEquals(
@@ -42,10 +45,10 @@ for (const [key, _value] of Object.entries(methods)) {
 
 Deno.test(`cors header check(header:authorization)`, async () => {
   const path = "/v1/tournament/get";
-  const res = await fetch(host + path, {
+  const res = await app.request(path, {
     method: "OPTIONS",
     headers: {
-      "Origin": host,
+      "Origin": "https://localhost:8880",
       "Access-Control-Request-Method": "GET",
       "Access-Control-Request-Headers": "authorization",
     },
@@ -63,10 +66,10 @@ Deno.test(`cors header check(header:authorization)`, async () => {
 
 Deno.test(`cors header check(header:content-type)`, async () => {
   const path = "/v1/tournament/get";
-  const res = await fetch(host + path, {
+  const res = await app.request(path, {
     method: "OPTIONS",
     headers: {
-      "Origin": host,
+      "Origin": "https://localhost:8880",
       "Access-Control-Request-Method": "POST",
       "Access-Control-Request-Headers": "content-type",
     },

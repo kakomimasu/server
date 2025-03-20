@@ -4,10 +4,11 @@ import { getAllUsers } from "../../core/kv.ts";
 import { randomUUID } from "../../core/util.ts";
 import { errors } from "../../core/error.ts";
 import { useUser } from "../../util/test/useUser.ts";
+import { app } from "../../server.ts";
 
 Deno.test(`GET /v1/oauth/signout:success`, async () => {
   await useUser(async (user, sessionId) => {
-    const res = await fetch("http://localhost:8880/v1/oauth/signout", {
+    const res = await app.request("/v1/oauth/signout", {
       headers: {
         "Cookie": `site-session=${sessionId}`,
       },
@@ -27,7 +28,7 @@ Deno.test(`GET /v1/oauth/signout:success`, async () => {
 
 Deno.test(`GET /v1/oauth/signout:unauthorized`, async () => {
   await useUser(async () => {
-    const res = await fetch("http://localhost:8880/v1/oauth/signout", {
+    const res = await app.request("/v1/oauth/signout", {
       headers: {
         "Cookie": `site-session=${randomUUID()}`,
       },
