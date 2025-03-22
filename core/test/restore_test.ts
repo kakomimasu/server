@@ -1,5 +1,5 @@
 import { assertEquals } from "@std/assert";
-import { delay } from "@std/async";
+import { FakeTime } from "@std/testing/time";
 import * as Core from "kkmm-core";
 import { ExpGame, Player } from "../expKakomimasu.ts";
 import { compression, decompression } from "../util.ts";
@@ -37,6 +37,8 @@ Deno.test({
 Deno.test({
   name: "restore ExpGame class",
   async fn() {
+    using time = new FakeTime();
+
     const game = new ExpGame({
       width: 2,
       height: 2,
@@ -53,7 +55,7 @@ Deno.test({
     p1.setActions([new Core.Action(0, 1, 0, 1)]);
 
     while (game.turn < 2) {
-      await delay(1000);
+      await time.nextAsync();
     }
 
     const restoredGame = ExpGame.fromJSON(
@@ -95,6 +97,8 @@ Deno.test({
 Deno.test({
   name: "KV restore ExpGame class",
   async fn() {
+    using time = new FakeTime();
+
     const game = new ExpGame({
       width: 2,
       height: 2,
@@ -111,7 +115,7 @@ Deno.test({
     p1.setActions([new Core.Action(0, 1, 0, 1)]);
 
     while (game.turn < 2) {
-      await delay(1000);
+      await time.nextAsync();
     }
 
     testKv.set(["test1"], await compression(game.toLogJSON()));
