@@ -1,10 +1,11 @@
 import { assert, assertEquals } from "@std/assert";
 import { v4 } from "@std/uuid";
+import { FakeTime } from "@std/testing/time";
 
 import { useUser } from "../../util/test/useUser.ts";
 
 import ApiClient from "../../client/client.ts";
-import { diffTime, sleep } from "./client_util.ts";
+import { diffTime } from "./client_util.ts";
 
 import { validator } from "../parts/openapi.ts";
 
@@ -16,9 +17,9 @@ const testSpec = "test";
 
 Deno.test({
   name: "freeMatch flow test",
-  sanitizeOps: false,
-  sanitizeResources: false,
   fn: async (t) => {
+    using time = new FakeTime();
+
     await useUser(async (user) => {
       const bearerToken = user.bearerToken;
       const userId = user.id;
@@ -109,7 +110,7 @@ Deno.test({
           throw Error("startedAtUnixTime is null.");
         }
         nextTurnUnixTime = gameInfo.startedAtUnixTime;
-        await sleep(diffTime(nextTurnUnixTime) + 100);
+        time.tick(diffTime(nextTurnUnixTime) + 100);
         // issue131:同ターンで複数アクションを送信時に送信したagentIDのみが反映されるかのテストを含む
         // 2回アクションを送信しているが、どちらもagentIDが違うため両方反映される。
         let actionRes = await ac.setAction(gameId, {
@@ -148,7 +149,7 @@ Deno.test({
         gameInfo = res.data;
 
         nextTurnUnixTime += gameInfo.operationSec + gameInfo.transitionSec;
-        await sleep(diffTime(nextTurnUnixTime) + 100);
+        time.tick(diffTime(nextTurnUnixTime) + 100);
         res = await ac.getMatch(gameId);
         if (res.success === false) {
           throw Error("Response Error. ErrorCode:" + res.data.errorCode);
@@ -195,7 +196,7 @@ Deno.test({
         //console.log(reqJson);
 
         nextTurnUnixTime += gameInfo.operationSec + gameInfo.transitionSec;
-        await sleep(diffTime(nextTurnUnixTime) + 100);
+        time.tick(diffTime(nextTurnUnixTime) + 100);
         res = await ac.getMatch(gameId);
         if (res.success === false) {
           throw Error("Response Error. ErrorCode:" + res.data.errorCode);

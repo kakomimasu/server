@@ -1,4 +1,5 @@
 import { assert, assertEquals } from "@std/assert";
+import { FakeTime } from "@std/testing/time";
 
 import { useUser } from "../../util/test/useUser.ts";
 
@@ -14,9 +15,9 @@ const tempAction = { agentID: 0, dx: 0, dy: 0, type: "put" };
 
 Deno.test({
   name: "miyakonojo API",
-  sanitizeOps: false,
-  sanitizeResources: false,
   fn: async (t) => {
+    using time = new FakeTime();
+
     await useUser(async (user) => {
       const token = user.bearerToken;
 
@@ -258,7 +259,7 @@ Deno.test({
         });
       });
 
-      await sleep(diffTime(nextUnixTime) + 500);
+      time.tick(diffTime(nextUnixTime) + 500);
 
       await t.step("/matches/:id/action 201 Success", async () => {
         const res = await app.request(
@@ -287,7 +288,7 @@ Deno.test({
       });
 
       nextUnixTime += matchesRes.turnMillis / 1000;
-      await sleep(diffTime(nextUnixTime) + 500);
+      time.tick(diffTime(nextUnixTime) + 500);
 
       await t.step("/matches/:id/action 400 UnacceptableTime", async () => {
         const res = await app.request(
@@ -315,7 +316,7 @@ Deno.test({
       });
 
       nextUnixTime += matchesRes.intervalMillis / 1000;
-      await sleep(diffTime(nextUnixTime) + 500);
+      time.tick(diffTime(nextUnixTime) + 500);
 
       await t.step("201 Success", async () => {
         const res = await app.request(
@@ -365,10 +366,6 @@ Deno.test({
     });
   },
 });
-
-function sleep(msec: number) {
-  return new Promise<void>((resolve) => setTimeout(() => resolve(), msec));
-}
 
 function diffTime(unixTime: number) {
   const dt = unixTime * 1000 - new Date().getTime();

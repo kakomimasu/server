@@ -1,5 +1,6 @@
 import { assert, assertEquals } from "@std/assert";
 import { v4 } from "@std/uuid";
+import { FakeTime } from "@std/testing/time";
 
 import { useUser } from "../../util/test/useUser.ts";
 
@@ -17,9 +18,9 @@ const tempAction = { agentID: 0, x: 0, y: 0, type: "put" };
 
 Deno.test({
   name: "tomakomai API",
-  sanitizeOps: false,
-  sanitizeResources: false,
   fn: async (t) => {
+    using time = new FakeTime();
+
     await useUser(async (user) => {
       const token = user.bearerToken;
       const userId = user.id;
@@ -221,7 +222,7 @@ Deno.test({
         });
       });
 
-      await sleep(diffTime(nextUnixTime) + 500);
+      time.tick(diffTime(nextUnixTime) + 500);
 
       await t.step("/matches/:id/action 202 Success", async () => {
         const res = await app.request(
@@ -251,7 +252,7 @@ Deno.test({
       });
 
       nextUnixTime += matchesRes.operationMillis / 1000;
-      await sleep(diffTime(nextUnixTime) + 500);
+      time.tick(diffTime(nextUnixTime) + 500);
 
       await t.step("/matches/:id/action 400 UnacceptableTime", async () => {
         const res = await app.request(
@@ -270,7 +271,7 @@ Deno.test({
       });
 
       nextUnixTime += matchesRes.transitionMillis / 1000;
-      await sleep(diffTime(nextUnixTime) + 500);
+      time.tick(diffTime(nextUnixTime) + 500);
 
       await t.step("202 Success", async () => {
         const res = await app.request(
@@ -391,10 +392,6 @@ Deno.test({
     });
   },
 });
-
-function sleep(msec: number) {
-  return new Promise<void>((resolve) => setTimeout(() => resolve(), msec));
-}
 
 function diffTime(unixTime: number) {
   const dt = unixTime * 1000 - new Date().getTime();
