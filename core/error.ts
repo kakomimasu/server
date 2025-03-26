@@ -46,6 +46,10 @@ export const errors = {
     errorCode: 105,
     message: "during the transition step",
   },
+  INVALID_STREAM_QUERY: {
+    errorCode: 106,
+    message: "invalid query parameter",
+  },
   INVALID_SCREEN_NAME: {
     errorCode: 201,
     message: "invalid screenName",
