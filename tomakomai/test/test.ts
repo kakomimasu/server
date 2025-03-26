@@ -1,5 +1,6 @@
 import { assert, assertEquals } from "@std/assert";
 import { v4 } from "@std/uuid";
+import { FakeTime } from "@std/testing/time";
 
 import { useUser } from "../../util/test/useUser.ts";
 
@@ -9,13 +10,17 @@ import ApiClient, { JoinFreeMatchRes } from "../../client/client.ts";
 
 import { validator } from "../parts/openapi.ts";
 
-const baseUrl = "http://localhost:8880/tomakomai";
+import { app } from "../../server.ts";
+
+const baseUrl = "/tomakomai";
 const ac = new ApiClient();
 const tempAction = { agentID: 0, x: 0, y: 0, type: "put" };
 
 Deno.test({
   name: "tomakomai API",
   fn: async (t) => {
+    using time = new FakeTime();
+
     await useUser(async (user) => {
       const token = user.bearerToken;
       const userId = user.id;
@@ -44,7 +49,7 @@ Deno.test({
         | undefined;
       await t.step("/matches", async (t) => {
         await t.step("200 Success", async () => {
-          const res = await fetch(baseUrl + "/matches", {
+          const res = await app.request(baseUrl + "/matches", {
             headers: { "x-api-token": token },
           });
           const json = await res.json();
@@ -71,7 +76,7 @@ Deno.test({
             undefined;
         });
         await t.step("401 Failure", async () => {
-          const res = await fetch(baseUrl + "/matches", {
+          const res = await app.request(baseUrl + "/matches", {
             headers: { "x-api-token": "" },
           });
           await res.text();
@@ -82,7 +87,7 @@ Deno.test({
 
       await t.step("404 Failure (Invalid Matches)", async (t) => {
         await t.step("/matches/:id", async () => {
-          const res = await fetch(baseUrl + "/matches/foo", {
+          const res = await app.request(baseUrl + "/matches/foo", {
             headers: { "x-api-token": `${pic}` },
           });
           await res.text();
@@ -90,7 +95,7 @@ Deno.test({
           assertEquals(res.status, 404);
         });
         await t.step("/matches/:id/action", async () => {
-          const res = await fetch(
+          const res = await app.request(
             baseUrl + `/matches/foo/action`,
             {
               method: "POST",
@@ -109,14 +114,17 @@ Deno.test({
 
       await t.step("401 Failure", async (t) => {
         await t.step("/matches/:id", async () => {
-          const res = await fetch(baseUrl + `/matches/${matchRes.gameId}`, {
-            headers: { "x-api-token": "" },
-          });
+          const res = await app.request(
+            baseUrl + `/matches/${matchRes.gameId}`,
+            {
+              headers: { "x-api-token": "" },
+            },
+          );
           await res.text();
           assertEquals(res.status, 401);
         });
         await t.step("/matches/:id/action", async () => {
-          const res = await fetch(
+          const res = await app.request(
             baseUrl + `/matches/${matchRes.gameId}/action`,
             {
               method: "POST",
@@ -138,9 +146,12 @@ Deno.test({
           await t.step(
             "/matches/:id/",
             async () => {
-              const res = await fetch(baseUrl + `/matches/${matchRes.gameId}`, {
-                headers: { "x-api-token": `${pic}` },
-              });
+              const res = await app.request(
+                baseUrl + `/matches/${matchRes.gameId}`,
+                {
+                  headers: { "x-api-token": `${pic}` },
+                },
+              );
               await res.text();
               checkXRequestId(res);
               assertEquals(res.status, 425);
@@ -150,7 +161,7 @@ Deno.test({
           await t.step(
             "/matches/:id/action",
             async () => {
-              const res = await fetch(
+              const res = await app.request(
                 baseUrl + `/matches/${matchRes.gameId}/action`,
                 {
                   method: "POST",
@@ -175,9 +186,12 @@ Deno.test({
       let nextUnixTime = 0;
       await t.step("425 Failure (Too Early)", async (t) => {
         await t.step("/matches/:id", async () => {
-          const res = await fetch(baseUrl + `/matches/${matchRes.gameId}`, {
-            headers: { "x-api-token": `${pic}` },
-          });
+          const res = await app.request(
+            baseUrl + `/matches/${matchRes.gameId}`,
+            {
+              headers: { "x-api-token": `${pic}` },
+            },
+          );
           await res.text();
           checkXRequestId(res);
           assertEquals(res.status, 425);
@@ -188,7 +202,7 @@ Deno.test({
           nextUnixTime = nowUnixTime() + parseInt(retryAfter);
         });
         await t.step("/matches/:id/action", async () => {
-          const res = await fetch(
+          const res = await app.request(
             baseUrl + `/matches/${matchRes.gameId}/action`,
             {
               method: "POST",
@@ -208,10 +222,10 @@ Deno.test({
         });
       });
 
-      await sleep(diffTime(nextUnixTime) + 500);
+      time.tick(diffTime(nextUnixTime) + 500);
 
       await t.step("/matches/:id/action 202 Success", async () => {
-        const res = await fetch(
+        const res = await app.request(
           baseUrl + `/matches/${matchRes.gameId}/action`,
           {
             method: "POST",
@@ -238,10 +252,10 @@ Deno.test({
       });
 
       nextUnixTime += matchesRes.operationMillis / 1000;
-      await sleep(diffTime(nextUnixTime) + 500);
+      time.tick(diffTime(nextUnixTime) + 500);
 
       await t.step("/matches/:id/action 400 UnacceptableTime", async () => {
-        const res = await fetch(
+        const res = await app.request(
           baseUrl + `/matches/${matchRes.gameId}/action`,
           {
             method: "POST",
@@ -257,10 +271,10 @@ Deno.test({
       });
 
       nextUnixTime += matchesRes.transitionMillis / 1000;
-      await sleep(diffTime(nextUnixTime) + 500);
+      time.tick(diffTime(nextUnixTime) + 500);
 
       await t.step("202 Success", async () => {
-        const res = await fetch(
+        const res = await app.request(
           baseUrl + `/matches/${matchRes.gameId}/action`,
           {
             method: "POST",
@@ -286,9 +300,12 @@ Deno.test({
 
       await t.step("/matches/:id", async (t) => {
         await t.step("200 Success", async () => {
-          const res = await fetch(baseUrl + `/matches/${matchRes.gameId}`, {
-            headers: { "x-api-token": `${pic}` },
-          });
+          const res = await app.request(
+            baseUrl + `/matches/${matchRes.gameId}`,
+            {
+              headers: { "x-api-token": `${pic}` },
+            },
+          );
           checkXRequestId(res);
           const json = await res.json();
           // console.log(json);
@@ -307,7 +324,7 @@ Deno.test({
 
       await t.step("/teams/me", async (t) => {
         await t.step("200 Success", async () => {
-          const res = await fetch(baseUrl + `/teams/me`, {
+          const res = await app.request(baseUrl + `/teams/me`, {
             headers: { "x-api-token": `${token}` },
           });
           checkXRequestId(res);
@@ -325,7 +342,7 @@ Deno.test({
           assertEquals(json.teamID, 0);
         });
         await t.step("401 Failure", async () => {
-          const res = await fetch(baseUrl + `/teams/me`, {
+          const res = await app.request(baseUrl + `/teams/me`, {
             headers: { "x-api-token": "" },
           });
           await res.text();
@@ -335,7 +352,7 @@ Deno.test({
 
       await t.step("/teams/:teamID/matches", async (t) => {
         await t.step("200 Success", async () => {
-          const res = await fetch(baseUrl + `/teams/${userId}/matches`, {
+          const res = await app.request(baseUrl + `/teams/${userId}/matches`, {
             headers: { "x-api-token": `${token}` },
           });
           checkXRequestId(res);
@@ -356,14 +373,14 @@ Deno.test({
           assert(team.teamID !== 0); // picがきちんと設定されているか
         });
         await t.step("401 Failure", async () => {
-          const res = await fetch(baseUrl + `/teams/${userId}/matches`, {
+          const res = await app.request(baseUrl + `/teams/${userId}/matches`, {
             headers: { "x-api-token": "" },
           });
           await res.text();
           assertEquals(res.status, 401);
         });
         await t.step("403 Failure", async () => {
-          const res = await fetch(baseUrl + `/teams/foo/matches`, {
+          const res = await app.request(baseUrl + `/teams/foo/matches`, {
             headers: { "x-api-token": `${token}` },
           });
           await res.text();
@@ -375,10 +392,6 @@ Deno.test({
     });
   },
 });
-
-function sleep(msec: number) {
-  return new Promise<void>((resolve) => setTimeout(() => resolve(), msec));
-}
 
 function diffTime(unixTime: number) {
   const dt = unixTime * 1000 - new Date().getTime();

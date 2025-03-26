@@ -9,6 +9,8 @@ import ApiClient from "../../client/client.ts";
 
 import { validator } from "../parts/openapi.ts";
 
+import { app } from "../../server.ts";
+
 const ac = new ApiClient();
 
 const assertUserShowRes = (res, responseCode) => {
@@ -147,7 +149,7 @@ Deno.test("GET /v1/users:no query", async (t) => {
   await t.step({
     name: "no query",
     fn: async () => {
-      const res = await fetch(`http://localhost:8880/v1/users`);
+      const res = await app.request(`/v1/users`);
       const json = await res.json();
       assertUserSearchRes(json, 400);
       assertEquals(json, errors.NOTHING_SEARCH_QUERY);
@@ -170,7 +172,7 @@ Deno.test("DELETE /v1/users/me:normal by BearerToken", async () => {
 });
 Deno.test("DELETE /v1/users/me:normal by cookie", async () => {
   await useUser(async (user, sessionId) => {
-    const res = await fetch("http://localhost:8880/v1/users/me", {
+    const res = await app.request("/v1/users/me", {
       method: "DELETE",
       headers: {
         Cookie: `site-session=${sessionId}`,
@@ -223,7 +225,7 @@ Deno.test("GET /v1/users/me:normal by BearerToken", async () => {
 });
 Deno.test("GET /v1/users/me:normal by Cookie", async () => {
   await useUser(async (user, sessionId) => {
-    const res = await fetch("http://localhost:8880/v1/users/me", {
+    const res = await app.request("/v1/users/me", {
       headers: { Cookie: `site-session=${sessionId}` },
     });
     assert(res.ok);
@@ -244,34 +246,49 @@ Deno.test("GET /v1/users/me:invalid", async () => {
 // GET /v1/users/me/token Test
 // テスト項目
 // 正常（BearerToken・Cookie）・トークンなし
-Deno.test("GET /v1/users/me/token:normal by BearerToken", async () => {
-  await useUser(async (user) => {
-    const res = await ac.regenerateUserMeToken(
-      `Bearer ${user.bearerToken}`,
-    );
-    assert(res.success);
-    assertUserRegenerateTokenRes(res.data, 200);
-    assertNotEquals(res.data.bearerToken, user.bearerToken);
-    assertUser(res.data, user);
-  });
-});
-Deno.test("GET /v1/users/me/token:normal by cookie", async () => {
-  await useUser(async (user, sessionId) => {
-    const res = await fetch("http://localhost:8880/v1/users/me/token", {
-      headers: { Cookie: `site-session=${sessionId}` },
+Deno.test({
+  name: "GET /v1/users/me/token:normal by BearerToken",
+  sanitizeOps: false,
+  sanitizeResources: false,
+  fn: async () => {
+    await useUser(async (user) => {
+      const res = await ac.regenerateUserMeToken(
+        `Bearer ${user.bearerToken}`,
+      );
+      assert(res.success);
+      assertUserRegenerateTokenRes(res.data, 200);
+      assertNotEquals(res.data.bearerToken, user.bearerToken);
+      assertUser(res.data, user);
     });
-    assert(res.ok);
-    const data = await res.json();
-    assertUserRegenerateTokenRes(data, 200);
-    assertNotEquals(data.bearerToken, user.bearerToken);
-    assertUser(data, user);
-  });
+  },
 });
-Deno.test("GET /v1/users/me/token:invalid", async () => {
-  await useUser(async (_user) => {
-    const res = await ac.regenerateUserMeToken("");
-    assert(res.res.status === 401);
-    assertUserRegenerateTokenRes(res.data, 401);
-    assertEquals(res.data, errors.UNAUTHORIZED);
-  });
+Deno.test({
+  name: "GET /v1/users/me/token:normal by cookie",
+  sanitizeOps: false,
+  sanitizeResources: false,
+  fn: async () => {
+    await useUser(async (user, sessionId) => {
+      const res = await app.request("/v1/users/me/token", {
+        headers: { Cookie: `site-session=${sessionId}` },
+      });
+      assert(res.ok);
+      const data = await res.json();
+      assertUserRegenerateTokenRes(data, 200);
+      assertNotEquals(data.bearerToken, user.bearerToken);
+      assertUser(data, user);
+    });
+  },
+});
+Deno.test({
+  name: "GET /v1/users/me/token:invalid",
+  sanitizeOps: false,
+  sanitizeResources: false,
+  fn: async () => {
+    await useUser(async (_user) => {
+      const res = await ac.regenerateUserMeToken("");
+      assert(res.res.status === 401);
+      assertUserRegenerateTokenRes(res.data, 401);
+      assertEquals(res.data, errors.UNAUTHORIZED);
+    });
+  },
 });

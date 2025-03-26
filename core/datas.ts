@@ -179,11 +179,11 @@ class Tournaments {
   };
   save = () => setAllTournaments(this.tournaments);
 
-  dataCheck(games: ExpGame[]) {
+  async dataCheck(games: ExpGame[]) {
     this.tournaments.forEach((tournament) => {
       tournament.dataCheck(games);
     });
-    this.save();
+    await this.save();
   }
 
   get = (id: string) => {
@@ -231,7 +231,7 @@ const games: ExpGame[] = [];
 
 const tournaments = new Tournaments();
 await tournaments.read();
-tournaments.dataCheck(games);
+await tournaments.dataCheck(games);
 
 const accounts = new Users();
 await accounts.read();

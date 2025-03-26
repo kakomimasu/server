@@ -5,6 +5,8 @@ import { env } from "../../core/env.ts";
 
 import { AuthedUser } from "../../client/client.ts";
 
+import { app } from "../../server.ts";
+
 export async function useUser(
   runFn: (user: AuthedUser, sessionId: string) => Promise<void>,
 ) {
@@ -21,7 +23,7 @@ export async function useUser(
     gameIds: [],
     sessions: [sessionId, forDeleteSessionId],
   };
-  const res = await fetch("http://localhost:8880/v1/users", {
+  const res = await app.request("/v1/users", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -38,7 +40,7 @@ export async function useUser(
   } finally {
     // テスト成功時も失敗時もユーザ削除
     // clientを使わないのはCookieで削除したいため
-    const res = await fetch("http://localhost:8880/v1/users/me", {
+    const res = await app.request("/v1/users/me", {
       method: "DELETE",
       headers: {
         Cookie: `site-session=${forDeleteSessionId}`,

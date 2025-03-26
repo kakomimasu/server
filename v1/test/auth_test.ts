@@ -1,5 +1,7 @@
 import { assert } from "@std/assert";
 
+import { app } from "../../server.ts";
+
 const bearerAuthRequiredUrlList = [
   "GET users/me",
   "GET users/me/token",
@@ -10,7 +12,7 @@ const bearerAuthRequiredUrlList = [
 bearerAuthRequiredUrlList.forEach((url) => {
   const [method, path] = url.split(" ");
   Deno.test(`${url} nothing Authorization header`, async () => {
-    const res = await fetch("http://localhost:8880/v1/" + path, {
+    const res = await app.request("http://localhost:8880/v1/" + path, {
       method,
       headers: {
         "Content-Type": "application/json",

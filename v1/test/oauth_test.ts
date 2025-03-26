@@ -1,13 +1,16 @@
 import { assert, assertEquals } from "@std/assert";
-import { delay } from "@std/async";
+import { FakeTime } from "@std/testing/time";
 import { getAllUsers } from "../../core/kv.ts";
 import { randomUUID } from "../../core/util.ts";
 import { errors } from "../../core/error.ts";
 import { useUser } from "../../util/test/useUser.ts";
+import { app } from "../../server.ts";
 
 Deno.test(`GET /v1/oauth/signout:success`, async () => {
   await useUser(async (user, sessionId) => {
-    const res = await fetch("http://localhost:8880/v1/oauth/signout", {
+    using time = new FakeTime();
+
+    const res = await app.request("/v1/oauth/signout", {
       headers: {
         "Cookie": `site-session=${sessionId}`,
       },
@@ -17,7 +20,7 @@ Deno.test(`GET /v1/oauth/signout:success`, async () => {
 
     assert(res.status === 302);
 
-    await delay(500);
+    await time.runMicrotasks();
     // ユーザ情報からセッション情報が削除されているかを確認
     const users = await getAllUsers();
     const signOutUser = users.find((u) => u.id === user.id);
@@ -27,7 +30,7 @@ Deno.test(`GET /v1/oauth/signout:success`, async () => {
 
 Deno.test(`GET /v1/oauth/signout:unauthorized`, async () => {
   await useUser(async () => {
-    const res = await fetch("http://localhost:8880/v1/oauth/signout", {
+    const res = await app.request("/v1/oauth/signout", {
       headers: {
         "Cookie": `site-session=${randomUUID()}`,
       },
