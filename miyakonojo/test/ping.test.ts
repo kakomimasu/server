@@ -4,7 +4,9 @@ import { useUser } from "../../util/test/useUser.ts";
 
 import { validator } from "../parts/openapi.ts";
 
-const baseUrl = "http://localhost:8880/miyakonojo";
+import { app } from "../../server.ts";
+
+const baseUrl = "/miyakonojo";
 
 Deno.test({
   name: "miyakonojo API",
@@ -14,7 +16,7 @@ Deno.test({
 
       await t.step("/ping", async (t) => {
         await t.step("200 Success", async () => {
-          const res = await fetch(baseUrl + "/ping", {
+          const res = await app.request(baseUrl + "/ping", {
             headers: { "Authorization": token },
           });
           const json = await res.json();
@@ -28,7 +30,7 @@ Deno.test({
           ));
         });
         await t.step("401 Failure", async () => {
-          const res = await fetch(baseUrl + "/ping", {
+          const res = await app.request(baseUrl + "/ping", {
             headers: { "Authorization": "" },
           });
           const json = await res.json();

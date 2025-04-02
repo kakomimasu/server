@@ -1,12 +1,13 @@
 import { assert, assertEquals } from "@std/assert";
 import { v4 } from "@std/uuid";
+import { FakeTime } from "@std/testing/time";
 
 import { useUser } from "../../util/test/useUser.ts";
 
 import { errors } from "../../core/error.ts";
 
 import ApiClient from "../../client/client.ts";
-import { diffTime, sleep } from "./client_util.ts";
+import { diffTime } from "./client_util.ts";
 
 import { validator } from "../parts/openapi.ts";
 
@@ -33,6 +34,8 @@ const testSpec = "test";
 Deno.test({
   name: "flow test",
   fn: async (t) => {
+    using time = new FakeTime();
+
     await useUser(async (user) => {
       const bearerToken = user.bearerToken;
       const userId = user.id;
@@ -170,7 +173,7 @@ Deno.test({
         nextTurnUnixTime = gameInfo.startedAtUnixTime;
         operationSec = gameInfo.operationSec;
         transitionSec = gameInfo.transitionSec;
-        await sleep(diffTime(nextTurnUnixTime) + 100);
+        time.tick(diffTime(nextTurnUnixTime) + 100);
         // issue131:同ターンで複数アクションを送信時に送信したagentIDのみが反映されるかのテストを含む
         // 2回アクションを送信しているが、どちらもagentIDが違うため両方反映される。
         let actionRes = await ac.setAction(gameId, {
@@ -209,7 +212,7 @@ Deno.test({
         gameInfo = res.data;
 
         nextTurnUnixTime += operationSec;
-        await sleep(diffTime(nextTurnUnixTime) + 100);
+        time.tick(diffTime(nextTurnUnixTime) + 100);
       });
 
       await t.step("invalid match(Turn 1) Transition Step", async () => {
@@ -239,7 +242,7 @@ Deno.test({
         assertEquals(res.data, errors.DURING_TRANSITION_STEP);
 
         nextTurnUnixTime += transitionSec;
-        await sleep(diffTime(nextTurnUnixTime) + 100);
+        time.tick(diffTime(nextTurnUnixTime) + 100);
       });
 
       await t.step("check match(Turn 2) Operation Step", async () => {
@@ -286,7 +289,7 @@ Deno.test({
         //console.log(reqJson);
 
         nextTurnUnixTime += operationSec;
-        await sleep(diffTime(nextTurnUnixTime) + 100);
+        time.tick(diffTime(nextTurnUnixTime) + 100);
       });
 
       await t.step("invalid match(Turn 2) Transition Step", async () => {
@@ -316,7 +319,7 @@ Deno.test({
         assertEquals(res.data, errors.DURING_TRANSITION_STEP);
 
         nextTurnUnixTime += transitionSec;
-        await sleep(diffTime(nextTurnUnixTime) + 100);
+        time.tick(diffTime(nextTurnUnixTime) + 100);
       });
 
       await t.step("check match(Turn 3) Operation Step", async () => {

@@ -229,50 +229,60 @@ Deno.test("GET v1/matches/(gameId):not find game", async () => {
 // POST /v1/matches/(gameId)/action Test
 // テスト項目
 // 正常、正常、アクセストークン無効
-Deno.test("POST v1/matches/(gameId)/actions:normal", async () => {
-  await useUser(async (user) => {
-    const data = { aiName: "a1" };
-    const matchRes = await ac.joinAiMatch(
-      data,
-      "Bearer " + user.bearerToken,
-    );
+Deno.test({
+  name: "POST v1/matches/(gameId)/actions:normal",
+  sanitizeOps: false,
+  sanitizeResources: false,
+  fn: async () => {
+    await useUser(async (user) => {
+      const data = { aiName: "a1" };
+      const matchRes = await ac.joinAiMatch(
+        data,
+        "Bearer " + user.bearerToken,
+      );
 
-    const actionData = {
-      actions: [
-        { agentId: 0, type: "PUT", x: 0, y: 0 },
-      ],
-    };
-    const res = await ac.setAction(
-      matchRes.data.gameId,
-      actionData,
-      matchRes.data.pic,
-    );
+      const actionData = {
+        actions: [
+          { agentId: 0, type: "PUT", x: 0, y: 0 },
+        ],
+      };
+      const res = await ac.setAction(
+        matchRes.data.gameId,
+        actionData,
+        matchRes.data.pic,
+      );
 
-    assertActionRes(res.data, 200);
-  });
+      assertActionRes(res.data, 200);
+    });
+  },
 });
-Deno.test("POST v1/matches/(gameId)/action:invalid user", async () => {
-  await useUser(async (user) => {
-    const data = { aiName: "a1" };
-    const matchRes = await ac.joinAiMatch(
-      data,
-      "Bearer " + user.bearerToken,
-    );
+Deno.test({
+  name: "POST v1/matches/(gameId)/action:invalid user",
+  sanitizeOps: false,
+  sanitizeResources: false,
+  fn: async () => {
+    await useUser(async (user) => {
+      const data = { aiName: "a1" };
+      const matchRes = await ac.joinAiMatch(
+        data,
+        "Bearer " + user.bearerToken,
+      );
 
-    const actionData = {
-      actions: [
-        { agentId: 0, type: "PUT", x: 0, y: 0 },
-      ],
-    };
-    const res = await ac.setAction(
-      matchRes.data.gameId,
-      actionData,
-      "0000000",
-    );
+      const actionData = {
+        actions: [
+          { agentId: 0, type: "PUT", x: 0, y: 0 },
+        ],
+      };
+      const res = await ac.setAction(
+        matchRes.data.gameId,
+        actionData,
+        "0000000",
+      );
 
-    assertActionRes(res.data, 400);
-    assertEquals(res.data, errors.INVALID_USER_AUTHORIZATION);
-  });
+      assertActionRes(res.data, 400);
+      assertEquals(res.data, errors.INVALID_USER_AUTHORIZATION);
+    });
+  },
 });
 
 // POST /v1/matches/free/players Test
@@ -364,28 +374,33 @@ Deno.test("POST v1/matches/ai/players:normal by guest", async () => {
   assertMatchesAiPlayersRes(res.data, 200);
   assertMatch(res.data, { userId: "test" });
 });
-Deno.test("POST v1/matches/ai/players:normal by options", async () => {
-  const data = {
-    aiName: "a1",
-    guestName: "test",
-    nAgent: 1, // オプション変更
-    nPlayer: 3, // オプション変更...しても無視される（AI対戦は対戦者とAIなので2に固定）
-    totalTurn: 1, // オプション変更
-    operationSec: 10, // オプション変更
-    transitionSec: 10, // オプション変更
-  };
-  const res = await ac.joinAiMatch(data);
-  assertMatchesAiPlayersRes(res.data, 200);
-  assertMatch(res.data, { userId: "test" });
+Deno.test({
+  name: "POST v1/matches/ai/players:normal by options",
+  sanitizeOps: false,
+  sanitizeResources: false,
+  fn: async () => {
+    const data = {
+      aiName: "a1",
+      guestName: "test",
+      nAgent: 1, // オプション変更
+      nPlayer: 3, // オプション変更...しても無視される（AI対戦は対戦者とAIなので2に固定）
+      totalTurn: 1, // オプション変更
+      operationSec: 10, // オプション変更
+      transitionSec: 10, // オプション変更
+    };
+    const res = await ac.joinAiMatch(data);
+    assertMatchesAiPlayersRes(res.data, 200);
+    assertMatch(res.data, { userId: "test" });
 
-  const matchRes = await ac.getMatch(res.data.gameId);
-  if (matchRes.success === false) throw new Error(matchRes.message);
-  const game = matchRes.data;
-  assertEquals(game.nAgent, 1);
-  assertEquals(game.nPlayer, 2);
-  assertEquals(game.totalTurn, 1);
-  assertEquals(game.operationSec, 10);
-  assertEquals(game.transitionSec, 10);
+    const matchRes = await ac.getMatch(res.data.gameId);
+    if (matchRes.success === false) throw new Error(matchRes.message);
+    const game = matchRes.data;
+    assertEquals(game.nAgent, 1);
+    assertEquals(game.nPlayer, 2);
+    assertEquals(game.totalTurn, 1);
+    assertEquals(game.operationSec, 10);
+    assertEquals(game.transitionSec, 10);
+  },
 });
 
 Deno.test("POST v1/matches/ai/players:can not find ai", async () => {
