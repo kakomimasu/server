@@ -6,7 +6,7 @@ import {
   signIn,
   signOut,
 } from "kv_oauth";
-import { Octokit as OctokitRest } from "npm:@octokit/rest@21.1.0";
+import { Octokit as OctokitRest } from "npm:@octokit/rest@20.1.2";
 
 import { errors, ServerError } from "../core/error.ts";
 import { accounts, User } from "../core/datas.ts";
