@@ -1,8 +1,7 @@
-// import { OpenAPIObject } from "openapi3-ts/oas31";
+import { OpenAPIObject } from "openapi3-ts/oas31";
 import { OpenAPIValidator } from "../../util/openapi-validator.ts";
 
 export const openapi = {
-  // export const openapi: OpenAPIObject = {
   openapi: "3.1.1",
   info: {
     title: "Kakomimasu API",
@@ -17,6 +16,7 @@ export const openapi = {
   paths: {
     "/matches/{gameId}/players": {
       post: {
+        operationId: "joinGameIdMatch",
         description:
           "指定したゲームIDのゲームに参加できます。<br>`guestName`を指定してゲスト参加する場合、認証情報は要りません。",
         summary: "ゲーム参加(ID指定)",
@@ -56,6 +56,7 @@ export const openapi = {
     },
     "/matches/free/players": {
       post: {
+        operationId: "joinFreeMatch",
         description:
           "空いているゲームに参加できます。（空いているゲームがない場合には新しくゲームが作られます。）<br>`guestName`を指定してゲスト参加する場合、認証情報は要りません。",
         summary: "ゲーム参加(フリー対戦)",
@@ -85,6 +86,7 @@ export const openapi = {
     },
     "/matches/ai/players": {
       post: {
+        operationId: "joinAiMatch",
         description:
           "サーバ上のAIと対戦するゲームに参加できます。作成したプログラムの動作確認等に便利です。<br>なお、プレイヤー数は2で固定になります。<br>`guestName`を指定してゲスト参加する場合、認証情報は要りません。",
         summary: "ゲーム参加(AI対戦)",
@@ -150,6 +152,7 @@ export const openapi = {
     },
     "/matches/{gameId}": {
       get: {
+        operationId: "getMatch",
         description: "ゲーム詳細を取得することができます。",
         summary: "ゲーム詳細取得",
         tags: ["Matches API"],
@@ -182,6 +185,7 @@ export const openapi = {
     },
     "/matches/{gameId}/actions": {
       patch: {
+        operationId: "setAction",
         description:
           "エージェントの行動を送信することができます。<br>同ターンに複数回送信した場合、そのエージェントIDの情報のみ書き変わり、その他のエージェントには影響しません。<br>そのため、一度送った行動情報を取り消したい場合には、そのエージェントに対してNONEを設定する必要があります。",
         summary: "ゲーム行動送信",
@@ -209,44 +213,28 @@ export const openapi = {
                       type: "array",
                       description: "行動情報の配列",
                       items: {
-                        oneOf: [{
-                          type: "object",
-                          required: ["agentId", "type", "x", "y"],
-                          properties: {
-                            agentId: {
-                              type: "integer",
-                              description:
-                                "エージェントID<br>`players[].agents`配列のインデックス",
-                            },
-                            type: {
-                              type: "string",
-                              description: "行動種類",
-                              enum: ["PUT", "MOVE", "REMOVE"],
-                            },
-                            x: {
-                              type: "integer",
-                              description: "x座標",
-                            },
-                            y: {
-                              type: "integer",
-                            },
+                        type: "object",
+                        required: ["agentId", "type"],
+                        properties: {
+                          agentId: {
+                            type: "integer",
+                            description:
+                              "エージェントID<br>`players[].agents`配列のインデックス",
                           },
-                        }, {
-                          type: "object",
-                          required: ["agentId", "type"],
-                          properties: {
-                            agentId: {
-                              type: "integer",
-                              description:
-                                "エージェントID<br>`players[].agents`配列のインデックス",
-                            },
-                            type: {
-                              type: "string",
-                              description: "行動種類",
-                              enum: ["NONE"],
-                            },
+                          type: {
+                            type: "string",
+                            description: "行動種類",
+                            enum: ["PUT", "MOVE", "REMOVE", "NONE"],
                           },
-                        }],
+                          x: {
+                            type: "integer",
+                            description: "x座標。typeがNONEの場合は不要",
+                          },
+                          y: {
+                            type: "integer",
+                            description: "y座標。typeがNONEの場合は不要",
+                          },
+                        },
                       },
                     },
                   },
@@ -298,6 +286,7 @@ export const openapi = {
     },
     "/matches": {
       post: {
+        operationId: "createMatch",
         description: "任意の設定でゲームを作成することができます。",
         summary: "ゲーム作成",
         tags: ["Matches API"],
@@ -552,6 +541,7 @@ export const openapi = {
     },
     "/tournaments": {
       get: {
+        operationId: "getTournaments",
         description: "大会情報を取得できます。",
         summary: "大会全情報取得",
         tags: ["Tournaments API"],
@@ -572,6 +562,7 @@ export const openapi = {
         },
       },
       post: {
+        operationId: "createTournament",
         description: "大会を作成することができます。",
         summary: "大会作成",
         tags: ["Tournaments API"],
@@ -641,6 +632,7 @@ export const openapi = {
     },
     "/tournaments/{tournamentId}": {
       get: {
+        operationId: "getTournament",
         description: "大会情報を取得できます。",
         summary: "大会情報取得",
         tags: ["Tournaments API"],
@@ -671,6 +663,7 @@ export const openapi = {
         },
       },
       delete: {
+        operationId: "deleteTournament",
         description: "大会を削除することができます。",
         summary: "大会削除",
         tags: ["Tournaments API"],
@@ -710,6 +703,7 @@ export const openapi = {
     },
     "/tournaments/{tournamentId}/users": {
       post: {
+        operationId: "addTournamentUser",
         description: "大会に参加するユーザを追加することができます。",
         summary: "大会参加ユーザ追加",
         tags: ["Tournaments API"],
@@ -764,6 +758,7 @@ export const openapi = {
     },
     "/users/me": {
       get: {
+        operationId: "getUserMe",
         description: "自分のユーザ情報を取得できます。",
         summary: "ユーザ情報取得",
         tags: ["Users API"],
@@ -778,6 +773,7 @@ export const openapi = {
         },
       },
       delete: {
+        operationId: "deleteUserMe",
         description: "ユーザを削除することができます。",
         summary: "ユーザ削除",
         tags: ["Users API"],
@@ -801,6 +797,7 @@ export const openapi = {
     },
     "/users/me/token": {
       get: {
+        operationId: "regenerateUserMeToken",
         description:
           "ユーザのBearerTokenを再生成することができます。<br>⚠再生成が行われると、既存のBearerTokenは無効になります。",
         summary: "ユーザトークン再生成",
@@ -818,6 +815,7 @@ export const openapi = {
     },
     "/users/{userIdOrName}": {
       get: {
+        operationId: "getUser",
         description: "ユーザ情報を取得できます。",
         summary: "ユーザ情報取得",
         tags: ["Users API"],
@@ -851,6 +849,7 @@ export const openapi = {
     },
     "/users": {
       get: {
+        operationId: "getUsers",
         description:
           "ユーザ一覧を取得できます。<br>現在はクエリパラメータを用いた検索機能のみ実装",
         summary: "ユーザ一覧取得",
@@ -1360,6 +1359,21 @@ export const openapi = {
           "avaterUrl": [],
         },
       },
+      AuthedUser: {
+        allOf: [{ "$ref": "#/components/schemas/User" }, {
+          type: "object",
+          required: ["bearerToken"],
+          properties: {
+            bearerToken: {
+              type: "string",
+              description: "BearerToken",
+            },
+          },
+          example: {
+            "bearerToken": "a92070bf-7f78-4c64-953b-189ddb44c159",
+          },
+        }],
+      },
       Tournament: {
         type: "object",
         required: [
@@ -1448,33 +1462,71 @@ export const openapi = {
           },
         },
       },
+      ErrorResponse: {
+        type: "object",
+        required: ["errorCode", "message"],
+        properties: {
+          errorCode: {
+            type: "integer",
+            description: "エラーコード",
+          },
+          message: {
+            type: "string",
+            description: "エラーメッセージ",
+          },
+        },
+        example: {
+          errorCode: 6,
+          message: "invalid request",
+        },
+      },
+      JoinMatchResponse: {
+        type: "object",
+        required: [
+          "userId",
+          "spec",
+          "gameId",
+          "index",
+          "pic",
+        ],
+        properties: {
+          userId: {
+            type: "string",
+            description: "参加プレイヤーのユーザID",
+          },
+          spec: {
+            type: "string",
+            description: "参加プレイヤーの紹介文",
+          },
+          gameId: {
+            type: "string",
+            description: "参加したゲームID",
+          },
+          index: {
+            type: "integer",
+            description:
+              "参加したゲームのインデックス<br>ゲーム詳細を取得した際の`players`配列内の自分のインデックスを表しています。",
+          },
+          pic: {
+            type: "string",
+            description: "行動送信時に必要となるトークン(プレイヤー識別コード)",
+          },
+        },
+        example: {
+          "userId": "0cYf1k3rxI8dBoOw5qpgqtXmUnEK",
+          "spec": "",
+          "gameId": "833b167a-d40b-49e5-b0e2-9d3de3e8d532",
+          "index": 0,
+          "pic": "012345",
+        },
+      },
     },
     responses: {
       "400": {
         description: "パラメータやリクエストの不備",
         content: {
           "application/json": {
-            schema: {
-              type: "object",
-              required: [
-                "errorCode",
-                "message",
-              ],
-              properties: {
-                errorCode: {
-                  type: "integer",
-                  description: "エラーコード",
-                },
-                message: {
-                  type: "string",
-                  description: "エラーメッセージ",
-                },
-              },
-              example: {
-                errorCode: 6,
-                message: "invalid request",
-              },
-            },
+            schema: { $ref: "#/components/schemas/ErrorResponse" },
           },
         },
       },
@@ -1482,27 +1534,7 @@ export const openapi = {
         description: "認証情報の不備",
         content: {
           "application/json": {
-            schema: {
-              type: "object",
-              required: [
-                "errorCode",
-                "message",
-              ],
-              properties: {
-                errorCode: {
-                  type: "integer",
-                  description: "エラーコード",
-                },
-                message: {
-                  type: "string",
-                  description: "エラーメッセージ",
-                },
-              },
-              example: {
-                errorCode: 4,
-                message: "unauthorized",
-              },
-            },
+            schema: { $ref: "#/components/schemas/ErrorResponse" },
           },
         },
       },
@@ -1510,47 +1542,7 @@ export const openapi = {
         description: "Success",
         content: {
           "application/json": {
-            schema: {
-              type: "object",
-              required: [
-                "userId",
-                "spec",
-                "gameId",
-                "index",
-                "pic",
-              ],
-              properties: {
-                userId: {
-                  type: "string",
-                  description: "参加プレイヤーのユーザID",
-                },
-                spec: {
-                  type: "string",
-                  description: "参加プレイヤーの紹介文",
-                },
-                gameId: {
-                  type: "string",
-                  description: "参加したゲームID",
-                },
-                index: {
-                  type: "integer",
-                  description:
-                    "参加したゲームのインデックス<br>ゲーム詳細を取得した際の`players`配列内の自分のインデックスを表しています。",
-                },
-                pic: {
-                  type: "string",
-                  description:
-                    "行動送信時に必要となるトークン(プレイヤー識別コード)",
-                },
-              },
-              example: {
-                "userId": "0cYf1k3rxI8dBoOw5qpgqtXmUnEK",
-                "spec": "",
-                "gameId": "833b167a-d40b-49e5-b0e2-9d3de3e8d532",
-                "index": 0,
-                "pic": "012345",
-              },
-            },
+            schema: { $ref: "#/components/schemas/JoinMatchResponse" },
           },
         },
       },
@@ -1558,21 +1550,7 @@ export const openapi = {
         description: "Success",
         content: {
           "application/json": {
-            schema: {
-              allOf: [{ "$ref": "#/components/schemas/User" }, {
-                type: "object",
-                required: ["bearerToken"],
-                properties: {
-                  bearerToken: {
-                    type: "string",
-                    description: "BearerToken",
-                  },
-                },
-                example: {
-                  "bearerToken": "a92070bf-7f78-4c64-953b-189ddb44c159",
-                },
-              }],
-            },
+            schema: { "$ref": "#/components/schemas/AuthedUser" },
           },
         },
       },
@@ -1593,6 +1571,6 @@ export const openapi = {
       },
     },
   },
-} as const;
+} as const satisfies OpenAPIObject;
 
 export const validator = new OpenAPIValidator(openapi);
