@@ -223,8 +223,8 @@ router.patch(
       const newAction = new Core.Action(
         action.agentId,
         getType(action.type),
-        ("x" in action) ? action.x : 0,
-        ("y" in action) ? action.y : 0,
+        (action.x) ? action.x : 0,
+        (action.y) ? action.y : 0,
       );
       const actionIdx = newActions.findIndex((a) =>
         a.agentId === action.agentId

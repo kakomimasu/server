@@ -59,12 +59,12 @@ export type JoinAiMatchRes = JoinMatchRes;
 export type GetMatchRes = Game;
 
 export type ActionMatchReq = {
-  actions: ({
+  actions: {
     agentId: number;
-    type: "PUT" | "MOVE" | "REMOVE";
-    x: number;
-    y: number;
-  } | { agentId: number; type: "NONE" })[];
+    type: "PUT" | "MOVE" | "REMOVE" | "NONE";
+    x?: number;
+    y?: number;
+  }[];
 } & DryRunOption;
 export type ActionMatchRes = {
   receptionUnixTime: number;
