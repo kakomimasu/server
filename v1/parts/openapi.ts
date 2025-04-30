@@ -1,8 +1,7 @@
-// import { OpenAPIObject } from "openapi3-ts/oas31";
+import { OpenAPIObject } from "openapi3-ts/oas31";
 import { OpenAPIValidator } from "../../util/openapi-validator.ts";
 
 export const openapi = {
-  // export const openapi: OpenAPIObject = {
   openapi: "3.1.1",
   info: {
     title: "Kakomimasu API",
@@ -1572,6 +1571,6 @@ export const openapi = {
       },
     },
   },
-} as const;
+} as const satisfies OpenAPIObject;
 
 export const validator = new OpenAPIValidator(openapi);
