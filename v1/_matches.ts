@@ -197,6 +197,10 @@ router.patch(
       throw new ServerError(errors.DURING_TRANSITION_STEP);
     }
 
+    if (game.isEnded()) {
+      throw new ServerError(errors.GAME_ENDED);
+    }
+
     const actionData = ctx.get("data");
     const isValid = validator.validateRequestBody(
       actionData,
