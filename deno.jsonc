@@ -17,6 +17,6 @@
     "@std/uuid": "jsr:@std/uuid@^1.0.4",
     "kkmm-core": "https://cdn.jsdelivr.net/gh/codeforkosen/Kakomimasu@v2.0.1/mod.ts",
     "kv_oauth": "jsr:@deno/kv-oauth@^0.11.0",
-    "openapi3-ts/": "https://esm.sh/openapi3-ts@4.4.0/"
+    "openapi3-ts": "npm:openapi3-ts@4.4.0"
   }
 }
