@@ -12,10 +12,10 @@ jobs:
     name: format & lint check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: denoland/setup-deno@v2
         with:
-          deno-version: v2.0.2
+          deno-version: v2.7.4
       - name: Run fmt
         run: deno fmt --check
       - name: Run lint
@@ -24,10 +24,10 @@ jobs:
     needs: check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: denoland/setup-deno@v2
         with:
-          deno-version: v2.0.2
+          deno-version: v2.7.4
       - name: Run test
         run: |
           deno task test

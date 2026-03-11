@@ -1,4 +1,4 @@
-import * as fs from "jsr:@std/fs";
+import * as fs from "@std/fs";
 
 import { ExpGame } from "../../../core/expKakomimasu.ts";
 import { kv } from "../../../core/kv.ts";
