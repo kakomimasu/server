@@ -24,6 +24,12 @@ export const config = {
     require: false,
     default: "",
   },
+  DENO_DEPLOY_TOKEN: {
+    require: false,
+  },
+  MUJIN_MATCH_API_HOST: {
+    require: false,
+  },
   TEST: {
     require: false,
     default: "false",

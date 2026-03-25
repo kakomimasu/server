@@ -1,10 +1,12 @@
 import { Hono } from "@hono/hono";
+import { Sandbox } from "@deno/sandbox";
+
 import * as Core from "kkmm-core";
 
 import { nowUnixTime } from "../core/util.ts";
 import { accounts, games, tournaments } from "../core/datas.ts";
 import { errors, ServerError } from "../core/error.ts";
-import { getBoard, getBoards } from "../core/kv.ts";
+import { getBoard, getBoards, getCodes } from "../core/kv.ts";
 import { ExpGame, GameInit, Player } from "../core/expKakomimasu.ts";
 import { env } from "../core/env.ts";
 import { ResponseType, SchemaType } from "../util/openapi-type.ts";
@@ -351,6 +353,98 @@ router.post(
       const aiPlayer = new Player(ai.name, "");
       game.ai = aiClient;
       game.attachPlayer(aiPlayer);
+    }
+
+    const { gameId, ...rawRes } = player.getJSON();
+    const res: AiMatchRes = {
+      ...rawRes,
+      gameId: gameId ?? crypto.randomUUID(),
+    }; // dry-run用にgameIdを設定
+    return ctx.json(res);
+  },
+);
+
+router.post(
+  "/mujin/players",
+  contentTypeFilter("application/json"),
+  auth({ bearer: true, required: false }),
+  jsonParse(),
+  async (ctx) => {
+    const reqData = ctx.get("data");
+    const isValid = validator.validateRequestBody(
+      reqData,
+      "/matches/mujin/players",
+      "post",
+      "application/json",
+    );
+    if (!isValid) {
+      throw new ServerError(errors.INVALID_REQUEST);
+    }
+
+    const authedUserId = ctx.get("authed_userId") as string;
+    const opponentId = reqData.opponentId;
+
+    const opponentUser = accounts.findById(opponentId);
+    if (!opponentUser) throw new ServerError(errors.NOT_USER);
+    const opponentCode = (await getCodes(opponentId))[0];
+    if (!opponentCode) {
+      throw new ServerError(errors.NOT_OPPONENT_CODE);
+    }
+
+    const player = createPlayer(authedUserId, reqData);
+
+    const bname = reqData.boardName || boardname;
+    const brd = bname ? await getBoard(bname) : await getRandomBoard(); //readBoard(bname);
+    if (!brd) throw new ServerError(errors.INVALID_BOARD_NAME);
+    if (!reqData.dryRun) {
+      const init: GameInit = brd;
+
+      // オプション適用
+      if (reqData.nAgent) init.nAgent = reqData.nAgent;
+      if (reqData.totalTurn) init.totalTurn = reqData.totalTurn;
+      if (reqData.operationSec) init.operationSec = reqData.operationSec;
+      if (reqData.transitionSec) init.transitionSec = reqData.transitionSec;
+
+      const vsMatchApiHost = env.MUJIN_MATCH_API_HOST;
+      if (!vsMatchApiHost) {
+        // サーバ側の指定ミスなのでただのエラーにする
+        throw new Error("MUJIN_MATCH_API_HOST env is required for vs match");
+      }
+
+      // Sandboxの作成
+      await using sandbox = await Sandbox.create({ timeout: "15m" }).catch(
+        (e) => {
+          console.error("Failed to create sandbox:", e);
+          throw new ServerError(errors.CAN_NOT_CREATE_GAME);
+        },
+      );
+
+      const game = new ExpGame(init);
+      games.push(game);
+      if (player.type === "account") {
+        const user = accounts.getUsers().find((user) =>
+          user.id === authedUserId
+        );
+
+        game.name =
+          `対AI戦：${user?.screenName}(@${user?.name}) vs ${opponentUser.screenName}(@${opponentUser.name})`;
+      } else {
+        game.name =
+          `対AI戦：${player.id} vs ${opponentUser.screenName}(@${opponentUser.name})`;
+      }
+      game.attachPlayer(player);
+
+      for (const [path, content] of Object.entries(opponentCode.files)) {
+        await sandbox.fs.writeTextFile(path, content);
+      }
+
+      sandbox.env.set("BEARER_TOKEN", opponentUser.bearerToken);
+      sandbox.env.set("GAME_ID", game.id);
+      sandbox.env.set("API_HOST", vsMatchApiHost);
+
+      await sandbox.spawn("deno", {
+        args: ["run", "-A", opponentCode.entryPoint],
+      });
     }
 
     const { gameId, ...rawRes } = player.getJSON();

@@ -50,6 +50,14 @@ export const errors = {
     errorCode: 106,
     message: "invalid query parameter",
   },
+  NOT_OPPONENT_CODE: {
+    errorCode: 107,
+    message: "can not find opponent code",
+  },
+  CAN_NOT_CREATE_GAME: {
+    errorCode: 108,
+    message: "can not create game",
+  },
   INVALID_SCREEN_NAME: {
     errorCode: 201,
     message: "invalid screenName",
