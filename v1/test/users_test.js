@@ -292,3 +292,98 @@ Deno.test({
     });
   },
 });
+
+// POST /v1/users/me/codes Test
+// テスト項目
+// 正常（Cookie）・認証なし
+Deno.test({
+  name: "POST /v1/users/me/codes:normal by cookie",
+  sanitizeOps: false,
+  sanitizeResources: false,
+  fn: async () => {
+    await useUser(async (_user, sessionId) => {
+      const code = {
+        type: "playground",
+        entryPoint: "main.js",
+        files: { "main.js": "console.log('hello');" },
+      };
+      const res = await app.request("/v1/users/me/codes", {
+        method: "POST",
+        headers: {
+          Cookie: `site-session=${sessionId}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(code),
+      });
+      assert(res.ok);
+      const data = await res.json();
+      assertEquals(data, { status: "ok" });
+    });
+  },
+});
+Deno.test({
+  name: "POST /v1/users/me/codes:unauthorized",
+  sanitizeOps: false,
+  sanitizeResources: false,
+  fn: async () => {
+    const code = {
+      type: "playground",
+      entryPoint: "main.js",
+      files: { "main.js": "console.log('hello');" },
+    };
+    const res = await app.request("/v1/users/me/codes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(code),
+    });
+    assertEquals(res.status, 401);
+    const data = await res.json();
+    assertEquals(data, errors.UNAUTHORIZED);
+  },
+});
+
+// GET /v1/users/me/codes Test
+// テスト項目
+// 正常（Cookie）・認証なし
+Deno.test({
+  name: "GET /v1/users/me/codes:normal by cookie",
+  sanitizeOps: false,
+  sanitizeResources: false,
+  fn: async () => {
+    await useUser(async (_user, sessionId) => {
+      const code = {
+        type: "playground",
+        entryPoint: "main.js",
+        files: { "main.js": "console.log('hello');" },
+      };
+      // コードを登録してから取得
+      await app.request("/v1/users/me/codes", {
+        method: "POST",
+        headers: {
+          Cookie: `site-session=${sessionId}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(code),
+      });
+      const res = await app.request("/v1/users/me/codes", {
+        headers: { Cookie: `site-session=${sessionId}` },
+      });
+      assert(res.ok);
+      const data = await res.json();
+      assert(Array.isArray(data));
+      assertEquals(data.length, 1);
+      assertEquals(data[0], code);
+    });
+  },
+});
+Deno.test({
+  name: "GET /v1/users/me/codes:unauthorized",
+  sanitizeOps: false,
+  sanitizeResources: false,
+  fn: async () => {
+    const res = await app.request("/v1/users/me/codes");
+    assertEquals(res.status, 401);
+    const data = await res.json();
+    assertEquals(data, errors.UNAUTHORIZED);
+  },
+});
