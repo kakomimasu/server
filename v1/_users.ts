@@ -3,7 +3,7 @@ import { Hono } from "@hono/hono";
 import { contentTypeFilter, jsonParse } from "./util.ts";
 import { errors, ServerError } from "../core/error.ts";
 import { env } from "../core/env.ts";
-import { deleteUser, kv } from "../core/kv.ts";
+import { deleteUser, prisma } from "../core/kv.ts";
 import { auth } from "./middleware.ts";
 import { accounts, User } from "../core/datas.ts";
 import { ResponseType } from "../util/openapi-type.ts";
@@ -146,8 +146,13 @@ if (env.TEST) {
       accounts.getUsers().push(user);
       await accounts.save();
 
-      for await (const sessionId of reqData.sessions) {
-        await kv.set(["site_sessions", sessionId], true);
+      for (const sessionId of reqData.sessions) {
+        await prisma.siteSession.create({
+          data: {
+            id: sessionId,
+            expiresAt: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+          },
+        });
       }
       return ctx.json(user.noSafe());
     },

@@ -9,5 +9,10 @@ firebase-key.json
 coverage
 coverage-html
 
+# Deno npm compatibility
+node_modules/
+generated/
+
 # Migration
 db/migration/202410_kv_games_deflate/new*
+db/migration/202606_kv_to_postgresql/kv-export.json
