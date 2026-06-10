@@ -150,6 +150,72 @@ export const openapi = {
         },
       },
     },
+    "/matches/mujin/players": {
+      post: {
+        operationId: "joinMujinMatch",
+        description:
+          "無人対戦（投稿されたコードと対戦）するゲームに参加できます。<br>なお、プレイヤー数は2で固定になります。<br>`guestName`を指定してゲスト参加する場合、認証情報は要りません。",
+        summary: "ゲーム参加(無人対戦)",
+        tags: ["Matches API"],
+        security: [{}, { "Bearer": [] }],
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: {
+                allOf: [
+                  {
+                    allOf: [{
+                      "$ref": "#/components/schemas/MatchesRequestBase",
+                    }, {
+                      type: "object",
+                      required: ["opponentId"],
+                      properties: {
+                        opponentId: {
+                          type: "string",
+                        },
+                        boardName: {
+                          type: "string",
+                        },
+                        nAgent: {
+                          type: "integer",
+                          description: "エージェント数",
+                        },
+                        totalTurn: {
+                          type: "integer",
+                          description: "ターン数",
+                        },
+                        operationSec: {
+                          type: "integer",
+                          description: "行動ステップ時間(秒)",
+                        },
+                        transitionSec: {
+                          type: "integer",
+                          description: "遷移ステップ時間(秒)",
+                        },
+                      },
+                      example: {
+                        opponentId: "123456",
+                        boardName: "A-1",
+                      },
+                    }],
+                  },
+                  { "$ref": "#/components/schemas/DryRunRequest" },
+                ],
+              },
+            },
+          },
+        },
+        responses: {
+          "200": {
+            "$ref": "#/components/responses/MatchesJoin",
+          },
+          "400": {
+            "$ref": "#/components/responses/400",
+          },
+        },
+      },
+    },
+
     "/matches/{gameId}": {
       get: {
         operationId: "getMatch",

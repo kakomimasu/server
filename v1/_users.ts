@@ -3,7 +3,7 @@ import { Hono } from "@hono/hono";
 import { contentTypeFilter, jsonParse } from "./util.ts";
 import { errors, ServerError } from "../core/error.ts";
 import { env } from "../core/env.ts";
-import { deleteUser, kv } from "../core/kv.ts";
+import { deleteUser, getCodes, kv, setCode } from "../core/kv.ts";
 import { auth } from "./middleware.ts";
 import { accounts, User } from "../core/datas.ts";
 import { ResponseType } from "../util/openapi-type.ts";
@@ -85,6 +85,26 @@ router.get(
     return ctx.json(body);
   },
 );
+
+router.post("/me/codes", auth({ cookie: true }), async (ctx) => {
+  const authedUserId = ctx.get("authed_userId");
+
+  const body = await ctx.req.json();
+
+  const codeId = crypto.randomUUID();
+  setCode(authedUserId, codeId, body);
+
+  return ctx.json({ status: "ok" });
+});
+
+router.get("/me/codes", auth({ cookie: true }), async (ctx) => {
+  const authedUserId = ctx.get("authed_userId");
+
+  const codes = await getCodes(authedUserId);
+  const codesData = Array.from(codes);
+
+  return ctx.json(codesData);
+});
 
 // ユーザ情報取得
 router.get(

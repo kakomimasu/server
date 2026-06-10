@@ -13,6 +13,7 @@ const BOARD_KEY = "boards";
 const TOURNAMENT_KEY = "tournaments";
 const USERS_KEY = "users";
 const GAMES_KEY = "games";
+const CODES_KEY = "codes";
 
 export interface KvUser {
   screenName: string;
@@ -30,6 +31,12 @@ export interface KvTournament {
   remarks: string;
   users: string[];
   gameIds: string[];
+}
+
+export interface KvCode {
+  type: string;
+  entryPoint: string;
+  files: { [key: string]: string };
 }
 
 /** 全ユーザ保存 */
@@ -128,4 +135,34 @@ export async function getBoards(): Promise<Board[]> {
 /** ボード保存(JSONから) */
 export async function setBoard(board: Board): Promise<void> {
   await kv.set([BOARD_KEY, board.name], board);
+}
+
+/** コード保存 */
+export async function setCode(
+  userId: string,
+  codeId: string,
+  code: KvCode,
+): Promise<void> {
+  await kv.set([CODES_KEY, userId, codeId], await compression(code));
+
+  // 不要にデータが増えないように以前のコードを削除
+  const prevData = kv.list({ prefix: [CODES_KEY, userId] });
+  for await (const d of prevData) {
+    if (d.key[2] !== codeId) {
+      await kv.delete(d.key);
+    }
+  }
+}
+
+/** コード取得 */
+export async function getCodes(
+  userId: string,
+) {
+  const data = kv.list<ArrayBuffer>({ prefix: [CODES_KEY, userId] });
+
+  const codes: KvCode[] = [];
+  for await (const d of data) {
+    codes.push(await decompression(d.value));
+  }
+  return codes;
 }
