@@ -70,7 +70,7 @@ router
         user.sessions.splice(user.sessions.indexOf(sessionId), 1);
       }
     });
-    accounts.save();
+    await accounts.save();
     return await signOut(context);
   });
 export default router;

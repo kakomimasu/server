@@ -86,16 +86,12 @@ export async function getAllUsers(): Promise<KvUser[]> {
   }));
 }
 
-/** ユーザ削除 */
-export async function deleteUser(userId: string) {
-  const user = await prisma.user.findUnique({ where: { id: userId } });
-  if (user) {
-    // ユーザに紐づくサイトセッションを削除
-    await prisma.siteSession.deleteMany({
-      where: { id: { in: user.sessions } },
-    });
-    await prisma.user.delete({ where: { id: userId } });
-  }
+/** ユーザセッション削除 */
+export async function deleteSession(sessions: string[]) {
+  // ユーザに紐づくサイトセッションを削除
+  await prisma.siteSession.deleteMany({
+    where: { id: { in: sessions } },
+  });
 }
 
 /** 全大会保存 */

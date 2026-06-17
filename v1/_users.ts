@@ -3,7 +3,7 @@ import { Hono } from "@hono/hono";
 import { contentTypeFilter, jsonParse } from "./util.ts";
 import { errors, ServerError } from "../core/error.ts";
 import { env } from "../core/env.ts";
-import { deleteUser, prisma } from "../core/kv.ts";
+import { deleteSession, prisma } from "../core/kv.ts";
 import { auth } from "./middleware.ts";
 import { accounts, User } from "../core/datas.ts";
 import { ResponseType } from "../util/openapi-type.ts";
@@ -52,7 +52,7 @@ router.delete(
     if (reqData.dryRun !== true) {
       accounts.getUsers().splice(index, 1);
       accounts.save();
-      deleteUser(user.id);
+      deleteSession(user.sessions);
     }
     const body: ResponseType<
       "/users/me",
