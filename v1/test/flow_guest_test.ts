@@ -200,7 +200,6 @@ Deno.test({
 
         nextTurnUnixTime += gameInfo.operationSec + gameInfo.transitionSec;
         await time.tickAsync(diffTime(nextTurnUnixTime) + 100);
-        time.runAll();
         res = await ac.getMatch(gameId);
         if (res.success === false) {
           throw Error("Response Error. ErrorCode:" + res.data.errorCode);
@@ -267,6 +266,7 @@ Deno.test({
 
         nextTurnUnixTime += gameInfo.operationSec + gameInfo.transitionSec;
         await time.tickAsync(diffTime(nextTurnUnixTime) + 100);
+        await time.tickAsync(0);
         res = await ac.getMatch(gameId);
         if (res.success === false) {
           throw Error("Response Error. ErrorCode:" + res.data.errorCode);
