@@ -2,7 +2,7 @@
   "nodeModulesDir": "auto",
   "tasks": {
     "cache": "deno cache server.ts",
-    "start": "deno run --allow-read --allow-env --allow-net --unstable-kv server.ts",
+    "start": "deno run --allow-read --allow-env --allow-net --allow-sys --unstable-kv server.ts",
     "test": "export TEST=true && deno task db:init && deno test --allow-read --allow-env --allow-net --allow-run --unstable-kv --clean --coverage=coverage",
     "coverage": "deno coverage coverage --lcov --output=coverage/coverage.lcov",
     "coverage:report": "deno coverage coverage --html",
@@ -10,7 +10,7 @@
     "prisma:generate": "deno run -A npm:prisma generate",
     "prisma:push": "deno run -A --env=.env npm:prisma db push",
     "prisma:dev": "npx prisma@7.8.0 dev",
-    "prisma:studio": "npx prisma@7.8.0 studio"
+    "prisma:studio": "npx prisma@7.8.0 studio --url='postgres://postgres:postgres@localhost:51214/template1?sslmode=disable&connection_limit=10&connect_timeout=0&max_idle_connection_lifetime=0&pool_timeout=0&socket_timeout=0'"
   },
   "lock": false,
   "imports": {
