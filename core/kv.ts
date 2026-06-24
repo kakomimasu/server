@@ -1,18 +1,12 @@
+import { PrismaPg } from "@prisma/adapter-pg";
+import { type Prisma, PrismaClient } from "../generated/prisma/client.ts";
 import { env } from "./env.ts";
 import type { Board, ExpGame } from "./expKakomimasu.ts";
 import type { Tournament, User } from "./datas.ts";
-import { compression, decompression } from "./util.ts";
 
-export const kv = await Deno.openKv(
-  env.DENO_KV_ACCESS_TOKEN
-    ? "https://api.deno.com/databases/24cc05be-e9c0-4695-9dcb-29ef4166e35c/connect"
-    : undefined,
-);
-
-const BOARD_KEY = "boards";
-const TOURNAMENT_KEY = "tournaments";
-const USERS_KEY = "users";
-const GAMES_KEY = "games";
+export const prisma = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: env.DATABASE_URL }),
+});
 
 export interface KvUser {
   screenName: string;
@@ -31,101 +25,152 @@ export interface KvTournament {
   users: string[];
   gameIds: string[];
 }
+function serializeUser(user: User): KvUser {
+  return {
+    screenName: user.screenName,
+    name: user.name,
+    id: user.id,
+    avaterUrl: user.avaterUrl,
+    sessions: [...user.sessions],
+    bearerToken: user.bearerToken,
+  };
+}
+
+function serializeTournament(tournament: Tournament): KvTournament {
+  return {
+    id: tournament.id,
+    name: tournament.name,
+    type: tournament.type,
+    organizer: tournament.organizer,
+    remarks: tournament.remarks,
+    users: [...tournament.users],
+    gameIds: [...tournament.gameIds],
+  };
+}
+
+function serializeBoard(board: Board): Board {
+  return JSON.parse(JSON.stringify(board)) as Board;
+}
+
+function deserializeBoard(value: Prisma.JsonValue): Board {
+  return value as unknown as Board;
+}
+
+function toPrismaJson(value: unknown): Prisma.InputJsonValue {
+  return JSON.parse(JSON.stringify(value)) as Prisma.InputJsonValue;
+}
 
 /** 全ユーザ保存 */
 export async function setAllUsers(users: User[]): Promise<void> {
-  const users2: KvUser[] = users.map((a) => {
-    return {
-      screenName: a.screenName,
-      name: a.name,
-      id: a.id,
-      avaterUrl: a.avaterUrl,
-      sessions: a.sessions,
-      bearerToken: a.bearerToken,
-    };
+  const data = users.map(serializeUser);
+  await prisma.$transaction(async (tx) => {
+    await tx.user.deleteMany();
+    if (data.length > 0) {
+      await tx.user.createMany({ data });
+    }
   });
-  const promises = users2.map((u) => {
-    kv.set([USERS_KEY, u.id], u);
-  });
-  await Promise.all(promises);
 }
 
 /** 全ユーザ取得 */
 export async function getAllUsers(): Promise<KvUser[]> {
-  const data = kv.list<KvUser>({ prefix: [USERS_KEY] });
-
-  const users = (await Array.fromAsync(data)).map((d) => d.value);
-  return users;
+  const users = await prisma.user.findMany({
+    orderBy: { createdAt: "asc" },
+  });
+  return users.map((user) => ({
+    screenName: user.screenName,
+    name: user.name,
+    id: user.id,
+    avaterUrl: user.avaterUrl,
+    sessions: user.sessions,
+    bearerToken: user.bearerToken,
+  }));
 }
 
-/** ユーザ削除 */
-export async function deleteUser(userId: string) {
-  const data = await kv.get<KvUser>([USERS_KEY, userId]);
-  if (data.value) {
-    const at = kv.atomic();
-    at.delete([USERS_KEY, userId]);
-    data.value.sessions.forEach((sessionId) =>
-      at.delete(["site_sessions", sessionId])
-    );
-    at.commit();
-  }
+/** ユーザセッション削除 */
+export async function deleteSession(sessions: string[]) {
+  // ユーザに紐づくサイトセッションを削除
+  await prisma.siteSession.deleteMany({
+    where: { id: { in: sessions } },
+  });
 }
 
 /** 全大会保存 */
 export async function setAllTournaments(
   tournaments: Tournament[],
 ): Promise<void> {
-  const promises = tournaments.map((t) => {
-    kv.set([TOURNAMENT_KEY, t.id], t);
+  const data = tournaments.map(serializeTournament);
+  await prisma.$transaction(async (tx) => {
+    await tx.tournament.deleteMany();
+    if (data.length > 0) {
+      await tx.tournament.createMany({ data });
+    }
   });
-  await Promise.all(promises);
 }
 
 /** 全大会取得 */
 export async function getAllTournaments(): Promise<KvTournament[]> {
-  const data = kv.list<KvTournament>({ prefix: [TOURNAMENT_KEY] });
-
-  const tournaments = (await Array.fromAsync(data)).map((d) => d.value);
-  // tournaments[0].addUser("test");
-  // console.log(tournaments[0]);
-  return tournaments;
+  const tournaments = await prisma.tournament.findMany({
+    orderBy: { createdAt: "asc" },
+  });
+  return tournaments.map((tournament) => ({
+    id: tournament.id,
+    name: tournament.name,
+    type: tournament.type as KvTournament["type"],
+    organizer: tournament.organizer,
+    remarks: tournament.remarks,
+    users: tournament.users,
+    gameIds: tournament.gameIds,
+  }));
 }
 
 /** 全ゲーム保存 */
 export async function setGame(
   game: ExpGame,
 ): Promise<void> {
-  await kv.set([GAMES_KEY, game.id], await compression(game.toLogJSON()));
+  const snapshot = toPrismaJson(game.toLogJSON());
+  await prisma.game.upsert({
+    where: { id: game.id },
+    update: { snapshot },
+    create: {
+      id: game.id,
+      snapshot,
+    },
+  });
 }
 
 /** 全ゲーム取得 */
 export async function getAllGameSnapShot() {
-  const data = kv.list<ArrayBuffer>({ prefix: [GAMES_KEY] });
-
-  const games = [];
-  for await (const d of data) {
-    games.push(await decompression(d.value));
-  }
-  return games;
+  const games = await prisma.game.findMany({
+    orderBy: { createdAt: "asc" },
+  });
+  return games.map((game) => game.snapshot);
 }
 
 /** ボードを1つ取得 */
 export async function getBoard(boardName: string): Promise<Board | undefined> {
-  const data = await kv.get<Board>([BOARD_KEY, boardName]);
-  if (data.value) {
-    return data.value;
-  } else return undefined;
+  const board = await prisma.board.findUnique({
+    where: { name: boardName },
+  });
+  return board ? deserializeBoard(board.snapshot) : undefined;
 }
 
 /** ボードをすべて取得 */
 export async function getBoards(): Promise<Board[]> {
-  const data = kv.list<Board>({ prefix: [BOARD_KEY] });
-
-  const boards = (await Array.fromAsync(data)).map((d) => d.value);
-  return boards;
+  const boards = await prisma.board.findMany({
+    orderBy: { createdAt: "asc" },
+  });
+  return boards.map((board) => deserializeBoard(board.snapshot));
 }
 
 /** ボード保存(JSONから) */
 export async function setBoard(board: Board): Promise<void> {
-  await kv.set([BOARD_KEY, board.name], board);
+  const snapshot = toPrismaJson(serializeBoard(board));
+  await prisma.board.upsert({
+    where: { name: board.name },
+    update: { snapshot },
+    create: {
+      name: board.name,
+      snapshot,
+    },
+  });
 }

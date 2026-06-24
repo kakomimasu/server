@@ -1,5 +1,5 @@
 import { createMiddleware } from "@hono/hono/factory";
-import { getSessionId } from "kv_oauth";
+import { getSessionId } from "./parts/oauth_helpers.ts";
 
 import { accounts } from "../core/datas.ts";
 import { errorCodeResponse, errors, ServerError } from "../core/error.ts";
@@ -37,7 +37,7 @@ export const auth = (
       );
       ctx.res.headers.set("Access-Control-Allow-Credentials", "true");
 
-      const sessionId = await getSessionId(ctx.req.raw);
+      const sessionId = await getSessionId(ctx);
 
       // 認証済みユーザの取得
       if (sessionId) {

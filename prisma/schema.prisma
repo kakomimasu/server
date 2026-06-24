@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+  runtime  = "deno"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id          String   @id
+  screenName  String
+  name        String
+  avaterUrl   String
+  sessions    String[] @default([])
+  bearerToken String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Tournament {
+  id        String   @id
+  name      String
+  type      String
+  organizer String
+  remarks   String
+  users     String[] @default([])
+  gameIds   String[] @default([])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Game {
+  id        String @id
+  snapshot  Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Board {
+  name      String   @id
+  snapshot  Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model OAuthSession {
+  id        String   @id
+  state     String
+  successUrl String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model SiteSession {
+  id        String   @id
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}

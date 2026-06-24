@@ -14,7 +14,7 @@ https://api.kakomimasu.com
 | BOARDNAME            | フリーマッチで使われるボード<br>指定なしでランダムに選ばれる                      |            |
 | DISCORD_WEBHOOK_URL  | 予期しないエラー発生時のDiscordチャンネルWebHook URL                              |            |
 | VERSION              | 現在のバージョン名<br> `/version`アクセス時に使用される                           | `"local"`  |
-| DENO_KV_ACCESS_TOKEN | 本番環境用に使用するKVのトークン<br>指定なしでローカルのKVストアを使用            |            |
+| DATABASE_URL         | Prisma Postgres の接続文字列                                                      |            |
 | GITHUB_CLIENT_ID     | GitHub OAuthログイン用<br>詳細は[こちら](https://deno.land/x/deno_kv_oauth)を参照 |            |
 | GITHUB_CLIENT_SECRET | GitHub OAuthログイン用<br>詳細は[こちら](https://deno.land/x/deno_kv_oauth)を参照 |            |
 | TEST                 | テスト時のフラグ                                                                  | `true`     |
@@ -29,8 +29,12 @@ https://api.kakomimasu.com
 ### サーバ起動
 
 ```console
+deno task prisma:generate
+deno task prisma:push
 deno task start
 ```
+
+Prisma Client は [generated/prisma](generated/prisma) に生成されます。
 
 ### API定義
 

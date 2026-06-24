@@ -13,8 +13,8 @@ export const config = {
     require: false,
     default: "local",
   },
-  DENO_KV_ACCESS_TOKEN: {
-    require: false,
+  DATABASE_URL: {
+    require: true,
   },
   GITHUB_CLIENT_ID: {
     require: false,

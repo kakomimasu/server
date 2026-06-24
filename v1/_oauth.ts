@@ -1,17 +1,14 @@
 import { Hono } from "@hono/hono";
 import {
-  createGitHubOAuthConfig,
   getSessionId,
   handleCallback,
   signIn,
   signOut,
-} from "kv_oauth";
+} from "./parts/oauth_helpers.ts";
 import { Octokit as OctokitRest } from "@octokit/rest";
 
 import { errors, ServerError } from "../core/error.ts";
 import { accounts, User } from "../core/datas.ts";
-
-const oauth2Client = createGitHubOAuthConfig();
 
 export async function getAuthenticatedUser(
   accessToken: string,
@@ -30,15 +27,12 @@ const router = new Hono();
 // ユーザ登録
 router
   .get("/signin", async (context) => {
-    return await signIn(context.req.raw, oauth2Client);
+    return await signIn(context);
   })
   .get("/callback", async (context) => {
-    const { response, tokens, sessionId } = await handleCallback(
-      context.req.raw,
-      oauth2Client,
-    );
+    const { response, accessToken, sessionId } = await handleCallback(context);
 
-    const ghUser = await getAuthenticatedUser(tokens.accessToken);
+    const ghUser = await getAuthenticatedUser(accessToken);
     const ghUserId = ghUser.id.toString();
     const ghUserName = ghUser.name ?? "";
 
@@ -66,7 +60,7 @@ router
     return response;
   })
   .get("/signout", async (context) => {
-    const sessionId = await getSessionId(context.req.raw);
+    const sessionId = await getSessionId(context);
     if (!sessionId) {
       throw new ServerError(errors.UNAUTHORIZED);
     }
@@ -76,7 +70,7 @@ router
         user.sessions.splice(user.sessions.indexOf(sessionId), 1);
       }
     });
-    accounts.save();
-    return await signOut(context.req.raw);
+    await accounts.save();
+    return await signOut(context);
   });
 export default router;
