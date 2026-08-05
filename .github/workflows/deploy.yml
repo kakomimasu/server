@@ -1,0 +1,49 @@
+name: Deploy to Render
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release version without the v prefix (for example, 1.2.3)
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    name: Deploy and release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require main branch
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "This workflow can only deploy the main branch (got ${{ github.ref }})." >&2
+          exit 1
+
+      - name: Install Render CLI
+        run: |
+          curl -L https://github.com/render-oss/cli/releases/download/v2.22.0/cli_2.22.0_linux_amd64.zip -o render.zip
+          unzip render.zip
+          sudo mv cli_v2.22.0 /usr/local/bin/render
+
+      - name: Deploy to Render
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          CI: true
+        run: |
+          render deploys create "${{ secrets.RENDER_SERVICE_ID }}" \
+            --commit "${{ github.sha }}" \
+            --wait \
+            --output json \
+            --confirm
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "v${{ inputs.version }}" \
+            --target "${{ github.sha }}" \
+            --title "v${{ inputs.version }}" \
+            --generate-notes
