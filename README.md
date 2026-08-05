@@ -30,7 +30,7 @@ https://api.kakomimasu.com
 
 ローカル用のPostgresサーバーを別途用意しない場合は、Prismaによるローカル用のPostgresサーバを使用すると手軽に用意できます。
 
-```
+```console
 deno task prisma:dev
 ```
 
@@ -40,7 +40,7 @@ PostgreSQLサーバを用意したら `.env` ファイルを作成し、 `DATABA
 `deno task prisma:dev`
 を実行した場合はコンソールに接続文字列が出力されるのでそれをコピーし、下記のように設定します。
 
-```
+```dotenv
 DATABASE_URL="postgres://postgres:postgres@localhost:51214/template1?sslmode=disable&connection_limit=10&connect_timeout=0&max_idle_connection_lifetime=0&pool_timeout=0&socket_timeout=0"
 ```
 
