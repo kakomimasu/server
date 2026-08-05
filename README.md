@@ -24,7 +24,29 @@ https://api.kakomimasu.com
 
 ## 開発者向け
 
+### DB準備
+
+開発にはPostgreSQLが動作するサーバが必要です。
+
+ローカル用のPostgresサーバーを別途用意しない場合は、Prismaによるローカル用のPostgresサーバを使用すると手軽に用意できます。
+
+```
+deno task prisma:dev
+```
+
+PostgreSQLサーバを用意したら `.env` ファイルを作成し、 `DATABASE_URL`
+を設定します。
+
+`deno task prisma:dev`
+を実行した場合はコンソールに接続文字列が出力されるのでそれをコピーし、下記のように設定します。
+
+```
+DATABASE_URL="postgres://postgres:postgres@localhost:51214/template1?sslmode=disable&connection_limit=10&connect_timeout=0&max_idle_connection_lifetime=0&pool_timeout=0&socket_timeout=0"
+```
+
 ### サーバ起動
+
+DATABASE_URLの設定後、以下を実行します。
 
 ```console
 deno task prisma:generate
