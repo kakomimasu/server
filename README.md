@@ -19,10 +19,8 @@ https://api.kakomimasu.com
 | GITHUB_CLIENT_SECRET | GitHub OAuthログイン用<br>詳細は[こちら](https://deno.land/x/deno_kv_oauth)を参照 |            |
 | TEST                 | テスト時のフラグ                                                                  | `true`     |
 
-※
-`.env`ファイルが使用できます。([dotenv](https://deno.land/std/dotenv/mod.ts))<br>
-※
-`GITHUB_CLIENT_*`が未指定の場合、アカウントに関連する機能（BearerTokenを用いたAPI）は利用できません。ゲストモードによるゲーム参加は可能です。
+※ `.env`ファイルが使用できます。\
+※`GITHUB_CLIENT_*`が未指定の場合、アカウントに関連する機能（BearerTokenを用いたAPI）は利用できません。ゲストモードによるゲーム参加は可能です。
 
 ## 開発者向け
 
