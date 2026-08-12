@@ -19,14 +19,34 @@ https://api.kakomimasu.com
 | GITHUB_CLIENT_SECRET | GitHub OAuthログイン用<br>詳細は[こちら](https://deno.land/x/deno_kv_oauth)を参照 |            |
 | TEST                 | テスト時のフラグ                                                                  | `true`     |
 
-※
-`.env`ファイルが使用できます。([dotenv](https://deno.land/std/dotenv/mod.ts))<br>
-※
-`GITHUB_CLIENT_*`が未指定の場合、アカウントに関連する機能（BearerTokenを用いたAPI）は利用できません。ゲストモードによるゲーム参加は可能です。
+※ `.env`ファイルが使用できます。\
+※`GITHUB_CLIENT_*`が未指定の場合、アカウントに関連する機能（BearerTokenを用いたAPI）は利用できません。ゲストモードによるゲーム参加は可能です。
 
 ## 開発者向け
 
+### DB準備
+
+開発にはPostgreSQLが動作するサーバが必要です。
+
+ローカル用のPostgresサーバーを別途用意しない場合は、Prismaによるローカル用のPostgresサーバを使用すると手軽に用意できます。
+
+```console
+deno task prisma:dev
+```
+
+PostgreSQLサーバを用意したら `.env` ファイルを作成し、 `DATABASE_URL`
+を設定します。
+
+`deno task prisma:dev`
+を実行した場合はコンソールに接続文字列が出力されるのでそれをコピーし、下記のように設定します。
+
+```dotenv
+DATABASE_URL="postgres://postgres:postgres@localhost:51214/template1?sslmode=disable&connection_limit=10&connect_timeout=0&max_idle_connection_lifetime=0&pool_timeout=0&socket_timeout=0"
+```
+
 ### サーバ起動
+
+DATABASE_URLの設定後、以下を実行します。
 
 ```console
 deno task prisma:generate
@@ -48,7 +68,7 @@ OpenAPIにて定義されています。
 
 ## 使用フィールド
 
-[#procon30の公開フィールド](http://www.procon.gr.jp/?p=76585)他、独自フィールドが搭載されています。
+\#procon30の公開フィールド他、独自フィールドが搭載されています。
 
 ## テスト
 
