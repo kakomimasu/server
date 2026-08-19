@@ -71,6 +71,22 @@ export async function setAllUsers(users: User[]): Promise<void> {
   });
 }
 
+/** ユーザを取得 */
+export async function getUserById(id: string): Promise<KvUser | undefined> {
+  const user = await prisma.user.findUnique({
+    where: { id },
+  });
+  if (!user) return undefined;
+  return {
+    screenName: user.screenName,
+    name: user.name,
+    id: user.id,
+    avaterUrl: user.avaterUrl,
+    sessions: user.sessions,
+    bearerToken: user.bearerToken,
+  };
+}
+
 /** 全ユーザ取得 */
 export async function getAllUsers(): Promise<KvUser[]> {
   const users = await prisma.user.findMany({
