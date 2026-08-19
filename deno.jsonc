@@ -27,7 +27,7 @@
     "arctic": "npm:arctic@^3.7.0",
     "kkmm-core": "https://cdn.jsdelivr.net/gh/codeforkosen/Kakomimasu@v2.0.1/mod.ts",
     "kv_oauth": "jsr:@deno/kv-oauth@^0.11.0",
-    "openapi3-ts": "npm:openapi3-ts@4.4.0",
+    "openapi3-ts": "npm:openapi3-ts@4.6.1",
     "prisma": "npm:prisma@7.7.0"
   }
 }

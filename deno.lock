@@ -31,7 +31,7 @@
     "npm:@prisma/adapter-pg@7.7.0": "7.7.0",
     "npm:@prisma/client@7.7.0": "7.7.0_prisma@7.7.0__@types+react@19.2.15__react@19.2.6__react-dom@19.2.6___react@19.2.6_@types+react@19.2.15_react@19.2.6_react-dom@19.2.6__react@19.2.6",
     "npm:arctic@^3.7.0": "3.7.0",
-    "npm:openapi3-ts@4.4.0": "4.4.0",
+    "npm:openapi3-ts@4.6.1": "4.6.1",
     "npm:prisma@7.7.0": "7.7.0_@types+react@19.2.15_react@19.2.6_react-dom@19.2.6__react@19.2.6"
   },
   "jsr": {
@@ -268,17 +268,20 @@
       "integrity": "sha512-zw/wn0sj0j0QKbIXfIlnEcTviaCzYOY3V5rAyjR6YtOByFtJiT574+8p9Wlach0lZH9fddD4yb9laEAIl4vXQA==",
       "dependencies": [
         "@oslojs/binary"
-      ]
+      ],
+      "deprecated": true
     },
     "@oslojs/binary@1.0.0": {
-      "integrity": "sha512-9RCU6OwXU6p67H4NODbuxv2S3eenuQ4/WFLrsq+K/k682xrznH5EVWA7N4VFk9VYVcbFtKqur5YQQZc0ySGhsQ=="
+      "integrity": "sha512-9RCU6OwXU6p67H4NODbuxv2S3eenuQ4/WFLrsq+K/k682xrznH5EVWA7N4VFk9VYVcbFtKqur5YQQZc0ySGhsQ==",
+      "deprecated": true
     },
     "@oslojs/crypto@1.0.1": {
       "integrity": "sha512-7n08G8nWjAr/Yu3vu9zzrd0L9XnrJfpMioQcvCMxBIiF5orECHe5/3J0jmXRVvgfqMm/+4oxlQ+Sq39COYLcNQ==",
       "dependencies": [
         "@oslojs/asn1",
         "@oslojs/binary"
-      ]
+      ],
+      "deprecated": true
     },
     "@oslojs/encoding@0.4.1": {
       "integrity": "sha512-hkjo6MuIK/kQR5CrGNdAPZhS01ZCXuWDRJ187zh6qqF2+yMHZpD9fAYpX8q2bOO6Ryhl3XpCT6kUX76N8hhm4Q=="
@@ -290,7 +293,8 @@
       "integrity": "sha512-bLE7BtHrURedCn4Mco3ma9L4Y1GR2SMBuIvjWr7rmQ4/W/4Jy70TIAgZ+0nIlk0xHz1vNP8x8DCns45Sb2XRbg==",
       "dependencies": [
         "@oslojs/encoding@0.4.1"
-      ]
+      ],
+      "deprecated": true
     },
     "@prisma/adapter-pg@7.7.0": {
       "integrity": "sha512-q33Ta8sKbgzEpAy0lx45tAq//yMv0qcb+8nj+TCA3P4wiAY+OBFEFk/NDkZncAfHaNJeGo5WJpJdpbL+ijYx8g==",
@@ -533,7 +537,8 @@
         "@oslojs/crypto",
         "@oslojs/encoding@1.1.0",
         "@oslojs/jwt"
-      ]
+      ],
+      "deprecated": true
     },
     "aws-ssl-profiles@1.1.2": {
       "integrity": "sha512-NZKeq9AfyQvEeNlN0zSYAaWrmBffJh3IELMZfRpJVWgrpEbtEpnjvzqBPf+mxoI287JohRDoa+/nsfqqiZmF6g=="
@@ -751,8 +756,8 @@
     "ohash@2.0.11": {
       "integrity": "sha512-RdR9FQrFwNBNXAr4GixM8YaRZRJ5PUWbKYbE5eOsrwAjJW0q2REGcf79oYPsLyskQCZG1PLN+S/K1V00joZAoQ=="
     },
-    "openapi3-ts@4.4.0": {
-      "integrity": "sha512-9asTNB9IkKEzWMcHmVZE7Ts3kC9G7AFHfs8i7caD8HbI76gEjdkId4z/AkP83xdZsH7PLAnnbl47qZkXuxpArw==",
+    "openapi3-ts@4.6.1": {
+      "integrity": "sha512-XW9MOldkhoICNeXVzzmXzmOW5G73ppOEGmh7fLCqHjgfdEYCGGN+00MlVCeUZgovjjfC56j9tvtDt1zGabNjjA==",
       "dependencies": [
         "yaml"
       ]
@@ -982,7 +987,7 @@
       "npm:@prisma/adapter-pg@7.7.0",
       "npm:@prisma/client@7.7.0",
       "npm:arctic@^3.7.0",
-      "npm:openapi3-ts@4.4.0",
+      "npm:openapi3-ts@4.6.1",
       "npm:prisma@7.7.0"
     ]
   }
