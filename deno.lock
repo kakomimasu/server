@@ -2,7 +2,7 @@
   "version": "5",
   "specifiers": {
     "jsr:@deno/kv-oauth@0.11": "0.11.0",
-    "jsr:@hono/hono@^4.6.17": "4.12.24",
+    "jsr:@hono/hono@^4.13.2": "4.13.3",
     "jsr:@std/assert@0.221": "0.221.0",
     "jsr:@std/assert@^1.0.19": "1.0.19",
     "jsr:@std/assert@^1.0.6": "1.0.19",
@@ -42,8 +42,8 @@
         "jsr:@std/http"
       ]
     },
-    "@hono/hono@4.12.24": {
-      "integrity": "a74a40f06ae6704ddd0e8e576f6da9d34666c3e1e0f5412a2c1ff800ffd092f4"
+    "@hono/hono@4.13.3": {
+      "integrity": "2d277e78219ea145202359af5296cfa136eba5e75ffb08fda6fbd54d72032b4f"
     },
     "@std/assert@0.221.0": {
       "integrity": "a5f1aa6e7909dbea271754fd4ab3f4e687aeff4873b4cef9a320af813adb489a"
@@ -268,17 +268,20 @@
       "integrity": "sha512-zw/wn0sj0j0QKbIXfIlnEcTviaCzYOY3V5rAyjR6YtOByFtJiT574+8p9Wlach0lZH9fddD4yb9laEAIl4vXQA==",
       "dependencies": [
         "@oslojs/binary"
-      ]
+      ],
+      "deprecated": true
     },
     "@oslojs/binary@1.0.0": {
-      "integrity": "sha512-9RCU6OwXU6p67H4NODbuxv2S3eenuQ4/WFLrsq+K/k682xrznH5EVWA7N4VFk9VYVcbFtKqur5YQQZc0ySGhsQ=="
+      "integrity": "sha512-9RCU6OwXU6p67H4NODbuxv2S3eenuQ4/WFLrsq+K/k682xrznH5EVWA7N4VFk9VYVcbFtKqur5YQQZc0ySGhsQ==",
+      "deprecated": true
     },
     "@oslojs/crypto@1.0.1": {
       "integrity": "sha512-7n08G8nWjAr/Yu3vu9zzrd0L9XnrJfpMioQcvCMxBIiF5orECHe5/3J0jmXRVvgfqMm/+4oxlQ+Sq39COYLcNQ==",
       "dependencies": [
         "@oslojs/asn1",
         "@oslojs/binary"
-      ]
+      ],
+      "deprecated": true
     },
     "@oslojs/encoding@0.4.1": {
       "integrity": "sha512-hkjo6MuIK/kQR5CrGNdAPZhS01ZCXuWDRJ187zh6qqF2+yMHZpD9fAYpX8q2bOO6Ryhl3XpCT6kUX76N8hhm4Q=="
@@ -290,7 +293,8 @@
       "integrity": "sha512-bLE7BtHrURedCn4Mco3ma9L4Y1GR2SMBuIvjWr7rmQ4/W/4Jy70TIAgZ+0nIlk0xHz1vNP8x8DCns45Sb2XRbg==",
       "dependencies": [
         "@oslojs/encoding@0.4.1"
-      ]
+      ],
+      "deprecated": true
     },
     "@prisma/adapter-pg@7.7.0": {
       "integrity": "sha512-q33Ta8sKbgzEpAy0lx45tAq//yMv0qcb+8nj+TCA3P4wiAY+OBFEFk/NDkZncAfHaNJeGo5WJpJdpbL+ijYx8g==",
@@ -533,7 +537,8 @@
         "@oslojs/crypto",
         "@oslojs/encoding@1.1.0",
         "@oslojs/jwt"
-      ]
+      ],
+      "deprecated": true
     },
     "aws-ssl-profiles@1.1.2": {
       "integrity": "sha512-NZKeq9AfyQvEeNlN0zSYAaWrmBffJh3IELMZfRpJVWgrpEbtEpnjvzqBPf+mxoI287JohRDoa+/nsfqqiZmF6g=="
@@ -971,7 +976,7 @@
   "workspace": {
     "dependencies": [
       "jsr:@deno/kv-oauth@0.11",
-      "jsr:@hono/hono@^4.6.17",
+      "jsr:@hono/hono@^4.13.2",
       "jsr:@std/assert@^1.0.6",
       "jsr:@std/dotenv@~0.225.2",
       "jsr:@std/fmt@^1.0.2",

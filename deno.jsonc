@@ -14,7 +14,7 @@
     "prisma:studio": "npx prisma@7.7.0 studio --url='postgres://postgres:postgres@localhost:51214/template1?sslmode=disable&connection_limit=10&connect_timeout=0&max_idle_connection_lifetime=0&pool_timeout=0&socket_timeout=0'"
   },
   "imports": {
-    "@hono/hono": "jsr:@hono/hono@^4.6.17",
+    "@hono/hono": "jsr:@hono/hono@^4.13.2",
     "@prisma/adapter-pg": "npm:@prisma/adapter-pg@7.7.0",
     "@prisma/client": "npm:@prisma/client@7.7.0",
     "@octokit/rest": "npm:@octokit/rest@^22.0.1",
