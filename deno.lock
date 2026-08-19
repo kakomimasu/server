@@ -31,7 +31,7 @@
     "npm:@prisma/adapter-pg@7.7.0": "7.7.0",
     "npm:@prisma/client@7.7.0": "7.7.0_prisma@7.7.0__@types+react@19.2.15__react@19.2.6__react-dom@19.2.6___react@19.2.6_@types+react@19.2.15_react@19.2.6_react-dom@19.2.6__react@19.2.6",
     "npm:arctic@^3.7.0": "3.7.0",
-    "npm:openapi3-ts@4.4.0": "4.4.0",
+    "npm:openapi3-ts@4.6.1": "4.6.1",
     "npm:prisma@7.7.0": "7.7.0_@types+react@19.2.15_react@19.2.6_react-dom@19.2.6__react@19.2.6"
   },
   "jsr": {
@@ -756,8 +756,8 @@
     "ohash@2.0.11": {
       "integrity": "sha512-RdR9FQrFwNBNXAr4GixM8YaRZRJ5PUWbKYbE5eOsrwAjJW0q2REGcf79oYPsLyskQCZG1PLN+S/K1V00joZAoQ=="
     },
-    "openapi3-ts@4.4.0": {
-      "integrity": "sha512-9asTNB9IkKEzWMcHmVZE7Ts3kC9G7AFHfs8i7caD8HbI76gEjdkId4z/AkP83xdZsH7PLAnnbl47qZkXuxpArw==",
+    "openapi3-ts@4.6.1": {
+      "integrity": "sha512-XW9MOldkhoICNeXVzzmXzmOW5G73ppOEGmh7fLCqHjgfdEYCGGN+00MlVCeUZgovjjfC56j9tvtDt1zGabNjjA==",
       "dependencies": [
         "yaml"
       ]
@@ -987,7 +987,7 @@
       "npm:@prisma/adapter-pg@7.7.0",
       "npm:@prisma/client@7.7.0",
       "npm:arctic@^3.7.0",
-      "npm:openapi3-ts@4.4.0",
+      "npm:openapi3-ts@4.6.1",
       "npm:prisma@7.7.0"
     ]
   }
