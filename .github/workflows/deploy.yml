@@ -39,6 +39,7 @@ jobs:
             --output json \
             --confirm
 
+      - uses: actions/checkout@v7
       - name: Create GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
