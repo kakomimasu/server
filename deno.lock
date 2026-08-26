@@ -29,7 +29,7 @@
     "jsr:@std/uuid@^1.0.4": "1.1.1",
     "npm:@octokit/rest@^22.0.1": "22.0.1",
     "npm:@prisma/adapter-pg@7.7.0": "7.7.0",
-    "npm:@prisma/client@7.7.0": "7.7.0_prisma@7.7.0__@types+react@19.2.15__react@19.2.6__react-dom@19.2.6___react@19.2.6_@types+react@19.2.15_react@19.2.6_react-dom@19.2.6__react@19.2.6",
+    "npm:@prisma/client@7.9.1": "7.9.1_prisma@7.7.0__@types+react@19.2.15__react@19.2.6__react-dom@19.2.6___react@19.2.6",
     "npm:arctic@^3.7.0": "3.7.0",
     "npm:openapi3-ts@4.4.0": "4.4.0",
     "npm:prisma@7.7.0": "7.7.0_@types+react@19.2.15_react@19.2.6_react-dom@19.2.6__react@19.2.6"
@@ -305,11 +305,11 @@
         "postgres-array@3.0.4"
       ]
     },
-    "@prisma/client-runtime-utils@7.7.0": {
-      "integrity": "sha512-BLyd0UpFYOtyJFTHm7jS9vesHW7P83abibodQMiIofqjBKzDHQ1VAsQkdfvXyYDkPlONPfOTz7/rv3x/+CQqvQ=="
+    "@prisma/client-runtime-utils@7.9.1": {
+      "integrity": "sha512-mVIBGYdO5CFmK0HvjxrtfIyQQcPdb88pSCeVQriVQPVZyDovIWblpHfOgcS8QO187j3QF0ePArH8qPhp0AU2vg=="
     },
-    "@prisma/client@7.7.0_prisma@7.7.0__@types+react@19.2.15__react@19.2.6__react-dom@19.2.6___react@19.2.6_@types+react@19.2.15_react@19.2.6_react-dom@19.2.6__react@19.2.6": {
-      "integrity": "sha512-5Ar4OsZpJ54s21sy5oDNNW9gQtd4NuxCaiM7+JDTOU07D6VvlpLjYzAVCMB1+JzokN+08dAVomlx+b7bhJd3ww==",
+    "@prisma/client@7.9.1_prisma@7.7.0__@types+react@19.2.15__react@19.2.6__react-dom@19.2.6___react@19.2.6": {
+      "integrity": "sha512-+xgrh2EhJVF79wC0yX5G4PI1Rdcm7Qn/nekNQ+t/O153wtNggruHal+fXHSa0QE+Tp/Cw5wvxeCEhZZ59xGm8Q==",
       "dependencies": [
         "@prisma/client-runtime-utils",
         "prisma"
@@ -985,7 +985,7 @@
       "jsr:@std/uuid@^1.0.4",
       "npm:@octokit/rest@^22.0.1",
       "npm:@prisma/adapter-pg@7.7.0",
-      "npm:@prisma/client@7.7.0",
+      "npm:@prisma/client@7.9.1",
       "npm:arctic@^3.7.0",
       "npm:openapi3-ts@4.4.0",
       "npm:prisma@7.7.0"
