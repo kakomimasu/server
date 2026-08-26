@@ -7,7 +7,7 @@
     "coverage": "deno coverage coverage --lcov --output=coverage/coverage.lcov",
     "coverage:report": "deno coverage coverage --html",
     "db:init": "deno run -A --unstable-kv db/init.ts",
-    "prisma": "deno run -A --env=.env npm:prisma@7.7.0",
+    "prisma": "deno run -A --env=.env npm:prisma@7.9.1",
     "prisma:generate": "deno run -A npm:prisma@7.7.0 generate",
     "prisma:push": "deno run -A --env=.env npm:prisma@7.7.0 db push",
     "prisma:dev": "npx prisma@7.7.0 dev",
@@ -28,6 +28,6 @@
     "kkmm-core": "https://cdn.jsdelivr.net/gh/codeforkosen/Kakomimasu@v2.0.1/mod.ts",
     "kv_oauth": "jsr:@deno/kv-oauth@^0.11.0",
     "openapi3-ts": "npm:openapi3-ts@4.4.0",
-    "prisma": "npm:prisma@7.7.0"
+    "prisma": "npm:prisma@7.9.1"
   }
 }
