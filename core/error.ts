@@ -46,8 +46,12 @@ export const errors = {
     errorCode: 105,
     message: "during the transition step",
   },
+  GAME_ENDED: {
+    errorCode: 107,
+    message: "game has ended",
+  },
   INVALID_STREAM_QUERY: {
-    errorCode: 106,
+    errorCode: 108,
     message: "invalid query parameter",
   },
   INVALID_SCREEN_NAME: {
