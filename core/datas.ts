@@ -2,11 +2,11 @@ import { errors, ServerError } from "./error.ts";
 import { ExpGame } from "./expKakomimasu.ts";
 import {
   getAllGameSnapShot,
-  getAllTournaments,
   getAllUsers,
   type KvTournament,
   type KvUser,
-  setAllTournaments,
+  prisma,
+  serializeTournament,
   setAllUsers,
 } from "./kv.ts";
 import { PartiallyPartial, randomUUID } from "./util.ts";
@@ -162,64 +162,79 @@ export class Tournament implements KvTournament {
 }
 
 class Tournaments {
-  private tournaments: Tournament[] = [];
-
-  static init = async () => {
-    const t = new Tournaments();
-    await t.read();
-    return t;
-  };
-
-  read = async () => {
-    this.tournaments.length = 0;
-    const data = await getAllTournaments();
-    data.forEach((e) => {
-      this.tournaments.push(new Tournament(e));
-    });
-  };
-  save = () => setAllTournaments(this.tournaments);
-
+  /**
+   * データ整合性チェック用。起動時に存在しないゲームIDを削除して保存しなおす
+   * TODO: リレーションで行うようにしたい
+   */
   async dataCheck(games: ExpGame[]) {
-    this.tournaments.forEach((tournament) => {
+    const tournaments = await this.getAll();
+    tournaments.forEach((tournament) => {
       tournament.dataCheck(games);
     });
-    await this.save();
+    await prisma.$transaction(async (tx) => {
+      await Promise.all(
+        tournaments.map((tournament) => {
+          const serializedTournament = serializeTournament(tournament);
+          return tx.tournament.upsert({
+            where: { id: tournament.id },
+            update: serializedTournament,
+            create: serializedTournament,
+          });
+        }),
+      );
+    });
   }
 
-  get = (id: string) => {
-    return this.tournaments.find((e) => e.id === id);
+  get = async (id: string) => {
+    const tournament = await prisma.tournament.findUnique({
+      where: { id },
+    });
+    if (!tournament) return null;
+    return new Tournament(tournament as KvTournament);
   };
 
-  getAll = () => {
-    return this.tournaments;
+  getAll = async () => {
+    const tournaments = await prisma.tournament.findMany();
+    return tournaments.map((tournament) =>
+      new Tournament(tournament as KvTournament)
+    );
   };
 
-  add(tournament: Tournament) {
-    this.tournaments.push(tournament);
-    this.save();
+  async add(tournament: Tournament) {
+    await prisma.tournament.create({
+      data: serializeTournament(tournament),
+    });
   }
-  delete(tournament: Tournament) {
-    this.tournaments = this.tournaments.filter((e) => e.id !== tournament.id);
-    this.save();
+  async delete(tournament: Tournament) {
+    await prisma.tournament.delete({
+      where: { id: tournament.id },
+    });
   }
 
-  addUser(tournamentId: string, identifier: string) {
-    const tournament = this.get(tournamentId);
+  async addUser(tournamentId: string, identifier: string) {
+    const tournament = await this.get(tournamentId);
     if (!tournament) throw new ServerError(errors.INVALID_TOURNAMENT_ID);
 
-    //console.log(tournament);
     tournament.addUser(identifier);
-    this.save();
+
+    await prisma.tournament.update({
+      where: { id: tournament.id },
+      data: serializeTournament(tournament),
+    });
 
     return tournament;
   }
 
-  addGame(tournamentId: string, gameId: string) {
-    const tournament = this.get(tournamentId);
+  async addGame(tournamentId: string, gameId: string) {
+    const tournament = await this.get(tournamentId);
     if (!tournament) throw new ServerError(errors.INVALID_TOURNAMENT_ID);
 
     tournament.gameIds.push(gameId);
-    this.save();
+
+    await prisma.tournament.update({
+      where: { id: tournament.id },
+      data: serializeTournament(tournament),
+    });
   }
 }
 
@@ -230,7 +245,6 @@ const games: ExpGame[] = [];
 });
 
 const tournaments = new Tournaments();
-await tournaments.read();
 await tournaments.dataCheck(games);
 
 const accounts = new Users();

@@ -152,11 +152,11 @@ router.post(
       });
     }
     if (reqJson.tournamentId) {
-      const tournament = tournaments.get(reqJson.tournamentId);
+      const tournament = await tournaments.get(reqJson.tournamentId);
       if (!tournament) throw new ServerError(errors.INVALID_TOURNAMENT_ID);
 
       if (!reqJson.dryRun) {
-        tournaments.addGame(reqJson.tournamentId, game.id);
+        await tournaments.addGame(reqJson.tournamentId, game.id);
       }
     }
 
