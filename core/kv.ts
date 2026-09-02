@@ -36,7 +36,7 @@ function serializeUser(user: User): KvUser {
   };
 }
 
-function serializeTournament(tournament: Tournament): KvTournament {
+export function serializeTournament(tournament: Tournament): KvTournament {
   return {
     id: tournament.id,
     name: tournament.name,
@@ -92,35 +92,6 @@ export async function deleteSession(sessions: string[]) {
   await prisma.siteSession.deleteMany({
     where: { id: { in: sessions } },
   });
-}
-
-/** 全大会保存 */
-export async function setAllTournaments(
-  tournaments: Tournament[],
-): Promise<void> {
-  const data = tournaments.map(serializeTournament);
-  await prisma.$transaction(async (tx) => {
-    await tx.tournament.deleteMany();
-    if (data.length > 0) {
-      await tx.tournament.createMany({ data });
-    }
-  });
-}
-
-/** 全大会取得 */
-export async function getAllTournaments(): Promise<KvTournament[]> {
-  const tournaments = await prisma.tournament.findMany({
-    orderBy: { createdAt: "asc" },
-  });
-  return tournaments.map((tournament) => ({
-    id: tournament.id,
-    name: tournament.name,
-    type: tournament.type as KvTournament["type"],
-    organizer: tournament.organizer,
-    remarks: tournament.remarks,
-    users: tournament.users,
-    gameIds: tournament.gameIds,
-  }));
 }
 
 /** 全ゲーム保存 */
