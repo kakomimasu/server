@@ -7,11 +7,11 @@
     "coverage": "deno coverage coverage --lcov --output=coverage/coverage.lcov",
     "coverage:report": "deno coverage coverage --html",
     "db:init": "deno run -A --unstable-kv db/init.ts",
-    "prisma": "deno run -A --env=.env npm:prisma@7.7.0",
-    "prisma:generate": "deno run -A npm:prisma@7.7.0 generate",
-    "prisma:push": "deno run -A --env=.env npm:prisma@7.7.0 db push",
-    "prisma:dev": "npx prisma@7.7.0 dev",
-    "prisma:studio": "npx prisma@7.7.0 studio --url='postgres://postgres:postgres@localhost:51214/template1?sslmode=disable&connection_limit=10&connect_timeout=0&max_idle_connection_lifetime=0&pool_timeout=0&socket_timeout=0'"
+    "prisma": "deno run -A --env=.env prisma",
+    "prisma:generate": "deno task prisma generate",
+    "prisma:push": "deno task prisma db push",
+    "prisma:dev": "npx prisma@^7.7.0 dev",
+    "prisma:studio": "npx prisma@^7.7.0 studio --url='postgres://postgres:postgres@localhost:51214/template1?sslmode=disable&connection_limit=10&connect_timeout=0&max_idle_connection_lifetime=0&pool_timeout=0&socket_timeout=0'"
   },
   "imports": {
     "@hono/hono": "jsr:@hono/hono@^4.13.2",
