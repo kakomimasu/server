@@ -1,5 +1,5 @@
 import { assert, assertEquals } from "@std/assert";
-import { getAllUsers } from "../../core/kv.ts";
+import { prisma } from "../../core/kv.ts";
 import { randomUUID } from "../../core/util.ts";
 import { errors } from "../../core/error.ts";
 import { useUser } from "../../util/test/useUser.ts";
@@ -16,10 +16,10 @@ Deno.test(`GET /v1/oauth/signout:success`, async () => {
     await res.text();
 
     assert(res.status === 302);
-
     // ユーザ情報からセッション情報が削除されているかを確認
-    const users = await getAllUsers();
-    const signOutUser = users.find((u) => u.id === user.id);
+    const signOutUser = await prisma.user.findUnique({
+      where: { id: user.id },
+    });
     assert(signOutUser?.sessions.includes(sessionId) === false);
   });
 });
