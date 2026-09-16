@@ -197,7 +197,9 @@ class Tournaments {
   };
 
   getAll = async () => {
-    const tournaments = await prisma.tournament.findMany();
+    const tournaments = await prisma.tournament.findMany({
+      orderBy: { createdAt: "asc" },
+    });
     return tournaments.map((tournament) =>
       new Tournament(tournament as KvTournament)
     );
