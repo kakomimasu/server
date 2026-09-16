@@ -10,6 +10,9 @@ import {
   setAllUsers,
 } from "./kv.ts";
 import { PartiallyPartial, randomUUID } from "./util.ts";
+import type {
+  Tournament as PrismaTournament,
+} from "../generated/prisma/client.ts";
 
 class User implements KvUser {
   public screenName: string;
@@ -212,28 +215,39 @@ class Tournaments {
   }
 
   async addUser(tournamentId: string, identifier: string) {
-    const tournament = await this.get(tournamentId);
-    if (!tournament) throw new ServerError(errors.INVALID_TOURNAMENT_ID);
+    return await prisma.$transaction(async (tx) => {
+      const tournamentRaw = (await tx.$queryRaw<
+        PrismaTournament[]
+      >`SELECT * FROM "Tournament" WHERE id = ${tournamentId} FOR UPDATE`)[0];
 
-    tournament.addUser(identifier);
+      if (!tournamentRaw) throw new ServerError(errors.INVALID_TOURNAMENT_ID);
+      const tournament = new Tournament(tournamentRaw as KvTournament);
 
-    await prisma.tournament.update({
-      where: { id: tournament.id },
-      data: serializeTournament(tournament),
+      tournament.addUser(identifier);
+
+      await tx.tournament.update({
+        where: { id: tournament.id },
+        data: serializeTournament(tournament),
+      });
+      return tournament;
     });
-
-    return tournament;
   }
 
   async addGame(tournamentId: string, gameId: string) {
-    const tournament = await this.get(tournamentId);
-    if (!tournament) throw new ServerError(errors.INVALID_TOURNAMENT_ID);
+    return await prisma.$transaction(async (tx) => {
+      const tournamentRaw = (await tx.$queryRaw<
+        PrismaTournament[]
+      >`SELECT * FROM "Tournament" WHERE id = ${tournamentId} FOR UPDATE`)[0];
 
-    tournament.gameIds.push(gameId);
+      if (!tournamentRaw) throw new ServerError(errors.INVALID_TOURNAMENT_ID);
+      const tournament = new Tournament(tournamentRaw as KvTournament);
 
-    await prisma.tournament.update({
-      where: { id: tournament.id },
-      data: serializeTournament(tournament),
+      tournament.gameIds.push(gameId);
+
+      await tx.tournament.update({
+        where: { id: tournament.id },
+        data: serializeTournament(tournament),
+      });
     });
   }
 }
