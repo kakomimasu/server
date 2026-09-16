@@ -156,11 +156,16 @@ Deno.test({
 // GET /v1/tournaments Test
 // テスト項目
 // 正常（1大会・全大会）・ID無し
-Deno.test("GET v1/tournaments:normal by all", async () => {
-  const res = await ac.getTournaments();
-  if (res.success === false) assert(false);
-  assertTournamentGetAllRes(res.data, 200);
-  res.data.forEach((e) => assertTournament(e));
+Deno.test({
+  name: "GET v1/tournaments:normal by all",
+  sanitizeOps: false,
+  sanitizeResources: false,
+  fn: async () => {
+    const res = await ac.getTournaments();
+    if (res.success === false) assert(false);
+    assertTournamentGetAllRes(res.data, 200);
+    res.data.forEach((e) => assertTournament(e));
+  },
 });
 
 // GET /v1/tournaments/{id} Test

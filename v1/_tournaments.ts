@@ -13,7 +13,7 @@ router.post(
   "/",
   contentTypeFilter("application/json"),
   jsonParse(),
-  (ctx) => {
+  async (ctx) => {
     const data = ctx.get("data");
     const isValid = validator.validateRequestBody(
       data,
@@ -27,7 +27,7 @@ router.post(
       data.participants.forEach((e) => tournament.addUser(e));
     }
     if (data.dryRun !== true) {
-      tournaments.add(tournament);
+      await tournaments.add(tournament);
     }
     const body: ResponseType<
       "/tournaments",
@@ -45,10 +45,10 @@ router.delete(
   "/:id",
   contentTypeFilter("application/json"),
   jsonParse(),
-  (ctx) => {
+  async (ctx) => {
     const id = ctx.req.param("id");
 
-    const tournament = tournaments.get(id);
+    const tournament = await tournaments.get(id);
     if (!tournament) throw new ServerError(errors.NOTHING_TOURNAMENT_ID);
 
     const data = ctx.get("data");
@@ -60,7 +60,7 @@ router.delete(
     );
     if (!isValid) throw new ServerError(errors.INVALID_REQUEST);
     if (data.dryRun !== true) {
-      tournaments.delete(tournament);
+      await tournaments.delete(tournament);
     }
 
     const body: ResponseType<
@@ -75,19 +75,19 @@ router.delete(
 );
 
 // 大会取得
-router.get("/", (ctx) => {
+router.get("/", async (ctx) => {
   const body: ResponseType<
     "/tournaments",
     "get",
     "200",
     "application/json",
     typeof openapi
-  > = tournaments.getAll();
+  > = await tournaments.getAll();
   return ctx.json(body);
 });
-router.get("/:id", (ctx) => {
+router.get("/:id", async (ctx) => {
   const id = ctx.req.param("id");
-  const resData = tournaments.get(id);
+  const resData = await tournaments.get(id);
   if (!resData) throw new ServerError(errors.NOTHING_TOURNAMENT_ID);
 
   const body: ResponseType<
@@ -105,9 +105,9 @@ router.post(
   "/:id/users",
   contentTypeFilter("application/json"),
   jsonParse(),
-  (ctx) => {
+  async (ctx) => {
     const tournamentId = ctx.req.param("id");
-    let tournament = tournaments.get(tournamentId);
+    let tournament = await tournaments.get(tournamentId);
     if (!tournament) throw new ServerError(errors.INVALID_TOURNAMENT_ID);
 
     const body = ctx.get("data");
@@ -121,7 +121,7 @@ router.post(
     const identifier = body.user;
 
     if (body.dryRun !== true) {
-      tournament = tournaments.addUser(tournamentId, identifier);
+      tournament = await tournaments.addUser(tournamentId, identifier);
     } else {
       tournament = new Tournament(tournament);
       tournament.addUser(identifier);
