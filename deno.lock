@@ -2,7 +2,7 @@
   "version": "5",
   "specifiers": {
     "jsr:@deno/kv-oauth@0.11": "0.11.0",
-    "jsr:@hono/hono@^4.13.7": "4.13.7",
+    "jsr:@hono/hono@^4.13.8": "4.13.8",
     "jsr:@std/assert@0.221": "0.221.0",
     "jsr:@std/assert@^1.0.19": "1.0.19",
     "jsr:@std/async@0.221": "0.221.0",
@@ -42,8 +42,8 @@
         "jsr:@std/http"
       ]
     },
-    "@hono/hono@4.13.7": {
-      "integrity": "90f83307462b2dd47c9a8028cf5e4827abedc74a53fd291a49130f1579fdcd79"
+    "@hono/hono@4.13.8": {
+      "integrity": "bbb566d9ebb81e74c0d7eeff1f9221ba9f3fda6f1832e5ca66cbddcecb2f7fec"
     },
     "@std/assert@0.221.0": {
       "integrity": "a5f1aa6e7909dbea271754fd4ab3f4e687aeff4873b4cef9a320af813adb489a"
@@ -1187,7 +1187,7 @@
   "workspace": {
     "dependencies": [
       "jsr:@deno/kv-oauth@0.11",
-      "jsr:@hono/hono@^4.13.7",
+      "jsr:@hono/hono@^4.13.8",
       "jsr:@std/assert@^1.0.19",
       "jsr:@std/dotenv@~0.225.8",
       "jsr:@std/fmt@^1.0.10",
