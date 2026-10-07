@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: jdx/mise-action@v4
+      - uses: jdx/mise-action@v5
       - name: Run fmt
         run: deno fmt --check
       - name: Run lint
@@ -25,7 +25,7 @@ jobs:
       DATABASE_URL: postgres://postgres:postgres@127.0.0.1:51214/template1?sslmode=disable
     steps:
       - uses: actions/checkout@v7
-      - uses: jdx/mise-action@v4
+      - uses: jdx/mise-action@v5
 
       - name: Start Prisma dev
         run: |
