@@ -1,4 +1,5 @@
 import {
+  isSchemaObject,
   OpenAPIObject,
   ReferenceObject,
   RequestBodyObject,
@@ -27,7 +28,7 @@ export class OpenAPIValidator<Base> {
   /** Schemaオブジェクトの$refを展開したオブジェクトを取得 */
   private spreadSchema(schema: ReferenceObject | SchemaObject): SchemaObject {
     // console.log(schema);
-    if (!("$ref" in schema)) return schema;
+    if (isSchemaObject(schema)) return schema;
     if (!schema.$ref.startsWith("#")) {
       throw new OpenAPIValidatorError("Invalid $ref: " + schema.$ref);
     }
