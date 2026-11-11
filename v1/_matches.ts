@@ -54,11 +54,11 @@ const getRandomBoard = async () => {
   return list[Math.floor(Math.random() * list.length)];
 };
 
-const createPlayer = (
+const createPlayer = async (
   authedUserId: string,
   reqData: { guestName?: string; spec?: string },
 ) => {
-  const user = accounts.getUsers().find((user) => user.id === authedUserId);
+  const user = await accounts.findById(authedUserId);
   if (!user) {
     if (reqData.guestName) {
       const name = reqData.guestName;
@@ -140,11 +140,13 @@ router.post(
     } else game.setType("self");
 
     if (reqJson.playerIdentifiers) {
-      const userIds = reqJson.playerIdentifiers.map((e) => {
-        const id = accounts.find(e)?.id;
-        if (!id) throw new ServerError(errors.NOT_USER);
-        return id;
-      });
+      const userIds = await Promise.all(
+        reqJson.playerIdentifiers.map(async (e) => {
+          const id = (await accounts.find(e))?.id;
+          if (!id) throw new ServerError(errors.NOT_USER);
+          return id;
+        }),
+      );
       userIds.forEach((userId) => {
         if (!game.addReservedUser(userId)) {
           throw new ServerError(errors.ALREADY_REGISTERED_USER);
@@ -271,7 +273,7 @@ router.post(
     //console.log(reqData);
 
     const authedUserId = ctx.get("authed_userId");
-    const player = createPlayer(authedUserId, reqData);
+    const player = await createPlayer(authedUserId, reqData);
 
     const freeGame = games.filter((g) => g.isFree() && g.type === "normal");
 
@@ -317,7 +319,7 @@ router.post(
     //console.log(reqData);
 
     const authedUserId = ctx.get("authed_userId") as string;
-    const player = createPlayer(authedUserId, reqData);
+    const player = await createPlayer(authedUserId, reqData);
 
     const ai = aiList.find((e) => e.name === reqData.aiName);
     if (!ai) throw new ServerError(errors.NOT_AI);
@@ -336,9 +338,7 @@ router.post(
       const game = new ExpGame(init);
       games.push(game);
       if (player.type === "account") {
-        const user = accounts.getUsers().find((user) =>
-          user.id === authedUserId
-        );
+        const user = await accounts.findById(authedUserId);
 
         game.name =
           `対AI戦：${user?.screenName}(@${user?.name}) vs AI(${ai.name})`;
@@ -367,7 +367,7 @@ router.post(
   contentTypeFilter("application/json"),
   auth({ bearer: true, required: false }),
   jsonParse(),
-  (ctx) => {
+  async (ctx) => {
     const reqData = ctx.get("data");
     const isValid = validator.validateRequestBody(
       reqData,
@@ -382,7 +382,7 @@ router.post(
     const gameId = ctx.req.param("id");
 
     const authedUserId = ctx.get("authed_userId") as string;
-    const player = createPlayer(authedUserId, reqData);
+    const player = await createPlayer(authedUserId, reqData);
 
     const game = games.find((game) => game.id === gameId);
     if (!game) throw new ServerError(errors.NOT_GAME);

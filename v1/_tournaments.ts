@@ -24,7 +24,7 @@ router.post(
     if (!isValid) throw new ServerError(errors.INVALID_REQUEST);
     const tournament = Tournament.create(data);
     if (data.participants) {
-      data.participants.forEach((e) => tournament.addUser(e));
+      for (const e of data.participants) await tournament.addUser(e);
     }
     if (data.dryRun !== true) {
       await tournaments.add(tournament);
@@ -124,7 +124,7 @@ router.post(
       tournament = await tournaments.addUser(tournamentId, identifier);
     } else {
       tournament = new Tournament(tournament);
-      tournament.addUser(identifier);
+      await tournament.addUser(identifier);
     }
 
     const resBody: ResponseType<
