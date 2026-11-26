@@ -18,9 +18,7 @@ export const auth = (
       const auth = ctx.req.header("Authorization");
       if (auth?.startsWith("Bearer ")) {
         const bearerToken = auth.substring("Bearer ".length);
-        const account = accounts.getUsers().find((u) =>
-          u.bearerToken === bearerToken
-        );
+        const account = await accounts.getWithAuth(bearerToken);
         if (account) {
           ctx.set("authed_userId", account.id);
           ctx.set("auth_method", "bearer");
@@ -41,9 +39,7 @@ export const auth = (
 
       // 認証済みユーザの取得
       if (sessionId) {
-        const account = accounts.getUsers().find((u) =>
-          u.sessions.includes(sessionId)
-        );
+        const account = await accounts.findBySession(sessionId);
         if (account) {
           ctx.set("authed_userId", account.id);
           ctx.set("auth_method", "cookie");

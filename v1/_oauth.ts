@@ -36,7 +36,7 @@ router
     const ghUserId = ghUser.id.toString();
     const ghUserName = ghUser.name ?? "";
 
-    const user = accounts.findById(ghUserId);
+    const user = await accounts.findById(ghUserId);
     if (user === undefined) {
       // ユーザ登録
       const user = User.create({
@@ -47,15 +47,15 @@ router
         sessions: [sessionId],
       });
 
-      accounts.getUsers().push(user);
+      await accounts.create(user);
     } else {
       // ユーザデータの更新とセッション情報を追加
       user.name = ghUser.login;
       user.screenName = ghUserName;
       user.avaterUrl = ghUser.avatar_url;
-      user.sessions.push(sessionId);
+      await accounts.update(user);
+      await accounts.addSession(user.id, sessionId);
     }
-    accounts.save();
 
     return response;
   })
@@ -65,12 +65,7 @@ router
       throw new ServerError(errors.UNAUTHORIZED);
     }
     // ユーザデータからセッションを削除
-    accounts.getUsers().forEach((user) => {
-      if (user.sessions.includes(sessionId)) {
-        user.sessions.splice(user.sessions.indexOf(sessionId), 1);
-      }
-    });
-    await accounts.save();
+    await accounts.removeSession(sessionId);
     return await signOut(context);
   });
 export default router;

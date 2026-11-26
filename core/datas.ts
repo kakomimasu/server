@@ -2,12 +2,11 @@ import { errors, ServerError } from "./error.ts";
 import { ExpGame } from "./expKakomimasu.ts";
 import {
   getAllGameSnapShot,
-  getAllUsers,
   type KvTournament,
   type KvUser,
   prisma,
   serializeTournament,
-  setAllUsers,
+  serializeUser,
 } from "./kv.ts";
 import { PartiallyPartial, randomUUID } from "./util.ts";
 import type {
@@ -72,37 +71,70 @@ class User implements KvUser {
 }
 
 class Users {
-  private users: Array<User> = [];
+  private toUser(row: KvUser | null) {
+    return row ? new User(row) : undefined;
+  }
 
-  read = async () => {
-    const usersData = await getAllUsers();
-    this.users = usersData.map((e) => new User(e));
-  };
-  save = () => setAllUsers(this.users);
+  findById = async (id: string | undefined) =>
+    id === undefined
+      ? undefined
+      : this.toUser(await prisma.user.findUnique({ where: { id } }));
 
-  getUsers = () => this.users;
+  find = async (identifier: string) =>
+    this.toUser(
+      await prisma.user.findFirst({
+        where: { OR: [{ id: identifier }, { name: identifier }] },
+      }),
+    );
 
-  showUser(idOrName: string) {
-    const user = this.users.find((
-      e,
-    ) => (e.id === idOrName || e.name === idOrName));
+  showUser = async (idOrName: string) => {
+    const user = await this.find(idOrName);
     if (user === undefined) throw new ServerError(errors.NOT_USER);
     return user;
-  }
+  };
 
-  findById(id: string) {
-    return this.users.find((e) => e.id === id);
-  }
+  getWithAuth = async (auth: string) =>
+    this.toUser(await prisma.user.findFirst({ where: { bearerToken: auth } }));
 
-  find(identifier: string) {
-    return this.users.find((e) =>
-      (e.id === identifier) || (e.name === identifier)
+  findBySession = async (sessionId: string) =>
+    this.toUser(
+      await prisma.user.findFirst({ where: { sessions: { has: sessionId } } }),
     );
-  }
 
-  getWithAuth(auth: string) {
-    return this.users.find((e) => e.bearerToken === auth);
-  }
+  search = async (q: string) => {
+    const rows = await prisma.user.findMany({
+      where: {
+        OR: [{ name: { startsWith: q } }, { id: { startsWith: q } }],
+      },
+      orderBy: { createdAt: "asc" },
+    });
+    return rows.map((e) => new User(e));
+  };
+
+  create = async (user: User) => {
+    await prisma.user.create({ data: serializeUser(user) });
+  };
+
+  update = async (user: User) => {
+    const { id: _id, ...data } = serializeUser(user);
+    await prisma.user.update({ where: { id: user.id }, data });
+  };
+
+  delete = async (id: string) => {
+    await prisma.user.delete({ where: { id } });
+  };
+
+  addSession = async (id: string, sessionId: string) => {
+    await prisma.user.update({
+      where: { id },
+      data: { sessions: { push: sessionId } },
+    });
+  };
+
+  removeSession = async (sessionId: string) => {
+    await prisma
+      .$executeRaw`UPDATE "User" SET sessions = array_remove(sessions, ${sessionId}) WHERE ${sessionId} = ANY(sessions)`;
+  };
 }
 
 type newTournamentConstructorParam = PartiallyPartial<
@@ -154,13 +186,16 @@ export class Tournament implements KvTournament {
     });
   }
 
-  addUser(identifier: string) {
-    const user = accounts.find(identifier);
+  async addUser(identifier: string) {
+    const user = await accounts.find(identifier);
     if (!user) throw new ServerError(errors.NOT_USER);
+    this.addUserId(user.id);
+  }
 
-    const some = this.users.some((e) => e === user.id);
+  addUserId(userId: string) {
+    const some = this.users.some((e) => e === userId);
     if (some) throw new ServerError(errors.ALREADY_REGISTERED_USER);
-    else this.users.push(user.id);
+    else this.users.push(userId);
   }
 }
 
@@ -217,6 +252,9 @@ class Tournaments {
   }
 
   async addUser(tournamentId: string, identifier: string) {
+    // トランザクション中に別接続を要求しないよう、先にユーザを解決する
+    const user = await accounts.find(identifier);
+    if (!user) throw new ServerError(errors.NOT_USER);
     return await prisma.$transaction(async (tx) => {
       const tournamentRaw = (await tx.$queryRaw<
         PrismaTournament[]
@@ -225,7 +263,7 @@ class Tournaments {
       if (!tournamentRaw) throw new ServerError(errors.INVALID_TOURNAMENT_ID);
       const tournament = new Tournament(tournamentRaw as KvTournament);
 
-      tournament.addUser(identifier);
+      tournament.addUserId(user.id);
 
       await tx.tournament.update({
         where: { id: tournament.id },
@@ -264,6 +302,5 @@ const tournaments = new Tournaments();
 await tournaments.dataCheck(games);
 
 const accounts = new Users();
-await accounts.read();
 
 export { accounts, games, tournaments, User };

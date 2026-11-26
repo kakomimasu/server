@@ -25,7 +25,7 @@ export interface KvTournament {
   users: string[];
   gameIds: string[];
 }
-function serializeUser(user: User): KvUser {
+export function serializeUser(user: User): KvUser {
   return {
     screenName: user.screenName,
     name: user.name,
@@ -58,32 +58,6 @@ function deserializeBoard(value: Prisma.JsonValue): Board {
 
 function toPrismaJson(value: unknown): Prisma.InputJsonValue {
   return JSON.parse(JSON.stringify(value)) as Prisma.InputJsonValue;
-}
-
-/** 全ユーザ保存 */
-export async function setAllUsers(users: User[]): Promise<void> {
-  const data = users.map(serializeUser);
-  await prisma.$transaction(async (tx) => {
-    await tx.user.deleteMany();
-    if (data.length > 0) {
-      await tx.user.createMany({ data });
-    }
-  });
-}
-
-/** 全ユーザ取得 */
-export async function getAllUsers(): Promise<KvUser[]> {
-  const users = await prisma.user.findMany({
-    orderBy: { createdAt: "asc" },
-  });
-  return users.map((user) => ({
-    screenName: user.screenName,
-    name: user.name,
-    id: user.id,
-    avaterUrl: user.avaterUrl,
-    sessions: user.sessions,
-    bearerToken: user.bearerToken,
-  }));
 }
 
 /** ユーザセッション削除 */

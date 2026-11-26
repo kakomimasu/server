@@ -15,9 +15,9 @@ const router = new Hono();
 router.get(
   "/me",
   auth({ bearer: true, cookie: true }),
-  (ctx) => {
+  async (ctx) => {
     const authedUserId = ctx.get("authed_userId");
-    const user = accounts.getUsers().find((u) => u.id === authedUserId)!;
+    const user = (await accounts.findById(authedUserId))!;
     const body: ResponseType<
       "/users/me",
       "get",
@@ -35,9 +35,9 @@ router.delete(
   contentTypeFilter("application/json"),
   auth({ bearer: true, cookie: true }),
   jsonParse(),
-  (ctx) => {
+  async (ctx) => {
     const authedUserId = ctx.get("authed_userId");
-    const user = accounts.getUsers().find((u) => u.id === authedUserId)!;
+    const user = (await accounts.findById(authedUserId))!;
 
     const reqData = ctx.get("data");
     const isValid = validator.validateRequestBody(
@@ -48,11 +48,9 @@ router.delete(
     );
     if (!isValid) throw new ServerError(errors.INVALID_REQUEST);
 
-    const index = accounts.getUsers().findIndex((u) => u === user);
     if (reqData.dryRun !== true) {
-      accounts.getUsers().splice(index, 1);
-      accounts.save();
-      deleteSession(user.sessions);
+      await accounts.delete(user.id);
+      await deleteSession(user.sessions);
     }
     const body: ResponseType<
       "/users/me",
@@ -68,12 +66,12 @@ router.delete(
 router.get(
   "/me/token",
   auth({ bearer: true, cookie: true }),
-  (ctx) => {
+  async (ctx) => {
     const authedUserId = ctx.get("authed_userId");
-    const user = accounts.getUsers().find((u) => u.id === authedUserId)!;
+    const user = (await accounts.findById(authedUserId))!;
 
     user.regenerateToken();
-    accounts.save();
+    await accounts.update(user);
 
     const body: ResponseType<
       "/users/me/token",
@@ -89,10 +87,10 @@ router.get(
 // ユーザ情報取得
 router.get(
   "/:idOrName",
-  (ctx) => {
+  async (ctx) => {
     const idOrName = ctx.req.param("idOrName");
 
-    const user = accounts.showUser(idOrName);
+    const user = await accounts.showUser(idOrName);
 
     const body: ResponseType<
       "/users/{userIdOrName}",
@@ -106,15 +104,13 @@ router.get(
 );
 
 // ユーザ検索
-router.get("/", (ctx) => {
+router.get("/", async (ctx) => {
   const q = ctx.req.query("q");
   if (!q) {
     throw new ServerError(errors.NOTHING_SEARCH_QUERY);
   }
 
-  const matchName = accounts.getUsers().filter((e) => e.name.startsWith(q));
-  const matchId = accounts.getUsers().filter((e) => e.id.startsWith(q));
-  const users = [...new Set([...matchName, ...matchId])];
+  const users = await accounts.search(q);
 
   const body: ResponseType<
     "/users",
@@ -143,8 +139,7 @@ if (env.TEST) {
 
       const user = User.create(reqData);
 
-      accounts.getUsers().push(user);
-      await accounts.save();
+      await accounts.create(user);
 
       for (const sessionId of reqData.sessions) {
         await prisma.siteSession.create({

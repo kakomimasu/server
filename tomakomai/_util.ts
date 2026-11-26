@@ -15,7 +15,7 @@ export type StatePic = { pic: string };
 export const checkAuthToken = createMiddleware<{ Variables: StateToken }>(
   async (ctx, next) => {
     const token = getAuth(ctx) ?? "";
-    const authedUser = accounts.getWithAuth(token);
+    const authedUser = await accounts.getWithAuth(token);
     if (authedUser) {
       ctx.set("user", authedUser);
       await next();
